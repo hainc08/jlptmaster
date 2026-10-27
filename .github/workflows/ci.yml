@@ -1,0 +1,56 @@
+name: CI Quality Gate & Automated Testing
+
+on:
+  push:
+    branches: [main, deploy]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-build:
+    name: Lint, Test & Build (MariaDB 12 + Node.js 22)
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:12.2
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: jlpt_master_test
+          MYSQL_USER: jlpt_user
+          MYSQL_PASSWORD: jlpt_pass
+        ports:
+          - 3306:3306
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: TypeScript Typecheck
+        run: npm run typecheck
+
+      - name: Push Database Schema to Test MariaDB
+        env:
+          DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
+        run: npx prisma db push
+
+      - name: Run Test Suite (Vitest)
+        env:
+          DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
+        run: npm test
+
+      - name: Build Next.js Production App
+        env:
+          DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
+          NEXT_TELEMETRY_DISABLED: 1
+        run: npm run build

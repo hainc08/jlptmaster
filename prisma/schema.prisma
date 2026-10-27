@@ -1,0 +1,513 @@
+// JLPT Master Prisma Schema
+// Database Engine: MariaDB (InnoDB, utf8mb4)
+// Datasource Provider: mysql (Prisma provider for MySQL and MariaDB)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  EDITOR
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING_VERIFICATION
+}
+
+enum ContentStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContentKind {
+  VOCAB
+  KANJI
+  GRAMMAR
+  KANA
+  READING
+  LISTENING
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  KANJI_READING
+  BLANK_CHOICE
+  STAR_ORDER
+  READING
+  LISTENING
+}
+
+enum SectionType {
+  VOCAB
+  GRAMMAR_READING
+  LISTENING
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  EXPIRED
+  ABANDONED
+}
+
+enum SrsGrade {
+  AGAIN
+  HARD
+  GOOD
+  EASY
+}
+
+enum ProgressStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+// ----------------------------------------------------------------------
+// IDENTITY & PROFILE
+// ----------------------------------------------------------------------
+
+model User {
+  id           String     @id @default(uuid()) @db.Char(36)
+  email        String     @unique @db.VarChar(191)
+  passwordHash String?    @map("password_hash") @db.VarChar(255)
+  role         Role       @default(STUDENT)
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  profile        UserProfile?
+  sessions       AuthSession[]
+  lessonProgress LessonProgress[]
+  reviewCards    ReviewCard[]
+  examAttempts   ExamAttempt[]
+  auditLogs      AuditLog[]
+  mediaAssets    MediaAsset[]
+  reviewedItems  ContentItem[]    @relation("ContentReviewer")
+
+  @@map("users")
+}
+
+model UserProfile {
+  id                   String    @id @default(uuid()) @db.Char(36)
+  userId               String    @unique @map("user_id") @db.Char(36)
+  targetLevel          String    @default("N5") @map("target_level") @db.Char(2)
+  dailyGoalMinutes     Int       @default(30) @map("daily_goal_minutes")
+  timezone             String    @default("Asia/Ho_Chi_Minh") @db.VarChar(50)
+  onboardingCompletedAt DateTime? @map("onboarding_completed_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model AuthSession {
+  id           String   @id @default(uuid()) @db.Char(36)
+  userId       String   @map("user_id") @db.Char(36)
+  sessionToken String   @unique @map("session_token") @db.VarChar(191)
+  expiresAt    DateTime @map("expires_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([sessionToken])
+  @@map("auth_sessions")
+}
+
+// ----------------------------------------------------------------------
+// CURRICULUM & CONTENT
+// ----------------------------------------------------------------------
+
+model JlptLevel {
+  id        String  @id @db.Char(2)
+  nameVi    String  @map("name_vi") @db.VarChar(50)
+  rankOrder Int     @map("rank_order")
+  isActive  Boolean @default(false) @map("is_active")
+
+  courses      Course[]
+  contentItems ContentItem[]
+  questions    Question[]
+  exams        Exam[]
+
+  @@map("jlpt_levels")
+}
+
+model Course {
+  id            String        @id @default(uuid()) @db.Char(36)
+  levelId       String        @map("level_id") @db.Char(2)
+  slug          String        @unique @db.VarChar(100)
+  titleVi       String        @map("title_vi") @db.VarChar(191)
+  descriptionVi String        @map("description_vi") @db.Text
+  status        ContentStatus @default(DRAFT)
+  version       String        @default("v1.0") @db.VarChar(20)
+  publishedAt   DateTime?     @map("published_at")
+
+  level   JlptLevel @relation(fields: [levelId], references: [id])
+  lessons Lesson[]
+
+  @@map("courses")
+}
+
+model Lesson {
+  id              String        @id @default(uuid()) @db.Char(36)
+  courseId        String        @map("course_id") @db.Char(36)
+  slug            String        @db.VarChar(100)
+  titleVi         String        @map("title_vi") @db.VarChar(191)
+  position        Int
+  minutesEstimate Int           @default(30) @map("minutes_estimate")
+  status          ContentStatus @default(DRAFT)
+  publishedAt     DateTime?     @map("published_at")
+
+  course         Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  contentItems   ContentItem[]
+  lessonProgress LessonProgress[]
+  questions      Question[]
+
+  @@unique([courseId, slug])
+  @@unique([courseId, position])
+  @@map("lessons")
+}
+
+model ContentItem {
+  id          String        @id @default(uuid()) @db.Char(36)
+  lessonId    String?       @map("lesson_id") @db.Char(36)
+  levelId     String        @map("level_id") @db.Char(2)
+  kind        ContentKind
+  slug        String        @db.VarChar(100)
+  status      ContentStatus @default(DRAFT)
+  reviewerId  String?       @map("reviewer_id") @db.Char(36)
+  publishedAt DateTime?     @map("published_at")
+  version     String        @default("v1.0") @db.VarChar(20)
+
+  lesson   Lesson?    @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  level    JlptLevel  @relation(fields: [levelId], references: [id])
+  reviewer User?      @relation("ContentReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+
+  vocabulary      Vocabulary?
+  kanji           Kanji?
+  grammar         Grammar?
+  readingPassage  ReadingPassage?
+  listeningTrack  ListeningTrack?
+  reviewCards     ReviewCard[]
+  questions       Question[]
+
+  @@index([levelId, kind, status])
+  @@map("content_items")
+}
+
+model Vocabulary {
+  contentItemId    String @id @map("content_item_id") @db.Char(36)
+  surface          String @db.VarChar(100)
+  reading          String @db.VarChar(100)
+  meaningVi        String @map("meaning_vi") @db.VarChar(255)
+  pos              String @db.VarChar(50)
+  exampleJa        String @map("example_ja") @db.Text
+  exampleReading   String @map("example_reading") @db.Text
+  exampleVi        String @map("example_vi") @db.Text
+  searchNormalized String @map("search_normalized") @db.VarChar(255)
+
+  contentItem ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+
+  @@index([searchNormalized])
+  @@map("vocabulary")
+}
+
+model Kanji {
+  contentItemId String @id @map("content_item_id") @db.Char(36)
+  character     String @unique @db.VarChar(10)
+  onyomiJson    Json   @map("onyomi_json")
+  kunyomiJson   Json   @map("kunyomi_json")
+  hanViet       String @map("han_viet") @db.VarChar(50)
+  meaningVi     String @map("meaning_vi") @db.VarChar(255)
+  strokes       Int
+  examplesJson  Json   @map("examples_json")
+
+  contentItem ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+
+  @@map("kanji")
+}
+
+model Grammar {
+  contentItemId String @id @map("content_item_id") @db.Char(36)
+  pattern       String @db.VarChar(191)
+  formationVi   String @map("formation_vi") @db.Text
+  meaningVi     String @map("meaning_vi") @db.Text
+  explanationVi String @map("explanation_vi") @db.Text
+  examplesJson  Json   @map("examples_json")
+  nuanceVi      String @map("nuance_vi") @db.Text
+
+  contentItem ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+
+  @@map("grammar")
+}
+
+model ReadingPassage {
+  id              String @id @default(uuid()) @db.Char(36)
+  contentItemId   String @unique @map("content_item_id") @db.Char(36)
+  textJa          String @map("text_ja") @db.Text
+  translatedVi    String @map("translated_vi") @db.Text
+  difficulty      Int    @default(1)
+  copyrightSource String @map("copyright_source") @db.VarChar(255)
+
+  contentItem ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+
+  @@map("reading_passages")
+}
+
+model ListeningTrack {
+  id              String @id @default(uuid()) @db.Char(36)
+  contentItemId   String @unique @map("content_item_id") @db.Char(36)
+  mediaAssetId    String @map("media_asset_id") @db.Char(36)
+  transcriptJa    String @map("transcript_ja") @db.Text
+  transcriptVi    String @map("transcript_vi") @db.Text
+  durationSeconds Int    @map("duration_seconds")
+
+  contentItem ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  mediaAsset  MediaAsset  @relation(fields: [mediaAssetId], references: [id])
+
+  @@map("listening_tracks")
+}
+
+// ----------------------------------------------------------------------
+// QUESTIONS & MOCK EXAMS
+// ----------------------------------------------------------------------
+
+model Question {
+  id            String        @id @default(uuid()) @db.Char(36)
+  levelId       String        @map("level_id") @db.Char(2)
+  lessonId      String?       @map("lesson_id") @db.Char(36)
+  contentItemId String?       @map("content_item_id") @db.Char(36)
+  questionType  QuestionType  @map("question_type")
+  promptJson    Json          @map("prompt_json")
+  explanationVi String        @map("explanation_vi") @db.Text
+  difficulty    Int           @default(1)
+  skillTag      String        @map("skill_tag") @db.VarChar(50)
+  status        ContentStatus @default(DRAFT)
+  version       String        @default("v1.0") @db.VarChar(20)
+
+  level          JlptLevel        @relation(fields: [levelId], references: [id])
+  lesson         Lesson?          @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  contentItem    ContentItem?     @relation(fields: [contentItemId], references: [id], onDelete: SetNull)
+  options        QuestionOption[]
+  tags           QuestionTag[]
+  examQuestions  ExamQuestion[]
+  attemptAnswers AttemptAnswer[]
+
+  @@map("questions")
+}
+
+model QuestionOption {
+  id         String  @id @default(uuid()) @db.Char(36)
+  questionId String  @map("question_id") @db.Char(36)
+  position   Int     @db.TinyInt
+  textJson   Json    @map("text_json")
+  isCorrect  Boolean @map("is_correct")
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId, position])
+  @@map("question_options")
+}
+
+model Tag {
+  id      String @id @default(uuid()) @db.Char(36)
+  slug    String @unique @db.VarChar(50)
+  labelVi String @map("label_vi") @db.VarChar(100)
+
+  questions QuestionTag[]
+
+  @@map("tags")
+}
+
+model QuestionTag {
+  questionId String @map("question_id") @db.Char(36)
+  tagId      String @map("tag_id") @db.Char(36)
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, tagId])
+  @@map("question_tags")
+}
+
+model Exam {
+  id            String        @id @default(uuid()) @db.Char(36)
+  levelId       String        @map("level_id") @db.Char(2)
+  title         String        @db.VarChar(191)
+  status        ContentStatus @default(DRAFT)
+  version       String        @default("v1.0") @db.VarChar(20)
+  scoringPolicy String        @default("JLPT_SCALE_180") @map("scoring_policy") @db.VarChar(50)
+  publishedAt   DateTime?     @map("published_at")
+
+  level    JlptLevel     @relation(fields: [levelId], references: [id])
+  sections ExamSection[]
+  attempts ExamAttempt[]
+
+  @@map("exams")
+}
+
+model ExamSection {
+  id                String      @id @default(uuid()) @db.Char(36)
+  examId            String      @map("exam_id") @db.Char(36)
+  sectionType       SectionType @map("section_type")
+  position          Int         @db.TinyInt
+  durationSeconds   Int         @map("duration_seconds")
+  maxInternalPoints Int         @default(60) @map("max_internal_points")
+
+  exam          Exam           @relation(fields: [examId], references: [id], onDelete: Cascade)
+  examQuestions ExamQuestion[]
+
+  @@index([examId, position])
+  @@map("exam_sections")
+}
+
+model ExamQuestion {
+  id         String @id @default(uuid()) @db.Char(36)
+  sectionId  String @map("section_id") @db.Char(36)
+  questionId String @map("question_id") @db.Char(36)
+  position   Int
+  points     Int    @default(1)
+
+  section  ExamSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  question Question    @relation(fields: [questionId], references: [id], onDelete: Restrict)
+
+  @@unique([sectionId, questionId])
+  @@unique([sectionId, position])
+  @@map("exam_questions")
+}
+
+model ExamAttempt {
+  id               String        @id @default(uuid()) @db.Char(36)
+  examId           String        @map("exam_id") @db.Char(36)
+  examVersion      String        @map("exam_version") @db.VarChar(20)
+  userId           String        @map("user_id") @db.Char(36)
+  status           AttemptStatus @default(IN_PROGRESS)
+  startedAt        DateTime      @default(now()) @map("started_at")
+  lastSavedAt      DateTime      @default(now()) @map("last_saved_at")
+  expiresAt        DateTime      @map("expires_at")
+  submittedAt      DateTime?     @map("submitted_at")
+  rawCorrect       Int?          @map("raw_correct")
+  rawTotal         Int?          @map("raw_total")
+  internalScore    Int?          @map("internal_score")
+  examSnapshotJson Json          @map("exam_snapshot_json")
+
+  exam    Exam            @relation(fields: [examId], references: [id], onDelete: Restrict)
+  user    User            @relation(fields: [userId], references: [id], onDelete: Restrict)
+  answers AttemptAnswer[]
+
+  @@index([userId, status, startedAt])
+  @@map("exam_attempts")
+}
+
+model AttemptAnswer {
+  id         String   @id @default(uuid()) @db.Char(36)
+  attemptId  String   @map("attempt_id") @db.Char(36)
+  questionId String   @map("question_id") @db.Char(36)
+  answerJson Json     @map("answer_json")
+  savedAt    DateTime @default(now()) @map("saved_at")
+  isCorrect  Boolean? @map("is_correct")
+
+  attempt  ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question Question    @relation(fields: [questionId], references: [id], onDelete: Restrict)
+
+  @@unique([attemptId, questionId])
+  @@map("attempt_answers")
+}
+
+// ----------------------------------------------------------------------
+// SPACED REPETITION (SRS)
+// ----------------------------------------------------------------------
+
+model ReviewCard {
+  id               String   @id @default(uuid()) @db.Char(36)
+  userId           String   @map("user_id") @db.Char(36)
+  contentItemId    String   @map("content_item_id") @db.Char(36)
+  dueAt            DateTime @default(now()) @map("due_at")
+  intervalSeconds  Int      @default(0) @map("interval_seconds")
+  easeFactor       Decimal  @default(2.50) @map("ease_factor") @db.Decimal(4, 2)
+  repetitions      Int      @default(0)
+  lapses           Int      @default(0)
+  schedulerVersion String   @default("SIMPLE_SRS_v1") @map("scheduler_version") @db.VarChar(20)
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentItem ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  reviewLogs  ReviewLog[]
+
+  @@unique([userId, contentItemId])
+  @@index([userId, dueAt])
+  @@map("review_cards")
+}
+
+model ReviewLog {
+  id             String   @id @default(uuid()) @db.Char(36)
+  reviewCardId   String   @map("review_card_id") @db.Char(36)
+  idempotencyKey String   @map("idempotency_key") @db.Char(36)
+  grade          SrsGrade
+  previousDueAt  DateTime @map("previous_due_at")
+  newDueAt       DateTime @map("new_due_at")
+  reviewedAt     DateTime @default(now()) @map("reviewed_at")
+
+  reviewCard ReviewCard @relation(fields: [reviewCardId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewCardId, idempotencyKey])
+  @@map("review_logs")
+}
+
+// ----------------------------------------------------------------------
+// PROGRESS & AUDIT
+// ----------------------------------------------------------------------
+
+model LessonProgress {
+  id          String         @id @default(uuid()) @db.Char(36)
+  userId      String         @map("user_id") @db.Char(36)
+  lessonId    String         @map("lesson_id") @db.Char(36)
+  status      ProgressStatus @default(IN_PROGRESS)
+  completedAt DateTime?      @map("completed_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@map("lesson_progress")
+}
+
+model MediaAsset {
+  id          String   @id @default(uuid()) @db.Char(36)
+  storageKey  String   @unique @map("storage_key") @db.VarChar(191)
+  mimeType    String   @map("mime_type") @db.VarChar(100)
+  byteSize    Int      @map("byte_size")
+  sha256      String   @db.Char(64)
+  licenseType String   @map("license_type") @db.VarChar(50)
+  attribution String   @db.Text
+  ownerId     String   @map("owner_id") @db.Char(36)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  owner           User             @relation(fields: [ownerId], references: [id])
+  listeningTracks ListeningTrack[]
+
+  @@map("media_assets")
+}
+
+model AuditLog {
+  id                    String   @id @default(uuid()) @db.Char(36)
+  actorId               String   @map("actor_id") @db.Char(36)
+  action                String   @db.VarChar(100)
+  entityType            String   @map("entity_type") @db.VarChar(50)
+  entityId              String   @map("entity_id") @db.Char(36)
+  metadataJsonRedacted  Json     @map("metadata_json_redacted")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  actor User @relation(fields: [actorId], references: [id])
+
+  @@index([actorId, createdAt])
+  @@map("audit_logs")
+}

@@ -1,0 +1,727 @@
+openapi: 3.0.3
+info:
+  title: JLPT Master REST API
+  description: Version 1 REST API specification for JLPT Master Japanese Learning Platform.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local Development Server
+  - url: https://jlptmaster.vn/api/v1
+    description: Production Server
+
+paths:
+  /levels:
+    get:
+      summary: Lấy danh sách 5 cấp độ JLPT
+      description: Trả về trạng thái hoạt động của N5 (active) và N4-N1 (coming soon).
+      responses:
+        '200':
+          description: Danh sách cấp độ thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JlptLevel'
+
+  /courses:
+    get:
+      summary: Lấy danh sách khóa học theo cấp độ
+      parameters:
+        - name: level
+          in: query
+          required: false
+          schema:
+            type: string
+            default: N5
+      responses:
+        '200':
+          description: Danh sách khóa học
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Course'
+
+  /lessons/{id}:
+    get:
+      summary: Lấy chi tiết bài học
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Chi tiết bài học
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/LessonDetail'
+
+  /lessons/{id}/complete:
+    post:
+      summary: Đánh dấu hoàn thành bài học (Idempotent)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Hoàn thành bài học thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      lessonId:
+                        type: string
+                      status:
+                        type: string
+                        example: COMPLETED
+                      completedAt:
+                        type: string
+                        format: date-time
+
+  /vocabulary:
+    get:
+      summary: Tra cứu danh sách từ vựng N5
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: string
+            default: N5
+        - name: q
+          in: query
+          description: Từ khóa tìm kiếm (Hiragana, Romaji, tiếng Việt)
+          schema:
+            type: string
+        - name: pos
+          in: query
+          description: Lọc theo từ loại
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Danh sách từ vựng
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VocabularyItem'
+
+  /kanji:
+    get:
+      summary: Tra cứu chữ Hán N5
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: string
+            default: N5
+      responses:
+        '200':
+          description: Danh sách chữ Hán
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/KanjiItem'
+
+  /grammar:
+    get:
+      summary: Tra cứu sổ tay ngữ pháp N5
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: string
+            default: N5
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Danh sách mẫu ngữ pháp
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GrammarItem'
+
+  /reviews/due:
+    get:
+      summary: Lấy hàng đợi thẻ nhớ SRS đến hạn ôn tập của người dùng
+      security:
+        - sessionAuth: []
+      responses:
+        '200':
+          description: Hàng đợi thẻ nhớ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SrsCardItem'
+
+  /reviews:
+    post:
+      summary: Gửi đánh giá thẻ nhớ SRS (Idempotent)
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - cardId
+                - grade
+                - idempotencyKey
+              properties:
+                cardId:
+                  type: string
+                grade:
+                  type: string
+                  enum: [AGAIN, HARD, GOOD, EASY]
+                idempotencyKey:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Ghi nhận đánh giá thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      cardId:
+                        type: string
+                      nextDueAt:
+                        type: string
+                        format: date-time
+                      intervalSeconds:
+                        type: integer
+
+  /practice/questions:
+    get:
+      summary: Lấy danh sách câu hỏi luyện tập (Không chứa đáp án)
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: string
+            default: N5
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Danh sách câu hỏi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PracticeQuestion'
+
+  /practice/submit:
+    post:
+      summary: Chấm điểm câu hỏi luyện tập và trả về giải thích tiếng Việt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - questionId
+                - selectedOptionId
+              properties:
+                questionId:
+                  type: string
+                selectedOptionId:
+                  type: string
+      responses:
+        '200':
+          description: Kết quả chấm điểm
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      isCorrect:
+                        type: boolean
+                      correctOptionId:
+                        type: string
+                      explanationVi:
+                        type: string
+
+  /exams:
+    get:
+      summary: Lấy danh mục đề thi thử N5
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: string
+            default: N5
+      responses:
+        '200':
+          description: Danh mục đề thi thử
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ExamSummary'
+
+  /exams/{id}/start:
+    post:
+      summary: Khởi tạo lượt thi mới kèm chụp snapshot đề thi
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Lượt thi đã khởi tạo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExamAttemptDetail'
+
+  /attempts/{id}:
+    get:
+      summary: Lấy trạng thái lượt thi đang làm để phục hồi (Resumption)
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trạng thái bài thi đang làm
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExamAttemptDetail'
+
+  /attempts/{id}/answers:
+    put:
+      summary: Tự động lưu đáp án bài thi (Autosave debounced)
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - answers
+              properties:
+                answers:
+                  type: object
+                  additionalProperties:
+                    type: string
+      responses:
+        '200':
+          description: Đã lưu tự động thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      savedAt:
+                        type: string
+                        format: date-time
+                      savedCount:
+                        type: integer
+
+  /attempts/{id}/finish:
+    post:
+      summary: Khóa bài thi và thực thi chấm điểm giao dịch (Finalization)
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Nộp bài và chấm điểm thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attemptId:
+                        type: string
+                      status:
+                        type: string
+                        example: SUBMITTED
+                      internalScore:
+                        type: integer
+                        example: 142
+
+  /attempts/{id}/result:
+    get:
+      summary: Xem báo cáo kết quả và giải thích chi tiết sau khi thi
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Báo cáo kết quả bài thi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExamResultReport'
+
+  /admin/content/import/preview:
+    post:
+      summary: Chạy thử kiểm định cú pháp tệp CSV (Dry-Run Preview)
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Kết quả kiểm tra tệp CSV
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      totalRows:
+                        type: integer
+                      validCount:
+                        type: integer
+                      errorCount:
+                        type: integer
+                      previewRows:
+                        type: array
+                        items:
+                          type: object
+
+  /admin/content/import/commit:
+    post:
+      summary: Cam kết nhập dữ liệu CSV vào MariaDB trong giao dịch ACID
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - importSessionId
+              properties:
+                importSessionId:
+                  type: string
+      responses:
+        '200':
+          description: Nhập dữ liệu thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      insertedCount:
+                        type: integer
+
+components:
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: jlpt_session
+
+  schemas:
+    JlptLevel:
+      type: object
+      properties:
+        id:
+          type: string
+          example: N5
+        nameVi:
+          type: string
+          example: Nhập môn căn bản
+        isActive:
+          type: boolean
+          example: true
+
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        titleVi:
+          type: string
+        descriptionVi:
+          type: string
+        status:
+          type: string
+
+    LessonDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        titleVi:
+          type: string
+        descriptionVi:
+          type: string
+        estimatedMinutes:
+          type: integer
+        theorySections:
+          type: array
+          items:
+            type: object
+
+    VocabularyItem:
+      type: object
+      properties:
+        id:
+          type: string
+        surface:
+          type: string
+          example: 先生
+        reading:
+          type: string
+          example: せんせい
+        meaningVi:
+          type: string
+          example: Thầy cô giáo
+        pos:
+          type: string
+          example: Danh từ
+        exampleJa:
+          type: string
+        exampleVi:
+          type: string
+
+    KanjiItem:
+      type: object
+      properties:
+        id:
+          type: string
+        character:
+          type: string
+          example: 先
+        hanViet:
+          type: string
+          example: TIÊN
+        meaningVi:
+          type: string
+        strokes:
+          type: integer
+
+    GrammarItem:
+      type: object
+      properties:
+        id:
+          type: string
+        pattern:
+          type: string
+          example: N1 は N2 です
+        meaningVi:
+          type: string
+        formationVi:
+          type: string
+        nuanceVi:
+          type: string
+
+    SrsCardItem:
+      type: object
+      properties:
+        id:
+          type: string
+        frontText:
+          type: string
+        frontReading:
+          type: string
+        backMeaningVi:
+          type: string
+        hanViet:
+          type: string
+        intervalSeconds:
+          type: integer
+
+    PracticeQuestion:
+      type: object
+      properties:
+        id:
+          type: string
+        questionNumber:
+          type: integer
+        prompt:
+          type: string
+        skillTag:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              text:
+                type: string
+
+    ExamSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        totalMinutes:
+          type: integer
+        totalQuestions:
+          type: integer
+
+    ExamAttemptDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        remainingSeconds:
+          type: integer
+        currentSection:
+          type: string
+        answers:
+          type: object
+
+    ExamResultReport:
+      type: object
+      properties:
+        attemptId:
+          type: string
+        internalScore:
+          type: integer
+          example: 142
+        maxScore:
+          type: integer
+          example: 180
+        statusText:
+          type: string
+          example: ĐẠT ƯỚC TÍNH (PASS)
+        disclaimerVi:
+          type: string
+        sectionScores:
+          type: array
+          items:
+            type: object
+        weakSkills:
+          type: array
+          items:
+            type: object
+        itemReviews:
+          type: array
+          items:
+            type: object
