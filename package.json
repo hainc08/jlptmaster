@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build --webpack",
+    "postbuild": "node scripts/setup-db.mjs",
     "start": "node scripts/start-production.mjs",
     "start:standalone": "next start",
     "start:prod": "node scripts/start-production.mjs",
