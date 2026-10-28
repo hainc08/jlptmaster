@@ -17,16 +17,28 @@ function runCommand(command, args) {
 
 async function main() {
   try {
-    // 1. Sync database schema on startup
+    // 1. Sync database schema and idempotent seed on startup (non-blocking if DB is not ready yet)
     if (process.env.DATABASE_URL) {
       console.log("[STARTUP] Applying database schema with Prisma...");
-      await runCommand("npx", ["prisma", "db", "push", "--skip-generate"]);
-      console.log("[STARTUP] Database schema verified successfully.");
+      try {
+        await runCommand("npx", ["prisma", "db", "push", "--skip-generate"]);
+        console.log("[STARTUP] Database schema verified successfully.");
+
+        console.log("[STARTUP] Running idempotent N5 dataset & admin seed...");
+        await runCommand("npx", ["tsx", "prisma/seed.ts"]);
+        console.log("[STARTUP] Database seed verified successfully.");
+      } catch (dbErr) {
+        console.warn(
+          "[STARTUP WARNING] Database initialization failed (check DATABASE_URL in hPanel):",
+          dbErr.message
+        );
+        console.warn("[STARTUP WARNING] Proceeding to start Next.js server so /api/health remains accessible.");
+      }
     } else {
-      console.warn("[STARTUP] DATABASE_URL not set! Skipping DB push.");
+      console.warn("[STARTUP] DATABASE_URL not set! Skipping DB push and seed.");
     }
 
-    // 2. Start Next.js production server
+    // 2. Start Next.js production server bound to 0.0.0.0 and Hostinger's assigned PORT
     const port = process.env.PORT || "3000";
     const hostname = process.env.HOSTNAME || "0.0.0.0";
     console.log(`[STARTUP] Starting Next.js server on ${hostname}:${port}...`);

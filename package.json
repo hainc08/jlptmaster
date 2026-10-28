@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "node scripts/start-production.mjs",
     "start:standalone": "next start",
     "start:prod": "node scripts/start-production.mjs",
+    "db:seed": "tsx prisma/seed.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "eslint"

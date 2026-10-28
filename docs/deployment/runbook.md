@@ -39,18 +39,21 @@ Truy cập **hPanel** $\rightarrow$ **Websites** $\rightarrow$ Chọn tên miề
 | **Framework preset** | **Next.js** | Tự động nhận diện cấu trúc dự án |
 | **Phiên bản Node** | **22.x** | Bắt buộc phiên bản LTS mới nhất |
 | **Thư mục gốc (Root)**| `./` | Thư mục gốc chứa `package.json` |
-| **Lệnh Build** | `npm run build` | Biên dịch 25 routes |
-| **Lệnh Start** | `npm run start:prod` | Chạy qua `scripts/start-production.mjs` |
+| **Lệnh Build** | `npm run build` | Biên dịch đầy đủ các trang & API v1 routes |
+| **Lệnh Start** | `npm start` | Chạy qua `scripts/start-production.mjs` |
 
 ### Cấu hình Biến môi trường (Environment Variables):
 Thêm các biến sau vào mục **Environment variables**:
 ```env
-DATABASE_URL=mysql://u774510961_jlptusr:<PASSWORD>@localhost:3306/u774510961_jlptdb
-SITE_URL=https://jlptmaster.vn
+DATABASE_URL=mysql://u774510961_jlptusr:<PASSWORD>@localhost:3306/u774510961_jlptdb?connection_limit=5
+SITE_URL=https://jlpt.manabihub.me
+NEXTAUTH_URL=https://jlpt.manabihub.me
 SESSION_SECRET=U2D1kyzbeITq0TIqdw4E13lIgjDUxFMnPO4+FBmOrR143dLM6R2PLbWSbOq/CSd9
+AUTH_SECRET=U2D1kyzbeITq0TIqdw4E13lIgjDUxFMnPO4+FBmOrR143dLM6R2PLbWSbOq/CSd9
 TRUST_PROXY=true
 DATABASE_POOL_MAX=5
 NEXT_TELEMETRY_DISABLED=1
+SEED_ADMIN_EMAIL=admin@jlptmaster.vn
 HOSTNAME=0.0.0.0
 ```
 
@@ -63,13 +66,9 @@ HOSTNAME=0.0.0.0
 
 ## 4. QUY TRÌNH MIGRATION & NẠP DỮ LIỆU BAN ĐẦU (SEEDING)
 
-Script [scripts/start-production.mjs](file:///d:/100.JLPT/00.web_app/scripts/start-production.mjs) được thiết lập làm entrypoint chạy mỗi khi ứng dụng khởi động:
+Script [scripts/start-production.mjs](file:///d:/100.JLPT/00.web_app/scripts/start-production.mjs) được thiết lập làm entrypoint chạy mỗi khi ứng dụng khởi động (`npm start`):
 1. Tự động kiểm tra và đồng bộ cấu trúc 22 bảng MariaDB thông qua `npx prisma db push --skip-generate`.
-2. Nếu là lần đầu khởi tạo, chạy lệnh nạp dữ liệu chuẩn qua SSH hoặc terminal:
-   ```bash
-   npx tsx prisma/seed.ts
-   ```
-   Lệnh này sẽ tạo tài khoản Quản trị viên (`admin@jlptmaster.vn`), cấu trúc 5 cấp độ N5–N1, bài học N5 và ngân hàng câu hỏi ban đầu.
+2. Tự động thực thi `npx tsx prisma/seed.ts` theo cơ chế **idempotent** (chỉ tạo hoặc cập nhật an toàn nếu chưa tồn tại, tuyệt đối không ghi đè dữ liệu học viên hoặc gây lỗi trùng khóa) để khởi tạo tài khoản Quản trị viên (`admin@jlptmaster.vn`), cấu trúc 5 cấp độ N5–N1, bài học N5, từ vựng, Kanji, ngữ pháp, thẻ nhớ SRS và ngân hàng đề thi thử ban đầu.
 
 ---
 

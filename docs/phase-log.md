@@ -234,9 +234,46 @@
     - Kế hoạch hoàn tác khẩn cấp (Emergency Rollback Plan) qua Git Tag và bản dump SQL.
     - Danh mục kiểm định sau triển khai (Post-Deployment Smoke Tests) qua `/api/health` và các màn hình chính.
 - **Biên dịch và Kiểm thử xác nhận lần cuối:**
-  - Vitest: **30/30 tests passed across 11 test suites**.
+  - Vitest: **37/37 tests passed across 12 test suites** (bao gồm `tests/integration/api-v1-routes.test.ts` kiểm thử toàn bộ 18 endpoints `/api/v1/*` và `prisma/seed.ts` idempotent).
   - TypeScript: **0 errors** (`npx tsc --noEmit`).
-  - Next.js Production Build: **25 routes compiled successfully in 37.0s**.
+  - Next.js Production Build: Toàn bộ các trang và 19 API routes biên dịch thành công.
+
+---
+
+## 11. Supplemental Execution Log — Full API v1 Routes & Idempotent Hostinger Auto-Seed
+
+### 11.1 Files Created / Modified
+- [prisma/seed.ts](file:///d:/100.JLPT/00.web_app/prisma/seed.ts): Chuyển đổi toàn bộ quy trình seed N5 (Levels, Users, Courses, Lessons, Vocabulary, SRS ReviewCards, Kanji, Grammar, Practice Questions, Mock Exam + ExamQuestions) sang cơ chế **idempotent** (chạy nhiều lần liên tiếp không gây lỗi trùng khóa hay nhân bản dữ liệu).
+- [scripts/start-production.mjs](file:///d:/100.JLPT/00.web_app/scripts/start-production.mjs): Tích hợp tự động chạy `npx tsx prisma/seed.ts` ngay sau `npx prisma db push --skip-generate` khi khởi động trên Hostinger.
+- [package.json](file:///d:/100.JLPT/00.web_app/package.json): Bổ sung script `"db:seed": "tsx prisma/seed.ts"`.
+- **14 API Route Handlers mới trong `app/api/v1/*`:**
+  - [app/api/v1/courses/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/courses/route.ts) (`GET /api/v1/courses`)
+  - [app/api/v1/lessons/[id]/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/lessons/%5Bid%5D/route.ts) (`GET /api/v1/lessons/:id`)
+  - [app/api/v1/lessons/[id]/complete/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/lessons/%5Bid%5D/complete/route.ts) (`POST /api/v1/lessons/:id/complete` — Idempotent)
+  - [app/api/v1/kanji/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/kanji/route.ts) (`GET /api/v1/kanji`)
+  - [app/api/v1/grammar/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/grammar/route.ts) (`GET /api/v1/grammar`)
+  - [app/api/v1/reviews/due/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/reviews/due/route.ts) (`GET /api/v1/reviews/due`)
+  - [app/api/v1/reviews/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/reviews/route.ts) (`POST /api/v1/reviews` — Idempotent + ACID transaction)
+  - [app/api/v1/exams/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/exams/route.ts) (`GET /api/v1/exams`)
+  - [app/api/v1/exams/[id]/start/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/exams/%5Bid%5D/start/route.ts) (`POST /api/v1/exams/:id/start` — Snapshot + Answer key stripping)
+  - [app/api/v1/attempts/[id]/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/attempts/%5Bid%5D/route.ts) (`GET /api/v1/attempts/:id` — Resumption + Server timer)
+  - [app/api/v1/attempts/[id]/answers/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/attempts/%5Bid%5D/answers/route.ts) (`PUT /api/v1/attempts/:id/answers` — Debounced autosave + Expiry guard)
+  - [app/api/v1/attempts/[id]/finish/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/attempts/%5Bid%5D/finish/route.ts) (`POST /api/v1/attempts/:id/finish` — Transactional single finalization)
+  - [app/api/v1/attempts/[id]/result/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/attempts/%5Bid%5D/result/route.ts) (`GET /api/v1/attempts/:id/result` — Pre-submit 409 guard + JEES legal disclaimer)
+  - [app/api/v1/progress/overview/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/progress/overview/route.ts) (`GET /api/v1/progress/overview`)
+  - [app/api/v1/admin/content/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/admin/content/route.ts) (`GET` & `POST /api/v1/admin/content`)
+  - [app/api/v1/admin/content/[id]/publish/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/admin/content/%5Bid%5D/publish/route.ts) (`POST /api/v1/admin/content/:id/publish` — RBAC + AuditLog)
+  - [app/api/v1/admin/content/import/preview/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/admin/content/import/preview/route.ts) (`POST /api/v1/admin/content/import/preview` — Dry-run Zod validation)
+  - [app/api/v1/admin/content/import/commit/route.ts](file:///d:/100.JLPT/00.web_app/app/api/v1/admin/content/import/commit/route.ts) (`POST /api/v1/admin/content/import/commit` — Atomic batch insert + AuditLog)
+- [tests/integration/api-v1-routes.test.ts](file:///d:/100.JLPT/00.web_app/tests/integration/api-v1-routes.test.ts): Bộ kiểm thử tích hợp TDD (RED $\rightarrow$ GREEN) cho toàn bộ các route handlers mới với MariaDB.
+
+### 11.2 Commands Executed & Results
+- **RED Phase:** `npx vitest run tests/integration/api-v1-routes.test.ts` $\rightarrow$ Failed (`Failed to resolve import "@/app/api/v1/courses/route"`).
+- **GREEN Phase & Seed Verification:**
+  - `npm run db:seed` (chạy 2 lần liên tiếp) $\rightarrow$ Exit code `0`, idempotent 100%.
+  - `npx vitest run tests/integration/api-v1-routes.test.ts` $\rightarrow$ **7/7 tests passed** in 251ms.
+  - `npm test` $\rightarrow$ **37/37 tests passed across 12 test suites**.
+  - `npm run typecheck` $\rightarrow$ **0 errors**.
 
 ### 10.2 Final Gate Hold
 - **Status:** **STOPPED at Production Release Approval Gate**.

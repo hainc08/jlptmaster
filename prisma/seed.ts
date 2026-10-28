@@ -1,9 +1,17 @@
-import { PrismaClient, Role, UserStatus, ContentStatus, ContentKind, QuestionType, SectionType } from "@prisma/client";
+import {
+  PrismaClient,
+  Role,
+  UserStatus,
+  ContentStatus,
+  ContentKind,
+  QuestionType,
+  SectionType,
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  console.log("--- BẮT ĐẦU SEED DỮ LIỆU CHUẨN JLPT N5 VÀO MARIADB ---");
+export async function seedDatabase() {
+  console.log("--- BẮT ĐẦU SEED DỮ LIỆU CHUẨN JLPT N5 VÀO MARIADB (IDEMPOTENT) ---");
 
   // 1. JLPT Levels
   const levels = [
@@ -24,11 +32,12 @@ async function main() {
   console.log("✔ Đã seed 5 cấp độ JLPT (N5 kích hoạt)");
 
   // 2. Demo Users (Admin and Student)
-  const adminUser = await prisma.user.upsert({
-    where: { email: "admin@jlptmaster.vn" },
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@jlptmaster.vn";
+  await prisma.user.upsert({
+    where: { email: adminEmail },
     update: {},
     create: {
-      email: "admin@jlptmaster.vn",
+      email: adminEmail,
       passwordHash: "$argon2id$v=19$m=65536,t=3,p=4$local_demo_hash_admin",
       role: Role.ADMIN,
       status: UserStatus.ACTIVE,
@@ -59,17 +68,23 @@ async function main() {
       },
     },
   });
-  console.log("✔ Đã seed tài khoản mẫu: admin@jlptmaster.vn & minh@jlptmaster.vn");
+  console.log(`✔ Đã seed tài khoản mẫu: ${adminEmail} & minh@jlptmaster.vn`);
 
   // 3. Course N5
   const course = await prisma.course.upsert({
     where: { slug: "khoa-hoc-jlpt-n5-toan-dien" },
-    update: {},
+    update: {
+      titleVi: "Khóa học JLPT N5 Toàn diện",
+      descriptionVi:
+        "Lộ trình học tiếng Nhật từ con số 0: bảng chữ cái Kana, từ vựng, kanji, ngữ pháp và đề thi thử mô phỏng.",
+      status: ContentStatus.PUBLISHED,
+    },
     create: {
       levelId: "N5",
       slug: "khoa-hoc-jlpt-n5-toan-dien",
       titleVi: "Khóa học JLPT N5 Toàn diện",
-      descriptionVi: "Lộ trình học tiếng Nhật từ con số 0: bảng chữ cái Kana, từ vựng, kanji, ngữ pháp và đề thi thử mô phỏng.",
+      descriptionVi:
+        "Lộ trình học tiếng Nhật từ con số 0: bảng chữ cái Kana, từ vựng, kanji, ngữ pháp và đề thi thử mô phỏng.",
       status: ContentStatus.PUBLISHED,
       version: "v1.0",
       publishedAt: new Date(),
@@ -114,7 +129,7 @@ async function main() {
   }
   console.log("✔ Đã seed 3 bài học N5 cốt lõi");
 
-  // 5. Vocabulary items (≥20 entries)
+  // 5. Vocabulary items (20 entries, idempotent via slug check)
   const vocabList = [
     { surface: "先生", reading: "せんせい", meaningVi: "Thầy cô giáo, giáo viên, bác sĩ", pos: "Danh từ", romaji: "sensei" },
     { surface: "学生", reading: "がくせい", meaningVi: "Học sinh, sinh viên", pos: "Danh từ", romaji: "gakusei" },
@@ -138,36 +153,89 @@ async function main() {
     { surface: "見る", reading: "みる", meaningVi: "Xem, nhìn, ngắm", pos: "Động từ", romaji: "miru" },
   ];
 
+  const seededVocabContentIds: string[] = [];
   for (const v of vocabList) {
     const slug = `vocab-${v.romaji}`;
     const searchNormalized = `${v.romaji} ${v.surface} ${v.reading} ${v.meaningVi}`.toLowerCase();
 
-    const item = await prisma.contentItem.create({
-      data: {
-        levelId: "N5",
-        lessonId: createdLessons["bai-03-danh-tu-va-tro-tu-wa-desu"],
-        kind: ContentKind.VOCAB,
-        slug,
-        status: ContentStatus.PUBLISHED,
-        publishedAt: new Date(),
-        vocabulary: {
-          create: {
-            surface: v.surface,
-            reading: v.reading,
-            meaningVi: v.meaningVi,
-            pos: v.pos,
-            exampleJa: `${v.surface} はとても大切です。`,
-            exampleReading: `${v.reading} はとてもたいせつです。`,
-            exampleVi: `Ví dụ: ${v.meaningVi} rất quan trọng.`,
-            searchNormalized,
+    const existing = await prisma.contentItem.findFirst({
+      where: { levelId: "N5", kind: ContentKind.VOCAB, slug },
+    });
+
+    if (existing) {
+      seededVocabContentIds.push(existing.id);
+      await prisma.vocabulary.upsert({
+        where: { contentItemId: existing.id },
+        update: {
+          surface: v.surface,
+          reading: v.reading,
+          meaningVi: v.meaningVi,
+          pos: v.pos,
+          searchNormalized,
+        },
+        create: {
+          contentItemId: existing.id,
+          surface: v.surface,
+          reading: v.reading,
+          meaningVi: v.meaningVi,
+          pos: v.pos,
+          exampleJa: `${v.surface} はとても大切です。`,
+          exampleReading: `${v.reading} はとてもたいせつです。`,
+          exampleVi: `Ví dụ: ${v.meaningVi} rất quan trọng.`,
+          searchNormalized,
+        },
+      });
+    } else {
+      const created = await prisma.contentItem.create({
+        data: {
+          levelId: "N5",
+          lessonId: createdLessons["bai-03-danh-tu-va-tro-tu-wa-desu"],
+          kind: ContentKind.VOCAB,
+          slug,
+          status: ContentStatus.PUBLISHED,
+          publishedAt: new Date(),
+          vocabulary: {
+            create: {
+              surface: v.surface,
+              reading: v.reading,
+              meaningVi: v.meaningVi,
+              pos: v.pos,
+              exampleJa: `${v.surface} はとても大切です。`,
+              exampleReading: `${v.reading} はとてもたいせつです。`,
+              exampleVi: `Ví dụ: ${v.meaningVi} rất quan trọng.`,
+              searchNormalized,
+            },
           },
         },
-      },
-    });
+      });
+      seededVocabContentIds.push(created.id);
+    }
   }
   console.log(`✔ Đã seed ${vocabList.length} từ vựng N5 chuẩn hóa tìm kiếm`);
 
-  // 6. Kanji items (5 entries)
+  // 5b. Seed initial SRS ReviewCards for demo student (first 8 vocab items)
+  for (const contentItemId of seededVocabContentIds.slice(0, 8)) {
+    await prisma.reviewCard.upsert({
+      where: {
+        userId_contentItemId: {
+          userId: studentUser.id,
+          contentItemId,
+        },
+      },
+      update: {},
+      create: {
+        userId: studentUser.id,
+        contentItemId,
+        dueAt: new Date(Date.now() - 60_000), // Due immediately
+        intervalSeconds: 0,
+        easeFactor: 2.5,
+        repetitions: 0,
+      },
+    });
+  }
+  console.log("✔ Đã seed 8 thẻ nhớ SRS đến hạn cho học viên mẫu");
+
+  // 6. Kanji items (5 entries, idempotent via unique character)
   const kanjiList = [
     { char: "先", hanViet: "TIÊN", on: ["セン"], kun: ["さき", "まず"], mean: "Trước, đi đầu", strokes: 6 },
     { char: "生", hanViet: "SINH", on: ["セイ", "ショウ"], kun: ["い.きる", "う.まれる"], mean: "Sinh ra, sống", strokes: 5 },
@@ -177,30 +245,47 @@ async function main() {
   ];
 
   for (const k of kanjiList) {
-    await prisma.contentItem.create({
-      data: {
-        levelId: "N5",
-        kind: ContentKind.KANJI,
-        slug: `kanji-${k.char}`,
-        status: ContentStatus.PUBLISHED,
-        publishedAt: new Date(),
-        kanji: {
-          create: {
-            character: k.char,
-            hanViet: k.hanViet,
-            onyomiJson: k.on,
-            kunyomiJson: k.kun,
-            meaningVi: k.mean,
-            strokes: k.strokes,
-            examplesJson: [{ word: `${k.char}生`, reading: "せんせい", meaning: "Thầy cô" }],
+    const existingKanji = await prisma.kanji.findUnique({
+      where: { character: k.char },
+    });
+
+    if (existingKanji) {
+      await prisma.kanji.update({
+        where: { character: k.char },
+        data: {
+          hanViet: k.hanViet,
+          onyomiJson: k.on,
+          kunyomiJson: k.kun,
+          meaningVi: k.mean,
+          strokes: k.strokes,
+        },
+      });
+    } else {
+      await prisma.contentItem.create({
+        data: {
+          levelId: "N5",
+          kind: ContentKind.KANJI,
+          slug: `kanji-${k.char}`,
+          status: ContentStatus.PUBLISHED,
+          publishedAt: new Date(),
+          kanji: {
+            create: {
+              character: k.char,
+              hanViet: k.hanViet,
+              onyomiJson: k.on,
+              kunyomiJson: k.kun,
+              meaningVi: k.mean,
+              strokes: k.strokes,
+              examplesJson: [{ word: `${k.char}生`, reading: "せんせい", meaning: "Thầy cô" }],
+            },
           },
         },
-      },
-    });
+      });
+    }
   }
   console.log("✔ Đã seed 5 chữ Hán (Kanji) N5");
 
-  // 7. Grammar items (5 entries)
+  // 7. Grammar items (5 entries, idempotent via slug)
   const grammarList = [
     { pattern: "N1 は N2 です", formation: "[N1] + は + [N2] + です", mean: "N1 là N2", nuance: "Trợ từ wa đánh dấu chủ ngữ, desu mang tính lịch sự." },
     { pattern: "N1 は N2 ではありません", formation: "[N1] + は + [N2] + ではありません", mean: "N1 không phải là N2", nuance: "Phủ định lịch sự trang trọng." },
@@ -211,80 +296,151 @@ async function main() {
 
   for (let i = 0; i < grammarList.length; i++) {
     const g = grammarList[i];
-    await prisma.contentItem.create({
-      data: {
-        levelId: "N5",
-        kind: ContentKind.GRAMMAR,
-        slug: `grammar-g0${i + 1}`,
-        status: ContentStatus.PUBLISHED,
-        publishedAt: new Date(),
-        grammar: {
-          create: {
-            pattern: g.pattern,
-            formationVi: g.formation,
-            meaningVi: g.mean,
-            explanationVi: `Cấu trúc ngữ pháp cơ bản trong tiếng Nhật N5: ${g.mean}.`,
-            examplesJson: [{ ja: "わたしはベトナム人です。", vi: "Tôi là người Việt Nam." }],
-            nuanceVi: g.nuance,
+    const slug = `grammar-g0${i + 1}`;
+    const existingGrammarItem = await prisma.contentItem.findFirst({
+      where: { levelId: "N5", kind: ContentKind.GRAMMAR, slug },
+    });
+
+    if (existingGrammarItem) {
+      await prisma.grammar.upsert({
+        where: { contentItemId: existingGrammarItem.id },
+        update: {
+          pattern: g.pattern,
+          formationVi: g.formation,
+          meaningVi: g.mean,
+          nuanceVi: g.nuance,
+        },
+        create: {
+          contentItemId: existingGrammarItem.id,
+          pattern: g.pattern,
+          formationVi: g.formation,
+          meaningVi: g.mean,
+          explanationVi: `Cấu trúc ngữ pháp cơ bản trong tiếng Nhật N5: ${g.mean}.`,
+          examplesJson: [{ ja: "わたしはベトナム人です。", vi: "Tôi là người Việt Nam." }],
+          nuanceVi: g.nuance,
+        },
+      });
+    } else {
+      await prisma.contentItem.create({
+        data: {
+          levelId: "N5",
+          kind: ContentKind.GRAMMAR,
+          slug,
+          status: ContentStatus.PUBLISHED,
+          publishedAt: new Date(),
+          grammar: {
+            create: {
+              pattern: g.pattern,
+              formationVi: g.formation,
+              meaningVi: g.mean,
+              explanationVi: `Cấu trúc ngữ pháp cơ bản trong tiếng Nhật N5: ${g.mean}.`,
+              examplesJson: [{ ja: "わたしはベトナム人です。", vi: "Tôi là người Việt Nam." }],
+              nuanceVi: g.nuance,
+            },
           },
         },
-      },
-    });
+      });
+    }
   }
   console.log("✔ Đã seed 5 mẫu ngữ pháp N5");
 
-  // 8. Practice Questions (20 questions)
-  for (let qIdx = 1; qIdx <= 20; qIdx++) {
-    await prisma.question.create({
+  // 8. Practice Questions (20 questions, idempotent check)
+  let existingQuestions = await prisma.question.findMany({
+    where: { levelId: "N5" },
+    orderBy: { id: "asc" },
+    take: 20,
+  });
+
+  if (existingQuestions.length < 20) {
+    for (let qIdx = existingQuestions.length + 1; qIdx <= 20; qIdx++) {
+      const createdQ = await prisma.question.create({
+        data: {
+          levelId: "N5",
+          questionType: qIdx % 2 === 0 ? QuestionType.KANJI_READING : QuestionType.BLANK_CHOICE,
+          promptJson: { text: `Câu hỏi luyện tập N5 số 0${qIdx}: Chọn đáp án đúng cho câu sau.` },
+          explanationVi: `Giải thích chi tiết tiếng Việt cho câu hỏi số 0${qIdx}. Đáp án đúng là lựa chọn số 1.`,
+          difficulty: 1,
+          skillTag: qIdx <= 10 ? "Từ vựng N5" : "Ngữ pháp N5",
+          status: ContentStatus.PUBLISHED,
+          options: {
+            create: [
+              { position: 1, textJson: { text: "Lựa chọn A (Chính xác)" }, isCorrect: true },
+              { position: 2, textJson: { text: "Lựa chọn B" }, isCorrect: false },
+              { position: 3, textJson: { text: "Lựa chọn C" }, isCorrect: false },
+              { position: 4, textJson: { text: "Lựa chọn D" }, isCorrect: false },
+            ],
+          },
+        },
+      });
+      existingQuestions.push(createdQ);
+    }
+  }
+  console.log(`✔ Đã đảm bảo ${existingQuestions.length} câu hỏi luyện tập N5`);
+
+  // 9. Full Demo Mock Exam (3 sections + linked questions, idempotent)
+  let mockExam = await prisma.exam.findFirst({
+    where: { levelId: "N5" },
+    include: { sections: { orderBy: { position: "asc" } } },
+  });
+
+  if (!mockExam) {
+    mockExam = await prisma.exam.create({
       data: {
         levelId: "N5",
-        questionType: qIdx % 2 === 0 ? QuestionType.KANJI_READING : QuestionType.BLANK_CHOICE,
-        promptJson: { text: `Câu hỏi luyện tập N5 số 0${qIdx}: Chọn đáp án đúng cho câu sau.` },
-        explanationVi: `Giải thích chi tiết tiếng Việt cho câu hỏi số 0${qIdx}. Đáp án đúng là lựa chọn số 1.`,
-        difficulty: 1,
-        skillTag: qIdx <= 10 ? "Từ vựng N5" : "Ngữ pháp N5",
+        title: "Đề thi thử JLPT N5 — Số 01 (Mô phỏng tiêu chuẩn)",
         status: ContentStatus.PUBLISHED,
-        options: {
+        version: "v1.0",
+        scoringPolicy: "JLPT_SCALE_180",
+        publishedAt: new Date(),
+        sections: {
           create: [
-            { position: 1, textJson: { text: "Lựa chọn A (Chính xác)" }, isCorrect: true },
-            { position: 2, textJson: { text: "Lựa chọn B" }, isCorrect: false },
-            { position: 3, textJson: { text: "Lựa chọn C" }, isCorrect: false },
-            { position: 4, textJson: { text: "Lựa chọn D" }, isCorrect: false },
+            { sectionType: SectionType.VOCAB, position: 1, durationSeconds: 1200, maxInternalPoints: 60 },
+            { sectionType: SectionType.GRAMMAR_READING, position: 2, durationSeconds: 2400, maxInternalPoints: 60 },
+            { sectionType: SectionType.LISTENING, position: 3, durationSeconds: 1800, maxInternalPoints: 60 },
           ],
         },
       },
+      include: { sections: { orderBy: { position: "asc" } } },
     });
   }
-  console.log("✔ Đã seed 20 câu hỏi luyện tập");
 
-  // 9. Full Demo Mock Exam (3 sections)
-  const mockExam = await prisma.exam.create({
-    data: {
-      levelId: "N5",
-      title: "Đề thi thử JLPT N5 — Số 01 (Mô phỏng tiêu chuẩn)",
-      status: ContentStatus.PUBLISHED,
-      version: "v1.0",
-      scoringPolicy: "JLPT_SCALE_180",
-      publishedAt: new Date(),
-      sections: {
-        create: [
-          { sectionType: SectionType.VOCAB, position: 1, durationSeconds: 1200, maxInternalPoints: 60 },
-          { sectionType: SectionType.GRAMMAR_READING, position: 2, durationSeconds: 2400, maxInternalPoints: 60 },
-          { sectionType: SectionType.LISTENING, position: 3, durationSeconds: 1800, maxInternalPoints: 60 },
-        ],
-      },
-    },
-  });
+  // Ensure ExamSection 1 has linked questions so mock exam attempts always contain questions
+  if (mockExam.sections.length > 0 && existingQuestions.length > 0) {
+    const firstSection = mockExam.sections[0];
+    const sampleQuestions = existingQuestions.slice(0, 5);
+    for (let i = 0; i < sampleQuestions.length; i++) {
+      await prisma.examQuestion.upsert({
+        where: {
+          sectionId_position: {
+            sectionId: firstSection.id,
+            position: i + 1,
+          },
+        },
+        update: {
+          questionId: sampleQuestions[i].id,
+        },
+        create: {
+          sectionId: firstSection.id,
+          questionId: sampleQuestions[i].id,
+          position: i + 1,
+          points: 2,
+        },
+      });
+    }
+  }
   console.log(`✔ Đã seed đề thi thử JLPT N5: ${mockExam.title}`);
 
   console.log("--- HOÀN TẤT SEED DỮ LIỆU MARIADB THÀNH CÔNG ---");
 }
 
-main()
-  .catch((e) => {
-    console.error("Lỗi seed:", e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// Run when executed directly via CLI
+if (process.argv[1]?.includes("seed")) {
+  seedDatabase()
+    .catch((e) => {
+      console.error("Lỗi seed:", e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
