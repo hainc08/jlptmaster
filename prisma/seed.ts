@@ -345,7 +345,7 @@ export async function seedDatabase() {
   console.log("✔ Đã seed 5 mẫu ngữ pháp N5");
 
   // 8. Practice Questions (20 questions, idempotent check)
-  let existingQuestions = await prisma.question.findMany({
+  const existingQuestions = await prisma.question.findMany({
     where: { levelId: "N5" },
     orderBy: { id: "asc" },
     take: 20,
@@ -404,28 +404,28 @@ export async function seedDatabase() {
     });
   }
 
-  // Ensure ExamSection 1 has linked questions so mock exam attempts always contain questions
+  // Ensure ExamSection 1 has linked questions without colliding on dual unique keys
   if (mockExam.sections.length > 0 && existingQuestions.length > 0) {
     const firstSection = mockExam.sections[0];
     const sampleQuestions = existingQuestions.slice(0, 5);
-    for (let i = 0; i < sampleQuestions.length; i++) {
-      await prisma.examQuestion.upsert({
-        where: {
-          sectionId_position: {
-            sectionId: firstSection.id,
-            position: i + 1,
-          },
-        },
-        update: {
-          questionId: sampleQuestions[i].id,
-        },
-        create: {
-          sectionId: firstSection.id,
-          questionId: sampleQuestions[i].id,
-          position: i + 1,
-          points: 2,
-        },
+    const existingExamQuestions = await prisma.examQuestion.findMany({
+      where: { sectionId: firstSection.id },
+    });
+
+    if (existingExamQuestions.length < sampleQuestions.length) {
+      await prisma.examQuestion.deleteMany({
+        where: { sectionId: firstSection.id },
       });
+      for (let i = 0; i < sampleQuestions.length; i++) {
+        await prisma.examQuestion.create({
+          data: {
+            sectionId: firstSection.id,
+            questionId: sampleQuestions[i].id,
+            position: i + 1,
+            points: 2,
+          },
+        });
+      }
     }
   }
   console.log(`✔ Đã seed đề thi thử JLPT N5: ${mockExam.title}`);

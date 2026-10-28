@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MockBadge } from "../components/MockBadge";
 import { ArrowRight, Lock, Mail, User, CheckCircle2 } from "lucide-react";
 
 export default function RegisterPage() {
@@ -21,7 +20,6 @@ export default function RegisterPage() {
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="max-w-md w-full bg-white rounded-3xl border border-gray-200 shadow-xl p-8 sm:p-10 space-y-6">
         <div className="text-center space-y-2">
-          <MockBadge label="ĐĂNG KÝ MÔ PHỎNG" />
           <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">
             Tạo tài khoản học N5
           </h1>

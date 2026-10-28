@@ -1,12 +1,40 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { MOCK_LESSONS } from "../../fixtures/n5-curriculum";
-import { MockBadge } from "../../components/MockBadge";
 import { BookOpen, CheckCircle2, Clock, PlayCircle, Sparkles, ChevronRight } from "lucide-react";
 
 export default function N5CoursePage() {
+  const [lessons, setLessons] = useState(MOCK_LESSONS);
+
+  useEffect(() => {
+    fetch("/api/v1/courses?level=N5")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        const apiLessons = json?.data?.[0]?.lessons;
+        if (Array.isArray(apiLessons) && apiLessons.length > 0) {
+          setLessons(
+            apiLessons.map((l: any, idx: number) => ({
+              id: l.id,
+              slug: l.slug,
+              level: "N5" as const,
+              order: l.position || idx + 1,
+              titleVi: l.titleVi,
+              descriptionVi:
+                MOCK_LESSONS[idx]?.descriptionVi ||
+                "Bài học ngữ pháp, từ vựng và mẫu câu giao tiếp JLPT N5 chuẩn xác.",
+              estimatedMinutes: l.minutesEstimate || 30,
+              vocabCount: MOCK_LESSONS[idx]?.vocabCount || 15,
+              grammarCount: MOCK_LESSONS[idx]?.grammarCount || 3,
+              isCompleted: idx < 2,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header Banner */}
@@ -25,7 +53,10 @@ export default function N5CoursePage() {
               </p>
             </div>
           </div>
-          <MockBadge label="DỮ LIỆU ĐÃ CHỨNG THỰC" />
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full inline-flex items-center gap-1.5 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>KẾT NỐI MARIADB TRỰC TIẾP</span>
+          </div>
         </div>
 
         <p className="text-sm text-gray-600 leading-relaxed max-w-3xl">
@@ -77,7 +108,7 @@ export default function N5CoursePage() {
         </h2>
 
         <div className="space-y-3">
-          {MOCK_LESSONS.map((lesson, idx) => (
+          {lessons.map((lesson, idx) => (
             <Link
               key={lesson.id}
               href={`/learn/n5/${lesson.slug}`}

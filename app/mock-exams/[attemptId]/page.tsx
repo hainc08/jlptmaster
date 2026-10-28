@@ -5,7 +5,6 @@ import { useParams, useRouter } from "next/navigation";
 import { MOCK_EXAM_N5_01, ExamQuestion } from "../../fixtures/mock-exam-data";
 import { RubyText } from "../../components/RubyText";
 import { AudioButton } from "../../components/AudioButton";
-import { MockBadge } from "../../components/MockBadge";
 import {
   Clock,
   CheckCircle2,

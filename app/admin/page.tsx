@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { MockBadge } from "../components/MockBadge";
 import {
   Shield,
   Layers,
@@ -93,7 +92,9 @@ export default function AdminDashboardPage() {
               </p>
             </div>
           </div>
-          <MockBadge label="GIAO DIỆN QUẢN TRỊ VIÊN" />
+          <span className="text-xs font-bold text-indigo-800 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
+            Hệ thống Quản trị CMS
+          </span>
         </div>
 
         {/* Quick Actions */}

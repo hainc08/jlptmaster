@@ -70,7 +70,7 @@ export const NAV_SECTIONS: NavSection[] = [
         id: "kanji",
         label: "Kanji",
         description: "Chữ Hán N5, âm On/Kun, Hán-Việt và số nét",
-        href: "/vocabulary?pos=Kanji",
+        href: "/kanji",
         icon: Languages,
       },
       {

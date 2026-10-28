@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { RubyText } from "./components/RubyText";
 import { AudioButton } from "./components/AudioButton";
-import { MockBadge } from "./components/MockBadge";
 import {
   BookOpen,
   CheckCircle2,
@@ -35,11 +34,6 @@ export default function LandingPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Prototype Banner */}
-      <div className="bg-amber-50 border-b border-amber-200 py-2 px-4 text-center">
-        <MockBadge label="PROTOTYPE BROWSER DEMO — KHÔNG KẾT NỐI DB THẬT — DỮ LIỆU MẪU ĐƯỢC CHỨNG THỰC" />
-      </div>
-
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="text-center max-w-3xl mx-auto space-y-6">

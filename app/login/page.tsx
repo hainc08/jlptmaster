@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MockBadge } from "../components/MockBadge";
 import { ArrowRight, Lock, Mail, Shield } from "lucide-react";
 
 export default function LoginPage() {
@@ -13,14 +12,18 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/dashboard");
+    const isAdmin = email.trim().toLowerCase() === "admin@jlptmaster.vn" || email.trim().toLowerCase().startsWith("admin@");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("jlpt_auth_role", isAdmin ? "admin" : "student");
+      localStorage.setItem("jlpt_auth_email", email.trim());
+    }
+    router.push(isAdmin ? "/admin" : "/dashboard");
   };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="max-w-md w-full bg-white rounded-3xl border border-gray-200 shadow-xl p-8 sm:p-10 space-y-6">
         <div className="text-center space-y-2">
-          <MockBadge label="ĐĂNG NHẬP MÔ PHỎNG" />
           <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">
             Chào mừng trở lại!
           </h1>
@@ -71,6 +74,48 @@ export default function LoginPage() {
             <ArrowRight size={16} />
           </button>
         </form>
+
+        {/* Quick Account Switcher for Demo / Admin CMS Access */}
+        <div className="p-3.5 rounded-2xl bg-[#F7F7F4] border border-gray-200 space-y-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block">
+            Tài khoản có sẵn trên MariaDB (Chọn nhanh):
+          </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("minh@jlptmaster.vn");
+                setPassword("password123");
+              }}
+              className={`p-2.5 rounded-xl border text-left transition-all ${
+                email === "minh@jlptmaster.vn"
+                  ? "bg-white border-[#B9343F] ring-1 ring-[#B9343F]"
+                  : "bg-white/70 border-gray-200 hover:bg-white"
+              }`}
+            >
+              <span className="text-xs font-bold text-gray-900 block">Học viên (Student)</span>
+              <span className="text-[11px] text-gray-500 block truncate">minh@jlptmaster.vn</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("admin@jlptmaster.vn");
+                setPassword("password123");
+              }}
+              className={`p-2.5 rounded-xl border text-left transition-all ${
+                email === "admin@jlptmaster.vn"
+                  ? "bg-indigo-50/80 border-indigo-600 ring-1 ring-indigo-600"
+                  : "bg-white/70 border-gray-200 hover:bg-white"
+              }`}
+            >
+              <span className="text-xs font-bold text-indigo-900 flex items-center gap-1">
+                <Shield size={12} className="text-indigo-700" />
+                Quản trị BE (Admin)
+              </span>
+              <span className="text-[11px] text-indigo-700 block truncate">admin@jlptmaster.vn</span>
+            </button>
+          </div>
+        </div>
 
         <div className="text-center text-xs text-gray-500 pt-2 border-t border-gray-100">
           Chưa có tài khoản?{" "}

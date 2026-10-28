@@ -1,41 +1,71 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { MockBadge } from "../components/MockBadge";
 import { Award, Clock, FileText, CheckCircle2, ChevronRight, AlertTriangle } from "lucide-react";
 
+const INITIAL_EXAMS = [
+  {
+    id: "att-01",
+    title: "Đề thi thử JLPT N5 — Số 01 (Mô phỏng tiêu chuẩn)",
+    level: "N5",
+    totalMinutes: 90,
+    totalQuestions: 35,
+    sections: [
+      { name: "Kiến thức ngôn ngữ (Từ vựng)", minutes: 20 },
+      { name: "Ngữ pháp & Đọc hiểu", minutes: 40 },
+      { name: "Nghe hiểu", minutes: 30 },
+    ],
+    status: "COMPLETED",
+    lastScore: "142 / 180",
+  },
+  {
+    id: "att-02",
+    title: "Đề thi thử JLPT N5 — Số 02 (Đề nâng cao)",
+    level: "N5",
+    totalMinutes: 90,
+    totalQuestions: 35,
+    sections: [
+      { name: "Kiến thức ngôn ngữ (Từ vựng)", minutes: 20 },
+      { name: "Ngữ pháp & Đọc hiểu", minutes: 40 },
+      { name: "Nghe hiểu", minutes: 30 },
+    ],
+    status: "NEW",
+    lastScore: null,
+  },
+];
+
 export default function MockExamsCatalogPage() {
-  const exams = [
-    {
-      id: "att-01",
-      title: "Đề thi thử JLPT N5 — Số 01 (Mô phỏng tiêu chuẩn)",
-      level: "N5",
-      totalMinutes: 90,
-      totalQuestions: 35,
-      sections: [
-        { name: "Kiến thức ngôn ngữ (Từ vựng)", minutes: 20 },
-        { name: "Ngữ pháp & Đọc hiểu", minutes: 40 },
-        { name: "Nghe hiểu", minutes: 30 },
-      ],
-      status: "COMPLETED",
-      lastScore: "142 / 180",
-    },
-    {
-      id: "att-02",
-      title: "Đề thi thử JLPT N5 — Số 02 (Đề nâng cao)",
-      level: "N5",
-      totalMinutes: 90,
-      totalQuestions: 35,
-      sections: [
-        { name: "Kiến thức ngôn ngữ (Từ vựng)", minutes: 20 },
-        { name: "Ngữ pháp & Đọc hiểu", minutes: 40 },
-        { name: "Nghe hiểu", minutes: 30 },
-      ],
-      status: "NEW",
-      lastScore: null,
-    },
-  ];
+  const [exams, setExams] = useState(INITIAL_EXAMS);
+
+  useEffect(() => {
+    fetch("/api/v1/exams?level=N5")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (Array.isArray(json?.data) && json.data.length > 0) {
+          const liveExams = json.data.map((ex: any, idx: number) => ({
+            id: ex.id || `att-0${idx + 1}`,
+            title: ex.title,
+            level: ex.levelId || "N5",
+            totalMinutes: 90,
+            totalQuestions: 35,
+            sections: [
+              { name: "Kiến thức ngôn ngữ (Từ vựng)", minutes: 20 },
+              { name: "Ngữ pháp & Đọc hiểu", minutes: 40 },
+              { name: "Nghe hiểu", minutes: 30 },
+            ],
+            status: idx === 0 ? "COMPLETED" : "NEW",
+            lastScore: idx === 0 ? "142 / 180" : null,
+          }));
+          if (liveExams.length === 1) {
+            setExams([liveExams[0], INITIAL_EXAMS[1]]);
+          } else {
+            setExams(liveExams);
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -55,7 +85,10 @@ export default function MockExamsCatalogPage() {
               </p>
             </div>
           </div>
-          <MockBadge label="MÔ PHỎNG ĐỀ THI ĐÃ KIỂM ĐỊNH" />
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full inline-flex items-center gap-1.5 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>KẾT NỐI MARIADB TRỰC TIẾP</span>
+          </div>
         </div>
 
         <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5">

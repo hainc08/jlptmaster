@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { MockBadge } from "../components/MockBadge";
 import {
   Flame,
   BookOpen,
@@ -21,7 +20,6 @@ export default function DashboardPage() {
   const [dueSrsCount, setDueSrsCount] = useState(14);
 
   useEffect(() => {
-    // Read from localStorage if set in prototype
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("jlpt_user_profile");
       if (saved) {
@@ -32,6 +30,15 @@ export default function DashboardPage() {
         setDueSrsCount(0);
       }
     }
+
+    fetch("/api/v1/progress/overview")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.data && typeof json.data.dueReviewsCount === "number") {
+          setDueSrsCount(json.data.dueReviewsCount);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   return (
@@ -43,7 +50,6 @@ export default function DashboardPage() {
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
               Xin chào, {userName}! 👋
             </h1>
-            <MockBadge label="DỮ LIỆU THỰC MÔ PHỎNG" />
           </div>
           <p className="text-sm text-gray-600">
             Hôm nay bạn có mục tiêu hoàn thành 30 phút học và ôn 14 thẻ nhớ SRS.

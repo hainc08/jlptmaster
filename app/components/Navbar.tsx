@@ -54,6 +54,9 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
       setRole("admin");
     } else if (pathname === "/login" || pathname === "/register") {
       setRole("guest");
+    } else if (typeof window !== "undefined") {
+      const savedRole = localStorage.getItem("jlpt_auth_role") as UserRole | null;
+      setRole(savedRole === "admin" ? "admin" : "student");
     } else {
       setRole("student");
     }
@@ -579,7 +582,13 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                       <Link
                         href="/login"
                         role="menuitem"
-                        onClick={closeAllMenus}
+                        onClick={() => {
+                          if (typeof window !== "undefined") {
+                            localStorage.removeItem("jlpt_auth_role");
+                            localStorage.removeItem("jlpt_auth_email");
+                          }
+                          closeAllMenus();
+                        }}
                         className="w-full min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-[#B9343F] hover:bg-[#FBEBEB]/60 flex items-center gap-2.5"
                       >
                         <LogOut size={15} />

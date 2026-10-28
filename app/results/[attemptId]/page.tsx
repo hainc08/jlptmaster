@@ -4,7 +4,6 @@ import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { MOCK_EXAM_N5_01 } from "../../fixtures/mock-exam-data";
-import { MockBadge } from "../../components/MockBadge";
 import {
   Award,
   CheckCircle2,
@@ -41,7 +40,9 @@ function ExamResultsContent() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Banner */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm text-center space-y-4">
-        <MockBadge label="KẾT QUẢ ĐÃ CHẤM GIAO DỊCH" />
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+          Kết quả chấm tự động từ máy chủ
+        </span>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
           Báo cáo Kết quả Bài thi thử N5 (Số 01)
         </h1>

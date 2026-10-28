@@ -307,3 +307,24 @@
   - `npx vitest run tests/components/HeaderNavigation.test.tsx` $\rightarrow$ **6/6 tests passed**.
   - `npm test` $\rightarrow$ **43/43 tests passed across 13 test suites**.
   - `npm run typecheck` $\rightarrow$ **0 errors** (`tsc --noEmit`).
+---
+
+## 13. Full MariaDB Frontend Wiring, Prototype Badge Removal, Kanji Handbook & Seed Idempotency Fix
+
+### 13.1 Objectives Completed (`TASK-01` → `TASK-04`)
+- **TASK-01 ([prisma/seed.ts](file:///d:/100.JLPT/00.web_app/prisma/seed.ts)):** Khắc phục triệt để xung đột khóa duy nhất `P2002` (`exam_questions_section_id_question_id_key`) khi chạy lại `seedDatabase()` nhiều lần liên tiếp trên Hostinger.
+- **TASK-02 (Gỡ bỏ toàn bộ `MockBadge` Prototype):** Loại bỏ hoàn toàn thanh thông báo `"PROTOTYPE BROWSER DEMO — KHÔNG KẾT NỐI DB THẬT"` trên [app/page.tsx](file:///d:/100.JLPT/00.web_app/app/page.tsx) và toàn bộ 12 màn hình Production.
+- **TASK-03 (Kết nối toàn bộ các màn hình còn lại vào `/api/v1/*` MariaDB):**
+  - [app/grammar/page.tsx](file:///d:/100.JLPT/00.web_app/app/grammar/page.tsx) $\rightarrow$ `GET /api/v1/grammar`
+  - [app/learn/n5/page.tsx](file:///d:/100.JLPT/00.web_app/app/learn/n5/page.tsx) $\rightarrow$ `GET /api/v1/courses?level=N5`
+  - [app/flashcards/page.tsx](file:///d:/100.JLPT/00.web_app/app/flashcards/page.tsx) $\rightarrow$ `GET /api/v1/reviews/due` & `POST /api/v1/reviews`
+  - [app/dashboard/page.tsx](file:///d:/100.JLPT/00.web_app/app/dashboard/page.tsx) $\rightarrow$ `GET /api/v1/progress/overview`
+  - [app/mock-exams/page.tsx](file:///d:/100.JLPT/00.web_app/app/mock-exams/page.tsx) $\rightarrow$ `GET /api/v1/exams?level=N5`
+- **TASK-04 ([app/kanji/page.tsx](file:///d:/100.JLPT/00.web_app/app/kanji/page.tsx) & [app/components/nav-config.ts](file:///d:/100.JLPT/00.web_app/app/components/nav-config.ts)):** Xây dựng trang Sổ tay Chữ Hán (Kanji) N5 chuyên biệt kết nối `GET /api/v1/kanji` và cập nhật liên kết điều hướng `Kanji` về `/kanji`.
+
+### 13.2 Verification Results
+- `npm run db:seed` (2 lần liên tiếp): **Exit code `0`, 0 errors**.
+- `npx vitest run tests/components/LivePagesAndCleanBadges.test.tsx`: **3/3 tests passed**.
+- `npm test`: **47/47 tests passed across 14 test suites**.
+- `npm run typecheck`: **0 errors** (`tsc --noEmit`).
+- `npx next build --webpack`: **34/34 routes compiled cleanly**.

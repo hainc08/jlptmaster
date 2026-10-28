@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { MockBadge } from "../components/MockBadge";
 import { Check, Clock, Sparkles, ArrowRight } from "lucide-react";
 
 export default function OnboardingPage() {
@@ -11,7 +10,6 @@ export default function OnboardingPage() {
   const [dailyMinutes, setDailyMinutes] = useState(30);
 
   const handleComplete = () => {
-    // In prototype, save preference to localStorage
     if (typeof window !== "undefined") {
       localStorage.setItem(
         "jlpt_user_profile",
@@ -29,7 +27,9 @@ export default function OnboardingPage() {
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="max-w-xl w-full bg-white rounded-3xl border border-gray-200 shadow-xl p-6 sm:p-10 space-y-8">
         <div className="text-center space-y-2">
-          <MockBadge label="THIẾT LẬP HỒ SƠ HỌC VIÊN — BƯỚC 1/1" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#B9343F] bg-[#FBEBEB] px-3 py-1 rounded-full">
+            Thiết lập hồ sơ học viên • Bước 1/1
+          </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
             Thiết lập lộ trình học tiếng Nhật của bạn
           </h1>

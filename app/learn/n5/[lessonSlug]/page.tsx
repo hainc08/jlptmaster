@@ -7,7 +7,6 @@ import { MOCK_LESSONS, MOCK_VOCAB, MOCK_GRAMMAR } from "../../../fixtures/n5-cur
 import { RubyText, useFurigana } from "../../../components/RubyText";
 import { AudioButton } from "../../../components/AudioButton";
 import { LearningToolbar } from "../../../components/LearningToolbar";
-import { MockBadge } from "../../../components/MockBadge";
 import {
   BookOpen,
   CheckCircle2,
@@ -54,7 +53,9 @@ function LessonContent() {
           <ChevronLeft size={16} />
           Lộ trình N5
         </Link>
-        <MockBadge label="BÀI HỌC TƯƠNG TÁC" />
+        <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+          Bài giảng chuẩn JLPT N5
+        </span>
       </div>
 
       {/* Lesson Header */}

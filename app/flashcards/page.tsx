@@ -5,7 +5,6 @@ import Link from "next/link";
 import { MOCK_SRS_CARDS, SrsCard } from "../fixtures/srs-cards";
 import { RubyText } from "../components/RubyText";
 import { AudioButton } from "../components/AudioButton";
-import { MockBadge } from "../components/MockBadge";
 import {
   RotateCcw,
   CheckCircle2,
@@ -21,6 +20,38 @@ export default function FlashcardsReviewPage() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
+  useEffect(() => {
+    let ignore = false;
+    fetch("/api/v1/reviews/due?limit=20")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (!ignore && Array.isArray(json?.data) && json.data.length > 0) {
+          const mapped: SrsCard[] = json.data
+            .filter((item: any) => item.contentItem?.vocabulary)
+            .map((item: any, idx: number) => {
+              const v = item.contentItem.vocabulary;
+              return {
+                id: item.id,
+                frontKanji: v.surface,
+                frontReading: v.reading,
+                romaji: v.searchNormalized?.split(" ")[0] || "",
+                meaningVi: v.meaningVi,
+                exampleJa: v.exampleJa || `${v.surface} は大切です。`,
+                exampleVi: v.exampleVi || `${v.meaningVi} rất quan trọng.`,
+                intervalText: idx === 0 ? "Đến hạn hôm nay" : "Ôn tập N5",
+              };
+            });
+          if (mapped.length > 0) {
+            setCards(mapped);
+          }
+        }
+      })
+      .catch(() => {});
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
   const currentCard = cards[currentIndex];
 
   const handleFlip = () => {
@@ -28,7 +59,19 @@ export default function FlashcardsReviewPage() {
   };
 
   const handleGrade = (grade: "AGAIN" | "HARD" | "GOOD" | "EASY") => {
-    // In prototype, advance to next card
+    const ratingMap = { AGAIN: 1, HARD: 2, GOOD: 3, EASY: 4 } as const;
+    if (currentCard?.id) {
+      fetch("/api/v1/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reviewCardId: currentCard.id,
+          rating: ratingMap[grade],
+          idempotencyKey: `srs-${currentCard.id}-${Date.now()}`,
+        }),
+      }).catch(() => {});
+    }
+
     if (currentIndex + 1 < cards.length) {
       setCurrentIndex(currentIndex + 1);
       setIsFlipped(false);
@@ -113,7 +156,9 @@ export default function FlashcardsReviewPage() {
           <ChevronLeft size={16} />
           Bảng điều khiển
         </Link>
-        <MockBadge label="THUẬT TOÁN SRS 4 MỨC ĐỘ" />
+        <span className="text-xs font-semibold text-[#B9343F] bg-[#FBEBEB] px-3 py-1 rounded-full">
+          Thuật toán SRS 4 mức độ
+        </span>
         <span className="text-xs font-bold text-gray-500">
           Thẻ {currentIndex + 1} / {cards.length}
         </span>

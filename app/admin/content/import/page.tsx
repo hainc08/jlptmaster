@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { MockBadge } from "../../../components/MockBadge";
 import {
   Upload,
   FileText,
@@ -78,7 +77,9 @@ export default function CsvImportPage() {
           <ChevronLeft size={16} />
           Bảng điều khiển Admin
         </Link>
-        <MockBadge label="CÔNG CỤ NHẬP CSV DRY-RUN" />
+        <span className="text-xs font-bold text-indigo-800 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
+          Công cụ nhập CSV (Dry-Run Zod)
+        </span>
       </div>
 
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
