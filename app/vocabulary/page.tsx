@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { RubyText } from "../components/RubyText";
 import { AudioButton } from "../components/AudioButton";
+import { LearningToolbar } from "../components/LearningToolbar";
 import { Search, AlertCircle, RefreshCw } from "lucide-react";
 
 export interface VocabEntity {
@@ -66,6 +67,7 @@ export default function VocabularyPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <LearningToolbar title="Tùy chọn hiển thị Sổ tay Từ vựng" />
       {/* Page Header */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">

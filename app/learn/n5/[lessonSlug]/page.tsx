@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { MOCK_LESSONS, MOCK_VOCAB, MOCK_GRAMMAR } from "../../../fixtures/n5-curriculum";
 import { RubyText, useFurigana } from "../../../components/RubyText";
 import { AudioButton } from "../../../components/AudioButton";
+import { LearningToolbar } from "../../../components/LearningToolbar";
 import { MockBadge } from "../../../components/MockBadge";
 import {
   BookOpen,
@@ -42,7 +43,8 @@ function LessonContent() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <LearningToolbar title="Tùy chọn hiển thị Bài học N5" />
       {/* Top Breadcrumb & Furigana switch */}
       <div className="flex items-center justify-between gap-4">
         <Link

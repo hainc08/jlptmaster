@@ -284,3 +284,26 @@
 
 
 
+---
+
+## 12. Header & Navigation Redesign (UX Audit, Prototype & TDD Production Implementation)
+
+### 12.1 Design & Prototype Deliverables (Approved by Owner: `"Tôi duyệt thiết kế header"`)
+- [docs/design/header-ux-audit.md](file:///d:/100.JLPT/00.web_app/docs/design/header-ux-audit.md): Kiểm toán UX chi tiết thanh điều hướng hiện tại trên `https://jlpt.manabihub.me/mock-exams` (8 vấn đề cốt lõi về phân cấp thông tin, quá tải menu, thiếu bộ chọn cấp độ JLPT, hiển thị nút Admin cho học viên thường, và nút Furigana đặt sai ngữ cảnh).
+- [docs/design/navigation-spec.md](file:///d:/100.JLPT/00.web_app/docs/design/navigation-spec.md): Đặc tả kiến trúc thông tin 5 trụ cột chính (`1. Trang chủ`, `2. Học tập`, `3. Luyện tập`, `4. Thi thử`, `5. Tiến độ`), bộ chọn cấp độ `N5–N1`, phân quyền `guest` / `student` / `admin`, cùng tiêu chuẩn bàn phím WAI-ARIA và vùng chạm di động `>= 48px`.
+- [docs/design/header-prototype-review.md](file:///d:/100.JLPT/00.web_app/docs/design/header-prototype-review.md): Báo cáo kiểm thử trực quan trên 4 kích thước màn hình (`375px`, `768px`, `1280px`, `1440px`) kèm 10 ảnh chụp màn hình tại `docs/design/screenshots/`.
+- [app/prototype/header-nav/page.tsx](file:///d:/100.JLPT/00.web_app/app/prototype/header-nav/page.tsx): Màn hình prototype độc lập cho phép chuyển đổi trực tiếp giữa 3 vai trò (`Học viên`, `Khách`, `Quản trị viên`).
+
+### 12.2 TDD Production Implementation (`RED → GREEN → REFACTOR`)
+- **RED Phase:**
+  - Tạo bộ kiểm thử [tests/components/HeaderNavigation.test.tsx](file:///d:/100.JLPT/00.web_app/tests/components/HeaderNavigation.test.tsx) (6 kịch bản kiểm thử: hiển thị 5 trụ cột điều hướng + bộ chọn cấp độ JLPT + ẩn Furigana toàn cục; mở/đóng dropdown menu và phím `Escape`; phân quyền hiển thị `Khách` / `Admin`; chế độ tập trung phòng thi `/mock-exams/[attemptId]`; thanh điều hướng đáy `BottomNav` 5 mục + bottom sheet; thanh công cụ ngữ cảnh `LearningToolbar`).
+  - Xác nhận trạng thái RED: `Failed to resolve import "@/app/components/LearningToolbar"`.
+- **GREEN Phase & Refactoring:**
+  - [app/components/nav-config.ts](file:///d:/100.JLPT/00.web_app/app/components/nav-config.ts): Cấu hình dữ liệu điều hướng dùng chung cho cả Desktop và Mobile (`PRIMARY_NAV_SECTIONS`, `JLPT_LEVELS`, `getActiveSectionFromPathname`).
+  - [app/components/Navbar.tsx](file:///d:/100.JLPT/00.web_app/app/components/Navbar.tsx): Triển khai Header chính thức với 5 trụ cột, accessible popover menus (`aria-expanded`, `aria-haspopup`, điều hướng phím `ArrowDown` / `Escape`), bộ chọn cấp độ JLPT `N5–N1`, menu thông báo & hồ sơ học viên, và chế độ tối giản khi làm bài thi.
+  - [app/components/BottomNav.tsx](file:///d:/100.JLPT/00.web_app/app/components/BottomNav.tsx): Triển khai thanh điều hướng cố định phía dưới trên mobile với 5 mục chính (`min-h-[48px]`), hỗ trợ `safe-area-inset-bottom` và ngăn kéo Bottom Sheet cho các mục con.
+  - [app/components/LearningToolbar.tsx](file:///d:/100.JLPT/00.web_app/app/components/LearningToolbar.tsx): Tách công tắc bật/tắt Furigana (`<ruby>`) thành thanh công cụ ngữ cảnh và tích hợp vào [app/vocabulary/page.tsx](file:///d:/100.JLPT/00.web_app/app/vocabulary/page.tsx), [app/grammar/page.tsx](file:///d:/100.JLPT/00.web_app/app/grammar/page.tsx), và [app/learn/n5/[lessonSlug]/page.tsx](file:///d:/100.JLPT/00.web_app/app/learn/n5/%5BlessonSlug%5D/page.tsx).
+- **Kết quả Kiểm thử & Biên dịch:**
+  - `npx vitest run tests/components/HeaderNavigation.test.tsx` $\rightarrow$ **6/6 tests passed**.
+  - `npm test` $\rightarrow$ **43/43 tests passed across 13 test suites**.
+  - `npm run typecheck` $\rightarrow$ **0 errors** (`tsc --noEmit`).
