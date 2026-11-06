@@ -8,6 +8,7 @@ import { ListeningPlayer } from "../../components/ListeningPlayer";
 import { FuriganaSwitch } from "../../components/shell/TopBar";
 import { StateView } from "../../components/ui/StateView";
 import { useApi } from "../../components/useApi";
+import { useStudyHeartbeat } from "../../components/useStudyHeartbeat";
 
 type Question = {
   id: string;
@@ -80,6 +81,7 @@ export default function TimedExamRoomPage() {
 
 function ExamRoom({ attempt, attemptId }: { attempt: Attempt; attemptId: string }) {
   const router = useRouter();
+  useStudyHeartbeat();
   const questions = attempt.questions;
   const total = questions.length;
   const [index, setIndex] = useState(0);

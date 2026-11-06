@@ -2,6 +2,7 @@
 
 import React, { useCallback, useRef, useState } from "react";
 import { useApi } from "../../../components/useApi";
+import { useStudyHeartbeat } from "../../../components/useStudyHeartbeat";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { CheckCircle2, RotateCcw, X } from "lucide-react";
@@ -35,6 +36,7 @@ export default function LessonDetailPage() {
   const params = useParams();
   const slug = String(params?.lessonSlug ?? "");
   const router = useRouter();
+  useStudyHeartbeat();
   const api = useApi<{ data: LessonData }>(slug ? `/api/v1/lessons/${encodeURIComponent(slug)}` : null);
   const lesson = api.status === "ok" ? api.data.data : null;
   const failed = api.status === "error";

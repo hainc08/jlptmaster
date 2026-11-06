@@ -46,7 +46,9 @@ function fmtDate(iso: string | null) {
 /** Frame 02 / 02D. Widgets without real data are not rendered (no placeholder numbers). */
 export default function DashboardPage() {
   const hour = useSyncExternalStore(noop, () => new Date().getHours(), () => null);
-  const email = useStoredValue("jlpt_auth_email");
+  const me = useApi<{ data: { user: { email: string } } }>("/api/v1/auth/me");
+  const hint = useStoredValue("jlpt_auth_email");
+  const email = (me.status === "ok" ? me.data?.data?.user?.email : undefined) ?? hint;
   const name = email ? email.split("@")[0] : null;
   const api = useApi<{ data: Overview }>("/api/v1/progress/overview");
   const skills = useApi<{ data?: { roadmap?: Roadmap } }>("/api/v1/progress/skills");
