@@ -1,6 +1,6 @@
-# Admin CMS — API & Data Contract (DRAFT — awaiting owner approval)
+# Admin CMS — API & Data Contract
 
-**Status:** Proposed. No implementation may start until the owner approves this contract and the UI scope in `docs/phase-state.yaml` (AGENTS.md hard gates).
+**Status:** Approved in chat by the owner (2026-11-06) and **implemented**; `docs/phase-state.yaml` still has to be updated by the owner. Where the implementation deliberately differs from the first draft, see §7.
 **UI reference:** `docs/design/admin-cms/index.html` · **Plan:** `docs/superpowers/plans/2026-11-06-admin-cms.md`
 **Machine-readable:** `docs/api/openapi.yaml` (paths under `/admin/dashboard|members|levels|settings|audit`).
 
@@ -76,3 +76,15 @@ Defaults above are seeded and editable through `PUT /admin/settings/roles`, with
 | AC-CMS-08 | Dashboard numbers equal DB counts; `activity30d` has 30 zero-filled days. |
 | AC-CMS-09 | Delete preserves exam attempts and removes personal identifiers. |
 | AC-CMS-10 | UI: sidebar collapses to icons ≤768px; all screens pass keyboard/axe checks; loading, empty and error states exist. |
+
+## 7. Implementation notes (deviations from the first draft)
+- **Reset password:** the platform has no email delivery or reset-token flow, so `POST …/reset-password` revokes every session of the member and returns `{ sessionsRevoked, emailSent: false }`. The UI says so. A real reset link needs a separate feature.
+- **Self / staff protection:** nobody can suspend, delete, edit or change the level of themselves (409 `CANNOT_MODIFY_SELF`); staff accounts (ADMIN, OWNER, EDITOR, SUPPORT) can only be modified by an OWNER (403 `FORBIDDEN`). A separate LAST_OWNER code is unnecessary because only an OWNER can touch an OWNER and self is blocked.
+- **Authorization source of truth:** `requireModule` re-reads the role, status and `deleted_at` from the database on every call, so a demoted, suspended or anonymized user cannot keep using a still-valid 7-day token (401/403 immediately).
+- **Dashboard definitions:** `examsTaken` = submitted attempts in the last 30 days; `activeThisWeek` = learners with `last_active_at` in the last 7 days; `newThisMonth` = learners created since the 1st of the current month (Vietnam time). `activity30d` counts distinct learners per Vietnam day with an exam start, lesson completion or SRS review. No trend deltas are returned.
+- **`last_active_at`** is written (at most once per 5 minutes) by `GET /api/v1/auth/me`.
+- **CSV export** exports the current *filters* (not a row selection); `GET …/export` accepts the same `q, level, status, plan` parameters.
+- **Level `PATCH`** is strict: unknown fields (e.g. `status`) are rejected with 400; publication status is not editable here.
+- **Role matrix** is written with per-cell upserts in one transaction, never delete-then-insert.
+- **Seed:** default role permissions, level CMS fields and system settings seed everywhere (create-only). The 24+ mock learners seed only when `SEED_DEMO_PASSWORDS=1` and `NODE_ENV!=="production"`, because the production start script re-runs the seed on every boot.
+- **Routing:** `proxy.ts` admits SUPPORT/EDITOR only to `/admin/(dashboard|members|levels|settings|audit)`; legacy `/admin`, `/admin/content`, `/admin/exams` remain ADMIN/OWNER. Login sends SUPPORT/EDITOR to `/admin/dashboard`.

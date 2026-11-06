@@ -328,3 +328,28 @@
 - `npm test`: **47/47 tests passed across 14 test suites**.
 - `npm run typecheck`: **0 errors** (`tsc --noEmit`).
 - `npx next build --webpack`: **34/34 routes compiled cleanly**.
+
+---
+
+## 14. Admin CMS (Members, Levels, Settings, Audit) — implemented on branch `docs/admin-cms-contract`
+
+Approved by the owner in chat on 2026-11-06 (UI prototype `docs/design/admin-cms/index.html` + contract `docs/api/admin-cms.md`). `docs/phase-state.yaml` was **not** edited by the agent; the owner must record the approval there.
+
+### 14.1 Scope delivered (plan: `docs/superpowers/plans/2026-11-06-admin-cms.md`, Tasks 2–15)
+- DB: migration `1_admin_cms` (roles OWNER/SUPPORT, member plan/activity columns, level status/order/pass score, `system_settings`, `role_permissions`, audit before/after/ip) with backfill; create-only seed.
+- API under `/api/v1/admin/{dashboard,members,levels,settings,audit}` (17 routes), module-level authorization re-checked against the database.
+- UI under `/admin/{dashboard,members,members/[id],levels,settings,audit}` with its own shell; learner header/bottom nav hidden there.
+
+### 14.2 Verification (real runs, local MariaDB `jlpt_master_test`)
+- `npx vitest run` → **389 passed / 6 failed (395)**. The 6 failures are identical to the baseline measured *before any change* (`content-import-n1…n5`: "expected 'DRAFT' to be 'PUBLISHED'", local test-DB data state) and are unrelated.
+- `npx playwright test` (all specs, incl. 7 new `e2e/admin-cms.spec.ts`) → **18 passed**.
+- `npm run typecheck` → 0 errors. `npx next build --webpack` → exit 0, all new routes listed. ESLint clean on every new/changed file (the repo has pre-existing lint errors elsewhere).
+- Mutation check: removing LIKE-wildcard escaping makes the wildcard test fail (Prisma does not escape `%`/`_`).
+
+### 14.3 Defects found by verification and fixed
+- `next build` rejected the optional route-context parameter → `adminRoute` split into `adminRoute` / `adminRouteWith`.
+- E2E console capture found duplicate React keys in the line chart axis with tiny data → de-duplicated ticks (RED→GREEN test).
+- The production start script re-runs the seed on every boot, so mock learners are gated behind `SEED_DEMO_PASSWORDS=1` and `NODE_ENV!==production` (RED→GREEN test).
+
+### 14.4 Known limits (explicit, see contract §4 and §7)
+Settings (exam rules, notifications) are stored only; password reset cannot send email; logo upload is not available; admin screen bodies are English (chrome is VI/EN/JA).
