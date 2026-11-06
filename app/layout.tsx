@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { Noto_Sans, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { FuriganaProvider } from "./components/RubyText";
-import { Navbar } from "./components/Navbar";
-import { BottomNav } from "./components/BottomNav";
-import { Footer } from "./components/Footer";
+import { LocaleProvider } from "./components/i18n";
+import { AppShell } from "./components/shell/AppShell";
 
 const notoSans = Noto_Sans({
   variable: "--font-vietnamese",
@@ -36,17 +34,12 @@ export default function RootLayout({
       lang="vi"
       className={`${notoSans.variable} ${notoSansJP.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
-        <FuriganaProvider>
-          <Suspense fallback={<div className="h-16 bg-white border-b border-gray-200" />}>
-            <Navbar />
-          </Suspense>
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <Suspense fallback={null}>
-            <BottomNav />
-          </Suspense>
-        </FuriganaProvider>
+      <body className="min-h-full bg-background text-foreground">
+        <LocaleProvider>
+          <FuriganaProvider>
+            <AppShell>{children}</AppShell>
+          </FuriganaProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

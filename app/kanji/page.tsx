@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { LearningToolbar } from "../components/LearningToolbar";
 import { RubyText } from "../components/RubyText";
 import { Search, Languages, ChevronRight, RefreshCw } from "lucide-react";
 
@@ -110,7 +109,6 @@ export default function KanjiPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      <LearningToolbar title="Tùy chọn hiển thị Sổ tay Chữ Hán (Kanji)" />
 
       {/* Page Header */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">

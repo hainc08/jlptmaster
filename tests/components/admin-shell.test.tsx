@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { render, screen, fireEvent, within, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { FuriganaProvider } from "@/app/components/RubyText";
-import { Navbar } from "@/app/components/Navbar";
-import { BottomNav } from "@/app/components/BottomNav";
+import { AppShell } from "@/app/components/shell/AppShell";
 
 let mockPathname = "/admin/members";
 const replace = vi.fn();
@@ -117,16 +116,16 @@ describe("CmsShell navigation (AC-CMS-01, AC-CMS-10)", () => {
 });
 
 describe("learner chrome is hidden on CMS routes", () => {
-  it("Navbar and BottomNav render nothing under /admin/members", () => {
-    render(<FuriganaProvider><Navbar /><BottomNav /></FuriganaProvider>);
+  it("the learner shell renders nothing under /admin/members", () => {
+    render(<FuriganaProvider><AppShell><p>x</p></AppShell></FuriganaProvider>);
     expect(screen.queryByRole("navigation")).toBeNull();
     expect(screen.queryByRole("banner")).toBeNull();
   });
 
-  it("but stay visible on other admin and learner routes", () => {
-    mockPathname = "/admin/content";
-    render(<FuriganaProvider><Navbar /></FuriganaProvider>);
-    expect(screen.getByRole("navigation", { name: /Điều hướng chính/i })).toBeInTheDocument();
+  it("but stays visible on learner routes", () => {
+    mockPathname = "/dashboard";
+    render(<FuriganaProvider><AppShell><p>x</p></AppShell></FuriganaProvider>);
+    expect(screen.getAllByRole("navigation", { name: /Điều hướng chính/i }).length).toBeGreaterThan(0);
   });
 });
 

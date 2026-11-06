@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { MOCK_GRAMMAR } from "../fixtures/n5-curriculum";
 import { AudioButton } from "../components/AudioButton";
-import { LearningToolbar } from "../components/LearningToolbar";
 import { Search, ChevronRight, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
@@ -68,7 +67,6 @@ export default function GrammarPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      <LearningToolbar title="Tùy chọn hiển thị Sổ tay Ngữ pháp" />
       {/* Page Header */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
