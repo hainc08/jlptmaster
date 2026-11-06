@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
 import { resolveSession } from "@/src/server/services/auth-service";
+import { touchLastActive } from "@/src/server/services/activity-service";
 
 export async function GET(req: NextRequest) {
   try {
@@ -34,6 +35,9 @@ export async function GET(req: NextRequest) {
         { status: 404 }
       );
     }
+
+    // Best-effort, throttled to once per 5 minutes; feeds the admin "last active" column.
+    void touchLastActive(user.id).catch(() => {});
 
     return NextResponse.json({
       data: {

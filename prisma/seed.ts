@@ -58,11 +58,11 @@ export async function seedDatabase() {
     SUPPORT: ["dashboard", "members", "audit"],
   };
   for (const [role, allowedModules] of Object.entries(defaults)) {
-    for (const module of modules) {
+    for (const mod of modules) {
       await prisma.rolePermission.upsert({
-        where: { role_module: { role: role as Role, module } },
+        where: { role_module: { role: role as Role, module: mod } },
         update: {},
-        create: { role: role as Role, module, allowed: allowedModules.includes(module) },
+        create: { role: role as Role, module: mod, allowed: allowedModules.includes(mod) },
       });
     }
   }
