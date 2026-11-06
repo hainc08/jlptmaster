@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { RubyText } from "./components/RubyText";
 import { AudioButton } from "./components/AudioButton";
+import { WelcomeTopBar } from "./components/auth/WelcomeTopBar";
 import {
   BookOpen,
   CheckCircle2,
@@ -34,6 +35,7 @@ export default function LandingPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <WelcomeTopBar signInLink />
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="text-center max-w-3xl mx-auto space-y-6">

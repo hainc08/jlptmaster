@@ -14,7 +14,7 @@ export async function login(page: Page, email: string, redirect?: string, passwo
   await page.goto(redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login");
   await page.locator('input[type="email"]').fill(email);
   await page.locator('input[type="password"]').fill(password ?? passwordFor(email));
-  await page.getByRole("button", { name: /Đăng nhập vào hệ thống/ }).click();
+  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
   await page.waitForURL((url) => !url.pathname.startsWith("/login"));
 }
 
