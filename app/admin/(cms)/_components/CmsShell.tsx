@@ -4,7 +4,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Icon, type IconName } from "./Icon";
+import { CmsProvider } from "./CmsContext";
 import { ToastProvider } from "./Toast";
+import { initials } from "../_lib/format";
 import { LANGS, ROLE_LABEL, setLangCookie, t, type AdminKey, type Lang } from "../_lib/i18n";
 
 type Mod = "dashboard" | "members" | "levels" | "settings" | "audit";
@@ -23,11 +25,6 @@ interface Props {
   lang: Lang;
   children: React.ReactNode;
 }
-
-const initials = (name: string) => {
-  const parts = name.trim().split(/\s+/);
-  return (parts.length > 1 ? parts[0][0] + parts[parts.length - 1][0] : name.slice(0, 2)).toUpperCase();
-};
 
 export function CmsShell({ user, allowed, lang, children }: Props) {
   const pathname = usePathname() || "";
@@ -71,6 +68,7 @@ export function CmsShell({ user, allowed, lang, children }: Props) {
   ) : permitted ? children : null;
 
   return (
+    <CmsProvider value={{ lang, role: user.role, allowed }}>
     <ToastProvider>
       <div className={`cms ${rail ? "rail" : ""}`}>
         <header className="topbar">
@@ -112,5 +110,6 @@ export function CmsShell({ user, allowed, lang, children }: Props) {
         <section className="main" aria-label="Admin content" tabIndex={-1}>{body}</section>
       </div>
     </ToastProvider>
+    </CmsProvider>
   );
 }
