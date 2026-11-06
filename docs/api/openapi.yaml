@@ -528,6 +528,212 @@ paths:
                       insertedCount:
                         type: integer
 
+  # ---- Admin CMS (PROPOSED — see docs/api/admin-cms.md; not approved) ----
+  /admin/dashboard:
+    get:
+      summary: "[module dashboard] KPI, hoạt động 30 ngày, thành viên theo cấp độ, hoạt động gần đây"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: OK }
+        '401': { description: Chưa đăng nhập }
+        '403': { description: Vai trò không có quyền module }
+
+  /admin/members:
+    get:
+      summary: "[module members] Danh sách thành viên có lọc và phân trang"
+      security: [{ sessionAuth: [] }]
+      parameters:
+        - { name: q, in: query, schema: { type: string, maxLength: 100 } }
+        - { name: level, in: query, schema: { type: string, enum: [N5, N4, N3, N2, N1] } }
+        - { name: status, in: query, schema: { type: string, enum: [ACTIVE, SUSPENDED, PENDING, EXPIRED] } }
+        - { name: plan, in: query, schema: { type: string, enum: [FREE, STANDARD, PREMIUM] } }
+        - { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 10 } }
+      responses:
+        '200': { description: "{ data: MemberRow[], page, perPage, total }" }
+        '403': { description: Không có quyền }
+    post:
+      summary: "[module members] Tạo thành viên (không có mật khẩu dùng được; gửi lời mời đặt mật khẩu)"
+      security: [{ sessionAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [displayName, email, level, plan]
+              properties:
+                displayName: { type: string }
+                email: { type: string, format: email }
+                level: { type: string, enum: [N5, N4, N3, N2, N1] }
+                plan: { type: string, enum: [FREE, STANDARD, PREMIUM] }
+      responses:
+        '201': { description: Đã tạo }
+        '409': { description: Email đã tồn tại }
+
+  /admin/members/export:
+    get:
+      summary: "[module members] Xuất CSV (UTF-8 BOM, chống formula injection)"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: text/csv }
+
+  /admin/members/bulk:
+    post:
+      summary: "[module members] Hành động hàng loạt; bỏ qua chính mình / tài khoản được bảo vệ"
+      security: [{ sessionAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ids, action]
+              properties:
+                ids: { type: array, items: { type: string } }
+                action: { type: string, enum: [suspend, change-level] }
+                level: { type: string }
+      responses:
+        '200': { description: "{ updated: number, skipped: string[] }" }
+
+  /admin/members/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      summary: "[module members] Chi tiết thành viên"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: OK }
+        '404': { description: Không tìm thấy }
+    patch:
+      summary: "[module members] Sửa tên / email"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: OK }
+        '409': { description: Email trùng }
+    delete:
+      summary: "[module members] Ẩn danh hóa tài khoản (giữ lịch sử thi)"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '204': { description: Đã ẩn danh }
+        '409': { description: Không thể tự xóa mình / OWNER cuối cùng }
+
+  /admin/members/{id}/suspend:
+    post:
+      summary: "[module members] Tạm khóa và thu hồi phiên"
+      security: [{ sessionAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      responses:
+        '204': { description: OK }
+        '409': { description: CANNOT_MODIFY_SELF / LAST_OWNER }
+
+  /admin/members/{id}/reactivate:
+    post:
+      summary: "[module members] Mở khóa"
+      security: [{ sessionAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      responses:
+        '204': { description: OK }
+
+  /admin/members/{id}/reset-password:
+    post:
+      summary: "[module members] Gửi liên kết đặt lại mật khẩu (không trả về mật khẩu)"
+      security: [{ sessionAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      responses:
+        '204': { description: OK }
+
+  /admin/members/{id}/change-level:
+    post:
+      summary: "[module members] Đổi cấp độ mục tiêu"
+      security: [{ sessionAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [level]
+              properties:
+                level: { type: string, enum: [N5, N4, N3, N2, N1] }
+      responses:
+        '204': { description: OK }
+        '400': { description: Cấp độ không tồn tại }
+
+  /admin/levels:
+    get:
+      summary: "[module levels] 5 cấp độ kèm số bài học, đề thi, học viên"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: "{ data: LevelRow[] }" }
+
+  /admin/levels/reorder:
+    post:
+      summary: "[module levels] Sắp xếp lại thứ tự hiển thị (hoán vị đủ 5 mã)"
+      security: [{ sessionAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [order]
+              properties:
+                order: { type: array, minItems: 5, maxItems: 5, items: { type: string } }
+      responses:
+        '204': { description: OK }
+        '400': { description: Không phải hoán vị hợp lệ }
+
+  /admin/levels/{code}:
+    patch:
+      summary: "[module levels] Sửa tên, mô tả, điểm đạt (30–100), bật/tắt (chỉ khi PUBLISHED)"
+      security: [{ sessionAuth: [] }]
+      parameters: [{ name: code, in: path, required: true, schema: { type: string } }]
+      responses:
+        '200': { description: OK }
+        '400': { description: Giá trị không hợp lệ }
+        '409': { description: LEVEL_NOT_PUBLISHED }
+
+  /admin/settings:
+    get:
+      summary: "[module settings] Cài đặt chung, quy tắc thi, thông báo"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: OK }
+    patch:
+      summary: "[module settings] Cập nhật (timeLimitMin 10–240, retakeLimit 0–10, passThreshold 30–100). Chỉ lưu; engine chưa đọc."
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: OK }
+        '400': { description: Giá trị không hợp lệ }
+
+  /admin/settings/roles:
+    get:
+      summary: "[module settings] Ma trận vai trò × module"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: OK }
+    put:
+      summary: "[module settings] Thay ma trận; OWNER bất biến, ADMIN giữ dashboard + settings"
+      security: [{ sessionAuth: [] }]
+      responses:
+        '200': { description: OK }
+        '409': { description: LOCKOUT }
+
+  /admin/audit:
+    get:
+      summary: "[module audit] Nhật ký thao tác kèm trước/sau (đã che dữ liệu nhạy cảm)"
+      security: [{ sessionAuth: [] }]
+      parameters:
+        - { name: actor, in: query, schema: { type: string } }
+        - { name: module, in: query, schema: { type: string } }
+        - { name: range, in: query, schema: { type: string, enum: [7d, 30d] } }
+        - { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 10 } }
+      responses:
+        '200': { description: "{ data: AuditRow[], total }" }
+
 components:
   securitySchemes:
     sessionAuth:
