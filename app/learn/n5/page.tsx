@@ -1,164 +1,150 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useApi } from "../../components/useApi";
 import Link from "next/link";
-import { MOCK_LESSONS } from "../../fixtures/n5-curriculum";
-import { BookOpen, CheckCircle2, Clock, PlayCircle, Sparkles, ChevronRight } from "lucide-react";
+import { BookMarked, ChevronRight, FileText, Layers, Target } from "lucide-react";
+import { LevelSelector } from "../../components/ui/LevelSelector";
+import { StateView } from "../../components/ui/StateView";
+import { useT } from "../../components/i18n";
 
+export type LessonSummary = {
+  id: string;
+  slug: string;
+  titleVi: string;
+  position: number;
+  minutesEstimate?: number;
+  progressStatus?: "COMPLETED" | "IN_PROGRESS" | "NOT_STARTED";
+};
+
+const STATUS_CHIP: Record<NonNullable<LessonSummary["progressStatus"]>, { label: string; cls: string }> = {
+  COMPLETED: { label: "Hoàn thành", cls: "bg-success-bg text-success-text" },
+  IN_PROGRESS: { label: "Đang học", cls: "bg-primary-container text-on-primary-container" },
+  NOT_STARTED: { label: "Chưa học", cls: "bg-surface-hover text-muted" },
+};
+
+const TOOLS = [
+  { href: "/vocabulary", label: "Sổ tay từ vựng", icon: BookMarked },
+  { href: "/grammar", label: "Ngữ pháp", icon: FileText },
+  { href: "/flashcards", label: "Thẻ nhớ SRS", icon: Layers },
+  { href: "/practice", label: "Luyện tập", icon: Target },
+];
+
+type Tab = "vocab" | "grammar" | "reading";
+
+/** Frame 03: N5 path. Units come from the courses API; status chips appear only when the API sends them. */
 export default function N5CoursePage() {
-  const [lessons, setLessons] = useState(MOCK_LESSONS);
+  const t = useT();
+  const api = useApi<{ data?: { lessons?: LessonSummary[] }[] }>("/api/v1/courses?level=N5");
+  const [tab, setTab] = useState<Tab>("vocab");
+  const failed = api.status === "error";
+  const lessons =
+    api.status === "ok"
+      ? (api.data.data ?? []).flatMap((c) => c.lessons ?? []).sort((a, b) => a.position - b.position)
+      : null;
+  const load = api.retry;
 
-  useEffect(() => {
-    fetch("/api/v1/courses?level=N5")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json) => {
-        const apiLessons = json?.data?.[0]?.lessons;
-        if (Array.isArray(apiLessons) && apiLessons.length > 0) {
-          setLessons(
-            apiLessons.map((l: any, idx: number) => ({
-              id: l.id,
-              slug: l.slug,
-              level: "N5" as const,
-              order: l.position || idx + 1,
-              titleVi: l.titleVi,
-              descriptionVi:
-                MOCK_LESSONS[idx]?.descriptionVi ||
-                "Bài học ngữ pháp, từ vựng và mẫu câu giao tiếp JLPT N5 chuẩn xác.",
-              estimatedMinutes: l.minutesEstimate || 30,
-              vocabCount: MOCK_LESSONS[idx]?.vocabCount || 15,
-              grammarCount: MOCK_LESSONS[idx]?.grammarCount || 3,
-              isCompleted: idx < 2,
-            }))
-          );
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const tabBtn = (id: Tab, label: string) => (
+    <button
+      key={id}
+      type="button"
+      role="tab"
+      aria-selected={tab === id}
+      onClick={() => setTab(id)}
+      className={`relative flex-1 h-12 font-semibold text-sm ${
+        tab === id
+          ? "text-primary after:absolute after:left-4 after:right-4 after:bottom-0 after:h-[3px] after:rounded-t after:bg-primary"
+          : "text-muted"
+      }`}
+    >
+      {label}
+    </button>
+  );
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header Banner */}
-      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="w-10 h-10 rounded-2xl bg-primary text-white font-extrabold flex items-center justify-center text-lg shadow-sm">
-              N5
-            </span>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                Khóa học JLPT N5 Toàn diện
-              </h1>
-              <p className="text-xs text-gray-500">
-                Từ bảng chữ cái đến tự tin thi đỗ kỳ thi JLPT N5
-              </p>
-            </div>
-          </div>
-          <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full inline-flex items-center gap-1.5 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>KẾT NỐI MARIADB TRỰC TIẾP</span>
-          </div>
-        </div>
-
-        <p className="text-sm text-gray-600 leading-relaxed max-w-3xl">
-          Lộ trình được thiết kế theo cấu trúc bài giảng trực quan: lý thuyết ngữ pháp trọng tâm, từ vựng theo chủ đề có phiên âm Furigana chuẩn và câu hỏi trắc nghiệm củng cố ngay sau bài học.
-        </p>
-
-        <div className="flex flex-wrap gap-4 pt-2 text-xs text-gray-600">
-          <span className="flex items-center gap-1 font-semibold text-gray-800">
-            <BookOpen size={15} className="text-primary" />
-            5 bài học cốt lõi (MVP)
-          </span>
-          <span className="flex items-center gap-1 font-semibold text-gray-800">
-            <Clock size={15} className="text-secondary" />
-            ~3 giờ học lý thuyết & thực hành
-          </span>
-          <span className="flex items-center gap-1 font-semibold text-emerald-700">
-            <CheckCircle2 size={15} />
-            Đã hoàn thành: 2 / 5 bài (40%)
-          </span>
-        </div>
+    <div className="max-w-3xl mx-auto px-4 pb-6 flex flex-col gap-4">
+      <div role="tablist" aria-label="Nội dung" className="flex -mx-4 px-2 bg-surface border-b border-border">
+        {tabBtn("vocab", t("learn.tab.vocab"))}
+        {tabBtn("grammar", t("learn.tab.grammar"))}
+        {tabBtn("reading", t("learn.tab.reading"))}
       </div>
 
-      {/* Kana Beginner Special Card */}
-      <div className="bg-gradient-to-r from-red-50 to-amber-50 border border-red-200 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <span className="text-[11px] font-extrabold text-primary uppercase tracking-wider bg-red-100 px-2.5 py-0.5 rounded-full">
-            Khởi đầu quan trọng
-          </span>
-          <h2 className="text-xl font-bold text-gray-900">
-            Bài 01: Nhập môn Chữ cái Hiragana & Katakana
-          </h2>
-          <p className="text-sm text-gray-600 max-w-xl">
-            Nếu bạn là người mới bắt đầu, hãy nắm vững 46 chữ cái cơ bản và cách ghép âm trước khi bước vào ngữ pháp.
-          </p>
-        </div>
-        <Link
-          href="/learn/n5/bai-01-kana-nhap-mon"
-          className="px-6 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all whitespace-nowrap"
-        >
-          Học bảng Kana
-          <ChevronRight size={16} />
-        </Link>
-      </div>
+      <h1 className="text-[22px] font-bold text-foreground">{t("learn.title")}</h1>
+      <LevelSelector />
 
-      {/* Lesson Timeline Roadmap */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-bold text-gray-900 tracking-tight">
-          Danh sách bài học trong lộ trình N5
-        </h2>
-
-        <div className="space-y-3">
-          {lessons.map((lesson, idx) => (
-            <Link
-              key={lesson.id}
-              href={`/learn/n5/${lesson.slug}`}
-              className="block p-5 sm:p-6 rounded-2xl bg-white border border-gray-200 hover:border-red-300 hover:shadow-md transition-all group"
-            >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div className="flex items-start gap-4">
-                  <span
-                    className={`w-9 h-9 rounded-xl font-extrabold text-sm flex items-center justify-center shrink-0 ${
-                      lesson.isCompleted
-                        ? "bg-emerald-100 text-emerald-800"
-                        : "bg-gray-100 text-gray-700 group-hover:bg-red-50 group-hover:text-primary"
+      {tab === "vocab" &&
+        (failed ? (
+          <StateView kind="error" title="Không tải được lộ trình" body="Kiểm tra kết nối rồi thử lại." action={{ label: "Thử lại", onClick: load }} />
+        ) : lessons === null ? (
+          <StateView kind="loading" title="Đang tải lộ trình" />
+        ) : lessons.length === 0 ? (
+          <StateView kind="empty" title="Chưa có bài học N5 nào được xuất bản" />
+        ) : (
+          <ul aria-label="Danh sách bài học" className="rounded-2xl border border-border bg-surface overflow-hidden divide-y divide-border">
+            {lessons.map((l) => {
+              const chip = l.progressStatus ? STATUS_CHIP[l.progressStatus] : null;
+              const done = l.progressStatus === "COMPLETED";
+              return (
+                <li key={l.id}>
+                  <Link
+                    href={`/learn/n5/${l.slug}`}
+                    className={`flex items-center gap-3 px-4 py-3 min-h-16 hover:bg-surface-hover ${
+                      l.progressStatus === "IN_PROGRESS" ? "bg-primary-container/40" : ""
                     }`}
                   >
-                    {lesson.isCompleted ? <CheckCircle2 size={18} /> : `0${lesson.order}`}
-                  </span>
+                    <span
+                      aria-hidden="true"
+                      className={`grid place-items-center w-10 h-10 rounded-full flex-none font-bold text-sm ${
+                        done ? "bg-success-bg text-success-text" : "bg-primary-container text-on-primary-container"
+                      }`}
+                    >
+                      {done ? "✓" : l.position}
+                    </span>
+                    <span className="flex-1 min-w-0 flex flex-col">
+                      <span className="font-semibold text-foreground">{l.titleVi}</span>
+                      {l.minutesEstimate ? <span className="text-xs text-muted">{l.minutesEstimate} phút</span> : null}
+                    </span>
+                    {chip && <span className={`flex-none text-xs font-semibold px-2.5 py-1 rounded-full ${chip.cls}`}>{chip.label}</span>}
+                    <ChevronRight size={18} aria-hidden="true" className="text-muted flex-none" />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ))}
 
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-bold text-gray-900 text-base group-hover:text-primary transition-colors">
-                        {lesson.titleVi}
-                      </h3>
-                      {lesson.isCompleted && (
-                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                          Đã hoàn thành
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-gray-600 line-clamp-1">{lesson.descriptionVi}</p>
-                    <div className="flex items-center gap-3 text-[11px] text-gray-500 pt-0.5">
-                      <span>{lesson.vocabCount} từ vựng</span>
-                      <span>•</span>
-                      <span>{lesson.grammarCount} mẫu ngữ pháp</span>
-                      <span>•</span>
-                      <span>{lesson.estimatedMinutes} phút</span>
-                    </div>
-                  </div>
-                </div>
+      {tab === "grammar" && (
+        <StateView
+          kind="empty"
+          title="Ngữ pháp N5"
+          body="Xem các mẫu câu N5 kèm cách chia và ví dụ trong sổ tay ngữ pháp."
+          action={{ label: "Mở sổ tay ngữ pháp", href: "/grammar" }}
+        />
+      )}
+      {tab === "reading" && (
+        <StateView
+          kind="empty"
+          title="Đọc hiểu N5"
+          body="Luyện các câu hỏi đọc hiểu có giải thích trong phần luyện tập."
+          action={{ label: "Luyện đọc hiểu", href: "/practice" }}
+        />
+      )}
 
-                <div className="self-end sm:self-center shrink-0">
-                  <span className="text-xs font-semibold text-primary group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                    {lesson.isCompleted ? "Ôn lại bài" : "Bắt đầu học"}
-                    <ChevronRight size={16} />
-                  </span>
-                </div>
-              </div>
+      <section aria-labelledby="tools-h" className="flex flex-col gap-2">
+        <h2 id="tools-h" className="font-bold text-foreground">{t("learn.tools")}</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {TOOLS.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="min-h-14 flex items-center gap-2 px-3 rounded-xl border border-border bg-surface text-sm font-semibold text-foreground hover:bg-surface-hover"
+            >
+              <Icon size={18} aria-hidden="true" className="text-primary flex-none" />
+              {label}
             </Link>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

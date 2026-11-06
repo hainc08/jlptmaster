@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { FuriganaProvider } from "@/app/components/RubyText";
 import { LEARNER_TABS } from "@/app/components/nav-config";
@@ -88,14 +88,11 @@ describe("Production Pages Live MariaDB Wiring & Prototype Badge Removal (TDD RE
       </FuriganaProvider>
     );
 
-    await waitFor(() => {
-      expect(screen.getByText(/NHẬT — Mặt trời, ngày/i)).toBeInTheDocument();
-    });
-
+    fireEvent.click(await screen.findByRole("button", { name: /日/ }));
+    expect(screen.getByText(/NHẬT — Mặt trời, ngày/i)).toBeInTheDocument();
     expect(screen.getByText("ニチ, ジツ")).toBeInTheDocument();
     expect(screen.getByText("ひ, -び, -か")).toBeInTheDocument();
     expect(screen.getByText(/4 nét/i)).toBeInTheDocument();
-    expect(screen.getByText(/KẾT NỐI MARIADB TRỰC TIẾP/i)).toBeInTheDocument();
   });
 });
 

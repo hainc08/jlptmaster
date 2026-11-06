@@ -83,7 +83,7 @@ describe("Milestone 3: Dashboard & Learning Truthfulness", () => {
     render(<LessonPage />);
 
     // Find and click the mark complete button
-    const completeBtn = screen.getByRole("button", { name: /đánh dấu hoàn thành/i });
+    const completeBtn = await screen.findByRole("button", { name: /đánh dấu hoàn thành/i });
     expect(completeBtn).toBeDefined();
 
     fireEvent.click(completeBtn);
