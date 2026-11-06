@@ -1,5 +1,15 @@
 import { test, expect } from "@playwright/test";
-import { login, unlockAllExams, ADMIN_EMAIL, STUDENT_EMAIL } from "./helpers";
+import { login, ADMIN_EMAIL, STUDENT_EMAIL } from "./helpers";
+import type { Page } from "@playwright/test";
+
+/** Unlock every exam of every level (the UI test above may lock an exam of any level). */
+async function unlockEveryExam(page: Page) {
+  const res = await page.request.get("/api/v1/admin/exams");
+  expect(res.ok()).toBeTruthy();
+  for (const e of (await res.json()).data as { id: string; isLocked: boolean }[]) {
+    if (e.isLocked) await page.request.post(`/api/v1/admin/exams/${e.id}/lock`, { data: { locked: false } });
+  }
+}
 
 test.describe("Admin: exam lock/unlock and CMS", () => {
   test("locking an exam hides it from students; unlocking restores it", async ({ page, browser }) => {
@@ -11,18 +21,27 @@ test.describe("Admin: exam lock/unlock and CMS", () => {
 
     try {
       await expect(page.getByText("Đang mở").first()).toBeVisible();
-      await page.getByRole("button", { name: "Khóa đề" }).first().click();
+      await page.getByRole("button", { name: "Khóa đề", exact: true }).first().click();
       await expect(page.getByText("Đã khóa").first()).toBeVisible();
+
+      // Several N5 exams are published now (Số 01 + Số 02): lock the remaining N5 ones through the API so the
+      // student's N5 list is empty, whichever exam the UI click above happened to lock.
+      const n5 = await page.request.get("/api/v1/admin/exams?level=N5");
+      expect(n5.ok()).toBeTruthy();
+      for (const e of (await n5.json()).data as { id: string; isLocked: boolean }[]) {
+        if (!e.isLocked) await page.request.post(`/api/v1/admin/exams/${e.id}/lock`, { data: { locked: true } });
+      }
 
       await studentPage.goto("/mock-exams");
       await expect(studentPage.getByText(/chưa có bộ đề nào đang mở cho cấp độ N5/)).toBeVisible();
 
-      await page.getByRole("button", { name: "Mở khóa đề" }).first().click();
+      await page.getByRole("button", { name: "Mở khóa đề", exact: true }).first().click();
       await expect(page.getByText("Đang mở").first()).toBeVisible();
+      await unlockEveryExam(page);
       await studentPage.goto("/mock-exams");
       await expect(studentPage.getByRole("button", { name: /Bắt đầu thi/ }).first()).toBeVisible();
     } finally {
-      await unlockAllExams(page);
+      await unlockEveryExam(page);
       await student.close();
     }
   });
