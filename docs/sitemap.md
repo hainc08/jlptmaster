@@ -76,3 +76,19 @@ The JLPT Master application is organized into four distinct access tiers:
   - Section 3: **Luyện tập & Thi thử** (Ôn tập Flashcards, Bài tập thực hành, Đọc hiểu, Nghe hiểu, Đề thi thử N5).
   - Section 4: **Tài khoản** (Cài đặt cá nhân, Trợ giúp, Đăng xuất).
 - **Admin Switcher:** If user role is `ADMIN` or `EDITOR`, an "Admin Workspace" button appears in the sidebar footer.
+
+---
+
+## 4. Admin CMS Routes (PROPOSED — pending owner approval)
+Separate shell under `app/admin/(cms)/`; existing `/admin`, `/admin/content`, `/admin/exams` are unchanged. Prototype: `docs/design/admin-cms/index.html`.
+
+| Route | Roles (default) | Purpose |
+|---|---|---|
+| `/admin/dashboard` | Owner, Admin, Editor, Support | KPI cards, 30-day activity, members by level, recent activity |
+| `/admin/members` | Owner, Admin, Support | Searchable/filterable member table, bulk actions, add member |
+| `/admin/members/[id]` | Owner, Admin, Support | Profile, progress by level, exam history, account and access |
+| `/admin/levels` | Owner, Admin, Editor | N5–N1 status, counts, order, edit panel |
+| `/admin/settings` | Owner, Admin | General, exam rules, roles and permissions, notifications |
+| `/admin/audit` | Owner, Admin, Support (read) | Filterable audit log with before/after (**widens** the "Admin Only" entry in §2) |
+
+Responsive rule: sidebar collapses to an icon rail at ≤768px.

@@ -19,8 +19,14 @@ export function proxy(request: NextRequest) {
 
   if (!session) return redirectToLogin(request);
 
-  if (pathname.startsWith("/admin") && session.role !== "ADMIN") {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  // New CMS routes admit every staff role (each module is authorized per role in the page/API
+  // layer). Legacy admin pages (/admin, /admin/content, /admin/exams, ...) stay ADMIN/OWNER only.
+  if (pathname.startsWith("/admin")) {
+    const isCms = /^\/admin\/(dashboard|members|levels|settings|audit)(\/|$)/.test(pathname);
+    const allowed = isCms ? ["ADMIN", "OWNER", "EDITOR", "SUPPORT"] : ["ADMIN", "OWNER"];
+    if (!allowed.includes(session.role)) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
 
   return NextResponse.next();

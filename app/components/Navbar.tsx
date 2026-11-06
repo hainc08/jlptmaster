@@ -10,6 +10,7 @@ import {
   SectionId,
   UserRole,
   getActiveSectionFromPathname,
+  isCmsPath,
 } from "./nav-config";
 import {
   ChevronDown,
@@ -113,7 +114,7 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
   }, []);
 
   // Isolated prototype routes render their own standalone header preview
-  if (pathname.startsWith("/prototype/")) {
+  if (pathname.startsWith("/prototype/") || isCmsPath(pathname)) {
     return null;
   }
 
@@ -589,6 +590,17 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                         >
                           <Shield size={15} />
                           Bảng điều khiển Admin CMS
+                        </Link>
+                      )}
+                      {role === "admin" && (
+                        <Link
+                          href="/admin/dashboard"
+                          role="menuitem"
+                          onClick={closeAllMenus}
+                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-[#3730A3] bg-[#E3E1FF]/60 hover:bg-[#E3E1FF] flex items-center gap-2.5"
+                        >
+                          <Shield size={15} />
+                          Quản trị thành viên &amp; cấp độ
                         </Link>
                       )}
                     </div>

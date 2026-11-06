@@ -65,3 +65,20 @@ All 12 acceptance scenarios documented in `SPEC.md` Section 12 are mapped direct
 - **Scenario 10:** FR-05, FR-06, FR-07, FR-10, FR-18 $\rightarrow$ `tests/unit/japanese-unicode-ruby.test.ts`
 - **Scenario 11:** FR-11, FR-17, FR-20, NFR-09, NFR-10 $\rightarrow$ GitHub Actions Pipeline (`CI.yaml`)
 - **Scenario 12:** FR-18, NFR-06 $\rightarrow$ `tests/e2e/accessibility-keyboard-mobile.spec.ts`
+
+---
+
+## 4. Admin CMS (PROPOSED — pending owner approval)
+
+| AC ID | Criterion (summary) | UI route | API | Planned verification |
+|---|---|---|---|---|
+| AC-CMS-01 | Module-level 403 by direct URL | all `/admin/(cms)` | all `/admin/*` CMS endpoints | `tests/security/admin-rbac.test.ts` |
+| AC-CMS-02 | No self / last-OWNER suspend or delete | `/admin/members` | `/admin/members/*` | `tests/integration/admin-members.test.ts` |
+| AC-CMS-03 | Filter, search, pagination edge inputs | `/admin/members` | `GET /admin/members` | `tests/integration/admin-members.test.ts` |
+| AC-CMS-04 | Audit rows with redacted before/after + IP | `/admin/audit` | `GET /admin/audit` | `tests/integration/admin-audit-service.test.ts` |
+| AC-CMS-05 | CSV quoting and formula neutralisation | `/admin/members` | `GET /admin/members/export` | `tests/integration/admin-members.test.ts` |
+| AC-CMS-06 | Level enable only when PUBLISHED; pass score; reorder | `/admin/levels` | `/admin/levels/*` | `tests/integration/admin-levels.test.ts` |
+| AC-CMS-07 | Settings ranges; no role-matrix lock-out | `/admin/settings` | `/admin/settings*` | `tests/integration/admin-settings.test.ts` |
+| AC-CMS-08 | Dashboard equals DB counts; 30 zero-filled days | `/admin/dashboard` | `GET /admin/dashboard` | `tests/integration/admin-dashboard.test.ts` |
+| AC-CMS-09 | Delete anonymizes, keeps attempts | `/admin/members/[id]` | `DELETE /admin/members/:id` | `tests/integration/admin-members.test.ts` |
+| AC-CMS-10 | Rail ≤768px, keyboard/axe, loading/empty/error states | all | — | `e2e/admin-cms.spec.ts`, `tests/components/admin-*.test.tsx` |

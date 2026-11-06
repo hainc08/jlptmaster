@@ -262,3 +262,21 @@ erDiagram
   - `metadata_json_redacted`: `JSON` NOT NULL
   - `created_at`: `DATETIME(3)` NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
   - *Indexes:* `INDEX idx_audit_actor (actor_id, created_at)`
+
+### 2.6 Admin CMS Delta (PROPOSED — pending owner approval; see `docs/api/admin-cms.md`)
+- **`users`** (altered)
+  - `role`: `ENUM('STUDENT','EDITOR','ADMIN','OWNER','SUPPORT')`
+  - `display_name`: `VARCHAR(120)` NULL
+  - `plan`: `ENUM('FREE','STANDARD','PREMIUM')` NOT NULL DEFAULT `'FREE'`
+  - `plan_expires_at`: `DATETIME(3)` NULL
+  - `last_active_at`: `DATETIME(3)` NULL (updated at most once per 5 minutes)
+  - `deleted_at`: `DATETIME(3)` NULL (anonymized accounts; excluded from member lists)
+- **`jlpt_levels`** (altered)
+  - `status`: `ENUM('DRAFT','PUBLISHED','COMING_SOON')` NOT NULL DEFAULT `'DRAFT'`
+  - `description`: `VARCHAR(500)` NOT NULL DEFAULT `''`
+  - `pass_score`: `INT` NOT NULL DEFAULT `60` (application range 30–100)
+  - `display_order`: `INT` NOT NULL (independent of `rank_order`)
+  - `is_active` is the learner-facing "enabled" flag; may be true only when `status = 'PUBLISHED'`.
+- **`system_settings`** (new): `key` `VARCHAR(100)` PK, `value_json` `JSON` NOT NULL, `updated_at` `DATETIME(3)`. Keys: `general`, `exam_rules`, `notifications`.
+- **`role_permissions`** (new): `role` `ENUM(...)`, `module` `VARCHAR(30)`, `allowed` `BOOLEAN` NOT NULL. *Constraints:* `PRIMARY KEY(role, module)`.
+- **`audit_logs`** (altered): `ip` `VARCHAR(45)` NULL, `before_json` `JSON` NULL, `after_json` `JSON` NULL. Both JSON columns are redacted before write.

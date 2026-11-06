@@ -18,6 +18,27 @@ import {
   Trophy,
 } from "lucide-react";
 
+/** Admin CMS screens render their own shell, so the learner header and bottom nav are hidden there. */
+export function isCmsPath(pathname: string): boolean {
+  return /^\/admin\/(dashboard|members|levels|settings|audit)(\/|$)/.test(pathname);
+}
+
+/**
+ * Where to send a user after signing in. ADMIN/OWNER keep the existing admin home; SUPPORT/EDITOR
+ * use the new console only. Redirects must be same-site paths and never grant access to /admin.
+ */
+export function postLoginTarget(role: string, redirect: string | null): string {
+  const safe = redirect && /^\/(?!\/)/.test(redirect) ? redirect : null;
+  const fullAdmin = role === "ADMIN" || role === "OWNER";
+  const consoleOnly = role === "SUPPORT" || role === "EDITOR";
+  const home = fullAdmin ? "/admin" : consoleOnly ? "/admin/dashboard" : "/dashboard";
+  if (!safe) return home;
+  if (!safe.startsWith("/admin")) return safe;
+  if (fullAdmin) return safe;
+  if (consoleOnly && isCmsPath(safe)) return safe;
+  return home;
+}
+
 export type UserRole = "student" | "guest" | "admin";
 export type SectionId = "trang-chu" | "hoc-tap" | "luyen-tap" | "thi-thu" | "tien-do";
 

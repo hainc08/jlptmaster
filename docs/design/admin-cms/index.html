@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JLPT Master Admin — Design Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tokens (Material Design 3 roles) ---------- */
+:root{
+  --primary:#3730A3; --on-primary:#fff; --primary-container:#E3E1FF; --on-primary-container:#1A1465;
+  --accent:#C0331B; --on-accent:#fff; --accent-container:#FFDAD3; --on-accent-container:#5C1000;
+  --surface:#FAF9FD; --surface-1:#fff; --surface-2:#F3F2F8; --surface-3:#EBEAF2;
+  --on-surface:#1B1B22; --on-surface-variant:#46464F; --outline:#767680; --outline-variant:#CAC9D4;
+  --ok:#14663A; --ok-c:#D3F0DC; --warn:#744C00; --warn-c:#FFE7B0; --err:#9A2B1B; --err-c:#FFDAD3; --neu:#46464F; --neu-c:#E4E2EC;
+  --r-card:12px; --r-ctl:8px; --sp:8px; --side:256px; --rail:72px;
+  --shadow:0 1px 2px rgba(27,27,34,.08),0 1px 3px rgba(27,27,34,.06);
+  --font:'Noto Sans','Noto Sans JP','Hiragino Sans','Yu Gothic UI','Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--font);background:var(--surface);color:var(--on-surface);font-size:14px;line-height:20px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+svg.i{width:20px;height:20px;fill:currentColor;flex:none}
+/* type scale */
+.t-display{font-size:28px;line-height:36px;font-weight:600}
+.t-title{font-size:22px;line-height:28px;font-weight:600}
+.t-sub{font-size:16px;line-height:24px;font-weight:600}
+.t-label{font-size:12px;line-height:16px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--on-surface-variant)}
+.muted{color:var(--on-surface-variant)}
+.jp{font-family:'Noto Sans JP','Noto Sans',sans-serif}
+
+/* ---------- Shell ---------- */
+#app{display:grid;grid-template-columns:var(--side) 1fr;grid-template-rows:64px 1fr;height:100vh;transition:grid-template-columns .2s}
+body.rail #app{grid-template-columns:var(--rail) 1fr}
+.topbar{grid-column:1/3;display:flex;align-items:center;gap:16px;padding:0 24px 0 16px;background:var(--surface-1);border-bottom:1px solid var(--outline-variant);z-index:20}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:16px;white-space:nowrap}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px;position:relative}
+.logo::after{content:"";position:absolute;right:-3px;bottom:-3px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--surface-1)}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--on-surface-variant)}
+.icon-btn:hover{background:var(--surface-3)}
+.search{flex:1;max-width:520px;margin-left:16px;position:relative}
+.search input{width:100%;height:40px;border-radius:20px;border:1px solid var(--outline-variant);background:var(--surface-2);padding:0 16px 0 44px}
+.search input:focus{background:#fff;border-color:var(--primary)}
+.search svg{position:absolute;left:14px;top:10px;color:var(--on-surface-variant)}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid var(--outline);border-radius:20px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:0 12px;height:32px;cursor:pointer;font-weight:600;font-size:12px;color:var(--on-surface-variant)}
+.seg button[aria-pressed=true]{background:var(--primary-container);color:var(--on-primary-container)}
+.seg button+button{border-left:1px solid var(--outline-variant)}
+.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:12px;flex:none}
+.menu-wrap{position:relative}
+.avatar-btn{display:flex;align-items:center;gap:8px;border:0;background:transparent;padding:4px 8px 4px 4px;border-radius:24px;cursor:pointer}
+.avatar-btn:hover{background:var(--surface-3)}
+.avatar-btn .who{text-align:left;line-height:16px}
+.avatar-btn .who b{display:block;font-size:13px}
+.avatar-btn .who span{font-size:12px;color:var(--on-surface-variant)}
+.pop{position:absolute;right:0;top:48px;min-width:220px;background:var(--surface-1);border-radius:var(--r-card);box-shadow:0 4px 16px rgba(27,27,34,.18);border:1px solid var(--outline-variant);padding:8px;z-index:40;display:none}
+.pop.open{display:block}
+.pop .item{display:block;width:100%;text-align:left;padding:10px 12px;border:0;background:transparent;border-radius:8px;cursor:pointer}
+.pop .item:hover{background:var(--surface-2)}
+.pop hr{border:0;border-top:1px solid var(--outline-variant);margin:8px 0}
+
+.side{background:var(--surface-1);border-right:1px solid var(--outline-variant);padding:12px;overflow:auto;display:flex;flex-direction:column;gap:4px}
+.nav a{display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;border-radius:24px;color:var(--on-surface-variant);text-decoration:none;font-weight:600;white-space:nowrap}
+.nav a:hover{background:var(--surface-2)}
+.nav a[aria-current=page]{background:var(--primary-container);color:var(--on-primary-container)}
+.nav a[aria-current=page] svg{color:var(--primary)}
+body.rail .nav a{justify-content:center;padding:0}
+body.rail .nav a span.lbl, body.rail .side .foot .lbl{display:none}
+.side .foot{margin-top:auto;padding:12px;border-radius:12px;background:var(--surface-2);font-size:12px;color:var(--on-surface-variant)}
+.main{overflow:auto;padding:24px 32px 96px;position:relative}
+.page{max-width:1280px;margin:0 auto}
+.page-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.crumbs{font-size:12px;color:var(--on-surface-variant);margin-bottom:4px}
+.crumbs a{color:inherit}
+.page-head .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+/* ---------- Buttons / fields ---------- */
+.btn{height:40px;padding:0 20px;border-radius:20px;border:1px solid transparent;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn.sm{height:32px;padding:0 14px;font-size:13px}
+.btn.filled{background:var(--primary);color:var(--on-primary)}
+.btn.filled:hover{background:#2c2688}
+.btn.accent{background:var(--accent);color:var(--on-accent)}
+.btn.tonal{background:var(--primary-container);color:var(--on-primary-container)}
+.btn.outline{border-color:var(--outline);color:var(--primary);background:transparent}
+.btn.outline:hover,.btn.text:hover{background:var(--primary-container)}
+.btn.text{background:transparent;color:var(--primary);padding:0 12px}
+.btn.danger{background:var(--err);color:#fff}
+.btn.danger-o{border-color:var(--err);color:var(--err);background:transparent}
+.btn.danger-o:hover{background:var(--err-c)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.lbl-s{font-weight:600;font-size:13px}
+.field .hint{font-size:12px;color:var(--on-surface-variant)}
+.in,.sel,.ta{height:40px;border:1px solid var(--outline);border-radius:var(--r-ctl);padding:0 12px;background:#fff;width:100%}
+.ta{height:auto;padding:10px 12px;resize:vertical;min-height:84px}
+.in:focus,.sel:focus,.ta:focus{border-color:var(--primary);outline:2px solid var(--primary);outline-offset:-1px}
+.in.err{border-color:var(--err)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--surface-1);border-radius:var(--r-card);box-shadow:var(--shadow);border:1px solid var(--outline-variant)}
+.card-pad{padding:24px}
+.sw{position:relative;width:52px;height:32px;flex:none}
+.sw input{position:absolute;inset:0;opacity:0;cursor:pointer;margin:0;width:100%;height:100%;z-index:1}
+.sw i{position:absolute;inset:0;border-radius:16px;border:2px solid var(--outline);background:var(--surface-3);transition:.15s}
+.sw i::after{content:"";position:absolute;left:6px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--outline);transition:.15s}
+.sw input:checked+i{background:var(--primary);border-color:var(--primary)}
+.sw input:checked+i::after{left:26px;top:4px;width:24px;height:24px;left:22px;background:#fff;top:2px}
+.sw input:focus-visible+i{outline:3px solid var(--primary);outline-offset:2px}
+.sw input:disabled{cursor:not-allowed}.sw input:disabled+i{opacity:.4}
+input[type=checkbox].cb{width:18px;height:18px;accent-color:var(--primary);cursor:pointer}
+
+/* ---------- Chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.active,.chip.published{background:var(--ok-c);color:var(--ok)}
+.chip.suspended{background:var(--err-c);color:var(--err)}
+.chip.pending,.chip.draft{background:var(--warn-c);color:var(--warn)}
+.chip.expired,.chip.soon{background:var(--neu-c);color:var(--neu)}
+.chip.lvl{background:var(--primary-container);color:var(--on-primary-container);border-radius:6px;padding:0 8px}
+.chip.lvl::before{display:none}
+.fchip{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 6px 0 12px;border-radius:8px;border:1px solid var(--outline);background:#fff;font-size:13px;font-weight:500}
+.fchip button{border:0;background:transparent;width:22px;height:22px;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--on-surface-variant)}
+.fchip button:hover{background:var(--surface-3)}
+.fchip svg{width:16px;height:16px}
+
+/* ---------- Table ---------- */
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:16px}
+.toolbar .in{width:280px}
+.toolbar .sel{width:auto;min-width:140px}
+.tbl-wrap{overflow:auto;max-height:calc(100vh - 380px);min-height:240px;border-top:1px solid var(--outline-variant)}
+table{border-collapse:separate;border-spacing:0;width:100%}
+thead th{position:sticky;top:0;background:var(--surface-2);z-index:2;text-align:left;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--on-surface-variant);padding:0 16px;height:44px;border-bottom:1px solid var(--outline-variant);white-space:nowrap}
+tbody td{padding:0 16px;height:56px;border-bottom:1px solid var(--surface-3);white-space:nowrap}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr.sel{background:var(--primary-container)}
+td.chk,th.chk{width:48px;padding-right:0}
+.cell-user{display:flex;align-items:center;gap:12px}
+.cell-user b{display:block;font-weight:600}
+.cell-user a{color:inherit;text-decoration:none;font-weight:600}
+.cell-user a:hover{text-decoration:underline;color:var(--primary)}
+.pager{display:flex;align-items:center;gap:12px;padding:8px 16px;border-top:1px solid var(--outline-variant);color:var(--on-surface-variant);font-size:13px;justify-content:flex-end}
+.pager .sel{width:auto;height:32px}
+.bulk{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--primary);color:#fff;border-radius:0}
+.bulk .btn{color:#fff;border-color:rgba(255,255,255,.6)}
+.bulk .btn:hover{background:rgba(255,255,255,.14)}
+.bulk .count{font-weight:600;margin-right:8px}
+
+/* ---------- States ---------- */
+.state{display:grid;place-items:center;text-align:center;padding:64px 16px;gap:12px}
+.state .ic{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--surface-3);color:var(--on-surface-variant)}
+.state .ic svg{width:36px;height:36px}
+.state.err .ic{background:var(--err-c);color:var(--err)}
+.skel{display:block;border-radius:6px;background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-2) 50%,var(--surface-3) 75%);background-size:200% 100%;animation:sh 1.2s infinite linear}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+
+/* ---------- Dashboard ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.kpi{padding:20px}
+.kpi .row{display:flex;align-items:center;gap:8px;color:var(--on-surface-variant);font-weight:600}
+.kpi .row .ic{width:32px;height:32px;border-radius:8px;background:var(--primary-container);color:var(--primary);display:grid;place-items:center}
+.kpi .val{font-size:32px;line-height:40px;font-weight:700;margin:12px 0 4px}
+.delta{font-size:12px;font-weight:600}
+.delta.up{color:var(--ok)}.delta.down{color:var(--err)}
+.charts{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px}
+.chart-card{padding:20px}
+.chart-card svg{width:100%;height:auto;display:block}
+.act{list-style:none;margin:0;padding:0}
+.act li{display:flex;gap:12px;align-items:center;padding:12px 20px;border-top:1px solid var(--surface-3)}
+.act li .dot{width:32px;height:32px;border-radius:50%;background:var(--primary-container);color:var(--primary);display:grid;place-items:center;flex:none}
+.act li time{margin-left:auto;color:var(--on-surface-variant);font-size:12px;white-space:nowrap}
+
+/* ---------- Tabs ---------- */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--outline-variant);margin-bottom:24px;overflow:auto}
+.tabs button{border:0;background:transparent;height:48px;padding:0 20px;font-weight:600;color:var(--on-surface-variant);cursor:pointer;position:relative;white-space:nowrap}
+.tabs button:hover{background:var(--surface-2)}
+.tabs button[aria-selected=true]{color:var(--primary)}
+.tabs button[aria-selected=true]::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--primary)}
+
+/* ---------- Member detail ---------- */
+.profile{display:flex;gap:24px;align-items:center;padding:24px;flex-wrap:wrap}
+.profile .avatar{width:80px;height:80px;font-size:28px}
+.profile .meta{display:flex;gap:24px;flex-wrap:wrap;margin-top:8px;color:var(--on-surface-variant)}
+.progress{height:8px;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--primary)}
+.lvl-prog{display:grid;grid-template-columns:56px 1fr 64px;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--surface-3)}
+.dl{display:grid;grid-template-columns:200px 1fr;gap:0}
+.dl>div{padding:14px 0;border-top:1px solid var(--surface-3)}
+.dl>div:nth-child(odd){color:var(--on-surface-variant);font-weight:600}
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid var(--surface-3)}
+
+/* ---------- Levels ---------- */
+.lvl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.lvl-card{padding:20px;display:flex;flex-direction:column;gap:16px}
+.lvl-card .top{display:flex;align-items:center;gap:12px}
+.lvl-badge{width:56px;height:56px;border-radius:14px;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:22px;font-weight:700}
+.lvl-badge.off{background:var(--surface-3);color:var(--on-surface-variant)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stats div{background:var(--surface-2);border-radius:8px;padding:8px}
+.stats b{display:block;font-size:18px}
+.stats span{font-size:12px;color:var(--on-surface-variant)}
+.scrim{position:fixed;inset:0;background:rgba(27,27,34,.4);z-index:60;display:none}
+.scrim.open{display:block}
+.panel{position:fixed;right:0;top:0;bottom:0;width:440px;max-width:100%;background:var(--surface-1);z-index:61;box-shadow:-8px 0 24px rgba(27,27,34,.2);transform:translateX(105%);transition:transform .22s;display:flex;flex-direction:column}
+.panel.open{transform:none}
+.panel header{display:flex;align-items:center;gap:12px;padding:16px 24px;border-bottom:1px solid var(--outline-variant)}
+.panel .body{padding:24px;overflow:auto;display:flex;flex-direction:column;gap:20px;flex:1}
+.panel footer{padding:16px 24px;border-top:1px solid var(--outline-variant);display:flex;gap:8px;justify-content:flex-end}
+
+/* ---------- Settings ---------- */
+.matrix th,.matrix td{text-align:center}
+.matrix th:first-child,.matrix td:first-child{text-align:left}
+.tpl{display:flex;align-items:center;gap:16px;padding:16px 0;border-top:1px solid var(--surface-3)}
+.tpl>div:first-child{flex:1}
+.savebar{position:fixed;left:var(--side);right:0;bottom:0;z-index:30;background:var(--surface-1);border-top:1px solid var(--outline-variant);padding:12px 32px;display:flex;align-items:center;gap:12px;box-shadow:0 -2px 8px rgba(27,27,34,.08);transition:left .2s}
+body.rail .savebar{left:var(--rail)}
+.unsaved{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.unsaved i{width:10px;height:10px;border-radius:50%;background:var(--outline)}
+.unsaved.dirty{color:var(--accent)}.unsaved.dirty i{background:var(--accent)}
+.logo-drop{display:flex;align-items:center;gap:16px}
+.logo-drop .logo{width:64px;height:64px;border-radius:16px;font-size:30px}
+
+/* ---------- Audit ---------- */
+.diff{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 24px 20px 64px;background:var(--surface-2)}
+.diff pre{margin:0;padding:12px;border-radius:8px;font:12px/18px ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow:auto}
+.diff .b pre{background:var(--err-c);color:#5c1000}
+.diff .a pre{background:var(--ok-c);color:#0a3d20}
+.exp{transition:transform .15s}.exp[aria-expanded=true] svg{transform:rotate(180deg)}
+.act-chip{font:600 12px/16px ui-monospace,Consolas,monospace;background:var(--surface-3);padding:2px 8px;border-radius:6px}
+
+/* ---------- Dialog / toast ---------- */
+.dlg{position:fixed;inset:0;display:none;place-items:center;z-index:80;background:rgba(27,27,34,.5);padding:16px}
+.dlg.open{display:grid}
+.dlg .box{background:var(--surface-1);border-radius:28px;padding:24px;width:min(440px,100%);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.dlg h2{font-size:22px;line-height:28px;font-weight:600;margin-bottom:12px}
+.dlg .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:24px}
+#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:88px;z-index:90;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{background:#2F2F38;color:#fff;border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(0,0,0,.3);animation:up .2s}
+.toast b{color:#FFB4A5;cursor:pointer;font-weight:600}
+@keyframes up{from{transform:translateY(12px);opacity:0}}
+
+/* ---------- Login ---------- */
+.login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.login .hero{background:var(--primary);color:#fff;padding:64px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.login .hero .sun{position:absolute;right:-120px;bottom:-120px;width:420px;height:420px;border-radius:50%;background:var(--accent);opacity:.9}
+.login .hero .kanji{position:absolute;right:56px;bottom:72px;font-size:140px;font-weight:700;color:#fff;opacity:.95;font-family:'Noto Sans JP',sans-serif;line-height:1}
+.login .form{display:grid;place-items:center;padding:32px}
+.login .form .card{width:min(420px,100%);padding:32px;display:flex;flex-direction:column;gap:20px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}}
+@media (max-width:768px){
+  #app{grid-template-columns:var(--rail) 1fr}
+  .nav a{justify-content:center;padding:0}.nav a span.lbl,.side .foot .lbl{display:none}
+  #collapse{display:none}.savebar{left:var(--rail)!important;padding:12px 16px}
+  .main{padding:16px 16px 96px}.avatar-btn .who{display:none}.brand .name{display:none}
+  .grid2,.diff{grid-template-columns:1fr}.login{grid-template-columns:1fr}.login .hero{display:none}
+  .lang-seg{display:none}.search{margin-left:0}.dl{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="scrim" class="scrim"></div>
+<aside id="panel" class="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title"></aside>
+<div id="dlg" class="dlg" role="alertdialog" aria-modal="true" aria-labelledby="dlg-title"><div class="box"></div></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   MOCK DATA ONLY — no API, no database (UI review prototype)
+   ========================================================= */
+const IC={
+ dashboard:"M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+ group:"M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z",
+ school:"M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z",
+ settings:"M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.49.49 0 0014 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.5.5 0 00-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z",
+ history:"M13 3a9 9 0 00-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0013 21a9 9 0 000-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z",
+ search:"M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z",
+ menu:"M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z",
+ add:"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z",
+ close:"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z",
+ more:"M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z",
+ edit:"M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z",
+ del:"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z",
+ key:"M12.65 10A5.99 5.99 0 007 6c-3.31 0-6 2.69-6 6s2.69 6 6 6a5.99 5.99 0 005.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
+ block:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9A7.902 7.902 0 014 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1A7.902 7.902 0 0120 12c0 4.42-3.58 8-8 8z",
+ download:"M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z",
+ left:"M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z", right:"M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z",
+ down:"M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z", up:"M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z",
+ inbox:"M19 3H4.99c-1.11 0-1.98.89-1.98 2L3 19c0 1.1.88 2 1.99 2H19c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H4.99V5H19v10z",
+ error:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z",
+ check:"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z",
+ pulse:"M3 13h2l3-8 4 16 3-8h6v-2h-4.5L14 13 10 -3z M3 13",
+ person_add:"M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z",
+ quiz:"M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 16h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z",
+ trend:"M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z",
+ lock:"M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z",
+ upload:"M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"
+};
+const ic=(n,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true"><path d="${IC[n]}"/></svg>`;
+
+/* ---- i18n (VI / EN / JA) ---- */
+const I18N={
+ vi:{dashboard:'Tổng quan',members:'Thành viên',levels:'Cấp độ',settings:'Cài đặt hệ thống',audit:'Nhật ký hoạt động',search:'Tìm thành viên, cấp độ, nhật ký…',add:'Thêm thành viên',save:'Lưu thay đổi',signout:'Đăng xuất'},
+ en:{dashboard:'Dashboard',members:'Members',levels:'Levels',settings:'Settings',audit:'Audit Log',search:'Search members, levels, logs…',add:'Add member',save:'Save changes',signout:'Sign out'},
+ ja:{dashboard:'ダッシュボード',members:'会員',levels:'レベル',settings:'システム設定',audit:'監査ログ',search:'会員・レベル・ログを検索…',add:'会員を追加',save:'変更を保存',signout:'ログアウト'}
+};
+let LANG='vi'; const t=k=>I18N[LANG][k]||k;
+
+const ROLES={owner:'Platform owner',admin:'Admin',editor:'Content Editor',support:'Support'};
+const NAMES=[
+ ['Nguyễn Minh Anh','minh.anh'],['Trần Quốc Bảo','quoc.bao'],['Lê Thu Hà','thu.ha'],['Phạm Gia Huy','gia.huy'],['Hoàng Ngọc Lan','ngoc.lan'],
+ ['Vũ Đức Anh','duc.anh'],['Đặng Thùy Linh','thuy.linh'],['Bùi Tuấn Kiệt','tuan.kiet'],['Ngô Thanh Mai','thanh.mai'],['Dương Hải Đăng','hai.dang'],
+ ['Phan Khánh Vy','khanh.vy'],['Võ Hoàng Long','hoang.long'],['Đỗ Phương Thảo','phuong.thao'],['Lý Anh Tuấn','anh.tuan'],
+ ['田中 美咲','tanaka.misaki'],['佐藤 健太','sato.kenta'],['鈴木 あかり','suzuki.akari'],['高橋 蓮','takahashi.ren'],['伊藤 結衣','ito.yui'],
+ ['渡辺 大輔','watanabe.daisuke'],['山本 さくら','yamamoto.sakura'],['中村 翔太','nakamura.shota'],['小林 美月','kobayashi.mizuki'],['加藤 陽介','kato.yosuke'],
+ ['吉田 凛','yoshida.rin'],['山田 拓海','yamada.takumi'],['松本 葵','matsumoto.aoi'],['井上 悠斗','inoue.yuto']
+];
+const LV=['N5','N5','N5','N4','N5','N3','N5','N4','N5','N2','N5','N4','N5','N1','N5','N4','N3','N5','N4','N5','N2','N3','N5','N4','N5','N5','N3','N5'];
+const PL=['Free','Standard','Premium'];
+const ST=['active','active','active','pending','active','suspended','active','expired','active','active'];
+const STL={active:'Active',suspended:'Suspended',pending:'Pending',expired:'Expired'};
+const HUES=[[227,225,255,'#1A1465'],[255,218,211,'#5C1000'],[211,240,220,'#0A3D20'],[255,231,176,'#5A3A00'],[228,226,236,'#2F2F38']];
+const LAST=['Vừa xong','2 giờ trước','Hôm qua','3 ngày trước','5 ngày trước','2 tuần trước','1 tháng trước'];
+const MEMBERS=NAMES.map((n,i)=>({
+  id:'M'+String(1001+i),name:n[0],email:n[1]+'@example.com',level:LV[i],plan:PL[(i*7+1)%3===0?0:(i%3)],
+  status:ST[(i*3+i%4)%ST.length],joined:`${String(1+(i*5)%28).padStart(2,'0')}/${String(1+(i*3)%11).padStart(2,'0')}/2026`,
+  last:LAST[(i*3)%LAST.length],phone:'09'+String(10000000+i*2916753).slice(0,8),hue:HUES[i%HUES.length],jp:/[　-鿿]/.test(n[0])
+}));
+const initials=n=>{const p=n.trim().split(/\s+/);return (p.length>1?p[0][0]+p[p.length-1][0]:p[0].slice(0,2)).toUpperCase()};
+const av=(m,s='')=>`<span class="avatar ${s}" style="background:rgb(${m.hue[0]},${m.hue[1]},${m.hue[2]});color:${m.hue[3]}">${initials(m.name)}</span>`;
+
+const LEVELS=[
+ {code:'N5',name:'N5 – Beginner',status:'published',lessons:48,exams:6,enrolled:2310,order:1,pass:60,desc:'Basic grammar, ~800 vocabulary words and ~100 kanji. First release level.',on:true},
+ {code:'N4',name:'N4 – Elementary',status:'draft',lessons:36,exams:4,enrolled:842,order:2,pass:60,desc:'Elementary grammar and ~300 kanji. Content under editorial review.',on:false},
+ {code:'N3',name:'N3 – Intermediate',status:'draft',lessons:12,exams:1,enrolled:410,order:3,pass:60,desc:'Bridge level between everyday and academic Japanese.',on:false},
+ {code:'N2',name:'N2 – Upper-intermediate',status:'soon',lessons:0,exams:0,enrolled:190,order:4,pass:60,desc:'Business-level reading and listening. Coming soon.',on:false},
+ {code:'N1',name:'N1 – Advanced',status:'soon',lessons:0,exams:0,enrolled:90,order:5,pass:60,desc:'Advanced academic and professional Japanese. Coming soon.',on:false}
+];
+const LVST={published:'Published',draft:'Draft',soon:'Coming soon'};
+
+const AUDIT=[
+ ['Nguyễn Hải Yến','Admin','member.suspend','Member M1006 · Đặng Thùy Linh','06/11/2026 09:42:10','113.190.24.7',{status:'active',suspended_reason:null},{status:'suspended',suspended_reason:'Payment dispute'}],
+ ['Trần Đức Thịnh','Content Editor','level.update','Level N4','06/11/2026 09:12:51','27.72.98.115',{status:'draft',pass_score:55},{status:'draft',pass_score:60}],
+ ['Phạm Thu Trang','Support','member.reset_password','Member M1003 · Lê Thu Hà','06/11/2026 08:57:03','14.241.65.201',{password_reset_at:null},{password_reset_at:'2026-11-06T08:57:03+07:00'}],
+ ['Nguyễn Hải Yến','Admin','settings.exam_rules','Exam rules','05/11/2026 17:30:44','113.190.24.7',{retake_limit:2,time_limit_min:105},{retake_limit:3,time_limit_min:105}],
+ ['Owner','Platform owner','role.permissions','Role: Support','05/11/2026 15:05:18','42.115.8.66',{members:['read'],audit_log:[]},{members:['read','update'],audit_log:['read']}],
+ ['Trần Đức Thịnh','Content Editor','level.reorder','Levels','05/11/2026 11:21:09','27.72.98.115',{order:['N5','N3','N4','N2','N1']},{order:['N5','N4','N3','N2','N1']}],
+ ['Phạm Thu Trang','Support','member.change_level','Member M1018 · 伊藤 結衣','04/11/2026 16:48:32','14.241.65.201',{level:'N5'},{level:'N4'}],
+ ['Nguyễn Hải Yến','Admin','member.delete','Member M1099 · Test account','04/11/2026 10:02:57','113.190.24.7',{exists:true},{exists:false}],
+ ['Owner','Platform owner','settings.general','General','03/11/2026 14:19:20','42.115.8.66',{default_language:'en'},{default_language:'vi'}],
+ ['Phạm Thu Trang','Support','member.export','Members CSV (28 rows)','03/11/2026 09:33:45','14.241.65.201',{},{rows:28}]
+];
+const ACTIVITY=[
+ ['person_add','Nguyễn Minh Anh registered a new account','5 phút'],['quiz','田中 美咲 completed N5 Mock Exam 02 — 82%','18 phút'],
+ ['edit','Trần Đức Thịnh updated Level N4 description','1 giờ'],['block','Nguyễn Hải Yến suspended Đặng Thùy Linh','2 giờ'],
+ ['quiz','Lê Thu Hà completed N5 Mock Exam 01 — 71%','3 giờ'],['person_add','佐藤 健太 registered a new account','4 giờ']
+];
+
+/* ---------- state ---------- */
+const S={q:'',level:'',status:'',plan:'',page:1,per:10,sel:new Set(),view:'ok',levels:structuredClone(LEVELS),lvView:'cards',role:'owner'};
+const $=(s,r=document)=>r.querySelector(s); const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+
+/* ---------- shell ---------- */
+const NAV=[['dashboard','dashboard','#/dashboard'],['group','members','#/members'],['school','levels','#/levels'],['settings','settings','#/settings'],['history','audit','#/audit']];
+function shell(route){
+  const nav=NAV.map(([i,k,h])=>`<a href="${h}" ${route===h.split('/')[1]?'aria-current="page"':''} title="${t(k)}">${ic(i)}<span class="lbl">${t(k)}</span></a>`).join('');
+  return `
+  <div id="app">
+   <header class="topbar">
+     <button class="icon-btn" id="collapse" aria-label="Toggle sidebar">${ic('menu')}</button>
+     <div class="brand"><div class="logo jp">J</div><span class="name">JLPT Master <span class="muted" style="font-weight:500">Admin</span></span></div>
+     <form class="search" id="gsearch" role="search"><label class="sr" for="gs">Search</label>${ic('search')}<input id="gs" placeholder="${t('search')}"></form>
+     <span class="spacer"></span>
+     <div class="seg lang-seg" role="group" aria-label="Language">${['vi','en','ja'].map(l=>`<button data-lang="${l}" aria-pressed="${l===LANG}">${l.toUpperCase()}</button>`).join('')}</div>
+     <div class="menu-wrap">
+       <button class="avatar-btn" id="avbtn" aria-haspopup="menu" aria-expanded="false"><span class="avatar" style="background:var(--accent);color:#fff">NH</span><span class="who"><b>Nguyễn Hải Yến</b><span>${ROLES[S.role]}</span></span>${ic('down')}</button>
+       <div class="pop" id="avmenu" role="menu">
+         <div style="padding:8px 12px"><b>Nguyễn Hải Yến</b><div class="muted" style="font-size:12px">yen.nguyen@example.com</div><span class="chip lvl" style="margin-top:8px">${ROLES[S.role]}</span></div><hr>
+         <button class="item" role="menuitem" data-act="toast" data-msg="Profile is not part of this prototype">My profile</button>
+         <button class="item" role="menuitem" onclick="location.hash='#/login'">${t('signout')}</button>
+       </div>
+     </div>
+   </header>
+   <nav class="side nav" aria-label="Main">${nav}
+     <div class="foot"><span class="lbl">Review prototype · mock data only</span></div></nav>
+   <main class="main" id="main" tabindex="-1"></main>
+  </div>`;
+}
+function head(crumb,title,actions=''){return `<div class="page-head"><div><div class="crumbs">${crumb}</div><h1 class="t-display">${title}</h1></div><div class="actions">${actions}</div></div>`}
+
+/* ---------- 2. Login ---------- */
+function loginView(){
+  return `<div class="login">
+   <section class="hero"><div class="brand" style="font-size:20px"><div class="logo jp" style="background:#fff;color:var(--primary)">J</div>JLPT Master</div>
+     <div style="position:relative;z-index:1;max-width:420px"><h1 class="t-display" style="font-size:36px;line-height:44px">Operations console for the JLPT training platform</h1><p style="margin-top:16px;opacity:.9">Manage members, levels and system settings in one calm workspace.</p></div>
+     <div class="sun"></div><div class="kanji" aria-hidden="true">学</div></section>
+   <section class="form"><form class="card" id="loginf" novalidate>
+     <div><h2 class="t-title">Sign in</h2><p class="muted" style="margin-top:4px">Use your work email to continue.</p></div>
+     <div class="field"><label for="em">Email</label><input class="in" id="em" type="email" autocomplete="username" placeholder="name@company.com" value="yen.nguyen@example.com"><span class="hint" id="emh"></span></div>
+     <div class="field"><label for="pw">Password</label><input class="in" id="pw" type="password" autocomplete="current-password" placeholder="••••••••" value="demo-password"></div>
+     <div style="display:flex;justify-content:space-between;align-items:center"><label style="display:flex;gap:8px;align-items:center"><input class="cb" type="checkbox" checked> Keep me signed in</label><a href="#" data-act="toast" data-msg="Password reset link sent (mock)" style="color:var(--primary);font-weight:600">Forgot password?</a></div>
+     <button class="btn filled" style="justify-content:center;height:48px;border-radius:24px" type="submit">Sign in</button>
+     <p class="muted" style="font-size:12px;text-align:center">Prototype: any values continue to the dashboard.</p>
+   </form></section></div>`;
+}
+
+/* ---------- charts ---------- */
+function lineChart(){
+  const W=640,H=240,p={l:40,r:12,t:12,b:28};
+  const d=Array.from({length:30},(_,i)=>Math.round(780+Math.sin(i/3.2)*110+i*9+((i*37)%60)));
+  const max=1400,min=600,x=i=>p.l+i*(W-p.l-p.r)/29,y=v=>p.t+(1-(v-min)/(max-min))*(H-p.t-p.b);
+  const pts=d.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+  const grid=[600,800,1000,1200,1400].map(v=>`<line x1="${p.l}" x2="${W-p.r}" y1="${y(v)}" y2="${y(v)}" stroke="#E4E2EC"/><text x="${p.l-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="#46464F">${v}</text>`).join('');
+  const xl=[0,7,14,21,29].map(i=>`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="11" fill="#46464F">${i===29?'06/11':`${String(7+i).padStart(2,'0')}/10`.replace(/^(3[2-9]|[4-9]\d)/,'')}</text>`).join('');
+  const dates=['07/10','14/10','21/10','28/10','06/11'];
+  const xl2=[0,7,14,21,29].map((i,k)=>`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="11" fill="#46464F">${dates[k]}</text>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Daily active members over the last 30 days, rising from about 800 to 1,200"><title>Daily active members, last 30 days</title>${grid}${xl2}
+   <polygon points="${x(0)},${y(min)} ${pts} ${x(29)},${y(min)}" fill="#3730A3" opacity=".10"/>
+   <polyline points="${pts}" fill="none" stroke="#3730A3" stroke-width="2.5" stroke-linejoin="round"/>
+   <circle cx="${x(29)}" cy="${y(d[29])}" r="5" fill="#C0331B" stroke="#fff" stroke-width="2"/></svg>`;
+}
+function barChart(){
+  const data=[['N5',2310],['N4',842],['N3',410],['N2',190],['N1',90]],W=420,H=240,p={l:36,r:8,t:20,b:28},max=2500;
+  const bw=44,gap=(W-p.l-p.r-bw*5)/5;
+  const bars=data.map(([k,v],i)=>{const h=(v/max)*(H-p.t-p.b),x=p.l+gap/2+i*(bw+gap),y=H-p.b-h;
+    return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="6" fill="${i===0?'#3730A3':'#8C88D6'}"/><text x="${x+bw/2}" y="${y-6}" text-anchor="middle" font-size="12" font-weight="600" fill="#1B1B22">${v.toLocaleString('en-US')}</text><text x="${x+bw/2}" y="${H-8}" text-anchor="middle" font-size="12" fill="#46464F">${k}</text>`}).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Members by level: N5 2,310; N4 842; N3 410; N2 190; N1 90"><title>Members by target level</title><line x1="${p.l}" x2="${W-p.r}" y1="${H-p.b}" y2="${H-p.b}" stroke="#CAC9D4"/>${bars}</svg>`;
+}
+
+/* ---------- 3. Dashboard ---------- */
+function dashView(){
+  const k=[['group','Total members','3,842','+4.2% vs last month','up'],['pulse','Active this week','1,276','+8.1% vs last week','up'],['person_add','New this month','214','−3.6% vs October','down'],['quiz','Exams taken','9,508','+12.4% vs last month','up']];
+  return `<div class="page">${head('Home / '+t('dashboard'),t('dashboard'),`<button class="btn outline" data-act="toast" data-msg="Range fixed to 30 days in this prototype">${ic('history')}Last 30 days</button>`)}
+  <div class="kpis">${k.map(([i,l,v,d,c])=>`<div class="card kpi"><div class="row"><span class="ic">${ic(i==='pulse'?'trend':i)}</span>${l}</div><div class="val">${v}</div><span class="delta ${c}">${c==='up'?'▲':'▼'} ${d}</span></div>`).join('')}</div>
+  <div class="charts"><section class="card chart-card"><h2 class="t-sub">Daily active members</h2><p class="muted" style="margin-bottom:12px">Last 30 days</p>${lineChart()}</section>
+   <section class="card chart-card"><h2 class="t-sub">Members by level</h2><p class="muted" style="margin-bottom:12px">Target level · N4–N1 are waitlist</p>${barChart()}</section></div>
+  <section class="card"><div style="padding:20px 20px 12px;display:flex;align-items:center"><h2 class="t-sub">Recent activity</h2><a class="btn text" style="margin-left:auto;text-decoration:none" href="#/audit">View audit log</a></div>
+   <ul class="act">${ACTIVITY.map(a=>`<li><span class="dot">${ic(a[0])}</span><span>${a[1]}</span><time>${a[2]} trước</time></li>`).join('')}</ul></section></div>`;
+}
+
+/* ---------- 4. Members list ---------- */
+function filtered(){return MEMBERS.filter(m=>(!S.q||(m.name+m.email).toLowerCase().includes(S.q.toLowerCase()))&&(!S.level||m.level===S.level)&&(!S.status||m.status===S.status)&&(!S.plan||m.plan===S.plan))}
+function membersView(){
+  return `<div class="page">${head('Home / '+t('members'),t('members'),`<button class="btn filled" data-act="add-member">${ic('add')}${t('add')}</button>`)}
+  <section class="card" id="mcard">
+   <div class="toolbar">
+     <div class="search" style="margin:0;max-width:280px"><label class="sr" for="mq">Search members</label>${ic('search')}<input id="mq" placeholder="Search name or email" value="${S.q}"></div>
+     <label class="sr" for="fl">Level</label><select class="sel" id="fl"><option value="">All levels</option>${['N5','N4','N3','N2','N1'].map(l=>`<option ${S.level===l?'selected':''}>${l}</option>`).join('')}</select>
+     <label class="sr" for="fs">Status</label><select class="sel" id="fs"><option value="">All statuses</option>${Object.keys(STL).map(s=>`<option value="${s}" ${S.status===s?'selected':''}>${STL[s]}</option>`).join('')}</select>
+     <label class="sr" for="fp">Plan</label><select class="sel" id="fp"><option value="">All plans</option>${PL.map(l=>`<option ${S.plan===l?'selected':''}>${l}</option>`).join('')}</select>
+     <span class="spacer"></span>
+     <label class="muted" for="vs" style="font-size:12px">Preview state</label><select class="sel" id="vs" style="min-width:110px;height:32px">${['ok','loading','empty','error'].map(v=>`<option ${S.view===v?'selected':''}>${v}</option>`).join('')}</select>
+   </div>
+   <div id="chips" style="padding:0 16px 12px;display:flex;gap:8px;flex-wrap:wrap"></div>
+   <div id="bulk"></div>
+   <div id="mres"></div>
+  </section></div>`;
+}
+function renderMembers(){
+  const chips=[['q',S.q&&`Search: “${S.q}”`],['level',S.level&&`Level: ${S.level}`],['status',S.status&&`Status: ${STL[S.status]}`],['plan',S.plan&&`Plan: ${S.plan}`]].filter(c=>c[1]);
+  $('#chips').innerHTML=chips.map(([k,l])=>`<span class="fchip">${l}<button data-act="clr" data-k="${k}" aria-label="Remove filter ${l}">${ic('close')}</button></span>`).join('')+(chips.length>1?`<button class="btn text sm" data-act="clr-all">Clear all</button>`:'');
+  const res=$('#mres'),bulk=$('#bulk');
+  if(S.view==='loading'){bulk.innerHTML='';res.innerHTML=`<div class="tbl-wrap" aria-busy="true" aria-label="Loading members">${Array.from({length:7},()=>`<div style="display:flex;gap:16px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--surface-3)"><span class="skel" style="width:18px;height:18px"></span><span class="skel" style="width:36px;height:36px;border-radius:50%"></span><span class="skel" style="width:180px;height:14px"></span><span class="skel" style="width:220px;height:14px"></span><span class="skel" style="width:60px;height:14px"></span><span class="skel" style="width:80px;height:24px;border-radius:12px"></span></div>`).join('')}</div>`;return}
+  if(S.view==='error'){bulk.innerHTML='';res.innerHTML=`<div class="state err" role="alert"><div class="ic">${ic('error')}</div><h2 class="t-sub">Couldn’t load members</h2><p class="muted">The request timed out. Your data is safe — try again.</p><button class="btn tonal" data-act="retry">Try again</button></div>`;return}
+  const rows=S.view==='empty'?[]:filtered(),pages=Math.max(1,Math.ceil(rows.length/S.per));S.page=Math.min(S.page,pages);
+  const pg=rows.slice((S.page-1)*S.per,S.page*S.per);
+  if(!rows.length){bulk.innerHTML='';res.innerHTML=`<div class="state"><div class="ic">${ic('inbox')}</div><h2 class="t-sub">${S.view==='empty'?'No members yet':'No members match these filters'}</h2><p class="muted">${S.view==='empty'?'Add your first learner to get started.':'Try removing a filter or searching a different term.'}</p>${S.view==='empty'?`<button class="btn filled" data-act="add-member">${ic('add')}${t('add')}</button>`:`<button class="btn tonal" data-act="clr-all">Clear filters</button>`}</div>`;return}
+  const n=S.sel.size;
+  bulk.innerHTML=n?`<div class="bulk" role="region" aria-label="Bulk actions"><span class="count">${n} selected</span><button class="btn sm outline" data-act="bulk-suspend">${ic('block')}Suspend</button><button class="btn sm outline" data-act="bulk-level">${ic('school')}Change level</button><button class="btn sm outline" data-act="bulk-export">${ic('download')}Export CSV</button><span class="spacer"></span><button class="btn sm text" style="color:#fff" data-act="sel-none">Clear</button></div>`:'';
+  const allOn=pg.every(m=>S.sel.has(m.id));
+  res.innerHTML=`<div class="tbl-wrap"><table><thead><tr><th class="chk"><input class="cb" type="checkbox" id="selall" aria-label="Select all on page" ${allOn?'checked':''}></th><th>Member</th><th>Email</th><th>Level</th><th>Plan</th><th>Status</th><th>Joined</th><th>Last active</th><th></th></tr></thead><tbody>
+   ${pg.map(m=>`<tr class="${S.sel.has(m.id)?'sel':''}"><td class="chk"><input class="cb rowcb" type="checkbox" data-id="${m.id}" aria-label="Select ${m.name}" ${S.sel.has(m.id)?'checked':''}></td>
+    <td><div class="cell-user">${av(m)}<a href="#/members/${m.id}" ${m.jp?'class="jp"':''}>${m.name}</a></div></td><td class="muted">${m.email}</td><td><span class="chip lvl">${m.level}</span></td><td>${m.plan}</td>
+    <td><span class="chip ${m.status}">${STL[m.status]}</span></td><td>${m.joined}</td><td class="muted">${m.last}</td>
+    <td><button class="icon-btn" aria-label="Open ${m.name}" onclick="location.hash='#/members/${m.id}'">${ic('right')}</button></td></tr>`).join('')}</tbody></table></div>
+   <div class="pager"><span>Rows</span><select class="sel" id="per" aria-label="Rows per page"><option ${S.per===10?'selected':''}>10</option><option ${S.per===25?'selected':''}>25</option></select>
+    <span>${(S.page-1)*S.per+1}–${(S.page-1)*S.per+pg.length} of ${rows.length}</span>
+    <button class="icon-btn" data-act="pg" data-d="-1" aria-label="Previous page" ${S.page<=1?'disabled':''}>${ic('left')}</button><button class="icon-btn" data-act="pg" data-d="1" aria-label="Next page" ${S.page>=pages?'disabled':''}>${ic('right')}</button></div>`;
+}
+
+/* ---------- 5. Member detail ---------- */
+let mtab='Overview';
+function detailView(id){
+  const m=MEMBERS.find(x=>x.id===id); if(!m) return `<div class="page"><div class="state"><div class="ic">${ic('error')}</div><h2 class="t-sub">Member not found</h2><a class="btn tonal" href="#/members">Back to members</a></div></div>`;
+  const tabs=['Overview','Progress by level','Exam history','Account and access'];
+  return `<div class="page">
+  <div class="crumbs"><a href="#/members">${t('members')}</a> / ${m.name}</div>
+  <section class="card profile" style="margin-bottom:16px">${av(m)}
+    <div style="flex:1;min-width:240px"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><h1 class="t-display ${m.jp?'jp':''}">${m.name}</h1><span class="chip ${m.status}">${STL[m.status]}</span></div>
+      <div class="meta"><span>${m.email}</span><span>${m.phone.replace(/(\d{4})(\d{3})(\d{3})/,'$1 $2 $3')}</span><span>ID ${m.id}</span><span>Joined ${m.joined}</span></div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn outline" data-act="edit-member" data-id="${m.id}">${ic('edit')}Edit</button>
+      <button class="btn outline" data-act="reset-pw" data-id="${m.id}">${ic('key')}Reset password</button>
+      <button class="btn outline" data-act="chg-level" data-id="${m.id}">${ic('school')}Change level</button>
+      <button class="btn outline" data-act="suspend" data-id="${m.id}">${ic('block')}${m.status==='suspended'?'Reactivate':'Suspend'}</button>
+      <button class="btn danger-o" data-act="del-member" data-id="${m.id}">${ic('del')}Delete</button></div></section>
+  <div class="tabs" role="tablist">${tabs.map(x=>`<button role="tab" aria-selected="${x===mtab}" data-tab="${x}">${x}</button>`).join('')}</div>
+  <div id="tabbody"></div></div>`;
+}
+function tabBody(m){
+  const lv=['N5','N4','N3','N2','N1'],cur=lv.indexOf(m.level);
+  if(mtab==='Overview') return `<div class="kpis" style="grid-template-columns:repeat(4,1fr)">${[['Current level',m.level],['Plan',m.plan],['Exams taken',String(3+cur*2)],['Avg. score',(68+cur*3)+'%']].map(([a,b])=>`<div class="card kpi"><div class="muted" style="font-weight:600">${a}</div><div class="val" style="font-size:28px">${b}</div></div>`).join('')}</div>
+   <div class="grid2"><section class="card card-pad"><h2 class="t-sub" style="margin-bottom:12px">Profile</h2><div class="dl"><div>Full name</div><div>${m.name}</div><div>Email</div><div>${m.email}</div><div>Last active</div><div>${m.last}</div><div>Study goal</div><div>JLPT ${m.level} — December 2026 sitting</div></div></section>
+   <section class="card card-pad"><h2 class="t-sub" style="margin-bottom:12px">Recent activity</h2>${ACTIVITY.slice(0,4).map(a=>`<div class="row-between"><span>${a[1].replace(/^.+? (completed|registered)/,m.name.split(' ')[0]+' $1')}</span><span class="muted">${a[2]} trước</span></div>`).join('')}</section></div>`;
+  if(mtab==='Progress by level') return `<section class="card card-pad"><h2 class="t-sub" style="margin-bottom:8px">Progress by level</h2>${lv.map((l,i)=>{const p=i<cur?100:i===cur?(35+m.id.slice(-1)*5):0;const pub=i===0;return `<div class="lvl-prog"><span class="chip lvl">${l}</span><div><div class="progress" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100" aria-label="${l} progress"><i style="width:${p}%"></i></div><div class="muted" style="font-size:12px;margin-top:4px">${pub?`${Math.round(p*.48)} / 48 lessons`:'Content not yet published'}</div></div><b>${pub?p+'%':'—'}</b></div>`}).join('')}</section>`;
+  if(mtab==='Exam history'){const ex=[['N5 Mock Exam 02','04/11/2026',82],['N5 Mock Exam 01','29/10/2026',71],['N5 Vocabulary Check','21/10/2026',58],['N5 Mock Exam 01','12/10/2026',49]];
+   return `<section class="card"><div class="tbl-wrap" style="max-height:none;border-top:0"><table><thead><tr><th>Exam</th><th>Level</th><th>Date</th><th>Score</th><th>Result</th></tr></thead><tbody>${ex.map(e=>`<tr><td>${e[0]}</td><td><span class="chip lvl">N5</span></td><td>${e[1]}</td><td><b>${e[2]}%</b></td><td><span class="chip ${e[2]>=60?'active':'expired'}">${e[2]>=60?'Passed':'Not passed'}</span></td></tr>`).join('')}</tbody></table></div></section>`}
+  return `<section class="card card-pad"><h2 class="t-sub" style="margin-bottom:8px">Account and access</h2><div class="dl"><div>Account status</div><div><span class="chip ${m.status}">${STL[m.status]}</span></div><div>Plan</div><div>${m.plan} · renews 15/12/2026</div><div>Sign-in method</div><div>Email + password</div><div>Last sign-in</div><div>${m.last} · Hà Nội, VN</div><div>Two-step verification</div><div>Not enabled</div></div>
+   <div class="row-between"><div><b>Allow exam retakes beyond limit</b><div class="muted">Override the global retake limit for this member</div></div><label class="sw"><input type="checkbox"><i></i><span class="sr">Allow retakes</span></label></div>
+   <div class="row-between"><div><b>Email notifications</b><div class="muted">Result summaries and weekly digest</div></div><label class="sw"><input type="checkbox" checked><i></i><span class="sr">Email notifications</span></label></div></section>`;
+}
+
+/* ---------- 6. Levels ---------- */
+function levelsView(){
+  const L=S.levels,card=(l,i)=>`<article class="card lvl-card"><div class="top"><div class="lvl-badge ${l.status==='published'?'':'off'} jp">${l.code}</div><div style="flex:1"><h2 class="t-sub">${l.name}</h2><span class="chip ${l.status}" style="margin-top:4px">${LVST[l.status]}</span></div><span class="muted" title="Display order">#${i+1}</span></div>
+   <p class="muted" style="min-height:40px">${l.desc}</p>
+   <div class="stats"><div><b>${l.lessons}</b><span>Lessons</span></div><div><b>${l.exams}</b><span>Exams</span></div><div><b>${l.enrolled.toLocaleString('en-US')}</b><span>${l.status==='published'?'Enrolled':'Waitlist'}</span></div></div>
+   <div style="display:flex;gap:4px;align-items:center"><button class="icon-btn" data-act="mv" data-i="${i}" data-d="-1" aria-label="Move ${l.code} up" ${i===0?'disabled':''}>${ic('left')}</button><button class="icon-btn" data-act="mv" data-i="${i}" data-d="1" aria-label="Move ${l.code} down" ${i===L.length-1?'disabled':''}>${ic('right')}</button><span class="spacer"></span><button class="btn tonal sm" data-act="edit-level" data-code="${l.code}">${ic('edit')}Edit</button></div></article>`;
+  const table=`<section class="card"><div class="tbl-wrap" style="max-height:none;border-top:0"><table><thead><tr><th>Order</th><th>Level</th><th>Status</th><th>Lessons</th><th>Exams</th><th>Enrolled / waitlist</th><th>Enabled</th><th></th></tr></thead><tbody>${L.map((l,i)=>`<tr><td>${i+1}</td><td><b>${l.name}</b></td><td><span class="chip ${l.status}">${LVST[l.status]}</span></td><td>${l.lessons}</td><td>${l.exams}</td><td>${l.enrolled.toLocaleString('en-US')}</td><td>${l.on?'Yes':'No'}</td><td style="text-align:right"><button class="btn tonal sm" data-act="edit-level" data-code="${l.code}">${ic('edit')}Edit</button></td></tr>`).join('')}</tbody></table></div></section>`;
+  return `<div class="page">${head('Home / '+t('levels'),t('levels'),`<div class="seg" role="group" aria-label="View"><button data-lv="cards" aria-pressed="${S.lvView==='cards'}">Cards</button><button data-lv="table" aria-pressed="${S.lvView==='table'}">Table</button></div>`)}
+   ${S.lvView==='cards'?`<div class="lvl-grid">${L.map(card).join('')}</div>`:table}</div>`;
+}
+function openLevelPanel(code){
+  const l=S.levels.find(x=>x.code===code);
+  openPanel(`<header><h2 class="t-title" id="panel-title" style="flex:1">Edit ${l.code}</h2><button class="icon-btn" data-act="panel-close" aria-label="Close">${ic('close')}</button></header>
+  <div class="body">
+   <div class="field"><label for="ln">Name</label><input class="in" id="ln" value="${l.name}"></div>
+   <div class="field"><label for="ld">Description</label><textarea class="ta" id="ld">${l.desc}</textarea></div>
+   <div class="field"><label for="lp">Pass score: <b id="lpv">${l.pass}%</b></label><input type="range" id="lp" min="30" max="100" step="5" value="${l.pass}" style="accent-color:var(--primary)"><span class="hint">Minimum percentage to mark an exam as passed.</span></div>
+   <div class="row-between" style="border:0;padding:0"><div><b>Enabled for learners</b><div class="muted">${l.status==='published'?'Visible on the learner site':'Turn on only after content is published'}</div></div><label class="sw"><input type="checkbox" id="le" ${l.on?'checked':''}><i></i><span class="sr">Enabled</span></label></div>
+   <div class="field"><span class="lbl-s">Display order</span><div style="display:flex;gap:8px;align-items:center"><button class="btn outline sm" data-act="pmv" data-d="-1" data-code="${l.code}">${ic('left')}Earlier</button><b id="pord" style="min-width:24px;text-align:center">${S.levels.indexOf(l)+1}</b><button class="btn outline sm" data-act="pmv" data-d="1" data-code="${l.code}">Later${ic('right')}</button></div></div>
+  </div>
+  <footer><button class="btn text" data-act="panel-close">Cancel</button><button class="btn filled" data-act="save-level" data-code="${l.code}">${t('save')}</button></footer>`);
+  $('#lp').addEventListener('input',e=>$('#lpv').textContent=e.target.value+'%');
+}
+
+/* ---------- 7. Settings ---------- */
+const DEF_SET={site:'JLPT Master',lang:'vi',time:105,retake:3,pass:60,
+ perm:{Owner:[1,1,1,1,1],Admin:[1,1,1,1,1],'Content Editor':[1,0,1,0,0],Support:[1,1,0,0,1]},
+ tpl:{welcome:1,reset:1,result:1,digest:0,suspend:1,expiry:1}};
+let SAVED=structuredClone(DEF_SET),CUR=structuredClone(DEF_SET),stab='General';
+const dirty=()=>JSON.stringify(SAVED)!==JSON.stringify(CUR);
+function settingsView(){
+  const tabs=['General','Exam rules','Roles and permissions','Notifications'];
+  return `<div class="page">${head('Home / '+t('settings'),t('settings'))}
+  <div class="tabs" role="tablist">${tabs.map(x=>`<button role="tab" aria-selected="${x===stab}" data-stab="${x}">${x}</button>`).join('')}</div>
+  <div id="sbody"></div></div>
+  <div class="savebar" id="savebar"></div>`;
+}
+function settingsBody(){
+  const c=CUR; let h='';
+  if(stab==='General') h=`<section class="card card-pad" style="max-width:720px;display:flex;flex-direction:column;gap:20px"><h2 class="t-sub">General</h2>
+   <div class="field"><label for="s-site">Site name</label><input class="in" id="s-site" data-set="site" value="${c.site}"><span class="hint">Shown in the browser tab and emails.</span></div>
+   <div class="field"><span class="lbl-s">Logo</span><div class="logo-drop"><div class="logo jp">J</div><div><button class="btn outline sm" data-act="toast" data-msg="Upload is not wired in this prototype">${ic('upload')}Replace</button> <button class="btn text sm" data-act="toast" data-msg="Logo removed (mock)">Remove</button><div class="hint" style="margin-top:4px">SVG or PNG, at least 256×256 px.</div></div></div></div>
+   <div class="field"><label for="s-lang">Default language</label><select class="sel" id="s-lang" data-set="lang"><option value="vi" ${c.lang==='vi'?'selected':''}>Tiếng Việt</option><option value="en" ${c.lang==='en'?'selected':''}>English</option><option value="ja" ${c.lang==='ja'?'selected':''}>日本語</option></select></div></section>`;
+  if(stab==='Exam rules') h=`<section class="card card-pad" style="max-width:720px;display:flex;flex-direction:column;gap:20px"><h2 class="t-sub">Exam rules</h2>
+   <div class="field"><label for="s-time">Time limit (minutes)</label><input class="in" type="number" min="10" max="240" id="s-time" data-set="time" data-num value="${c.time}"><span class="hint">Applies to full mock exams.</span></div>
+   <div class="field"><label for="s-ret">Retake limit (per exam, per week)</label><input class="in" type="number" min="0" max="10" id="s-ret" data-set="retake" data-num value="${c.retake}"></div>
+   <div class="field"><label for="s-pass">Passing threshold: <b id="pv">${c.pass}%</b></label><input type="range" id="s-pass" min="30" max="100" step="5" data-set="pass" data-num value="${c.pass}" style="accent-color:var(--primary)"><span class="hint">Default for levels without their own pass score.</span></div></section>`;
+  if(stab==='Roles and permissions'){const mods=['Dashboard','Members','Levels','Settings','Audit Log'];
+   h=`<section class="card"><div style="padding:20px 24px 8px"><h2 class="t-sub">Roles and permissions</h2><p class="muted">Check the modules each role can open and edit.</p></div><div class="tbl-wrap" style="max-height:none"><table class="matrix"><thead><tr><th>Role</th>${mods.map(m=>`<th>${m}</th>`).join('')}</tr></thead><tbody>${Object.entries(c.perm).map(([r,v])=>`<tr><td><b>${r}</b>${r==='Owner'?' <span class="muted">(locked)</span>':''}</td>${v.map((x,i)=>`<td><input class="cb" type="checkbox" data-perm="${r}|${i}" ${x?'checked':''} ${r==='Owner'?'disabled':''} aria-label="${r} · ${mods[i]}"></td>`).join('')}</tr>`).join('')}</tbody></table></div></section>`}
+  if(stab==='Notifications'){const T=[['welcome','Welcome email','Sent after registration'],['reset','Password reset','Sent when a reset is requested'],['result','Exam result','Sent when a learner finishes an exam'],['digest','Weekly progress digest','Monday 08:00 (ICT)'],['suspend','Suspension notice','Sent when an account is suspended'],['expiry','Plan expiry reminder','7 days before a plan expires']];
+   h=`<section class="card card-pad" style="max-width:720px"><h2 class="t-sub">Email templates</h2>${T.map(([k,a,b])=>`<div class="tpl"><div><b>${a}</b><div class="muted">${b}</div></div><button class="btn text sm" data-act="toast" data-msg="Template editor is out of scope">Preview</button><label class="sw"><input type="checkbox" data-tpl="${k}" ${c.tpl[k]?'checked':''}><i></i><span class="sr">${a}</span></label></div>`).join('')}</section>`}
+  $('#sbody').innerHTML=h; renderSave();
+}
+function renderSave(){const d=dirty();$('#savebar').innerHTML=`<span class="unsaved ${d?'dirty':''}" role="status"><i></i>${d?'Unsaved changes':'All changes saved'}</span><span class="spacer"></span><button class="btn text" data-act="discard" ${d?'':'disabled'}>Discard</button><button class="btn filled" data-act="save-set" ${d?'':'disabled'}>${t('save')}</button>`}
+
+/* ---------- 8. Audit ---------- */
+let af={actor:'',action:'',open:new Set()};
+function auditView(){
+  const actors=[...new Set(AUDIT.map(a=>a[0]))],acts=[...new Set(AUDIT.map(a=>a[2].split('.')[0]))];
+  return `<div class="page">${head('Home / '+t('audit'),t('audit'),`<button class="btn outline" data-act="toast" data-msg="CSV export queued (mock)">${ic('download')}Export</button>`)}
+  <section class="card"><div class="toolbar"><label class="sr" for="aa">Actor</label><select class="sel" id="aa"><option value="">All actors</option>${actors.map(a=>`<option ${af.actor===a?'selected':''}>${a}</option>`).join('')}</select>
+   <label class="sr" for="ab">Module</label><select class="sel" id="ab"><option value="">All modules</option>${acts.map(a=>`<option ${af.action===a?'selected':''}>${a}</option>`).join('')}</select>
+   <label class="sr" for="ac">Date</label><select class="sel" id="ac"><option>Last 7 days</option><option>Last 30 days</option></select></div><div id="ares"></div></section></div>`;
+}
+function renderAudit(){
+  const rows=AUDIT.filter(a=>(!af.actor||a[0]===af.actor)&&(!af.action||a[2].startsWith(af.action+'.')));
+  $('#ares').innerHTML=rows.length?`<div class="tbl-wrap"><table><thead><tr><th style="width:48px"></th><th>Actor</th><th>Action</th><th>Target</th><th>Timestamp</th><th>IP</th></tr></thead><tbody>
+  ${rows.map(a=>{const k=AUDIT.indexOf(a),o=af.open.has(k);return `<tr><td><button class="icon-btn exp" data-act="exp" data-k="${k}" aria-expanded="${o}" aria-label="Show changes">${ic('down')}</button></td><td><b>${a[0]}</b><div class="muted" style="font-size:12px">${a[1]}</div></td><td><span class="act-chip">${a[2]}</span></td><td>${a[3]}</td><td>${a[4]}</td><td class="muted">${a[5]}</td></tr>
+  ${o?`<tr><td colspan="6" style="padding:0;height:auto"><div class="diff"><div class="b"><div class="t-label" style="margin-bottom:6px">Before</div><pre>${JSON.stringify(a[6],null,2)}</pre></div><div class="a"><div class="t-label" style="margin-bottom:6px">After</div><pre>${JSON.stringify(a[7],null,2)}</pre></div></div></td></tr>`:''}`}).join('')}</tbody></table></div><div class="pager"><span>1–${rows.length} of ${rows.length}</span></div>`
+  :`<div class="state"><div class="ic">${ic('inbox')}</div><h2 class="t-sub">No entries match</h2></div>`;
+}
+
+/* ---------- overlays ---------- */
+function openPanel(html){$('#panel').innerHTML=html;$('#panel').classList.add('open');$('#scrim').classList.add('open');setTimeout(()=>$('#panel input,#panel textarea')?.focus(),50)}
+function closePanel(){$('#panel').classList.remove('open');$('#scrim').classList.remove('open')}
+let lastFocus=null;
+function confirmDlg({title,body,ok='Confirm',danger=false,onOk,extra=''}){
+  lastFocus=document.activeElement;
+  $('#dlg .box').innerHTML=`<h2 id="dlg-title">${title}</h2><p class="muted">${body}</p>${extra}<div class="acts"><button class="btn text" data-act="dlg-x">Cancel</button><button class="btn ${danger?'danger':'filled'}" id="dlg-ok">${ok}</button></div>`;
+  $('#dlg').classList.add('open');$('#dlg-ok').onclick=()=>{const v=$('#dlg select')?.value;closeDlg();onOk&&onOk(v)};$('#dlg-ok').focus();
+}
+function closeDlg(){$('#dlg').classList.remove('open');lastFocus&&lastFocus.focus?.()}
+function toast(msg,undo){const el=document.createElement('div');el.className='toast';el.innerHTML=`<span>${msg}</span>${undo?'<b>Undo</b>':''}`;$('#toasts').append(el);setTimeout(()=>el.remove(),3800);if(undo)el.querySelector('b').onclick=()=>{el.remove()}}
+const lvlOpts=cur=>`<div class="field" style="margin-top:16px"><label for="dl">New level</label><select class="sel" id="dl">${['N5','N4','N3','N2','N1'].map(l=>`<option ${l===cur?'selected':''}>${l}</option>`).join('')}</select></div>`;
+
+/* ---------- router ---------- */
+function route(){
+  closePanel();closeDlg();
+  const h=location.hash||'#/login',seg=h.split('/'),r=seg[1]||'login',root=$('#root');
+  if(r==='login'){root.innerHTML=loginView();document.title='Sign in — JLPT Master Admin';return}
+  root.innerHTML=shell(r);
+  const main=$('#main');
+  if(r==='dashboard')main.innerHTML=dashView();
+  else if(r==='members'&&seg[2]){main.innerHTML=detailView(seg[2]);mtab='Overview';const m=MEMBERS.find(x=>x.id===seg[2]);if(m)$('#tabbody').innerHTML=tabBody(m)}
+  else if(r==='members'){main.innerHTML=membersView();renderMembers()}
+  else if(r==='levels')main.innerHTML=levelsView();
+  else if(r==='settings'){main.innerHTML=settingsView();settingsBody()}
+  else if(r==='audit'){main.innerHTML=auditView();renderAudit()}
+  else main.innerHTML=dashView();
+  document.title=`${r[0].toUpperCase()+r.slice(1)} — JLPT Master Admin`;
+}
+addEventListener('hashchange',route);
+
+/* ---------- events ---------- */
+document.addEventListener('submit',e=>{
+  if(e.target.id==='loginf'){e.preventDefault();const em=$('#em');if(!/.+@.+\..+/.test(em.value)){em.classList.add('err');$('#emh').textContent='Enter a valid email address.';$('#emh').style.color='var(--err)';em.focus();return}location.hash='#/dashboard'}
+  if(e.target.id==='gsearch'){e.preventDefault();S.q=$('#gs').value;S.page=1;location.hash='#/members';setTimeout(route,0)}
+});
+document.addEventListener('input',e=>{
+  const t_=e.target;
+  if(t_.id==='mq'){S.q=t_.value;S.page=1;renderMembers()}
+  if(t_.dataset.set){let v=t_.value;if('num' in t_.dataset)v=+v;CUR[t_.dataset.set]=v;if(t_.id==='s-pass')$('#pv').textContent=v+'%';renderSave()}
+});
+document.addEventListener('change',e=>{
+  const t_=e.target,id=t_.id;
+  if(id==='fl'){S.level=t_.value;S.page=1;renderMembers()}
+  if(id==='fs'){S.status=t_.value;S.page=1;renderMembers()}
+  if(id==='fp'){S.plan=t_.value;S.page=1;renderMembers()}
+  if(id==='vs'){S.view=t_.value;renderMembers();if(S.view==='loading')setTimeout(()=>{if(S.view==='loading'){S.view='ok';const s=$('#vs');if(s)s.value='ok';renderMembers()}},1600)}
+  if(id==='per'){S.per=+t_.value;S.page=1;renderMembers()}
+  if(id==='selall'){const rows=filtered().slice((S.page-1)*S.per,S.page*S.per);rows.forEach(m=>t_.checked?S.sel.add(m.id):S.sel.delete(m.id));renderMembers()}
+  if(t_.classList.contains('rowcb')){t_.checked?S.sel.add(t_.dataset.id):S.sel.delete(t_.dataset.id);renderMembers()}
+  if(id==='aa'){af.actor=t_.value;renderAudit()} if(id==='ab'){af.action=t_.value;renderAudit()}
+  if(t_.dataset.perm){const[r,i]=t_.dataset.perm.split('|');CUR.perm[r][+i]=t_.checked?1:0;renderSave()}
+  if(t_.dataset.tpl){CUR.tpl[t_.dataset.tpl]=t_.checked?1:0;renderSave()}
+});
+document.addEventListener('click',e=>{
+  const pop=$('#avmenu');
+  if(e.target.closest('#avbtn')){const o=pop.classList.toggle('open');$('#avbtn').setAttribute('aria-expanded',o);return}
+  if(pop&&!e.target.closest('#avmenu'))pop.classList?.remove('open');
+  if(e.target.id==='scrim'){closePanel();return}
+  if(e.target.id==='dlg'){closeDlg();return}
+  if(e.target.closest('#collapse')){document.body.classList.toggle('rail');return}
+  const lg=e.target.closest('[data-lang]');if(lg){LANG=lg.dataset.lang;document.documentElement.lang=LANG;route();return}
+  const lv=e.target.closest('[data-lv]');if(lv){S.lvView=lv.dataset.lv;$('#main').innerHTML=levelsView();return}
+  const tb=e.target.closest('[data-tab]');if(tb){mtab=tb.dataset.tab;$$('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b===tb));$('#tabbody').innerHTML=tabBody(MEMBERS.find(x=>x.id===location.hash.split('/')[2]));return}
+  const st=e.target.closest('[data-stab]');if(st){stab=st.dataset.stab;$$('[data-stab]').forEach(b=>b.setAttribute('aria-selected',b===st));settingsBody();return}
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const a=b.dataset.act,m=MEMBERS.find(x=>x.id===b.dataset.id);
+  switch(a){
+   case'toast':e.preventDefault();toast(b.dataset.msg);break;
+   case'clr':S[b.dataset.k]='';S.page=1;route();break;
+   case'clr-all':S.q=S.level=S.status=S.plan='';S.view='ok';S.page=1;route();break;
+   case'retry':S.view='loading';renderMembers();setTimeout(()=>{S.view='ok';const s=$('#vs');if(s)s.value='ok';renderMembers()},900);break;
+   case'pg':S.page+=+b.dataset.d;renderMembers();break;
+   case'sel-none':S.sel.clear();renderMembers();break;
+   case'bulk-suspend':confirmDlg({title:`Suspend ${S.sel.size} members?`,body:'They will be signed out and unable to take exams until reactivated.',ok:'Suspend',danger:true,onOk:()=>{toast(`${S.sel.size} members suspended`,true);S.sel.clear();renderMembers()}});break;
+   case'bulk-level':confirmDlg({title:`Change level for ${S.sel.size} members`,body:'Choose the new target level.',extra:lvlOpts('N5'),ok:'Apply',onOk:v=>{toast(`Level set to ${v} for ${S.sel.size} members`);S.sel.clear();renderMembers()}});break;
+   case'bulk-export':toast(`Exporting ${S.sel.size} members to CSV…`);break;
+   case'add-member':openPanel(`<header><h2 class="t-title" id="panel-title" style="flex:1">Add member</h2><button class="icon-btn" data-act="panel-close" aria-label="Close">${ic('close')}</button></header><div class="body"><div class="field"><label for="an">Full name *</label><input class="in" id="an" placeholder="e.g. Nguyễn Văn An"></div><div class="field"><label for="ae">Email *</label><input class="in" id="ae" type="email" placeholder="name@example.com"><span class="hint" id="aeh"></span></div><div class="grid2"><div class="field"><label for="al">Level</label><select class="sel" id="al">${['N5','N4','N3','N2','N1'].map(l=>`<option>${l}</option>`).join('')}</select></div><div class="field"><label for="ap">Plan</label><select class="sel" id="ap">${PL.map(l=>`<option>${l}</option>`).join('')}</select></div></div></div><footer><button class="btn text" data-act="panel-close">Cancel</button><button class="btn filled" data-act="add-save">Add member</button></footer>`);break;
+   case'add-save':{const em=$('#ae');if(!/.+@.+\..+/.test(em.value)||!$('#an').value.trim()){em.classList.add('err');$('#aeh').textContent='Name and a valid email are required.';$('#aeh').style.color='var(--err)';break}closePanel();toast('Member added (mock)');break}
+   case'panel-close':closePanel();break;
+   case'dlg-x':closeDlg();break;
+   case'edit-member':openPanel(`<header><h2 class="t-title" id="panel-title" style="flex:1">Edit member</h2><button class="icon-btn" data-act="panel-close" aria-label="Close">${ic('close')}</button></header><div class="body"><div class="field"><label for="en">Full name</label><input class="in" id="en" value="${m.name}"></div><div class="field"><label for="ee">Email</label><input class="in" id="ee" value="${m.email}"></div><div class="field"><label for="ep">Phone</label><input class="in" id="ep" value="${m.phone}"></div></div><footer><button class="btn text" data-act="panel-close">Cancel</button><button class="btn filled" data-act="panel-close" onclick="toast('Profile saved (mock)')">Save</button></footer>`);break;
+   case'reset-pw':confirmDlg({title:'Reset password?',body:`A reset link will be emailed to ${m.email}. The current password stays valid until they use it.`,ok:'Send reset link',onOk:()=>toast('Reset link sent')});break;
+   case'chg-level':confirmDlg({title:'Change level',body:`Select the new target level for ${m.name}.`,extra:lvlOpts(m.level),ok:'Change level',onOk:v=>{m.level=v;toast(`Level changed to ${v}`);route()}});break;
+   case'suspend':{const re=m.status==='suspended';confirmDlg({title:re?'Reactivate account?':'Suspend account?',body:re?`${m.name} will be able to sign in again.`:`${m.name} will be signed out and blocked from exams until reactivated.`,ok:re?'Reactivate':'Suspend',danger:!re,onOk:()=>{m.status=re?'active':'suspended';toast(re?'Account reactivated':'Account suspended',true);route()}});break}
+   case'del-member':confirmDlg({title:'Delete this member?',body:`This permanently removes ${m.name} and all exam history. This can’t be undone.`,ok:'Delete member',danger:true,onOk:()=>{toast('Member deleted (mock)');location.hash='#/members'}});break;
+   case'mv':{const i=+b.dataset.i,d=+b.dataset.d,L=S.levels;[L[i],L[i+d]]=[L[i+d],L[i]];$('#main').innerHTML=levelsView();toast('Display order updated');break}
+   case'edit-level':openLevelPanel(b.dataset.code);break;
+   case'pmv':{const L=S.levels,i=L.findIndex(x=>x.code===b.dataset.code),d=+b.dataset.d;if(i+d<0||i+d>=L.length)break;[L[i],L[i+d]]=[L[i+d],L[i]];$('#pord').textContent=i+d+1;break}
+   case'save-level':{const l=S.levels.find(x=>x.code===b.dataset.code);l.name=$('#ln').value;l.desc=$('#ld').value;l.pass=+$('#lp').value;l.on=$('#le').checked;closePanel();$('#main').innerHTML=levelsView();toast(`${l.code} saved`);break}
+   case'save-set':SAVED=structuredClone(CUR);renderSave();toast('Settings saved');break;
+   case'discard':CUR=structuredClone(SAVED);settingsBody();toast('Changes discarded');break;
+   case'exp':{const k=+b.dataset.k;af.open.has(k)?af.open.delete(k):af.open.add(k);renderAudit();break}
+  }
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePanel();closeDlg();$('#avmenu')?.classList.remove('open')}});
+if(innerWidth<=768)document.body.classList.add('rail');
+route();
+</script>
+</body>
+</html>

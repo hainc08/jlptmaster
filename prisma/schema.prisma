@@ -15,6 +15,20 @@ enum Role {
   STUDENT
   EDITOR
   ADMIN
+  OWNER
+  SUPPORT
+}
+
+enum Plan {
+  FREE
+  STANDARD
+  PREMIUM
+}
+
+enum LevelStatus {
+  DRAFT
+  PUBLISHED
+  COMING_SOON
 }
 
 enum UserStatus {
@@ -83,6 +97,11 @@ model User {
   passwordHash String?    @map("password_hash") @db.VarChar(255)
   role         Role       @default(STUDENT)
   status       UserStatus @default(ACTIVE)
+  displayName  String?    @map("display_name") @db.VarChar(120)
+  plan         Plan       @default(FREE)
+  planExpiresAt DateTime?  @map("plan_expires_at")
+  lastActiveAt DateTime?  @map("last_active_at")
+  deletedAt    DateTime?  @map("deleted_at")
   createdAt    DateTime   @default(now()) @map("created_at")
   updatedAt    DateTime   @updatedAt @map("updated_at")
 
@@ -132,6 +151,10 @@ model JlptLevel {
   nameVi    String  @map("name_vi") @db.VarChar(50)
   rankOrder Int     @map("rank_order")
   isActive  Boolean @default(false) @map("is_active")
+  status       LevelStatus @default(DRAFT)
+  description  String      @default("") @db.VarChar(500)
+  passScore    Int         @default(60) @map("pass_score")
+  displayOrder Int         @default(0) @map("display_order")
 
   courses      Course[]
   contentItems ContentItem[]
@@ -504,10 +527,34 @@ model AuditLog {
   entityType            String   @map("entity_type") @db.VarChar(50)
   entityId              String   @map("entity_id") @db.Char(36)
   metadataJsonRedacted  Json     @map("metadata_json_redacted")
+  ip                    String?  @db.VarChar(45)
+  beforeJson            Json?    @map("before_json")
+  afterJson             Json?    @map("after_json")
   createdAt             DateTime @default(now()) @map("created_at")
 
   actor User @relation(fields: [actorId], references: [id])
 
   @@index([actorId, createdAt])
   @@map("audit_logs")
+}
+
+// ----------------------------------------------------------------------
+// ADMIN CMS (settings + role permissions)
+// ----------------------------------------------------------------------
+
+model SystemSetting {
+  key       String   @id @db.VarChar(100)
+  valueJson Json     @map("value_json")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("system_settings")
+}
+
+model RolePermission {
+  role    Role
+  module  String  @db.VarChar(30)
+  allowed Boolean
+
+  @@id([role, module])
+  @@map("role_permissions")
 }
