@@ -9,10 +9,10 @@ function passwordFor(email: string): string {
   return email === ADMIN_EMAIL ? DEMO_PASSWORDS.admin : DEMO_PASSWORDS.student;
 }
 
-export async function login(page: Page, email: string, redirect?: string) {
+export async function login(page: Page, email: string, redirect?: string, password?: string) {
   await page.goto(redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login");
   await page.locator('input[type="email"]').fill(email);
-  await page.locator('input[type="password"]').fill(passwordFor(email));
+  await page.locator('input[type="password"]').fill(password ?? passwordFor(email));
   await page.getByRole("button", { name: /Đăng nhập vào hệ thống/ }).click();
   await page.waitForURL((url) => !url.pathname.startsWith("/login"));
 }
@@ -44,6 +44,22 @@ export async function deleteTestUser(email: string) {
   const prisma = new PrismaClient();
   try {
     await prisma.user.deleteMany({ where: { email } });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+/** Creates a throw-away staff account (SUPPORT/EDITOR/...) with a known password for E2E; remove it with deleteTestUser. */
+export const STAFF_PASSWORD = "Staff-E2E-2026!";
+export async function createStaffUser(email: string, role: "SUPPORT" | "EDITOR" | "OWNER" | "ADMIN") {
+  await deleteTestUser(email);
+  const { PrismaClient } = await import("@prisma/client");
+  const { hashPassword } = await import("../src/server/services/password-service");
+  const prisma = new PrismaClient();
+  try {
+    await prisma.user.create({
+      data: { email, role, status: "ACTIVE", displayName: `E2E ${role}`, passwordHash: await hashPassword(STAFF_PASSWORD), profile: { create: { targetLevel: "N5" } } },
+    });
   } finally {
     await prisma.$disconnect();
   }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { adminRoute, clientIp } from "@/src/server/services/admin-http";
+import { adminRouteWith, clientIp } from "@/src/server/services/admin-http";
 import { updateLevel } from "@/src/server/services/admin-levels-service";
 
 type CodeCtx = { params: Promise<{ code: string }> };
@@ -15,7 +15,7 @@ const Patch = z
   })
   .strict();
 
-export const PATCH = adminRoute<CodeCtx>("levels", async (req, actor, { params }) => {
+export const PATCH = adminRouteWith<CodeCtx>("levels", async (req, actor, { params }) => {
   const { code } = await params;
   const patch = Patch.parse(await req.json().catch(() => ({})));
   return NextResponse.json({ data: await updateLevel(actor, code, patch, clientIp(req)) });
