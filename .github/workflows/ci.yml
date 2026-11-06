@@ -44,6 +44,11 @@ jobs:
           DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
         run: npx prisma migrate deploy
 
+      - name: Seed Test Database (tests read seeded N5 content, users and exams)
+        env:
+          DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
+        run: SEED_DEMO_PASSWORDS=1 npm run db:seed
+
       - name: Run Test Suite (Vitest)
         env:
           DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
