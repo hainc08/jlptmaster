@@ -11,7 +11,7 @@ import {
 } from "@prisma/client";
 import { createHash } from "node:crypto";
 import { hashPassword } from "../src/server/services/password-service";
-import { DEMO_PASSWORDS } from "./demo-credentials";
+import { DEMO_PASSWORDS, shouldSeedDemoData } from "./demo-credentials";
 import { N5_QUESTION_BANK } from "./n5-questions";
 import { importContent } from "./import-content";
 import { N5_READING_PASSAGES, N5_LISTENING_TRACKS, type BankQuestion } from "./n5-reading-listening";
@@ -77,42 +77,47 @@ export async function seedDatabase() {
   console.log("✔ Đã seed ma trận quyền CMS và cài đặt hệ thống mặc định");
 
   // 1c. Mock learners for the admin member list (no password => they cannot log in).
-  const mock: Array<[string, string, string, Plan, UserStatus, number]> = [
-    ["Nguyễn Minh Anh", "minh.anh", "N5", Plan.FREE, UserStatus.ACTIVE, 2], ["Trần Quốc Bảo", "quoc.bao", "N5", Plan.STANDARD, UserStatus.ACTIVE, 5],
-    ["Lê Thu Hà", "thu.ha", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 9], ["Phạm Gia Huy", "gia.huy", "N4", Plan.FREE, UserStatus.PENDING_VERIFICATION, 12],
-    ["Hoàng Ngọc Lan", "ngoc.lan", "N5", Plan.STANDARD, UserStatus.ACTIVE, 16], ["Vũ Đức Anh", "duc.anh", "N3", Plan.FREE, UserStatus.SUSPENDED, 20],
-    ["Đặng Thùy Linh", "thuy.linh", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 25], ["Bùi Tuấn Kiệt", "tuan.kiet", "N4", Plan.STANDARD, UserStatus.ACTIVE, 31],
-    ["Ngô Thanh Mai", "thanh.mai", "N5", Plan.FREE, UserStatus.ACTIVE, 38], ["Dương Hải Đăng", "hai.dang", "N2", Plan.PREMIUM, UserStatus.ACTIVE, 44],
-    ["Phan Khánh Vy", "khanh.vy", "N5", Plan.STANDARD, UserStatus.ACTIVE, 51], ["Võ Hoàng Long", "hoang.long", "N4", Plan.FREE, UserStatus.ACTIVE, 58],
-    ["Đỗ Phương Thảo", "phuong.thao", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 66], ["Lý Anh Tuấn", "anh.tuan", "N1", Plan.STANDARD, UserStatus.ACTIVE, 75],
-    ["田中 美咲", "tanaka.misaki", "N5", Plan.FREE, UserStatus.ACTIVE, 3], ["佐藤 健太", "sato.kenta", "N4", Plan.STANDARD, UserStatus.ACTIVE, 6],
-    ["鈴木 あかり", "suzuki.akari", "N3", Plan.PREMIUM, UserStatus.ACTIVE, 10], ["高橋 蓮", "takahashi.ren", "N5", Plan.FREE, UserStatus.PENDING_VERIFICATION, 14],
-    ["伊藤 結衣", "ito.yui", "N4", Plan.STANDARD, UserStatus.ACTIVE, 18], ["渡辺 大輔", "watanabe.daisuke", "N5", Plan.FREE, UserStatus.SUSPENDED, 27],
-    ["山本 さくら", "yamamoto.sakura", "N2", Plan.PREMIUM, UserStatus.ACTIVE, 33], ["中村 翔太", "nakamura.shota", "N3", Plan.STANDARD, UserStatus.ACTIVE, 40],
-    ["小林 美月", "kobayashi.mizuki", "N5", Plan.FREE, UserStatus.ACTIVE, 47], ["加藤 陽介", "kato.yosuke", "N4", Plan.PREMIUM, UserStatus.ACTIVE, 55],
-    ["吉田 凛", "yoshida.rin", "N5", Plan.STANDARD, UserStatus.ACTIVE, 62], ["山田 拓海", "yamada.takumi", "N5", Plan.FREE, UserStatus.ACTIVE, 70],
-  ];
-  const DAY = 86_400_000;
-  for (const [i, [displayName, local, level, plan, status, ageDays]] of mock.entries()) {
-    const email = `${local}@example.com`;
-    const paidExpired = plan !== Plan.FREE && i % 5 === 3; // a few lapsed paid plans => derived EXPIRED
-    await prisma.user.upsert({
-      where: { email },
-      update: {},
-      create: {
-        email,
-        displayName,
-        role: Role.STUDENT,
-        status,
-        plan,
-        planExpiresAt: plan === Plan.FREE ? null : new Date(Date.now() + (paidExpired ? -10 : 40) * DAY),
-        lastActiveAt: new Date(Date.now() - (i % 7) * DAY),
-        createdAt: new Date(Date.now() - ageDays * DAY),
-        profile: { create: { targetLevel: level, dailyGoalMinutes: 30 } },
-      },
-    });
+  // Demo/CI only: the production start script re-runs this seed on every boot.
+  if (shouldSeedDemoData(process.env)) {
+    const mock: Array<[string, string, string, Plan, UserStatus, number]> = [
+      ["Nguyễn Minh Anh", "minh.anh", "N5", Plan.FREE, UserStatus.ACTIVE, 2], ["Trần Quốc Bảo", "quoc.bao", "N5", Plan.STANDARD, UserStatus.ACTIVE, 5],
+      ["Lê Thu Hà", "thu.ha", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 9], ["Phạm Gia Huy", "gia.huy", "N4", Plan.FREE, UserStatus.PENDING_VERIFICATION, 12],
+      ["Hoàng Ngọc Lan", "ngoc.lan", "N5", Plan.STANDARD, UserStatus.ACTIVE, 16], ["Vũ Đức Anh", "duc.anh", "N3", Plan.FREE, UserStatus.SUSPENDED, 20],
+      ["Đặng Thùy Linh", "thuy.linh", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 25], ["Bùi Tuấn Kiệt", "tuan.kiet", "N4", Plan.STANDARD, UserStatus.ACTIVE, 31],
+      ["Ngô Thanh Mai", "thanh.mai", "N5", Plan.FREE, UserStatus.ACTIVE, 38], ["Dương Hải Đăng", "hai.dang", "N2", Plan.PREMIUM, UserStatus.ACTIVE, 44],
+      ["Phan Khánh Vy", "khanh.vy", "N5", Plan.STANDARD, UserStatus.ACTIVE, 51], ["Võ Hoàng Long", "hoang.long", "N4", Plan.FREE, UserStatus.ACTIVE, 58],
+      ["Đỗ Phương Thảo", "phuong.thao", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 66], ["Lý Anh Tuấn", "anh.tuan", "N1", Plan.STANDARD, UserStatus.ACTIVE, 75],
+      ["田中 美咲", "tanaka.misaki", "N5", Plan.FREE, UserStatus.ACTIVE, 3], ["佐藤 健太", "sato.kenta", "N4", Plan.STANDARD, UserStatus.ACTIVE, 6],
+      ["鈴木 あかり", "suzuki.akari", "N3", Plan.PREMIUM, UserStatus.ACTIVE, 10], ["高橋 蓮", "takahashi.ren", "N5", Plan.FREE, UserStatus.PENDING_VERIFICATION, 14],
+      ["伊藤 結衣", "ito.yui", "N4", Plan.STANDARD, UserStatus.ACTIVE, 18], ["渡辺 大輔", "watanabe.daisuke", "N5", Plan.FREE, UserStatus.SUSPENDED, 27],
+      ["山本 さくら", "yamamoto.sakura", "N2", Plan.PREMIUM, UserStatus.ACTIVE, 33], ["中村 翔太", "nakamura.shota", "N3", Plan.STANDARD, UserStatus.ACTIVE, 40],
+      ["小林 美月", "kobayashi.mizuki", "N5", Plan.FREE, UserStatus.ACTIVE, 47], ["加藤 陽介", "kato.yosuke", "N4", Plan.PREMIUM, UserStatus.ACTIVE, 55],
+      ["吉田 凛", "yoshida.rin", "N5", Plan.STANDARD, UserStatus.ACTIVE, 62], ["山田 拓海", "yamada.takumi", "N5", Plan.FREE, UserStatus.ACTIVE, 70],
+    ];
+    const DAY = 86_400_000;
+    for (const [i, [displayName, local, level, plan, status, ageDays]] of mock.entries()) {
+      const email = `${local}@example.com`;
+      const paidExpired = plan !== Plan.FREE && i % 5 === 3; // a few lapsed paid plans => derived EXPIRED
+      await prisma.user.upsert({
+        where: { email },
+        update: {},
+        create: {
+          email,
+          displayName,
+          role: Role.STUDENT,
+          status,
+          plan,
+          planExpiresAt: plan === Plan.FREE ? null : new Date(Date.now() + (paidExpired ? -10 : 40) * DAY),
+          lastActiveAt: new Date(Date.now() - (i % 7) * DAY),
+          createdAt: new Date(Date.now() - ageDays * DAY),
+          profile: { create: { targetLevel: level, dailyGoalMinutes: 30 } },
+        },
+      });
+    }
+    console.log(`✔ Đã seed ${mock.length} học viên mẫu cho CMS (không có mật khẩu)`);
+  } else {
+    console.log("• Bỏ qua học viên mẫu cho CMS (chỉ seed khi SEED_DEMO_PASSWORDS=1 và không phải production)");
   }
-  console.log(`✔ Đã seed ${mock.length} học viên mẫu cho CMS (không có mật khẩu)`);
 
   // 2. Demo Users (Admin and Student)
   const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@jlptmaster.vn";
