@@ -2,6 +2,8 @@ import {
   PrismaClient,
   Role,
   UserStatus,
+  Plan,
+  LevelStatus,
   ContentStatus,
   ContentKind,
   QuestionType,
@@ -28,14 +30,89 @@ export async function seedDatabase() {
     { id: "N1", nameVi: "Cao cấp chuyên sâu", rankOrder: 5, isActive: false },
   ];
 
+  // Admin CMS fields are written on create only, so re-seeding never overwrites edits made in the CMS.
+  const levelCms: Record<string, { status: LevelStatus; description: string }> = {
+    N5: { status: LevelStatus.PUBLISHED, description: "Ngữ pháp cơ bản, khoảng 800 từ vựng và 100 chữ Hán. Cấp độ phát hành đầu tiên." },
+    N4: { status: LevelStatus.DRAFT, description: "Ngữ pháp sơ cấp và khoảng 300 chữ Hán. Nội dung đang được biên tập." },
+    N3: { status: LevelStatus.DRAFT, description: "Cấp độ cầu nối giữa tiếng Nhật đời sống và học thuật." },
+    N2: { status: LevelStatus.COMING_SOON, description: "Đọc và nghe ở mức công việc. Sắp ra mắt." },
+    N1: { status: LevelStatus.COMING_SOON, description: "Tiếng Nhật học thuật và chuyên môn nâng cao. Sắp ra mắt." },
+  };
   for (const lvl of levels) {
     await prisma.jlptLevel.upsert({
       where: { id: lvl.id },
       update: lvl,
-      create: lvl,
+      create: { ...lvl, ...levelCms[lvl.id], displayOrder: lvl.rankOrder, passScore: 60 },
     });
+    // Levels that predate the CMS columns get their description once; later edits are never overwritten.
+    await prisma.jlptLevel.updateMany({ where: { id: lvl.id, description: "" }, data: { description: levelCms[lvl.id].description } });
   }
   console.log("✔ Đã seed 5 cấp độ JLPT (N5 kích hoạt)");
+
+  // 1b. Admin CMS defaults: role × module permissions and system settings (create-only).
+  const modules = ["dashboard", "members", "levels", "settings", "audit"] as const;
+  const defaults: Record<string, readonly string[]> = {
+    OWNER: modules,
+    ADMIN: modules,
+    EDITOR: ["dashboard", "levels"],
+    SUPPORT: ["dashboard", "members", "audit"],
+  };
+  for (const [role, allowedModules] of Object.entries(defaults)) {
+    for (const module of modules) {
+      await prisma.rolePermission.upsert({
+        where: { role_module: { role: role as Role, module } },
+        update: {},
+        create: { role: role as Role, module, allowed: allowedModules.includes(module) },
+      });
+    }
+  }
+  const settingDefaults: Record<string, object> = {
+    general: { siteName: "JLPT Master", defaultLanguage: "vi" },
+    exam_rules: { timeLimitMin: 105, retakeLimit: 3, passThreshold: 60 },
+    notifications: { welcome: true, passwordReset: true, examResult: true, weeklyDigest: false, suspension: true, planExpiry: true },
+  };
+  for (const [key, valueJson] of Object.entries(settingDefaults)) {
+    await prisma.systemSetting.upsert({ where: { key }, update: {}, create: { key, valueJson } });
+  }
+  console.log("✔ Đã seed ma trận quyền CMS và cài đặt hệ thống mặc định");
+
+  // 1c. Mock learners for the admin member list (no password => they cannot log in).
+  const mock: Array<[string, string, string, Plan, UserStatus, number]> = [
+    ["Nguyễn Minh Anh", "minh.anh", "N5", Plan.FREE, UserStatus.ACTIVE, 2], ["Trần Quốc Bảo", "quoc.bao", "N5", Plan.STANDARD, UserStatus.ACTIVE, 5],
+    ["Lê Thu Hà", "thu.ha", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 9], ["Phạm Gia Huy", "gia.huy", "N4", Plan.FREE, UserStatus.PENDING_VERIFICATION, 12],
+    ["Hoàng Ngọc Lan", "ngoc.lan", "N5", Plan.STANDARD, UserStatus.ACTIVE, 16], ["Vũ Đức Anh", "duc.anh", "N3", Plan.FREE, UserStatus.SUSPENDED, 20],
+    ["Đặng Thùy Linh", "thuy.linh", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 25], ["Bùi Tuấn Kiệt", "tuan.kiet", "N4", Plan.STANDARD, UserStatus.ACTIVE, 31],
+    ["Ngô Thanh Mai", "thanh.mai", "N5", Plan.FREE, UserStatus.ACTIVE, 38], ["Dương Hải Đăng", "hai.dang", "N2", Plan.PREMIUM, UserStatus.ACTIVE, 44],
+    ["Phan Khánh Vy", "khanh.vy", "N5", Plan.STANDARD, UserStatus.ACTIVE, 51], ["Võ Hoàng Long", "hoang.long", "N4", Plan.FREE, UserStatus.ACTIVE, 58],
+    ["Đỗ Phương Thảo", "phuong.thao", "N5", Plan.PREMIUM, UserStatus.ACTIVE, 66], ["Lý Anh Tuấn", "anh.tuan", "N1", Plan.STANDARD, UserStatus.ACTIVE, 75],
+    ["田中 美咲", "tanaka.misaki", "N5", Plan.FREE, UserStatus.ACTIVE, 3], ["佐藤 健太", "sato.kenta", "N4", Plan.STANDARD, UserStatus.ACTIVE, 6],
+    ["鈴木 あかり", "suzuki.akari", "N3", Plan.PREMIUM, UserStatus.ACTIVE, 10], ["高橋 蓮", "takahashi.ren", "N5", Plan.FREE, UserStatus.PENDING_VERIFICATION, 14],
+    ["伊藤 結衣", "ito.yui", "N4", Plan.STANDARD, UserStatus.ACTIVE, 18], ["渡辺 大輔", "watanabe.daisuke", "N5", Plan.FREE, UserStatus.SUSPENDED, 27],
+    ["山本 さくら", "yamamoto.sakura", "N2", Plan.PREMIUM, UserStatus.ACTIVE, 33], ["中村 翔太", "nakamura.shota", "N3", Plan.STANDARD, UserStatus.ACTIVE, 40],
+    ["小林 美月", "kobayashi.mizuki", "N5", Plan.FREE, UserStatus.ACTIVE, 47], ["加藤 陽介", "kato.yosuke", "N4", Plan.PREMIUM, UserStatus.ACTIVE, 55],
+    ["吉田 凛", "yoshida.rin", "N5", Plan.STANDARD, UserStatus.ACTIVE, 62], ["山田 拓海", "yamada.takumi", "N5", Plan.FREE, UserStatus.ACTIVE, 70],
+  ];
+  const DAY = 86_400_000;
+  for (const [i, [displayName, local, level, plan, status, ageDays]] of mock.entries()) {
+    const email = `${local}@example.com`;
+    const paidExpired = plan !== Plan.FREE && i % 5 === 3; // a few lapsed paid plans => derived EXPIRED
+    await prisma.user.upsert({
+      where: { email },
+      update: {},
+      create: {
+        email,
+        displayName,
+        role: Role.STUDENT,
+        status,
+        plan,
+        planExpiresAt: plan === Plan.FREE ? null : new Date(Date.now() + (paidExpired ? -10 : 40) * DAY),
+        lastActiveAt: new Date(Date.now() - (i % 7) * DAY),
+        createdAt: new Date(Date.now() - ageDays * DAY),
+        profile: { create: { targetLevel: level, dailyGoalMinutes: 30 } },
+      },
+    });
+  }
+  console.log(`✔ Đã seed ${mock.length} học viên mẫu cho CMS (không có mật khẩu)`);
 
   // 2. Demo Users (Admin and Student)
   const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@jlptmaster.vn";
