@@ -144,9 +144,9 @@ All layout margins, paddings, and component alignments strictly adhere to the 8p
 
 ---
 
-## 7. PROPOSED — Learner app redesign tokens (not approved)
+## 7. Learner app redesign tokens (approved 2026-11-06)
 
-**Status:** Proposal for owner approval (see `docs/ui-approval.md` §5, question 2). Sections 2–3 above stay in force until approved. Source: `:root` of `docs/design/learner-app/index.html`, shared with the Admin CMS.
+**Status:** Approved 2026-11-06 (owner, Q2 default). Supersedes the colours in §2 and the UI font in §3 for learner screens. Source: `:root` of `docs/design/learner-app/index.html`, shared with the Admin CMS.
 
 | Token | Hex | Use | Contrast (measured) |
 |---|---|---|---|

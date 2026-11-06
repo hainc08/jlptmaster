@@ -1,6 +1,6 @@
 # Learner App — Activity, Progress & Preferences API/DB Contract
 
-**Status:** Proposal — awaiting written owner approval. Not implemented. `docs/phase-state.yaml` is not edited by the agent.
+**Status:** Approved by the owner in chat on 2026-11-06 ("theo phương án 1 nhé"). Recorded in `docs/phase-state.yaml` → `learner_redesign`.
 **UI reference:** `docs/design/learner-app/index.html` (frames 02, 03, 05, 09) · **UI approval:** `docs/ui-approval.md` §5
 **Plan:** `docs/superpowers/plans/2026-11-06-learner-app-redesign.md`, Tasks 11–14 (Part B), wired in Task 15.
 
