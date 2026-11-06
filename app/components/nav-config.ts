@@ -18,6 +18,11 @@ import {
   Trophy,
 } from "lucide-react";
 
+/** Admin CMS screens render their own shell, so the learner header and bottom nav are hidden there. */
+export function isCmsPath(pathname: string): boolean {
+  return /^\/admin\/(dashboard|members|levels|settings|audit)(\/|$)/.test(pathname);
+}
+
 export type UserRole = "student" | "guest" | "admin";
 export type SectionId = "trang-chu" | "hoc-tap" | "luyen-tap" | "thi-thu" | "tien-do";
 

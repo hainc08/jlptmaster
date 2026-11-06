@@ -10,6 +10,7 @@ import {
   SectionId,
   UserRole,
   getActiveSectionFromPathname,
+  isCmsPath,
 } from "./nav-config";
 import {
   ChevronDown,
@@ -113,7 +114,7 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
   }, []);
 
   // Isolated prototype routes render their own standalone header preview
-  if (pathname.startsWith("/prototype/")) {
+  if (pathname.startsWith("/prototype/") || isCmsPath(pathname)) {
     return null;
   }
 

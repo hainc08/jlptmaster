@@ -7,6 +7,7 @@ import {
   NAV_SECTIONS,
   SectionId,
   getActiveSectionFromPathname,
+  isCmsPath,
 } from "./nav-config";
 import { X } from "lucide-react";
 
@@ -15,7 +16,7 @@ export function BottomNav() {
   const [mobileSheetSection, setMobileSheetSection] = useState<SectionId | null>(null);
 
   // Hide bottom nav on isolated prototype routes and in active exam room mode
-  if (pathname.startsWith("/prototype/") || (pathname.startsWith("/mock-exams/") && pathname !== "/mock-exams")) {
+  if (pathname.startsWith("/prototype/") || isCmsPath(pathname) || (pathname.startsWith("/mock-exams/") && pathname !== "/mock-exams")) {
     return null;
   }
 
