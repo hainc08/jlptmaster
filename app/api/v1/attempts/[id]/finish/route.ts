@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
 import { ExamSnapshot, gradeExamAttempt } from "@/src/server/services/exam-service";
-import { assertUserOwnership, OwnershipError } from "@/src/server/services/auth-service";
+import { assertUserOwnership, requireSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 export async function POST(
   req: NextRequest,
@@ -10,7 +10,6 @@ export async function POST(
   try {
     const { id: attemptId } = await params;
     const body = await req.json().catch(() => ({}));
-    const userId: string | undefined = body.userId;
 
     const attempt = await prisma.examAttempt.findUnique({
       where: { id: attemptId },
@@ -24,9 +23,8 @@ export async function POST(
       );
     }
 
-    if (userId) {
-      assertUserOwnership(userId, attempt.userId);
-    }
+    const { userId: callerId } = requireSession(req);
+    assertUserOwnership(callerId, attempt.userId);
 
     // Idempotent return if already finalized
     if (attempt.status === "SUBMITTED" || attempt.status === "EXPIRED") {
@@ -110,12 +108,8 @@ export async function POST(
       },
     });
   } catch (error: any) {
-    if (error instanceof OwnershipError) {
-      return NextResponse.json(
-        { error: { code: "FORBIDDEN", message: error.message } },
-        { status: 403 }
-      );
-    }
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "FINISH_EXAM_FAILED", message: error.message } },
       { status: 500 }

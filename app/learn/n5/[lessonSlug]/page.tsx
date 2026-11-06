@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { MOCK_LESSONS, MOCK_VOCAB, MOCK_GRAMMAR } from "../../../fixtures/n5-curriculum";
@@ -12,9 +12,7 @@ import {
   CheckCircle2,
   ChevronLeft,
   ArrowRight,
-  Volume2,
-  Sparkles,
-  HelpCircle,
+  Loader2,
 } from "lucide-react";
 
 function LessonContent() {
@@ -23,10 +21,48 @@ function LessonContent() {
   const { showFurigana, toggleFurigana } = useFurigana();
 
   const [activeTab, setActiveTab] = useState<"THEORY" | "VOCAB" | "KANA">("THEORY");
-  const [completedState, setCompletedState] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [markingComplete, setMarkingComplete] = useState(false);
 
   const lesson = MOCK_LESSONS.find((l) => l.slug === slug) || MOCK_LESSONS[2];
   const isKanaLesson = slug === "bai-01-kana-nhap-mon";
+
+  // Check if lesson was already completed in localStorage or API
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(`jlpt_lesson_completed_${slug}`);
+      if (saved === "true") {
+        setIsCompleted(true);
+      }
+    }
+  }, [slug]);
+
+  const handleMarkComplete = async () => {
+    setMarkingComplete(true);
+    try {
+      const res = await fetch(`/api/v1/lessons/${slug}/complete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      if (res.status === 401) {
+        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+        return;
+      }
+      if (res.ok) {
+        setIsCompleted(true);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(`jlpt_lesson_completed_${slug}`, "true");
+        }
+      } else {
+        window.alert("Không lưu được tiến độ bài học. Vui lòng thử lại.");
+      }
+    } catch {
+      window.alert("Lỗi kết nối: chưa lưu được tiến độ bài học.");
+    } finally {
+      setMarkingComplete(false);
+    }
+  };
 
   const hiraganaTable = [
     { kana: "あ", ro: "a" }, { kana: "い", ro: "i" }, { kana: "う", ro: "u" }, { kana: "え", ro: "e" }, { kana: "お", ro: "o" },
@@ -35,7 +71,7 @@ function LessonContent() {
     { kana: "た", ro: "ta" }, { kana: "ち", ro: "chi" }, { kana: "つ", ro: "tsu" }, { kana: "て", ro: "te" }, { kana: "と", ro: "to" },
     { kana: "な", ro: "na" }, { kana: "に", ro: "ni" }, { kana: "ぬ", ro: "nu" }, { kana: "ね", ro: "ne" }, { kana: "の", ro: "no" },
     { kana: "は", ro: "ha" }, { kana: "ひ", ro: "hi" }, { kana: "ふ", ro: "fu" }, { kana: "へ", ro: "he" }, { kana: "ほ", ro: "ho" },
-    { kana: "ま", ro: "ma" }, { kana: "み", ro: "mi" }, { kana: "む", ro: "mu" }, { kana: "め", ro: "me" }, { kana: "mo", ro: "mo" },
+    { kana: "ま", ro: "ma" }, { kana: "み", ro: "mi" }, { kana: "む", ro: "mu" }, { kana: "め", ro: "me" }, { kana: "も", ro: "mo" },
     { kana: "や", ro: "ya" }, { kana: "ゆ", ro: "yu" }, { kana: "よ", ro: "yo" },
     { kana: "ら", ro: "ra" }, { kana: "り", ro: "ri" }, { kana: "る", ro: "ru" }, { kana: "れ", ro: "re" }, { kana: "ろ", ro: "ro" },
     { kana: "わ", ro: "wa" }, { kana: "を", ro: "wo" }, { kana: "ん", ro: "n" },
@@ -44,7 +80,7 @@ function LessonContent() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <LearningToolbar title="Tùy chọn hiển thị Bài học N5" />
-      {/* Top Breadcrumb & Furigana switch */}
+      {/* Top Breadcrumb & Status */}
       <div className="flex items-center justify-between gap-4">
         <Link
           href="/learn/n5"
@@ -53,9 +89,17 @@ function LessonContent() {
           <ChevronLeft size={16} />
           Lộ trình N5
         </Link>
-        <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
-          Bài giảng chuẩn JLPT N5
-        </span>
+        <div className="flex items-center gap-2">
+          {isCompleted && (
+            <span className="text-xs font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-3 py-1 rounded-full flex items-center gap-1">
+              <CheckCircle2 size={13} />
+              Đã hoàn thành bài học
+            </span>
+          )}
+          <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+            Bài giảng chuẩn JLPT N5
+          </span>
+        </div>
       </div>
 
       {/* Lesson Header */}
@@ -78,7 +122,7 @@ function LessonContent() {
         <div className="flex gap-2 pt-2 border-t border-gray-100">
           <button
             onClick={() => setActiveTab("THEORY")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === "THEORY"
                 ? "bg-[#B9343F] text-white shadow-sm"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -88,7 +132,7 @@ function LessonContent() {
           </button>
           <button
             onClick={() => setActiveTab("VOCAB")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === "VOCAB"
                 ? "bg-[#B9343F] text-white shadow-sm"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -99,104 +143,60 @@ function LessonContent() {
           {isKanaLesson && (
             <button
               onClick={() => setActiveTab("KANA")}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === "KANA"
                   ? "bg-[#B9343F] text-white shadow-sm"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              Bảng chữ cái Hiragana
+              Bảng chữ cái Hiragana (46)
             </button>
           )}
         </div>
       </div>
 
-      {/* Tab: Theory & Grammar */}
+      {/* Tab: Theory & Grammar Points */}
       {activeTab === "THEORY" && (
         <div className="space-y-6">
-          {/* Grammar Point 1 */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#2B4C7E] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-                Mẫu câu 01
-              </span>
-              <span className="text-xs text-gray-500">Khẳng định cơ bản</span>
-            </div>
+          {MOCK_GRAMMAR.map((g, idx) => (
+            <div
+              key={g.id}
+              className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-[#2B4C7E] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                  Mẫu câu 0{idx + 1}
+                </span>
+                <span className="text-xs text-gray-500">{g.formation}</span>
+              </div>
 
-            <h2 className="text-xl font-bold text-gray-900">
-              [ Danh từ 1 ] は [ Danh từ 2 ] です。(N1 wa N2 desu)
-            </h2>
+              <h2 className="text-xl font-bold text-gray-900">{g.pattern}</h2>
 
-            <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-1 text-sm">
-              <span className="font-bold text-amber-950 block">Ý nghĩa & Cách dùng:</span>
-              <p className="text-amber-900 leading-relaxed">
-                Biểu thị ý nghĩa: <strong>"Danh từ 1 là Danh từ 2"</strong>. Trợ từ <strong>は</strong> (đọc là <em>wa</em>, không đọc là <em>ha</em>) dùng để đánh dấu chủ ngữ/chủ đề được nói đến.
-              </p>
-            </div>
+              <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-1 text-sm">
+                <span className="font-bold text-amber-950 block">Ý nghĩa & Cách dùng:</span>
+                <p className="text-amber-900 leading-relaxed">{g.meaningVi}</p>
+                {g.nuanceVi && (
+                  <p className="text-xs text-amber-800 italic mt-1 font-normal">{g.nuanceVi}</p>
+                )}
+              </div>
 
-            <div className="space-y-3 pt-2">
-              <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-                Câu ví dụ thực tế:
-              </h3>
-
-              <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 flex items-start justify-between gap-3">
-                <div className="space-y-1">
-                  <div className="text-lg font-bold text-gray-900">
-                    <RubyText kanji="わたし" reading="" /> は{" "}
-                    <RubyText kanji="学生" reading="がくせい" /> です。
+              {/* Example with Audio */}
+              <div className="space-y-3 pt-2">
+                <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Câu ví dụ thực tế:
+                </h3>
+                <div className="p-3.5 rounded-2xl bg-[#F7F7F4] border border-gray-100 flex items-start justify-between gap-3">
+                  <div className="space-y-1">
+                    <p className="text-base font-medium text-gray-900 font-japanese">
+                      {g.exampleJa}
+                    </p>
+                    <p className="text-sm font-medium text-emerald-800">{g.exampleVi}</p>
                   </div>
-                  <p className="text-xs text-gray-500 italic">Watashi wa gakusei desu.</p>
-                  <p className="text-sm font-medium text-emerald-800">Nghĩa: Tôi là học sinh / sinh viên.</p>
+                  <AudioButton textToSpeak={g.exampleJa} />
                 </div>
-                <AudioButton textToSpeak="わたしは学生です" />
-              </div>
-
-              <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 flex items-start justify-between gap-3">
-                <div className="space-y-1">
-                  <div className="text-lg font-bold text-gray-900">
-                    <RubyText kanji="田中" reading="たなか" /> さん は{" "}
-                    <RubyText kanji="先生" reading="せんせい" /> です。
-                  </div>
-                  <p className="text-xs text-gray-500 italic">Tanaka-san wa sensei desu.</p>
-                  <p className="text-sm font-medium text-emerald-800">Nghĩa: Anh Tanaka là giáo viên.</p>
-                </div>
-                <AudioButton textToSpeak="田中さんは先生です" />
               </div>
             </div>
-          </div>
-
-          {/* Grammar Point 2 */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#2B4C7E] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-                Mẫu câu 02
-              </span>
-              <span className="text-xs text-gray-500">Phủ định lịch sự</span>
-            </div>
-
-            <h2 className="text-xl font-bold text-gray-900">
-              [ N1 ] は [ N2 ] ではありません / じゃありません。
-            </h2>
-
-            <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-1 text-sm">
-              <span className="font-bold text-amber-950 block">Ý nghĩa & Cách dùng:</span>
-              <p className="text-amber-900 leading-relaxed">
-                Biểu thị ý nghĩa: <strong>"N1 không phải là N2"</strong>. Trong văn viết trang trọng ta dùng <em>ではありません (dewa arimasen)</em>, trong đàm thoại hàng ngày dùng <em>じゃありません (ja arimasen)</em>.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 flex items-start justify-between gap-3">
-              <div className="space-y-1">
-                <div className="text-lg font-bold text-gray-900">
-                  <RubyText kanji="山田" reading="やまだ" /> さん は{" "}
-                  <RubyText kanji="医者" reading="いしゃ" /> ではありません。
-                </div>
-                <p className="text-xs text-gray-500 italic">Yamada-san wa isha dewa arimasen.</p>
-                <p className="text-sm font-medium text-emerald-800">Nghĩa: Anh Yamada không phải là bác sĩ.</p>
-              </div>
-              <AudioButton textToSpeak="山田さんは医者ではありません" />
-            </div>
-          </div>
+          ))}
         </div>
       )}
 
@@ -259,17 +259,47 @@ function LessonContent() {
             Bạn đã sẵn sàng củng cố kiến thức bài học?
           </h3>
           <p className="text-xs text-gray-600">
-            Làm bài trắc nghiệm 5 câu để kiểm tra khả năng ghi nhớ và ghi nhận hoàn thành bài học.
+            Đánh dấu hoàn thành bài học để ghi nhận tiến độ vào hệ thống hoặc làm bài luyện tập trắc nghiệm.
           </p>
         </div>
 
-        <Link
-          href="/practice"
-          className="px-6 py-3.5 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-md flex items-center gap-2 whitespace-nowrap transition-all"
-        >
-          Luyện tập 5 câu hỏi bài này
-          <ArrowRight size={16} />
-        </Link>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            disabled={isCompleted || markingComplete}
+            onClick={handleMarkComplete}
+            className={`px-5 py-3 rounded-2xl font-bold text-xs shadow-sm flex items-center gap-2 transition-all cursor-pointer ${
+              isCompleted
+                ? "bg-emerald-100 text-emerald-800 border border-emerald-300 cursor-default"
+                : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+            }`}
+          >
+            {markingComplete ? (
+              <>
+                <Loader2 size={14} className="animate-spin" />
+                Đang lưu...
+              </>
+            ) : isCompleted ? (
+              <>
+                <CheckCircle2 size={14} className="text-emerald-700" />
+                Đã hoàn thành bài học
+              </>
+            ) : (
+              <>
+                <CheckCircle2 size={14} />
+                Đánh dấu hoàn thành
+              </>
+            )}
+          </button>
+
+          <Link
+            href="/practice"
+            className="px-6 py-3 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-md flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer"
+          >
+            Luyện tập 5 câu hỏi bài này
+            <ArrowRight size={16} />
+          </Link>
+        </div>
       </div>
     </div>
   );

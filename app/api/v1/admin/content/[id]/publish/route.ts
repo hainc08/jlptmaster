@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/src/server/db";
-import { assertAdminRole, UnauthorizedRoleError } from "@/src/server/services/auth-service";
+import { requireAdminSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 const PublishSchema = z.object({
-  actorId: z.string().optional(),
-  role: z.string().default("STUDENT"),
   status: z.enum(["DRAFT", "IN_REVIEW", "PUBLISHED", "ARCHIVED"]).default("PUBLISHED"),
 });
 
@@ -25,16 +23,8 @@ export async function POST(
       );
     }
 
-    const { actorId, role, status } = parsed.data;
-    assertAdminRole(role);
-
-    let resolvedActorId = actorId;
-    if (!resolvedActorId) {
-      const admin = await prisma.user.findUnique({
-        where: { email: "admin@jlptmaster.vn" },
-      });
-      resolvedActorId = admin?.id;
-    }
+    const { status } = parsed.data;
+    const resolvedActorId = requireAdminSession(req).userId;
 
     const item = await prisma.contentItem.findUnique({
       where: { id: contentId },
@@ -58,7 +48,7 @@ export async function POST(
         },
       });
 
-      if (resolvedActorId) {
+      {
         await tx.auditLog.create({
           data: {
             actorId: resolvedActorId,
@@ -79,12 +69,8 @@ export async function POST(
 
     return NextResponse.json({ data: updated });
   } catch (error: any) {
-    if (error instanceof UnauthorizedRoleError) {
-      return NextResponse.json(
-        { error: { code: "FORBIDDEN", message: error.message } },
-        { status: 403 }
-      );
-    }
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "PUBLISH_FAILED", message: error.message } },
       { status: 500 }

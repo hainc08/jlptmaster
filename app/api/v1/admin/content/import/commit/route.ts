@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
 import { validateCsvRows } from "@/src/server/services/csv-import-service";
-import { assertAdminRole, UnauthorizedRoleError } from "@/src/server/services/auth-service";
+import { requireAdminSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const role: string = body.role || "STUDENT";
-    const actorId: string | undefined = body.actorId;
     const rows = Array.isArray(body.rows) ? body.rows : [];
-
-    assertAdminRole(role);
+    const actorId = requireAdminSession(req).userId;
 
     if (rows.length === 0) {
       return NextResponse.json(
@@ -65,7 +62,7 @@ export async function POST(req: NextRequest) {
         count++;
       }
 
-      if (actorId) {
+      {
         await tx.auditLog.create({
           data: {
             actorId,
@@ -86,12 +83,8 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error: any) {
-    if (error instanceof UnauthorizedRoleError) {
-      return NextResponse.json(
-        { error: { code: "FORBIDDEN", message: error.message } },
-        { status: 403 }
-      );
-    }
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "CSV_COMMIT_FAILED", message: error.message } },
       { status: 500 }

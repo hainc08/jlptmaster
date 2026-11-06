@@ -5,6 +5,7 @@ import "./globals.css";
 import { FuriganaProvider } from "./components/RubyText";
 import { Navbar } from "./components/Navbar";
 import { BottomNav } from "./components/BottomNav";
+import { Footer } from "./components/Footer";
 
 const beVietnamPro = Be_Vietnam_Pro({
   variable: "--font-vietnamese",
@@ -40,7 +41,8 @@ export default function RootLayout({
           <Suspense fallback={<div className="h-16 bg-white border-b border-gray-200" />}>
             <Navbar />
           </Suspense>
-          <main className="flex-1 pb-16 md:pb-0">{children}</main>
+          <main className="flex-1">{children}</main>
+          <Footer />
           <Suspense fallback={null}>
             <BottomNav />
           </Suspense>

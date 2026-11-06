@@ -1,0 +1,2291 @@
+{
+  "schemaVersion": 1,
+  "level": "N1",
+  "exam": {
+    "slug": "n1-exam-01",
+    "title": "Đề thi thử JLPT N1 — Số 01 (Mô phỏng nội bộ)",
+    "version": "v1.0",
+    "scoringPolicy": "JLPT_SCALE_180",
+    "status": "PUBLISHED"
+  },
+  "sections": [
+    {
+      "type": "VOCAB",
+      "durationSeconds": 2100,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "kanji-yomi",
+          "labelVi": "Cách đọc chữ Hán",
+          "questionType": "KANJI_READING",
+          "skillTag": "Chữ Hán N1",
+          "items": [
+            {
+              "key": "n1-v-001",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n経営の悪化が「懸念」されている。",
+              "options": [
+                "けんねん",
+                "げねん",
+                "けいねん",
+                "けねん"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「けねん」. 懸念 (lo ngại) đọc là けねん; 懸 đọc け.",
+              "confidence": "high",
+              "target": "懸念"
+            },
+            {
+              "key": "n1-v-002",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n状況を正確に「把握」する必要がある。",
+              "options": [
+                "はおく",
+                "はあく",
+                "ばあく",
+                "はわく"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「はあく」. 把握 (nắm bắt) đọc là はあく.",
+              "confidence": "high",
+              "target": "把握"
+            },
+            {
+              "key": "n1-v-003",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n他人に「偏見」を持たないように心がけている。",
+              "options": [
+                "へんけん",
+                "へんげん",
+                "ぺんけん",
+                "へいけん"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「へんけん」. 偏見 (định kiến) đọc là へんけん.",
+              "confidence": "high",
+              "target": "偏見"
+            },
+            {
+              "key": "n1-v-004",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\nこの問題は「慎重」に判断しなければならない。",
+              "options": [
+                "しんじゅう",
+                "しんちゅう",
+                "しんちょう",
+                "じんちょう"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「しんちょう」. 慎重 (thận trọng) đọc là しんちょう.",
+              "confidence": "high",
+              "target": "慎重"
+            },
+            {
+              "key": "n1-v-005",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n会社は組合の要求を「拒否」した。",
+              "options": [
+                "きょふ",
+                "きょひ",
+                "ぎょひ",
+                "きょうひ"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「きょひ」. 拒否 (từ chối) đọc là きょひ.",
+              "confidence": "high",
+              "target": "拒否"
+            },
+            {
+              "key": "n1-v-006",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n彼は自分の負けを認める「潔い」人だ。",
+              "options": [
+                "いさぎよい",
+                "いさぎいい",
+                "いさぎょい",
+                "けつい"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「いさぎよい」. 潔い đọc là いさぎよい (khảng khái, dứt khoát, chấp nhận thua một cách đường hoàng).",
+              "confidence": "check",
+              "target": "潔い",
+              "reviewNote": "Xác nhận 潔い thuộc N1."
+            }
+          ]
+        },
+        {
+          "partKey": "bunmyaku",
+          "labelVi": "Từ vựng theo ngữ cảnh",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Từ vựng N1",
+          "items": [
+            {
+              "key": "n1-v-007",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n彼の態度は（　）だったので、周囲の反感を買った。",
+              "options": [
+                "謙虚",
+                "柔軟",
+                "傲慢",
+                "誠実"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「傲慢」. 傲慢 (ngạo mạn) là thái độ dễ khiến người xung quanh phản cảm; các từ còn lại mang nghĩa tốt.",
+              "confidence": "high",
+              "target": "傲慢"
+            },
+            {
+              "key": "n1-v-008",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n会社は不正の原因を（　）するため、第三者委員会を設置した。",
+              "options": [
+                "解散",
+                "解消",
+                "解放",
+                "解明"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「解明」. 原因を解明する = làm sáng tỏ nguyên nhân.",
+              "confidence": "high",
+              "target": "解明"
+            },
+            {
+              "key": "n1-v-009",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nこの政策は、少子化に（　）をかける効果が期待されている。",
+              "options": [
+                "後押し",
+                "歯止め",
+                "見通し",
+                "手加減"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「歯止め」. 歯止めをかける = ngăn chặn, hãm lại (đà suy giảm).",
+              "confidence": "high",
+              "target": "歯止めをかける"
+            },
+            {
+              "key": "n1-v-010",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n彼女は新しい環境にも（　）対応できる人だ。",
+              "options": [
+                "柔軟に",
+                "強引に",
+                "大まかに",
+                "厳重に"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「柔軟に」. 柔軟に対応する = ứng phó linh hoạt.",
+              "confidence": "high",
+              "target": "柔軟"
+            },
+            {
+              "key": "n1-v-011",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n景気の（　）が見えず、企業は設備投資を控えている。",
+              "options": [
+                "見舞い",
+                "前例",
+                "手当て",
+                "先行き"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「先行き」. 先行き = triển vọng tương lai. 先行きが見えない = tương lai không rõ ràng.",
+              "confidence": "high",
+              "target": "先行き"
+            },
+            {
+              "key": "n1-v-012",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n長年の苦労が（　）、ついに念願の店を持つことができた。",
+              "options": [
+                "恵まれて",
+                "養われて",
+                "報われて",
+                "偏って"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「報われて」. 苦労が報われる = công sức được đền đáp.",
+              "confidence": "high",
+              "target": "報われる"
+            },
+            {
+              "key": "n1-v-013",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n新入社員の教育は、先輩社員が（　）行うことになっている。",
+              "options": [
+                "引き換えで",
+                "入れ違いで",
+                "交代で",
+                "差し引きで"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「交代で」. 交代で行う = luân phiên thực hiện.",
+              "confidence": "check",
+              "target": "交代で",
+              "reviewNote": "Đáp án nhiễu 入れ違いで/差し引きで có hợp lý không cần giáo viên xem."
+            }
+          ]
+        },
+        {
+          "partKey": "iikae",
+          "labelVi": "Từ đồng nghĩa",
+          "questionType": "SINGLE_CHOICE",
+          "skillTag": "Từ vựng N1",
+          "items": [
+            {
+              "key": "n1-v-014",
+              "prompt": "「　」の言葉に意味が最も近いものを選びなさい。\n彼の発言は事実と「食い違って」いる。",
+              "options": [
+                "一致しない",
+                "よく似ている",
+                "変わらない",
+                "正しい"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「一致しない」. 食い違う = không khớp, mâu thuẫn, gần nghĩa 一致しない.",
+              "confidence": "high",
+              "target": "食い違う"
+            },
+            {
+              "key": "n1-v-015",
+              "prompt": "「　」の言葉に意味が最も近いものを選びなさい。\n議論は「紛糾」した。",
+              "options": [
+                "すぐに終わった",
+                "混乱してまとまらなかった",
+                "静かに進んだ",
+                "活発に行われた"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「混乱してまとまらなかった」. 紛糾 = rối ren, không thống nhất được.",
+              "confidence": "high",
+              "target": "紛糾"
+            },
+            {
+              "key": "n1-v-016",
+              "prompt": "「　」の言葉に意味が最も近いものを選びなさい。\n彼女は「ひたむきに」練習を続けた。",
+              "options": [
+                "気楽に",
+                "いやいや",
+                "適当に",
+                "一生懸命に"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「一生懸命に」. ひたむきに = một lòng một dạ, hết mình.",
+              "confidence": "high",
+              "target": "ひたむき"
+            },
+            {
+              "key": "n1-v-017",
+              "prompt": "「　」の言葉に意味が最も近いものを選びなさい。\n計画は「おおむね」順調だ。",
+              "options": [
+                "決して",
+                "あいにく",
+                "だいたい",
+                "わざわざ"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「だいたい」. おおむね = nhìn chung, đại thể.",
+              "confidence": "high",
+              "target": "おおむね"
+            },
+            {
+              "key": "n1-v-018",
+              "prompt": "「　」の言葉に意味が最も近いものを選びなさい。\n事態を「静観」する。",
+              "options": [
+                "すぐに対処する",
+                "厳しく批判する",
+                "詳しく調べる",
+                "何もせず見守る"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「何もせず見守る」. 静観 = lặng lẽ quan sát, không can thiệp.",
+              "confidence": "high",
+              "target": "静観"
+            },
+            {
+              "key": "n1-v-019",
+              "prompt": "「　」の言葉に意味が最も近いものを選びなさい。\n彼女の話は「もっともらしい」。",
+              "options": [
+                "とても面白い",
+                "いかにも本当らしい",
+                "大変難しい",
+                "少し長い"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「いかにも本当らしい」. もっともらしい = nghe có vẻ hợp lý, thật.",
+              "confidence": "check",
+              "target": "もっともらしい",
+              "reviewNote": "Xác nhận phạm vi N1 và nghĩa chuẩn."
+            }
+          ]
+        },
+        {
+          "partKey": "youhou",
+          "labelVi": "Cách dùng từ",
+          "questionType": "SINGLE_CHOICE",
+          "skillTag": "Từ vựng N1",
+          "items": [
+            {
+              "key": "n1-v-020",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nうやむや",
+              "options": [
+                "責任の所在がうやむやのまま、会議は終わった。",
+                "彼女はうやむやに大声で笑った。",
+                "うやむやな天気で、洗濯物がよく乾いた。",
+                "この料理はうやむやにおいしい。"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「責任の所在がうやむやのまま、会議は終わった。」. うやむや = mập mờ, không rõ ràng; hợp với 責任の所在.",
+              "confidence": "high",
+              "target": "うやむや"
+            },
+            {
+              "key": "n1-v-021",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nきっぱり",
+              "options": [
+                "彼女はきっぱりと雨に濡れた。",
+                "きっぱり朝から晩まで走った。",
+                "彼は誘いをきっぱりと断った。",
+                "机の上がきっぱりと散らかっている。"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「彼は誘いをきっぱりと断った。」. きっぱり = dứt khoát; thường đi với 断る/言う.",
+              "confidence": "high",
+              "target": "きっぱり"
+            },
+            {
+              "key": "n1-v-022",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nおびやかす",
+              "options": [
+                "友だちにプレゼントをおびやかした。",
+                "先生が生徒の作文をおびやかした。",
+                "彼は大きな荷物をおびやかして運んだ。",
+                "台風が人々の生活をおびやかしている。"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「台風が人々の生活をおびやかしている。」. おびやかす (脅かす) = đe dọa; đối tượng là sự an toàn/cuộc sống.",
+              "confidence": "high",
+              "target": "おびやかす"
+            },
+            {
+              "key": "n1-v-023",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nめど",
+              "options": [
+                "めどが立って窓を開けた。",
+                "来月には完成のめどが立った。",
+                "彼はめどが立って泣いた。",
+                "めどが立つ駅まで歩いた。"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「来月には完成のめどが立った。」. めどが立つ = có triển vọng, đã định hình được.",
+              "confidence": "high",
+              "target": "めどが立つ"
+            },
+            {
+              "key": "n1-v-024",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\n滞る",
+              "options": [
+                "大雪で物流が滞っている。",
+                "彼は毎日滞って運動している。",
+                "滞った音楽を聞いた。",
+                "試験に滞って合格した。"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「大雪で物流が滞っている。」. 滞る (とどこおる) = bị đình trệ; hợp với 物流/支払い.",
+              "confidence": "high",
+              "target": "滞る"
+            },
+            {
+              "key": "n1-v-025",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nいたわる",
+              "options": [
+                "大声で友だちをいたわった。",
+                "電車の時間をいたわった。",
+                "新しい服をいたわって破いた。",
+                "年老いた両親をいたわって、旅行に連れて行った。"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「年老いた両親をいたわって、旅行に連れて行った。」. いたわる = chăm sóc, quan tâm đến người yếu/già.",
+              "confidence": "high",
+              "target": "いたわる"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "GRAMMAR_READING",
+      "durationSeconds": 4500,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "bunpo",
+          "labelVi": "Ngữ pháp: chọn dạng đúng",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Ngữ pháp N1",
+          "items": [
+            {
+              "key": "n1-g-001",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n台風の影響で、イベントは中止を（　）。",
+              "options": [
+                "余儀なくされた",
+                "余儀なくした",
+                "余儀なかった",
+                "余儀なさせた"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「余儀なくされた」. 「～を余儀なくされる」 = bị buộc phải, đành phải.",
+              "confidence": "high",
+              "target": "～を余儀なくされる"
+            },
+            {
+              "key": "n1-g-002",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n悲しい映画を見て、涙を流さ（　）。",
+              "options": [
+                "わけにはいかなかった",
+                "ことはなかった",
+                "ずにはいられなかった",
+                "ようではなかった"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「ずにはいられなかった」. 「V-ない(ず) + にはいられない」 = không thể không (cảm xúc tự trào ra).",
+              "confidence": "high",
+              "target": "～ずにはいられない"
+            },
+            {
+              "key": "n1-g-003",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n彼は周囲の反対を（　）、留学を決意した。",
+              "options": [
+                "ものにして",
+                "ものともせず",
+                "ものとして",
+                "ものだから"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「ものともせず」. 「～をものともせず」 = bất chấp (khó khăn, phản đối).",
+              "confidence": "high",
+              "target": "～をものともせず"
+            },
+            {
+              "key": "n1-g-004",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nプロの選手（　）、ミスをすることはある。",
+              "options": [
+                "ともなると",
+                "といえども",
+                "ならでは",
+                "をよそに"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「といえども」. 「～といえども」 = dù là ... đi nữa.",
+              "confidence": "high",
+              "target": "～といえども"
+            },
+            {
+              "key": "n1-g-005",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n開店する（　）、客が店に押し寄せた。",
+              "options": [
+                "に先立ち",
+                "にあたって",
+                "が早いか",
+                "かたがた"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「が早いか」. 「V-辞書形 + が早いか」 = vừa ... là lập tức ...",
+              "confidence": "high",
+              "target": "～が早いか"
+            },
+            {
+              "key": "n1-g-006",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n社長（　）、あのような発言は許されない。",
+              "options": [
+                "ならでは",
+                "ともなく",
+                "ばかりか",
+                "たるもの"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「たるもの」. 「N + たるもの」 = đã là N thì phải ...",
+              "confidence": "high",
+              "target": "～たるもの"
+            },
+            {
+              "key": "n1-g-007",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nこの料理は、この店（　）の味だ。",
+              "options": [
+                "ならでは",
+                "なりに",
+                "ながらも",
+                "ごとき"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「ならでは」. 「N + ならでは」 = chỉ có ở N, đặc trưng của N.",
+              "confidence": "high",
+              "target": "～ならでは"
+            },
+            {
+              "key": "n1-g-008",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nあなたの成功を祈って（　）。",
+              "options": [
+                "やまず",
+                "やまない",
+                "やめない",
+                "やみない"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「やまない」. 「V-てやまない」 = vẫn luôn (cầu mong) không ngừng.",
+              "confidence": "high",
+              "target": "～てやまない"
+            },
+            {
+              "key": "n1-g-009",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n兄が社交的な（　）、弟は人見知りだ。",
+              "options": [
+                "のにひきかえ",
+                "のをよそに",
+                "ばかりに",
+                "ゆえに"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「のにひきかえ」. 「～にひきかえ」 = trái ngược với ...; so sánh hai đối tượng khác hẳn.",
+              "confidence": "high",
+              "target": "～にひきかえ"
+            },
+            {
+              "key": "n1-g-010",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n見る者を感動させ（　）にはおかない演技だった。",
+              "options": [
+                "ない",
+                "なく",
+                "ぬ",
+                "ず"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「ず」. 「V-ずにはおかない」 = nhất định khiến (người khác) phải ...",
+              "confidence": "high",
+              "target": "～ずにはおかない"
+            }
+          ]
+        },
+        {
+          "partKey": "narabekae",
+          "labelVi": "Ngữ pháp: sắp xếp câu (★)",
+          "questionType": "STAR_ORDER",
+          "skillTag": "Ngữ pháp N1",
+          "items": [
+            {
+              "key": "n1-g-011",
+              "prompt": "次の文の★に入るものはどれですか。\n彼女は＿＿＿ ＿＿＿ ★ ＿＿＿ 勉強を続けた。",
+              "options": [
+                "仕事の",
+                "忙しさを",
+                "ものともせず",
+                "資格取得のための"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「ものともせず」. Thứ tự đúng: 彼女は 仕事の 忙しさを ものともせず 資格取得のための 勉強を続けた。 Ô có ★ là 「ものともせず」.",
+              "confidence": "high",
+              "target": "～をものともせず"
+            },
+            {
+              "key": "n1-g-012",
+              "prompt": "次の文の★に入るものはどれですか。\n今さら＿＿＿ ＿＿＿ ★ ＿＿＿ 手遅れだ。",
+              "options": [
+                "後悔",
+                "した",
+                "もう",
+                "ところで"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「ところで」. Thứ tự đúng: 今さら 後悔 した ところで もう 手遅れだ。 Ô có ★ là 「ところで」.",
+              "confidence": "high",
+              "target": "～たところで"
+            },
+            {
+              "key": "n1-g-013",
+              "prompt": "次の文の★に入るものはどれですか。\nプロの＿＿＿ ＿＿＿ ★ ＿＿＿ 違う。",
+              "options": [
+                "選手",
+                "ともなると",
+                "練習の",
+                "量が"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「練習の」. Thứ tự đúng: プロの 選手 ともなると 練習の 量が 違う。 Ô có ★ là 「練習の」.",
+              "confidence": "high",
+              "target": "～ともなると"
+            },
+            {
+              "key": "n1-g-014",
+              "prompt": "次の文の★に入るものはどれですか。\n現実に＿＿＿ ＿＿＿ ★ ＿＿＿ 必要がある。",
+              "options": [
+                "即して",
+                "ルールを",
+                "古い",
+                "見直す"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「ルールを」. Thứ tự đúng: 現実に 即して 古い ルールを 見直す 必要がある。 Ô có ★ là 「ルールを」.",
+              "confidence": "high",
+              "target": "～に即して"
+            },
+            {
+              "key": "n1-g-015",
+              "prompt": "次の文の★に入るものはどれですか。\n彼は＿＿＿ ＿＿＿ ★ ＿＿＿ 苦労した。",
+              "options": [
+                "経験が",
+                "若い",
+                "がゆえに",
+                "足りず"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「経験が」. Thứ tự đúng: 彼は 若い がゆえに 経験が 足りず 苦労した。 Ô có ★ là 「経験が」.",
+              "confidence": "high",
+              "target": "～がゆえに"
+            }
+          ]
+        },
+        {
+          "partKey": "bunsho-bunpo",
+          "labelVi": "Ngữ pháp đoạn văn",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Ngữ pháp N1",
+          "groups": [
+            {
+              "groupKey": "n1-g-g01",
+              "reading": {
+                "textJa": "伝統工芸の世界では、後継者不足が深刻な問題となっている。一人前になるには、長い修業を（１）ならず、十年以上かかると言われ、収入も安定しない。若者が敬遠するのも無理はない。（２）、近年、海外で日本の工芸品が高く評価されるようになり、状況は少しずつ変わりつつある。ある工房では、インターネットを通じて世界中に作品を販売し、若い職人を雇えるまでになった。（３）、技術を守ることだけに固執していては、伝統は途絶えかねない。時代の変化に（４）、新しい価値を生み出していく柔軟さこそが、（５）継承の鍵となるのではないだろうか。",
+                "translatedVi": "Trong thế giới thủ công mỹ nghệ truyền thống, thiếu người kế nghiệp là vấn đề nghiêm trọng. Để thành thợ lành nghề, (1) rèn luyện lâu dài, nghe nói mất hơn mười năm và thu nhập cũng không ổn định. Việc giới trẻ ngại cũng là dễ hiểu. (2), những năm gần đây đồ thủ công Nhật được đánh giá cao ở nước ngoài và tình hình đang dần thay đổi. Một xưởng đã bán tác phẩm ra khắp thế giới qua Internet và đã có thể thuê thợ trẻ. (3), nếu chỉ khư khư giữ kỹ thuật thì truyền thống có thể đứt đoạn. (4) thay đổi của thời đại, sự linh hoạt tạo ra giá trị mới chính là (5) chìa khóa của việc kế thừa.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-g-016",
+                  "prompt": "文章の（1）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "経たところで",
+                    "経るにつれて",
+                    "経なければ",
+                    "経たとしても"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「経なければ」. 「～なければならず」: phải trải qua tu nghiệp dài mới trở thành thợ chính thức; 経なければ + ならず.",
+                  "confidence": "high",
+                  "target": "～なければならない",
+                  "inferred": true
+                },
+                {
+                  "key": "n1-g-017",
+                  "prompt": "文章の（2）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "したがって",
+                    "しかし",
+                    "なぜなら",
+                    "すなわち"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「しかし」. Trước nói khó khăn, sau nói tình hình đang thay đổi: quan hệ nghịch tiếp, dùng しかし.",
+                  "confidence": "high",
+                  "target": "しかし(接続)",
+                  "inferred": true
+                },
+                {
+                  "key": "n1-g-018",
+                  "prompt": "文章の（3）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "とはいえ",
+                    "それゆえ",
+                    "ちなみに",
+                    "つまり"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「とはいえ」. Sau khi nêu thành công, tác giả đặt một cảnh báo: 「とはいえ」 = tuy vậy.",
+                  "confidence": "high",
+                  "target": "とはいえ",
+                  "inferred": true
+                },
+                {
+                  "key": "n1-g-019",
+                  "prompt": "文章の（4）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "先立って",
+                    "かかわらず",
+                    "もまして",
+                    "即して"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「即して」. 「N + に即して」 = dựa theo, đúng theo (thực tế): đáp ứng thay đổi của thời đại.",
+                  "confidence": "high",
+                  "target": "～に即して",
+                  "inferred": true
+                },
+                {
+                  "key": "n1-g-020",
+                  "prompt": "文章の（5）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "まさに",
+                    "あたかも",
+                    "せいぜい",
+                    "かろうじて"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「まさに」. 「まさに～こそが」 = chính là ...; nhấn mạnh khẳng định.",
+                  "confidence": "high",
+                  "target": "まさに",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-tan",
+          "labelVi": "Đọc hiểu: đoạn ngắn",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-r-g01",
+              "reading": {
+                "textJa": "科学技術の進歩は、人間の暮らしを便利にしてきたが、同時に新たな課題も生み出している。人工知能が人間の仕事を奪うのではないかという懸念はその一例だ。しかし、歴史を振り返れば、新しい技術が登場するたびに、なくなる仕事がある一方で、新しい仕事も生まれてきた。大切なのは、技術を恐れることではなく、変化に合わせて学び続ける姿勢であろう。",
+                "translatedVi": "Tiến bộ khoa học kỹ thuật làm cuộc sống thuận tiện nhưng đồng thời cũng tạo ra những vấn đề mới. Lo ngại trí tuệ nhân tạo cướp việc con người là một ví dụ. Tuy nhiên nhìn lại lịch sử, mỗi khi công nghệ mới xuất hiện, có công việc mất đi nhưng cũng có công việc mới ra đời. Điều quan trọng không phải sợ công nghệ mà là thái độ tiếp tục học để thích ứng thay đổi.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-001",
+                  "prompt": "筆者の考えに合うものはどれか。",
+                  "options": [
+                    "人工知能は人間の仕事をすべて奪う",
+                    "新しい技術は発展させるべきではない",
+                    "歴史上、技術は新しい仕事を生まなかった",
+                    "技術の変化に合わせて学び続けることが大切だ"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「技術の変化に合わせて学び続けることが大切だ」. Kết luận: không sợ công nghệ mà tiếp tục học theo thay đổi.",
+                  "confidence": "high",
+                  "evidence": "変化に合わせて学び続ける姿勢であろう",
+                  "inferred": true,
+                  "target": "筆者の主張"
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-r-g02",
+              "reading": {
+                "textJa": "ビジネスの現場では、「結論から話せ」とよく言われる。確かに、忙しい相手に短時間で用件を伝えるには有効な方法だ。しかし、結論を急ぐあまり、相手が納得するための背景の説明を省いてしまうと、かえって誤解を招くこともある。相手の立場や状況に応じて、話す順序を工夫することが求められる。",
+                "translatedVi": "Ở nơi làm việc người ta thường nói 「hãy nói kết luận trước」. Quả thật đó là phương pháp hiệu quả để truyền đạt việc cần nói trong thời gian ngắn cho người bận. Tuy nhiên vì vội kết luận mà bỏ qua phần giải thích bối cảnh giúp đối phương đồng ý thì lại có thể gây hiểu lầm. Cần tùy theo lập trường và tình huống của đối phương mà điều chỉnh thứ tự nói.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-002",
+                  "prompt": "筆者が言いたいことは何か。",
+                  "options": [
+                    "常に結論から話すべきだ",
+                    "背景は一切説明すべきでない",
+                    "話す順序は相手や状況に応じて工夫すべきだ",
+                    "忙しい相手には話しかけるべきでない"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「話す順序は相手や状況に応じて工夫すべきだ」. Câu cuối nêu yêu cầu điều chỉnh thứ tự nói theo đối phương.",
+                  "confidence": "high",
+                  "evidence": "相手の立場や状況に応じて、話す順序を工夫することが求められる",
+                  "inferred": true,
+                  "target": "筆者の主張"
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-r-g03",
+              "reading": {
+                "textJa": "各位\n来る十一月十五日（金）に予定しておりました定例会議は、会場の設備点検のため、翌週二十二日（金）に延期いたします。時間と会場は変更ございません。なお、既にご提出いただいた資料は、そのまま有効といたしますので、再提出の必要はございません。\n総務部",
+                "translatedVi": "Kính gửi quý vị. Cuộc họp định kỳ dự kiến thứ Sáu 15 tháng 11 sẽ hoãn sang thứ Sáu 22 tuần sau vì kiểm tra thiết bị hội trường. Giờ và địa điểm không thay đổi. Ngoài ra tài liệu đã nộp vẫn có hiệu lực nên không cần nộp lại. Phòng Tổng vụ.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-003",
+                  "prompt": "定例会議について、正しいものはどれか。",
+                  "options": [
+                    "十五日に予定どおり行われる",
+                    "二十二日に延期されるが、時間と会場は同じで、資料の再提出は不要だ",
+                    "会場が変更される",
+                    "資料を再提出しなければならない"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「二十二日に延期されるが、時間と会場は同じで、資料の再提出は不要だ」. Hoãn đến 22; giờ và địa điểm không đổi; không cần nộp lại tài liệu.",
+                  "confidence": "high",
+                  "evidence": "時間と会場は変更ございません",
+                  "inferred": true,
+                  "target": "お知らせ"
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-r-g04",
+              "reading": {
+                "textJa": "「便利さ」の追求は、時として人間から考える機会を奪う。地図アプリがあれば道に迷わないが、その代わり、街の様子を自分の目で観察し、方角を推測する力は衰えていく。もちろん、便利な道具を否定するつもりはない。ただ、あえて不便を選ぶことで、私たちは自分の感覚を取り戻せるのではないだろうか。",
+                "translatedVi": "Theo đuổi 「sự tiện lợi」 đôi khi lấy mất cơ hội suy nghĩ của con người. Có ứng dụng bản đồ thì không lạc đường, nhưng đổi lại năng lực tự quan sát khung cảnh phố và đoán phương hướng sẽ suy giảm. Dĩ nhiên tôi không có ý phủ nhận công cụ tiện lợi. Chỉ là, phải chăng khi cố ý chọn sự bất tiện, chúng ta có thể lấy lại giác quan của mình?",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-004",
+                  "prompt": "筆者の主張は何か。",
+                  "options": [
+                    "便利な道具はすべて使うのをやめるべきだ",
+                    "ときには不便を選ぶことで自分の感覚を取り戻せる",
+                    "地図アプリは役に立たない",
+                    "道に迷うことは悪いことだ"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「ときには不便を選ぶことで自分の感覚を取り戻せる」. Tác giả cho rằng cố ý chọn bất tiện giúp lấy lại giác quan; không phủ định công cụ.",
+                  "confidence": "high",
+                  "evidence": "あえて不便を選ぶことで、私たちは自分の感覚を取り戻せるのではないだろうか",
+                  "inferred": true,
+                  "target": "筆者の主張"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-chu",
+          "labelVi": "Đọc hiểu: đoạn vừa",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-r-g05",
+              "reading": {
+                "textJa": "多くの企業で、成功事例を共有する取り組みは盛んに行われている。一方、失敗事例の共有は、あまり行われていないのが実情だ。失敗を報告すれば評価が下がるのではないかという不安が、社員の口を重くしているからである。しかし、失敗には、成功以上に貴重な教訓が含まれている。同じ失敗を別の部署が繰り返すことは、組織にとって大きな損失だ。ある会社では、失敗を報告した社員を責めず、むしろ表彰する制度を設けた。その結果、報告される失敗の件数は増えたが、重大な事故は大幅に減ったという。失敗を隠すのではなく、組織全体の財産として活用する文化を育てることが、今後ますます重要になるだろう。",
+                "translatedVi": "Ở nhiều doanh nghiệp, việc chia sẻ ví dụ thành công được thực hiện sôi nổi. Ngược lại, chia sẻ ví dụ thất bại thì thực tế ít được làm. Vì nỗi lo báo cáo thất bại sẽ bị đánh giá thấp khiến nhân viên khó mở lời. Tuy nhiên thất bại chứa bài học quý hơn cả thành công. Việc bộ phận khác lặp lại cùng thất bại là tổn thất lớn cho tổ chức. Một công ty đã lập chế độ không trách mà còn khen thưởng nhân viên báo cáo thất bại. Kết quả là số vụ thất bại được báo cáo tăng nhưng tai nạn nghiêm trọng giảm mạnh. Việc nuôi dưỡng văn hóa không giấu thất bại mà tận dụng nó như tài sản của toàn tổ chức sẽ ngày càng quan trọng.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-005",
+                  "prompt": "失敗事例の共有があまり行われていない理由は何か。",
+                  "options": [
+                    "失敗事例が存在しないから",
+                    "成功事例のほうが貴重だから",
+                    "報告する制度がないから",
+                    "報告すると評価が下がるのではないかという不安があるから"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「報告すると評価が下がるのではないかという不安があるから」. Văn bản nêu lý do là nỗi lo bị đánh giá thấp khi báo cáo thất bại.",
+                  "confidence": "high",
+                  "evidence": "失敗を報告すれば評価が下がるのではないかという不安が、社員の口を重くしている",
+                  "inferred": true,
+                  "target": "理由"
+                },
+                {
+                  "key": "n1-r-006",
+                  "prompt": "ある会社が失敗を報告した社員を表彰する制度を設けた結果、どうなったか。",
+                  "options": [
+                    "報告される件数も事故も減った",
+                    "報告される件数が減り、事故が増えた",
+                    "報告される件数は増えたが、重大な事故は大幅に減った",
+                    "社員の評価が下がった"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「報告される件数は増えたが、重大な事故は大幅に減った」. Số báo cáo tăng nhưng tai nạn nghiêm trọng giảm mạnh.",
+                  "confidence": "high",
+                  "evidence": "報告される失敗の件数は増えたが、重大な事故は大幅に減ったという",
+                  "inferred": true,
+                  "target": "結果"
+                },
+                {
+                  "key": "n1-r-007",
+                  "prompt": "筆者の考えに合うものはどれか。",
+                  "options": [
+                    "失敗を組織の財産として活用する文化を育てることが重要だ",
+                    "失敗した社員は責任を取るべきだ",
+                    "失敗は報告せずに自分で解決すべきだ",
+                    "成功事例だけを共有すれば十分だ"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「失敗を組織の財産として活用する文化を育てることが重要だ」. Câu cuối: nuôi dưỡng văn hóa tận dụng thất bại như tài sản tổ chức.",
+                  "confidence": "high",
+                  "evidence": "組織全体の財産として活用する文化を育てることが、今後ますます重要になるだろう",
+                  "inferred": true,
+                  "target": "筆者の主張"
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-r-g06",
+              "reading": {
+                "textJa": "人は眠っている間に、その日に学んだことを整理して記憶に定着させていると言われている。ある実験では、学習した後に眠った人と、眠らずに過ごした人とで、翌日のテストの成績を比較した。その結果、眠った人のほうが明らかに成績が良かった。研究者は、睡眠中に脳が不要な情報を取り除き、必要な情報を強化するのではないかと推測している。ただし、睡眠が浅かったり、時間が短すぎたりすると、この効果は十分に得られない。試験前に徹夜で勉強する人もいるが、記憶の定着という観点から見れば、必ずしも効率的とは言えないようだ。",
+                "translatedVi": "Người ta nói trong lúc ngủ, con người sắp xếp những gì học trong ngày và cố định vào trí nhớ. Một thí nghiệm so sánh điểm thi hôm sau giữa người ngủ sau khi học và người thức. Kết quả là người ngủ có điểm rõ ràng tốt hơn. Các nhà nghiên cứu suy đoán rằng khi ngủ, não loại bỏ thông tin không cần thiết và củng cố thông tin cần thiết. Tuy nhiên nếu giấc ngủ nông hoặc quá ngắn thì không đạt đủ hiệu quả này. Có người thức trắng học trước kỳ thi, nhưng xét từ góc độ cố định trí nhớ thì không hẳn hiệu quả.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-008",
+                  "prompt": "ある実験で何が分かったか。",
+                  "options": [
+                    "眠らなかった人のほうが成績が良かった",
+                    "眠った人と眠らなかった人の成績は同じだった",
+                    "学習した後に眠った人のほうが、翌日のテストの成績が良かった",
+                    "睡眠時間が長い人ほど成績が悪かった"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「学習した後に眠った人のほうが、翌日のテストの成績が良かった」. Thí nghiệm cho thấy người ngủ có điểm tốt hơn rõ ràng.",
+                  "confidence": "high",
+                  "evidence": "眠った人のほうが明らかに成績が良かった",
+                  "inferred": true,
+                  "target": "実験結果"
+                },
+                {
+                  "key": "n1-r-009",
+                  "prompt": "研究者は、睡眠の効果についてどう推測しているか。",
+                  "options": [
+                    "睡眠中に脳が不要な情報を取り除き、必要な情報を強化する",
+                    "睡眠中に新しい知識を学ぶ",
+                    "睡眠が短いほど記憶が定着する",
+                    "夢を見ると記憶が消える"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「睡眠中に脳が不要な情報を取り除き、必要な情報を強化する」. Giả thuyết: não loại thông tin thừa, củng cố thông tin cần.",
+                  "confidence": "high",
+                  "evidence": "睡眠中に脳が不要な情報を取り除き、必要な情報を強化するのではないか",
+                  "target": "推測"
+                },
+                {
+                  "key": "n1-r-010",
+                  "prompt": "筆者は徹夜の勉強についてどう考えているか。",
+                  "options": [
+                    "最も効率的な方法だ",
+                    "試験の成績を必ず上げる",
+                    "睡眠より効果的だ",
+                    "記憶の定着という点では必ずしも効率的とは言えない"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「記憶の定着という点では必ずしも効率的とは言えない」. Tác giả cho rằng thức trắng không hẳn hiệu quả về mặt cố định trí nhớ.",
+                  "confidence": "high",
+                  "evidence": "必ずしも効率的とは言えないようだ",
+                  "inferred": true,
+                  "target": "筆者の評価"
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-r-g07",
+              "reading": {
+                "textJa": "地方では、鉄道やバスの路線が次々と廃止されている。利用者が減り、採算が取れなくなったためだ。しかし、車を運転できない高齢者にとって、公共交通は生活に欠かせない足である。路線がなくなれば、通院や買い物にも支障が出る。そこで、一部の自治体では、住民が乗り合いタクシーを運行する取り組みを始めた。利用者が予約した場合にだけ走るため、無駄が少なく、費用も抑えられる。とはいえ、運転手の確保や運営資金など、課題も残されている。公共交通を維持するためには、採算だけでなく、住民の生活を守るという視点が不可欠である。",
+                "translatedVi": "Ở nông thôn, các tuyến tàu và xe buýt liên tiếp bị bãi bỏ vì số người dùng giảm và không có lãi. Tuy nhiên với người cao tuổi không lái xe được thì giao thông công cộng là phương tiện đi lại không thể thiếu. Mất tuyến thì việc khám bệnh, mua sắm cũng gặp trở ngại. Vì vậy một số chính quyền địa phương bắt đầu để người dân tự vận hành taxi đi chung. Chỉ chạy khi có người đặt trước nên ít lãng phí và tiết kiệm chi phí. Tuy vậy vẫn còn các vấn đề như đảm bảo tài xế và vốn vận hành. Để duy trì giao thông công cộng, không chỉ lợi nhuận mà cả quan điểm bảo vệ đời sống người dân là không thể thiếu.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-011",
+                  "prompt": "地方で路線が廃止されている理由は何か。",
+                  "options": [
+                    "運転手が増えすぎたから",
+                    "利用者が減り、採算が取れなくなったから",
+                    "高齢者が車を使うようになったから",
+                    "自治体が観光に力を入れたから"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「利用者が減り、採算が取れなくなったから」. Văn bản nêu lý do: người dùng giảm, không có lãi.",
+                  "confidence": "high",
+                  "evidence": "利用者が減り、採算が取れなくなったためだ",
+                  "inferred": true,
+                  "target": "理由"
+                },
+                {
+                  "key": "n1-r-012",
+                  "prompt": "乗り合いタクシーの利点は何か。",
+                  "options": [
+                    "毎日同じ時間に必ず走る",
+                    "運転手を確保する必要がない",
+                    "運営資金が必要ない",
+                    "予約があるときだけ走るので、無駄が少なく費用も抑えられる"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「予約があるときだけ走るので、無駄が少なく費用も抑えられる」. Chỉ chạy khi có đặt trước nên ít lãng phí, chi phí thấp.",
+                  "confidence": "high",
+                  "evidence": "利用者が予約した場合にだけ走るため、無駄が少なく、費用も抑えられる",
+                  "inferred": true,
+                  "target": "利点"
+                },
+                {
+                  "key": "n1-r-013",
+                  "prompt": "筆者が公共交通の維持に必要だと考えていることは何か。",
+                  "options": [
+                    "採算を最優先する視点",
+                    "採算だけでなく、住民の生活を守る視点",
+                    "車の利用を増やす視点",
+                    "路線をすべて廃止する視点"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「採算だけでなく、住民の生活を守る視点」. Kết luận: cần thêm quan điểm bảo vệ đời sống người dân ngoài lợi nhuận.",
+                  "confidence": "high",
+                  "evidence": "採算だけでなく、住民の生活を守るという視点が不可欠である",
+                  "inferred": true,
+                  "target": "筆者の主張"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-tougou",
+          "labelVi": "Đọc hiểu: tổng hợp so sánh",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-r-g08",
+              "reading": {
+                "textJa": "A\n大学の授業は、対面で行うべきだと考える。教室では、教員の表情や声の抑揚から、言葉以上の情報を受け取ることができる。また、学生同士の議論も、画面越しでは十分に深まらない。オンライン授業は便利だが、大学が学生に提供すべき学びの質を下げてしまうおそれがある。\nB\n大学の授業は、対面かオンラインかを学生が選べるようにすべきだ。遠方に住む学生や、仕事をしながら学ぶ社会人にとって、オンライン授業は学ぶ機会そのものを広げてくれる。対面の良さは否定しないが、すべての学生に同じ形式を求めるのは、現実的ではない。",
+                "translatedVi": "A: Tôi cho rằng giờ học đại học nên tổ chức trực tiếp. Trong lớp có thể nhận được thông tin hơn cả lời nói từ nét mặt và ngữ điệu của giảng viên. Thảo luận giữa sinh viên cũng không sâu qua màn hình. Học trực tuyến tiện lợi nhưng có nguy cơ làm giảm chất lượng học tập mà đại học cần cung cấp. B: Nên cho sinh viên chọn học trực tiếp hay trực tuyến. Với sinh viên ở xa hay người đi làm vừa học, học trực tuyến mở rộng chính cơ hội học. Tôi không phủ nhận ưu điểm của học trực tiếp nhưng yêu cầu mọi sinh viên cùng một hình thức là không thực tế.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-014",
+                  "prompt": "対面授業の良さについて、AとBはどう述べているか。",
+                  "options": [
+                    "AもBも、対面授業には良さがないとしている",
+                    "Aは良さを認めず、Bは対面だけにすべきだとしている",
+                    "Aは重視しており、Bは良さを認めつつ全員に求めるのは現実的でないとしている",
+                    "AもBも、対面授業を全員に義務づけるべきだとしている"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「Aは重視しており、Bは良さを認めつつ全員に求めるのは現実的でないとしている」. A cho rằng trực tiếp có nhiều giá trị; B công nhận nhưng không nên bắt buộc tất cả.",
+                  "confidence": "high",
+                  "evidence": "対面の良さは否定しないが、すべての学生に同じ形式を求めるのは、現実的ではない",
+                  "inferred": true,
+                  "target": "意見の比較"
+                },
+                {
+                  "key": "n1-r-015",
+                  "prompt": "オンライン授業について、AとBの考えの違いはどれか。",
+                  "options": [
+                    "Aは学びの質を下げるおそれがあると考え、Bは学ぶ機会を広げると考えている",
+                    "Aは学ぶ機会を広げると考え、Bは質を下げると考えている",
+                    "AもBも、学ぶ機会を広げると考えている",
+                    "AもBも、学びの質を下げると考えている"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「Aは学びの質を下げるおそれがあると考え、Bは学ぶ機会を広げると考えている」. A lo ngại giảm chất lượng; B nhấn mạnh mở rộng cơ hội học.",
+                  "confidence": "high",
+                  "evidence": "学びの質を下げてしまうおそれがある",
+                  "inferred": true,
+                  "target": "考えの違い"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-cho",
+          "labelVi": "Đọc hiểu: đoạn dài",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-r-g09",
+              "reading": {
+                "textJa": "「ありがとう」という言葉は、日本人が最もよく口にする言葉の一つだ。しかし、その言葉の意味を深く考えたことのある人は、意外に少ないのではないだろうか。\n「ありがとう」は、もともと「有り難し」、つまり「めったにない」「存在することが難しい」という意味の言葉から生まれたと言われている。あたりまえではないことが起きたときに、人は「有り難い」と感じる。裏を返せば、私たちが日々受けている親切や恩恵は、本来あたりまえのものではなく、奇跡のように貴重なものなのだ。\nところが、日常の中では、私たちはそのことをつい忘れてしまう。毎日食事ができること、安全に暮らせること、家族や友人がそばにいることを、あたりまえだと思い込み、不満ばかりが目につく。\nある心理学の研究によれば、感謝の気持ちを日記に書く習慣を持つ人は、そうでない人に比べて、幸福感が高く、人間関係も良好であるという。小さなことでも、「今日、ありがたかったこと」を一つ書き出すだけで、物事の見方が少しずつ変わっていくそうだ。\n感謝とは、特別な出来事に対してだけ抱く感情ではない。あたりまえだと思っていたことの中に「有り難さ」を見いだす目を養うことこそが、豊かに生きるための第一歩ではなかろうか。",
+                "translatedVi": "「Arigatou」 là một trong những từ người Nhật nói nhiều nhất. Nhưng có lẽ ít người từng suy nghĩ sâu về ý nghĩa của từ ấy. Người ta nói 「ありがとう」 vốn xuất phát từ 「有り難し」, nghĩa là 「hiếm có」, 「khó tồn tại」. Khi điều không hiển nhiên xảy ra, con người cảm thấy 「quý hiếm」. Nói ngược lại, sự tử tế và ân huệ ta nhận hằng ngày vốn không phải điều hiển nhiên mà quý như phép màu. Thế nhưng trong đời thường ta lại dễ quên điều đó. Ta cho rằng việc ăn mỗi ngày, sống an toàn, có người thân bạn bè bên cạnh là hiển nhiên và chỉ thấy bất mãn. Theo một nghiên cứu tâm lý, người có thói quen viết lòng biết ơn vào nhật ký có cảm giác hạnh phúc cao hơn và quan hệ tốt hơn. Chỉ cần viết ra một điều 「hôm nay đáng biết ơn」 thì cách nhìn sự vật dần thay đổi. Lòng biết ơn không phải cảm xúc chỉ dành cho sự kiện đặc biệt. Rèn luyện đôi mắt thấy 「sự quý hiếm」 trong những điều tưởng hiển nhiên chính là bước đầu của cuộc sống phong phú.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-016",
+                  "prompt": "「ありがとう」の語源について、筆者はどう述べているか。",
+                  "options": [
+                    "「感謝する」という意味の古い言葉から生まれた",
+                    "「めったにない」という意味の「有り難し」から生まれたと言われている",
+                    "外国語から取り入れられた",
+                    "子どもの言葉から生まれた"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「「めったにない」という意味の「有り難し」から生まれたと言われている」. Từ nguồn gốc 「有り難し」 nghĩa là hiếm có.",
+                  "confidence": "high",
+                  "evidence": "「めったにない」「存在することが難しい」という意味の言葉から生まれたと言われている",
+                  "inferred": true,
+                  "target": "語源"
+                },
+                {
+                  "key": "n1-r-017",
+                  "prompt": "筆者によると、私たちが日常の中で忘れがちなことは何か。",
+                  "options": [
+                    "毎日日記を書くこと",
+                    "言葉の語源",
+                    "親切や恩恵が本来あたりまえのものではないこと",
+                    "家族に会いに行くこと"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「親切や恩恵が本来あたりまえのものではないこと」. Ta hay quên rằng điều tử tế, ân huệ vốn không hiển nhiên.",
+                  "confidence": "high",
+                  "evidence": "私たちはそのことをつい忘れてしまう",
+                  "inferred": true,
+                  "target": "指示内容"
+                },
+                {
+                  "key": "n1-r-018",
+                  "prompt": "心理学の研究について、正しいものはどれか。",
+                  "options": [
+                    "日記を書く人は幸福感が低かった",
+                    "感謝の気持ちは幸福感に影響しなかった",
+                    "日記を書く習慣と人間関係は無関係だった",
+                    "感謝を日記に書く習慣のある人は、幸福感が高く人間関係も良好だった"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「感謝を日記に書く習慣のある人は、幸福感が高く人間関係も良好だった」. Nghiên cứu cho thấy người có thói quen viết biết ơn hạnh phúc hơn, quan hệ tốt hơn.",
+                  "confidence": "high",
+                  "evidence": "幸福感が高く、人間関係も良好である",
+                  "inferred": true,
+                  "target": "研究内容"
+                },
+                {
+                  "key": "n1-r-019",
+                  "prompt": "筆者が最も言いたいことは何か。",
+                  "options": [
+                    "あたりまえだと思っていることの中に有り難さを見いだす目を養うことが大切だ",
+                    "特別な出来事にだけ感謝すべきだ",
+                    "「ありがとう」を言う回数を増やすべきだ",
+                    "日記は毎日書かなければならない"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「あたりまえだと思っていることの中に有り難さを見いだす目を養うことが大切だ」. Kết luận: rèn mắt thấy sự quý hiếm trong những điều hiển nhiên.",
+                  "confidence": "high",
+                  "evidence": "あたりまえだと思っていたことの中に「有り難さ」を見いだす目を養うことこそが",
+                  "inferred": true,
+                  "target": "筆者の主張"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-shucho",
+          "labelVi": "Đọc hiểu: nắm quan điểm",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-r-g10",
+              "reading": {
+                "textJa": "近年、「効率」という言葉が、あらゆる場面で重視されるようになった。仕事でも勉強でも、できるだけ短い時間で成果を上げることが良いこととされる。確かに、無駄を省くことは大切である。しかし、効率ばかりを追い求めると、見落とされるものがある。\nたとえば、料理を考えてみよう。栄養を摂るだけなら、サプリメントや栄養補助食品で十分に効率的である。だが、それでは、食材を選び、手間をかけて調理し、家族と食卓を囲むという営みの中にある楽しみや、人とのつながりは失われてしまう。\n学びも同様である。答えだけを素早く検索すれば、知識は手に入る。しかし、遠回りしながら自分で考え、失敗を重ねる過程でこそ、物事を深く理解する力が育つのだ。\n効率が悪いと見えるものの中にこそ、人間らしい豊かさが宿っている。すべてを効率で測るのではなく、あえて「無駄」を楽しむ余裕を持つことが、これからの時代には必要なのではないだろうか。",
+                "translatedVi": "Những năm gần đây, từ 「hiệu suất」 được coi trọng trong mọi tình huống. Dù trong công việc hay học tập, đạt kết quả trong thời gian ngắn nhất được xem là tốt. Quả thật loại bỏ lãng phí là quan trọng. Nhưng nếu chỉ theo đuổi hiệu suất thì có những thứ bị bỏ sót. Ví dụ nấu ăn: nếu chỉ cần nạp dinh dưỡng thì thực phẩm chức năng là đủ hiệu quả. Nhưng như vậy niềm vui và sự gắn kết con người trong việc chọn nguyên liệu, bỏ công nấu và quây quần bên bàn ăn với gia đình sẽ mất đi. Học tập cũng vậy. Tra cứu nhanh đáp án thì có kiến thức, nhưng năng lực hiểu sâu sự vật chỉ lớn lên trong quá trình đi đường vòng, tự suy nghĩ và thất bại nhiều lần. Chính trong những thứ trông kém hiệu quả có sự phong phú mang tính con người. Thay vì đo mọi thứ bằng hiệu suất, chẳng phải thời đại sắp tới cần sự thong thả biết thưởng thức 「sự lãng phí」 một cách có chủ ý sao?",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-020",
+                  "prompt": "筆者は「効率」についてどのように考えているか。",
+                  "options": [
+                    "効率は無駄なので追い求めるべきでない",
+                    "重視されているが、追い求めすぎると見落とされるものがある",
+                    "効率を追い求めれば、すべて解決する",
+                    "効率は仕事にだけ必要である"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「重視されているが、追い求めすぎると見落とされるものがある」. Tác giả công nhận lợi ích nhưng cảnh báo mặt bị bỏ sót.",
+                  "confidence": "high",
+                  "evidence": "効率ばかりを追い求めると、見落とされるものがある",
+                  "inferred": true,
+                  "target": "筆者の立場"
+                },
+                {
+                  "key": "n1-r-021",
+                  "prompt": "筆者が料理を例に挙げたのは何を示すためか。",
+                  "options": [
+                    "手間をかける過程にこそ楽しみや人とのつながりがあること",
+                    "料理は栄養を摂るために必要なこと",
+                    "サプリメントは危険であること",
+                    "家族と食事をする時間を短くすべきこと"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「手間をかける過程にこそ楽しみや人とのつながりがあること」. Ví dụ nấu ăn cho thấy niềm vui và sự gắn kết nằm trong quá trình bỏ công.",
+                  "confidence": "high",
+                  "evidence": "食材を選び、手間をかけて調理し、家族と食卓を囲むという営みの中にある楽しみや、人とのつながりは失われてしまう",
+                  "inferred": true,
+                  "target": "例示の意図"
+                },
+                {
+                  "key": "n1-r-022",
+                  "prompt": "筆者の主張として最も適切なものはどれか。",
+                  "options": [
+                    "効率だけを重視した生活を送るべきだ",
+                    "答えをすぐに検索することが大切だ",
+                    "遠回りは避けるべきだ",
+                    "あえて「無駄」を楽しむ余裕を持つことが必要だ"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「あえて「無駄」を楽しむ余裕を持つことが必要だ」. Kết luận: cần có sự thong thả để thưởng thức cả 「lãng phí」.",
+                  "confidence": "high",
+                  "evidence": "あえて「無駄」を楽しむ余裕を持つことが、これからの時代には必要なのではないだろうか",
+                  "inferred": true,
+                  "target": "筆者の主張"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "joho",
+          "labelVi": "Đọc hiểu: tìm thông tin",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-r-g11",
+              "reading": {
+                "textJa": "【Ｓ市　子育て支援金のご案内】\n対象：Ｓ市に一年以上住民登録のある世帯で、十八歳未満の子どもを養育している方。\n金額：子ども一人につき月額一万円（第三子以降は月額一万五千円）。ただし、世帯の年間所得が八百万円以上の場合は、支給額を半額とする。\n申請：毎年四月一日から六月三十日までに、市役所窓口または郵送で申請。期間を過ぎると、遅れた月の分は支給されない。\n支給：年二回（八月と二月）に、四か月分ずつ指定口座へ振り込む。\n注意：転居や子どもの就職などで対象外になった場合は、速やかに届け出ること。",
+                "translatedVi": "[Hướng dẫn trợ cấp nuôi con thành phố S] Đối tượng: hộ gia đình đăng ký cư trú tại thành phố S từ một năm trở lên và đang nuôi con dưới 18 tuổi. Số tiền: 10.000 yên/tháng cho mỗi trẻ (từ trẻ thứ ba: 15.000 yên/tháng). Tuy nhiên nếu thu nhập hằng năm của hộ từ 8 triệu yên trở lên thì chỉ chi một nửa. Đăng ký: mỗi năm từ 1/4 đến 30/6 tại quầy tòa thị chính hoặc qua bưu điện. Quá thời hạn thì không chi trả phần của các tháng trễ. Chi trả: hai lần mỗi năm (tháng 8 và tháng 2), chuyển khoản bốn tháng mỗi lần. Lưu ý: nếu không còn đủ điều kiện do chuyển nhà hoặc con đi làm thì phải khai báo ngay.",
+                "difficulty": 5,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n1-r-023",
+                  "prompt": "年間所得が九百万円で、Ｓ市に三年住む世帯に、十五歳、十歳、五歳の子どもがいる。支給額は月額いくらか。",
+                  "options": [
+                    "三万五千円",
+                    "一万五千円",
+                    "一万七千五百円",
+                    "二万五千円"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「一万七千五百円」. Ba trẻ: 10.000 + 10.000 + 15.000 = 35.000 yên. Thu nhập từ 8 triệu trở lên nên chỉ chi một nửa = 17.500 yên.",
+                  "confidence": "high",
+                  "evidence": "世帯の年間所得が八百万円以上の場合は、支給額を半額とする",
+                  "inferred": true,
+                  "target": "金額計算"
+                },
+                {
+                  "key": "n1-r-024",
+                  "prompt": "申請を七月に行った場合、どうなるか。",
+                  "options": [
+                    "全額支給される",
+                    "遅れた月の分は支給されない",
+                    "来年まで申請できない",
+                    "半額になる"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「遅れた月の分は支給されない」. Quá hạn 30/6 thì phần của các tháng trễ không được chi.",
+                  "confidence": "high",
+                  "evidence": "期間を過ぎると、遅れた月の分は支給されない",
+                  "target": "申請期限"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "LISTENING",
+      "durationSeconds": 3600,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "choukai-kadai",
+          "labelVi": "Nghe: nắm vấn đề cần làm",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-l-g01",
+              "listening": {
+                "transcriptJa": "男：課長、来月の新商品発表会の件ですが、会場の手配が完了しました。\n女：ありがとう。招待客のリストはもうできている？\n男：営業部から受け取ったものを確認したところ、重複している名前がいくつかありまして、今、整理しているところです。\n女：それは急いで。案内状は来週頭に発送したいから、今日中に完成させて。\n男：承知しました。印刷の手配は、リストが確定してからのほうがよろしいですね。\n女：そうね。じゃあ、まずはリストを仕上げて。",
+                "transcriptVi": "Nam: Thưa trưởng phòng, về buổi giới thiệu sản phẩm mới tháng sau, việc đặt hội trường đã xong. Nữ: Cảm ơn. Danh sách khách mời đã xong chưa? Nam: Kiểm tra danh sách nhận từ phòng kinh doanh thì có vài tên trùng lặp nên tôi đang chỉnh lý. Nữ: Vậy phải gấp. Tôi muốn gửi thư mời đầu tuần sau nên hãy hoàn thành trong hôm nay. Nam: Vâng. Việc đặt in nên làm sau khi danh sách được chốt đúng không ạ? Nữ: Đúng. Vậy trước hết hãy hoàn thiện danh sách.",
+                "durationSeconds": 60
+              },
+              "items": [
+                {
+                  "key": "n1-l-001",
+                  "prompt": "男の人は、このあとまず何をしますか。",
+                  "options": [
+                    "招待客のリストを仕上げる",
+                    "案内状を印刷する",
+                    "会場を手配する",
+                    "営業部にリストを依頼する"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「招待客のリストを仕上げる」. Trưởng phòng yêu cầu hoàn thiện danh sách trước; in thư mời làm sau khi chốt danh sách.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "まずはリストを仕上げて",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g02",
+              "listening": {
+                "transcriptJa": "女：先生、研究室のパソコンが急に動かなくなってしまいました。\n男：保存していないデータはある？\n女：いえ、昨日バックアップを取ったので大丈夫です。\n男：それならよかった。まず電源を入れ直してみて、それでも駄目なら情報センターに連絡してくれる？\n女：電源はもう何度か入れ直したんですが、画面に何も映らなくて。\n男：じゃあ、すぐに情報センターに連絡して。",
+                "transcriptVi": "Nữ: Thưa thầy, máy tính phòng nghiên cứu đột nhiên không chạy nữa. Nam: Có dữ liệu chưa lưu không? Nữ: Không, hôm qua em đã sao lưu rồi nên không sao. Nam: Vậy thì tốt. Trước hết thử khởi động lại, nếu vẫn không được thì liên hệ trung tâm thông tin nhé. Nữ: Em đã khởi động lại mấy lần rồi nhưng màn hình không hiện gì. Nam: Vậy hãy liên hệ ngay trung tâm thông tin.",
+                "durationSeconds": 55
+              },
+              "items": [
+                {
+                  "key": "n1-l-002",
+                  "prompt": "女子学生は、このあとまず何をしますか。",
+                  "options": [
+                    "電源を入れ直す",
+                    "データのバックアップを取る",
+                    "情報センターに連絡する",
+                    "先生に新しいパソコンを頼む"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「情報センターに連絡する」. Em đã khởi động lại nhiều lần mà không được nên thầy bảo liên hệ ngay trung tâm thông tin.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "すぐに情報センターに連絡して",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g03",
+              "listening": {
+                "transcriptJa": "男：来週の取引先との会食ですが、店はどうしましょうか。\n女：先方は魚料理がお好きだと聞いているけど、アレルギーなどは確認した？\n男：まだです。\n女：まず、先方の秘書に食べられないものがないか、メールで確認して。店の予約はそのあとでいいわ。\n男：分かりました。メールを送ります。",
+                "transcriptVi": "Nam: Về bữa tiệc với đối tác tuần sau, ta chọn quán thế nào ạ? Nữ: Nghe nói họ thích món cá, nhưng đã xác nhận dị ứng chưa? Nam: Chưa ạ. Nữ: Trước hết hãy gửi mail hỏi thư ký bên đó xem có món nào không ăn được không. Đặt quán thì sau đó cũng được. Nam: Tôi hiểu rồi. Tôi sẽ gửi mail.",
+                "durationSeconds": 50
+              },
+              "items": [
+                {
+                  "key": "n1-l-003",
+                  "prompt": "男の人は、このあとまず何をしますか。",
+                  "options": [
+                    "店を予約する",
+                    "魚料理の店を探す",
+                    "取引先に電話する",
+                    "先方の秘書にメールで確認する"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「先方の秘書にメールで確認する」. Việc cần làm trước: gửi mail hỏi thư ký về món không ăn được; đặt quán làm sau.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "まず、先方の秘書に食べられないものがないか、メールで確認して",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g04",
+              "listening": {
+                "transcriptJa": "女：すみません、先日購入したスーツケースの車輪が壊れてしまったんですが。\n男：申し訳ございません。お買い上げからまだ一週間ですので、交換か返金のどちらかで対応させていただきます。\n女：もし交換できるなら、同じものがいいんですが、在庫はありますか。\n男：確認いたします。…申し訳ございません、同じ色は在庫切れでして、入荷まで二週間ほどかかります。\n女：二週間は困ります。来週旅行で使うので。\n男：では、返金でよろしいでしょうか。\n女：はい、そうします。",
+                "transcriptVi": "Nữ: Xin lỗi, bánh xe của chiếc vali tôi mua hôm trước bị hỏng. Nam: Thành thật xin lỗi. Vì mới một tuần từ khi mua nên chúng tôi sẽ xử lý bằng đổi hàng hoặc hoàn tiền. Nữ: Nếu đổi được thì tôi muốn cái giống vậy, còn hàng không? Nam: Tôi xin kiểm tra... Xin lỗi, màu đó hết hàng, khoảng hai tuần nữa mới về. Nữ: Hai tuần thì khó, vì tuần sau tôi dùng đi du lịch. Nam: Vậy hoàn tiền được không ạ? Nữ: Vâng, như vậy.",
+                "durationSeconds": 60
+              },
+              "items": [
+                {
+                  "key": "n1-l-004",
+                  "prompt": "女の人は、このあとどうしますか。",
+                  "options": [
+                    "返金の手続きをする",
+                    "同じ色の入荷を二週間待つ",
+                    "別の色に交換する",
+                    "スーツケースを修理に出す"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「返金の手続きをする」. Chị không thể chờ hai tuần nên đồng ý hoàn tiền.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "はい、そうします",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g05",
+              "listening": {
+                "transcriptJa": "男：教授、来月の学会での発表なんですが、スライドの枚数が多すぎると指摘されまして。\n女：誰に？\n男：指導教官の先生です。二十分の持ち時間に対して四十枚あるので、半分にするようにと。\n女：なるほどね。内容は全部大事だと思うけど、聞く側は理解するのが大変だから、削るべきね。\n男：どこを削ればいいか迷っています。\n女：まず、先行研究の説明を短くして、本題の実験結果に時間をかけられるようにしたらどう？\n男：そうします。",
+                "transcriptVi": "Nam: Thưa giáo sư, về bài báo cáo ở hội thảo tháng sau, em bị nhận xét là số slide quá nhiều. Nữ: Ai nói? Nam: Giáo viên hướng dẫn ạ. Trong 20 phút mà có 40 slide nên bảo giảm một nửa. Nữ: Ra vậy. Nội dung tôi nghĩ đều quan trọng nhưng người nghe khó hiểu nên nên cắt bớt. Nam: Em phân vân không biết cắt chỗ nào. Nữ: Trước hết rút ngắn phần giải thích nghiên cứu trước đây để dành thời gian cho kết quả thực nghiệm chính thì sao? Nam: Em sẽ làm vậy.",
+                "durationSeconds": 65
+              },
+              "items": [
+                {
+                  "key": "n1-l-005",
+                  "prompt": "男の学生は、まず何をしますか。",
+                  "options": [
+                    "実験結果のスライドを減らす",
+                    "発表時間を延ばしてもらう",
+                    "指導教官に相談する",
+                    "先行研究の説明のスライドを減らす"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「先行研究の説明のスライドを減らす」. Giáo sư gợi ý rút ngắn phần nghiên cứu trước; nam sinh đồng ý làm.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "まず、先行研究の説明を短くして",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g06",
+              "listening": {
+                "transcriptJa": "女：ねえ、引っ越し業者の見積もり、三社から届いたよ。\n男：どう違うの？\n女：A社は安いけど、荷物の補償が付いていない。B社は少し高いけど補償付き。C社は一番高いけど、荷造りもやってくれる。\n男：荷造りは自分たちでやるつもりだから、C社はいらないよね。\n女：うん。割れ物が多いから、補償は付けておきたいな。\n男：じゃあ、決まりだね。B社に連絡しよう。",
+                "transcriptVi": "Nữ: Này, báo giá của các công ty chuyển nhà đã đến từ ba công ty. Nam: Khác nhau thế nào? Nữ: Công ty A rẻ nhưng không có bảo hiểm hành lý. B hơi đắt hơn nhưng có bảo hiểm. C đắt nhất nhưng đóng gói giúp luôn. Nam: Mình định tự đóng gói nên không cần C nhỉ. Nữ: Ừ. Vì nhiều đồ dễ vỡ nên em muốn có bảo hiểm. Nam: Vậy quyết định rồi. Liên hệ công ty B nhé.",
+                "durationSeconds": 60
+              },
+              "items": [
+                {
+                  "key": "n1-l-006",
+                  "prompt": "二人は、どの業者に頼むことにしましたか。",
+                  "options": [
+                    "一番安い会社",
+                    "荷造りをしてくれる一番高い会社",
+                    "荷物の補償が付いている、二番目に安い会社",
+                    "業者に頼まず自分たちで運ぶ"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「荷物の補償が付いている、二番目に安い会社」. Chọn công ty B: có bảo hiểm, giá đứng thứ hai, tự đóng gói.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "B社に連絡しよう",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-point",
+          "labelVi": "Nghe: nắm điểm chính",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-l-g07",
+              "listening": {
+                "transcriptJa": "男：最近、うちの部署では会議が多すぎると思わない？\n女：ええ。しかも、ただ情報を共有するだけの会議が多いですよね。\n男：そうなんだよ。メールで済むことも多いのに、集まるために移動の時間もかかるし。\n女：その時間を、本来の業務に使えれば、もっと効率が上がるはずです。\n男：次の部長会で提案してみようか。会議の目的を事前に明確にして、不要なものはなくしていこうって。",
+                "transcriptVi": "Nam: Dạo này bộ phận mình họp nhiều quá, em không thấy vậy sao? Nữ: Vâng. Hơn nữa nhiều cuộc họp chỉ để chia sẻ thông tin. Nam: Đúng. Nhiều việc xong bằng email, lại mất thời gian di chuyển để tập trung. Nữ: Nếu dùng thời gian đó cho công việc chính thì hiệu suất sẽ tăng. Nam: Thử đề xuất ở cuộc họp trưởng phòng tới nhé. Làm rõ mục đích họp trước và bỏ những cuộc không cần thiết.",
+                "durationSeconds": 60
+              },
+              "items": [
+                {
+                  "key": "n1-l-007",
+                  "prompt": "二人が会議について問題だと考えているのは何ですか。",
+                  "options": [
+                    "会議の場所が遠いこと",
+                    "情報共有だけの会議が多く、時間が無駄になること",
+                    "会議の資料が少ないこと",
+                    "会議に参加する人が少ないこと"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「情報共有だけの会議が多く、時間が無駄になること」. Họ phàn nàn nhiều cuộc họp chỉ chia sẻ thông tin, lãng phí thời gian.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ただ情報を共有するだけの会議が多いですよね",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g08",
+              "listening": {
+                "transcriptJa": "女：先生、今回のレポートの評価が思ったより低くて、納得できないんですが。\n男：内容は悪くなかったんだけど、引用元が書かれていない箇所がいくつかあってね。\n女：あ…出典を書き忘れていました。\n男：研究では、他人の考えを使うときは必ず出典を示すのが決まりだから、そこが減点の理由だよ。\n女：分かりました。次回から気をつけます。",
+                "transcriptVi": "Nữ: Thưa thầy, điểm báo cáo lần này thấp hơn em nghĩ nên em chưa thấy thỏa đáng. Nam: Nội dung không tệ nhưng có vài chỗ không ghi nguồn trích dẫn. Nữ: A... em quên ghi nguồn. Nam: Trong nghiên cứu, khi dùng ý của người khác nhất định phải ghi nguồn, đó là lý do bị trừ điểm. Nữ: Em hiểu rồi. Lần sau em sẽ chú ý.",
+                "durationSeconds": 55
+              },
+              "items": [
+                {
+                  "key": "n1-l-008",
+                  "prompt": "レポートの評価が低かった理由は何ですか。",
+                  "options": [
+                    "引用元が示されていない箇所があったから",
+                    "内容が間違っていたから",
+                    "提出が遅れたから",
+                    "字数が足りなかったから"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「引用元が示されていない箇所があったから」. Có chỗ trích dẫn không ghi nguồn nên bị trừ điểm.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "引用元が書かれていない箇所がいくつかあってね",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g09",
+              "listening": {
+                "transcriptJa": "男：山田さんが今回の異動を断ったって聞いたけど、本当？\n女：ええ。新しい部署は昇進に有利だと言われたんですが、今の仕事をもう少し続けたいそうです。\n男：もったいない気もするけど。\n女：本人は、今のチームで取り組んでいるプロジェクトを最後までやり遂げたいと言っていました。",
+                "transcriptVi": "Nam: Nghe nói anh Yamada từ chối lần điều chuyển này, có thật không? Nữ: Vâng. Họ nói bộ phận mới có lợi cho thăng chức nhưng anh ấy muốn tiếp tục công việc hiện tại thêm một thời gian. Nam: Cũng tiếc nhỉ. Nữ: Anh ấy nói muốn làm trọn dự án đang thực hiện cùng nhóm hiện tại.",
+                "durationSeconds": 55
+              },
+              "items": [
+                {
+                  "key": "n1-l-009",
+                  "prompt": "山田さんが異動を断った理由は何ですか。",
+                  "options": [
+                    "昇進に興味がないから",
+                    "今のプロジェクトを最後までやり遂げたいから",
+                    "給料が下がるから",
+                    "新しい部署が遠いから"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「今のプロジェクトを最後までやり遂げたいから」. Anh muốn hoàn thành dự án hiện tại đến cùng.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "今のチームで取り組んでいるプロジェクトを最後までやり遂げたい",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g10",
+              "listening": {
+                "transcriptJa": "女：この前おすすめしてもらった映画、見ましたよ。\n男：どうでした？\n女：映像はとてもきれいでしたが、ストーリーが少し分かりにくくて、途中で混乱してしまいました。\n男：やっぱり。僕も一度見ただけでは理解できなくて、二回目でやっと全体がつかめたんだ。",
+                "transcriptVi": "Nữ: Tôi đã xem bộ phim anh giới thiệu hôm trước. Nam: Thế nào? Nữ: Hình ảnh rất đẹp nhưng cốt truyện hơi khó hiểu nên giữa chừng tôi bị rối. Nam: Quả nhiên. Tôi cũng xem một lần không hiểu, đến lần hai mới nắm được tổng thể.",
+                "durationSeconds": 50
+              },
+              "items": [
+                {
+                  "key": "n1-l-010",
+                  "prompt": "女の人は、映画のどんな点がよくなかったと言っていますか。",
+                  "options": [
+                    "映像が汚かった点",
+                    "上映時間が長すぎた点",
+                    "ストーリーが分かりにくかった点",
+                    "音楽がうるさかった点"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「ストーリーが分かりにくかった点」. Chị nói cốt truyện khó hiểu nên bị rối.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ストーリーが少し分かりにくくて",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g11",
+              "listening": {
+                "transcriptJa": "男：先生、卒業後は大学院に進むか、就職するか、まだ決められなくて。\n女：どちらにも魅力があるから迷うのは当然ね。ただ、大学院に進むなら、早めに研究計画を考え始めないと、願書の締め切りに間に合わないわよ。\n男：締め切りはいつでしたっけ。\n女：来月の末。迷っている間にも時間は過ぎるから、まず研究したいテーマだけでも書き出してみたらどう？",
+                "transcriptVi": "Nam: Thưa cô, sau tốt nghiệp em chưa quyết được nên học lên cao học hay đi làm. Nữ: Cả hai đều hấp dẫn nên phân vân là đương nhiên. Có điều nếu học lên thì phải bắt đầu nghĩ kế hoạch nghiên cứu sớm, không thì không kịp hạn nộp hồ sơ. Nam: Hạn nộp là khi nào ạ? Nữ: Cuối tháng sau. Trong lúc phân vân thời gian vẫn trôi, nên trước hết thử viết ra đề tài em muốn nghiên cứu xem.",
+                "durationSeconds": 60
+              },
+              "items": [
+                {
+                  "key": "n1-l-011",
+                  "prompt": "先生が男子学生にすすめていることは何ですか。",
+                  "options": [
+                    "先に就職して様子を見ること",
+                    "願書の締め切りを延ばしてもらうこと",
+                    "大学院について友人に聞くこと",
+                    "研究したいテーマを書き出してみること"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「研究したいテーマを書き出してみること」. Cô khuyên trước hết viết ra đề tài muốn nghiên cứu.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "まず研究したいテーマだけでも書き出してみたらどう",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g12",
+              "listening": {
+                "transcriptJa": "女：この会社の製品、最近人気が出てきましたね。\n男：ええ。以前は価格の安さだけが売りでしたが、今は使いやすさを重視した設計に変えたのが成功の要因だと思います。\n女：なるほど。安さから品質へ戦略を転換したわけですね。\n男：はい。実際、価格を上げても売り上げは伸びていますから。",
+                "transcriptVi": "Nữ: Sản phẩm của công ty này dạo gần đây được ưa chuộng nhỉ. Nam: Vâng. Trước đây chỉ bán bằng giá rẻ, nhưng tôi nghĩ yếu tố thành công là đã đổi sang thiết kế coi trọng tính dễ dùng. Nữ: Ra vậy. Họ đã chuyển chiến lược từ giá rẻ sang chất lượng. Nam: Vâng. Thực tế dù tăng giá doanh số vẫn tăng.",
+                "durationSeconds": 55
+              },
+              "items": [
+                {
+                  "key": "n1-l-012",
+                  "prompt": "製品が人気になった主な要因は何だと言っていますか。",
+                  "options": [
+                    "価格を安くしたこと",
+                    "使いやすさを重視した設計に変えたこと",
+                    "宣伝を増やしたこと",
+                    "販売店を増やしたこと"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「使いやすさを重視した設計に変えたこと」. Anh cho rằng đổi sang thiết kế coi trọng tính dễ dùng là yếu tố thành công.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "使いやすさを重視した設計に変えたのが成功の要因だと思います",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g13",
+              "listening": {
+                "transcriptJa": "男：今日の講演、どうでした？\n女：話の内容は興味深かったんですが、講師の声が小さくて、後ろの席ではほとんど聞き取れませんでした。\n男：確かに。マイクの調子が悪かったのかもしれませんね。\n女：せっかく良い内容だったのに、もったいなかったです。",
+                "transcriptVi": "Nam: Bài giảng hôm nay thế nào? Nữ: Nội dung thú vị nhưng giọng diễn giả nhỏ nên ở hàng ghế sau hầu như không nghe được. Nam: Đúng vậy. Có thể micro có vấn đề. Nữ: Nội dung hay thế mà thật đáng tiếc.",
+                "durationSeconds": 50
+              },
+              "items": [
+                {
+                  "key": "n1-l-013",
+                  "prompt": "女の人が不満に思っていることは何ですか。",
+                  "options": [
+                    "講師の声が聞き取りにくかったこと",
+                    "内容が難しかったこと",
+                    "講演が長かったこと",
+                    "席が前だったこと"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「講師の声が聞き取りにくかったこと」. Chị phàn nàn giọng diễn giả nhỏ, khó nghe ở sau.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "講師の声が小さくて、後ろの席ではほとんど聞き取れませんでした",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-gaiyou",
+          "labelVi": "Nghe: nắm khái quát",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-l-g14",
+              "listening": {
+                "transcriptJa": "女：近年、都市部で「シェアオフィス」を利用する人が増えています。自宅では集中できない、かといって会社に通うのは負担だという人にとって、ちょうどよい選択肢だからです。利用者の間では、他の業種の人と交流する機会が得られることも好評です。一方、企業にとっては、社員の情報管理が難しくなるという課題もあります。今後は、利便性と安全性をどう両立させるかが問われていくでしょう。",
+                "transcriptVi": "Nữ: Những năm gần đây số người dùng 「văn phòng chia sẻ」 ở đô thị tăng. Vì đó là lựa chọn vừa phải cho người không tập trung được ở nhà nhưng đi công ty lại gánh nặng. Trong người dùng, cơ hội giao lưu với người ngành khác cũng được đánh giá tốt. Mặt khác với doanh nghiệp có vấn đề là khó quản lý thông tin nhân viên. Sắp tới sẽ bị đặt câu hỏi làm sao dung hòa tiện lợi và an toàn.",
+                "durationSeconds": 80
+              },
+              "items": [
+                {
+                  "key": "n1-l-014",
+                  "prompt": "この話の主な内容は何ですか。",
+                  "options": [
+                    "シェアオフィスの料金の比較",
+                    "在宅勤務の廃止",
+                    "シェアオフィスの利点と今後の課題",
+                    "都市部の家賃の上昇"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「シェアオフィスの利点と今後の課題」. Bài nói nêu ưu điểm và vấn đề của văn phòng chia sẻ.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "利便性と安全性をどう両立させるかが問われていくでしょう",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g15",
+              "listening": {
+                "transcriptJa": "男：私は、大学で言語学を教えていますが、最近の若者の言葉づかいについて、よく意見を求められます。「言葉が乱れている」という批判もありますが、言葉は常に変化するものです。たとえば、今では普通に使われている言い方も、昔は間違いとされていたものが少なくありません。大切なのは、場面に応じて使い分けることができるかどうかです。友人同士では砕けた言い方、改まった場では丁寧な言い方を選べれば、問題はないと私は考えています。",
+                "transcriptVi": "Nam: Tôi dạy ngôn ngữ học ở đại học và thường được hỏi ý kiến về cách dùng từ của giới trẻ. Có phê phán 「ngôn ngữ đang lộn xộn」 nhưng ngôn ngữ luôn thay đổi. Ví dụ nhiều cách nói được dùng bình thường ngày nay xưa kia bị coi là sai. Quan trọng là có dùng phân biệt theo tình huống được hay không. Giữa bạn bè dùng cách nói thân mật, nơi trang trọng chọn cách nói lịch sự thì tôi cho rằng không có vấn đề.",
+                "durationSeconds": 85
+              },
+              "items": [
+                {
+                  "key": "n1-l-015",
+                  "prompt": "男の人の考えに合うものはどれですか。",
+                  "options": [
+                    "若者の言葉は乱れており正すべきだ",
+                    "言葉は変化させないほうがよい",
+                    "丁寧な言い方だけを使うべきだ",
+                    "場面に応じて言葉を使い分けられれば問題ない"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「場面に応じて言葉を使い分けられれば問題ない」. Anh cho rằng chỉ cần dùng phân biệt theo tình huống là được.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "場面に応じて使い分けることができるかどうかです",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g16",
+              "listening": {
+                "transcriptJa": "女：本日は、水道の節水についてお話しします。日本は水が豊富な国と思われがちですが、実は、輸入している食料を作るために使われた水を含めると、海外の水資源にも大きく依存しています。私たちが毎日食べるものの背景に、どれだけの水が使われているのかを知ることは、水の大切さを考える第一歩になります。蛇口をひねったときの水だけでなく、食べ物の無駄をなくすことも、立派な節水なのです。",
+                "transcriptVi": "Nữ: Hôm nay tôi sẽ nói về tiết kiệm nước. Nhật thường bị cho là nước dồi dào, nhưng thực ra nếu tính cả lượng nước dùng để sản xuất thực phẩm nhập khẩu thì cũng phụ thuộc nhiều vào nguồn nước nước ngoài. Biết đằng sau những thứ ta ăn mỗi ngày đã dùng bao nhiêu nước là bước đầu để nghĩ đến giá trị của nước. Không chỉ nước khi vặn vòi mà giảm lãng phí thức ăn cũng là tiết kiệm nước.",
+                "durationSeconds": 80
+              },
+              "items": [
+                {
+                  "key": "n1-l-016",
+                  "prompt": "話の主題は何ですか。",
+                  "options": [
+                    "水道料金を安くする方法",
+                    "食べ物の無駄をなくすことも節水につながるということ",
+                    "日本の水不足の歴史",
+                    "海外の水資源の開発"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「食べ物の無駄をなくすことも節水につながるということ」. Bài nói kết luận giảm lãng phí thức ăn cũng là một cách tiết kiệm nước.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "食べ物の無駄をなくすことも、立派な節水なのです",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g17",
+              "listening": {
+                "transcriptJa": "男：伝統行事の祭りが、各地で担い手不足に悩んでいます。若者が都会に出て、祭りを支える人が減っているのです。そこで、ある町では、町外に住む出身者や観光客にも運営に参加してもらう仕組みを作りました。最初は、よそ者が入ることに抵抗を感じる住民もいましたが、新しい人が加わることで祭りに活気が戻り、むしろ地元の人々の誇りが高まったそうです。",
+                "transcriptVi": "Nam: Các lễ hội truyền thống ở nhiều nơi đang khó khăn vì thiếu người đảm nhận. Giới trẻ lên thành phố nên người nâng đỡ lễ hội giảm. Vì vậy một thị trấn đã tạo cơ chế để người xuất thân từ thị trấn đang sống bên ngoài và khách du lịch cũng tham gia vận hành. Lúc đầu có người dân ngại người ngoài vào, nhưng nhờ người mới tham gia mà lễ hội lấy lại sức sống, thậm chí niềm tự hào của người dân địa phương còn tăng.",
+                "durationSeconds": 80
+              },
+              "items": [
+                {
+                  "key": "n1-l-017",
+                  "prompt": "ある町の取り組みの結果はどうでしたか。",
+                  "options": [
+                    "祭りが廃止された",
+                    "住民が全員反対した",
+                    "観光客が減った",
+                    "祭りに活気が戻り、地元の人々の誇りが高まった"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「祭りに活気が戻り、地元の人々の誇りが高まった」. Kết quả: lễ hội lấy lại sức sống và niềm tự hào địa phương tăng.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "祭りに活気が戻り、むしろ地元の人々の誇りが高まった",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g18",
+              "listening": {
+                "transcriptJa": "女：最近、「サブスクリプション」、つまり月額料金を払って商品やサービスを利用する形態が広がっています。音楽や動画だけでなく、服や家具、車まで対象は拡大しています。利用者にとっては、初期費用を抑えられ、気軽に試せることが魅力です。しかし、使わなくなっても料金を払い続けてしまう人も少なくありません。便利さの陰にある落とし穴にも注意が必要だと言えるでしょう。",
+                "transcriptVi": "Nữ: Gần đây hình thức 「thuê bao」, tức trả phí hằng tháng để dùng sản phẩm/dịch vụ, đang lan rộng. Không chỉ nhạc, video mà cả quần áo, đồ nội thất, ô tô cũng thuộc đối tượng. Với người dùng, điểm hấp dẫn là tiết kiệm chi phí ban đầu và thử dễ dàng. Tuy nhiên không ít người dù không còn dùng vẫn tiếp tục trả phí. Có thể nói cũng cần chú ý đến cái bẫy ẩn sau sự tiện lợi.",
+                "durationSeconds": 80
+              },
+              "items": [
+                {
+                  "key": "n1-l-018",
+                  "prompt": "話し手が最も言いたいことは何ですか。",
+                  "options": [
+                    "サブスクリプションは危険なのでやめるべきだ",
+                    "サブスクリプションは音楽と動画にだけ向いている",
+                    "サブスクリプションは便利だが、使わなくても払い続ける落とし穴に注意が必要だ",
+                    "サブスクリプションの料金は安くなるべきだ"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「サブスクリプションは便利だが、使わなくても払い続ける落とし穴に注意が必要だ」. Người nói công nhận sự tiện lợi nhưng nhấn mạnh cần lưu ý cái bẫy trả phí khi không dùng.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "便利さの陰にある落とし穴にも注意が必要だと言えるでしょう",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g19",
+              "listening": {
+                "transcriptJa": "男：先日、地域の清掃活動に初めて参加しました。正直、最初は面倒だと思っていました。しかし、近所の人たちと一緒にごみを拾ううちに、普段は話す機会のなかった人たちと自然に会話が弾み、地域とのつながりを実感できました。きれいになった公園で遊ぶ子どもたちを見て、自分もこの町の一員なのだという気持ちが強くなりました。今後も続けて参加したいと思っています。",
+                "transcriptVi": "Nam: Hôm trước lần đầu tôi tham gia hoạt động dọn vệ sinh khu phố. Thật lòng lúc đầu tôi thấy phiền. Nhưng trong lúc nhặt rác cùng hàng xóm, tôi nói chuyện tự nhiên với những người bình thường không có dịp trò chuyện và cảm nhận được sự gắn kết với cộng đồng. Nhìn những đứa trẻ chơi trong công viên đã sạch sẽ, cảm giác mình cũng là một thành viên của thị trấn này mạnh lên. Sau này tôi muốn tiếp tục tham gia.",
+                "durationSeconds": 80
+              },
+              "items": [
+                {
+                  "key": "n1-l-019",
+                  "prompt": "男の人は、清掃活動に参加してどう感じましたか。",
+                  "options": [
+                    "地域とのつながりを実感し、続けたいと思った",
+                    "面倒なのでもう参加したくないと思った",
+                    "ごみの多さに驚いて参加をやめたいと思った",
+                    "子どもたちに迷惑をかけたと思った"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「地域とのつながりを実感し、続けたいと思った」. Anh cảm nhận được sự gắn kết cộng đồng và muốn tiếp tục.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "今後も続けて参加したいと思っています",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-sokuji",
+          "labelVi": "Nghe: đáp nhanh",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-l-g20",
+              "listening": {
+                "transcriptJa": "男：このたびのご昇進、誠におめでとうございます。",
+                "transcriptVi": "Nam: Xin chân thành chúc mừng việc thăng chức lần này.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-020",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "ありがとうございます。皆様のおかげです。",
+                    "ご苦労様でした。",
+                    "どういたしまして。お元気で。",
+                    "お疲れ様でした。ご無理なさらず。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「ありがとうございます。皆様のおかげです。」. Đáp lời chúc mừng bằng cảm ơn và khiêm tốn: 「皆様のおかげです」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ご昇進、誠におめでとうございます",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g21",
+              "listening": {
+                "transcriptJa": "女：ご迷惑をおかけして、大変申し訳ありませんでした。",
+                "transcriptVi": "Nữ: Thành thật xin lỗi vì đã làm phiền.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-021",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "いえ、迷惑をおかけして申し上げます。",
+                    "ええ、まったくそのとおりです。",
+                    "いえ、どうかお気になさらないでください。",
+                    "はい、お待ちしておりました。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「いえ、どうかお気になさらないでください。」. Đáp lại lời xin lỗi bằng 「どうかお気になさらないでください」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ご迷惑をおかけして、大変申し訳ありませんでした",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g22",
+              "listening": {
+                "transcriptJa": "男：この件につきましては、後ほどあらためてご連絡させていただきます。",
+                "transcriptVi": "Nam: Về việc này, lát nữa chúng tôi xin liên lạc lại.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-022",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "はい、後ほど連絡させていただきます。",
+                    "かしこまりました。お待ちしております。",
+                    "恐れ入りますが、お断りいたします。",
+                    "失礼ですが、どちら様でしょうか。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「かしこまりました。お待ちしております。」. Đáp bằng 「かしこまりました。お待ちしております」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "後ほどあらためてご連絡させていただきます",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g23",
+              "listening": {
+                "transcriptJa": "女：あの人の言うことなんか、まともに取り合うまでもないよ。",
+                "transcriptVi": "Nữ: Lời người đó nói thì không đáng để tiếp chuyện nghiêm túc.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-023",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "うん、取り合ってみよう。",
+                    "いや、まともになってほしいね。",
+                    "そうだね、もう少し話し合うべきだね。",
+                    "そうだね。気にしないでおこう。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「そうだね。気にしないでおこう。」. Đồng tình rằng không cần để ý.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "まともに取り合うまでもないよ",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g24",
+              "listening": {
+                "transcriptJa": "男：今回の企画、君に任せるよ。思い切ってやってみなさい。",
+                "transcriptVi": "Nam: Kế hoạch lần này, tôi giao cho cậu. Cứ mạnh dạn làm thử đi.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-024",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "申し訳ありません。思い切って辞めます。",
+                    "いいえ、任せていただきません。",
+                    "はい、思い切ってお任せします。",
+                    "ありがとうございます。精一杯頑張ります。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「ありがとうございます。精一杯頑張ります。」. Nhận việc và hứa cố gắng hết sức.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "今回の企画、君に任せるよ",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g25",
+              "listening": {
+                "transcriptJa": "女：お言葉に甘えて、お先に失礼させていただきます。",
+                "transcriptVi": "Nữ: Xin nhận lòng tốt của anh, tôi xin phép về trước.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-025",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "こちらこそ、お先に失礼しました。",
+                    "どうぞ、お気をつけて。",
+                    "いいえ、甘いものは結構です。",
+                    "はい、お言葉をお借りします。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「どうぞ、お気をつけて。」. Tiễn người về bằng 「どうぞ、お気をつけて」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "お先に失礼させていただきます",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g26",
+              "listening": {
+                "transcriptJa": "男：もう少し検討してみないことには、お返事のしようがありません。",
+                "transcriptVi": "Nam: Nếu không cân nhắc thêm thì tôi không thể trả lời được.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-026",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "では、結論が出ましたらお知らせください。",
+                    "では、検討しないでください。",
+                    "では、もう返事をいたしました。",
+                    "では、お返事しないでおきます。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「では、結論が出ましたらお知らせください。」. Hiểu ý đối phương cần thời gian, nhờ báo khi có kết luận.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "もう少し検討してみないことには",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g27",
+              "listening": {
+                "transcriptJa": "女：彼の提案は、一見よさそうだが、現実的とは言いがたいね。",
+                "transcriptVi": "Nữ: Đề xuất của anh ấy thoạt nhìn có vẻ tốt nhưng khó nói là thực tế.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-027",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "はい、現実的でよさそうですね。",
+                    "ええ、見たことがありません。",
+                    "確かに、費用面で無理がありますね。",
+                    "いいえ、提案はしていません。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「確かに、費用面で無理がありますね。」. Đồng ý và nêu lý do không thực tế.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "現実的とは言いがたいね",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g28",
+              "listening": {
+                "transcriptJa": "男：そんなことをしでかして、ただで済むと思っているのか。",
+                "transcriptVi": "Nam: Làm ra chuyện như vậy mà cậu nghĩ sẽ không sao à?",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-028",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "はい、ただで済んでよかったです。",
+                    "いいえ、しでかしたことはありません。",
+                    "申し訳ありません。深く反省しております。",
+                    "ええ、喜んで済ませます。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「申し訳ありません。深く反省しております。」. Khi bị khiển trách nặng thì xin lỗi, thể hiện sự hối lỗi.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ただで済むと思っているのか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g29",
+              "listening": {
+                "transcriptJa": "女：資料の作成を手伝っていただいたおかげで、期限に間に合いました。",
+                "transcriptVi": "Nữ: Nhờ anh giúp làm tài liệu mà tôi kịp thời hạn.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-029",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "期限は間に合いませんでした。",
+                    "お役に立てて何よりです。",
+                    "いえ、手伝っていただきました。",
+                    "はい、おかげにしてください。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「お役に立てて何よりです。」. Đáp lời cảm ơn bằng 「お役に立てて何よりです」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "手伝っていただいたおかげで、期限に間に合いました",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g30",
+              "listening": {
+                "transcriptJa": "男：あの店、評判のわりに、たいしたことなかったね。",
+                "transcriptVi": "Nam: Quán đó so với danh tiếng thì cũng không có gì ghê gớm nhỉ.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-030",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "そうだね、期待しすぎたかもしれないね。",
+                    "うん、評判が悪いのに最高だったね。",
+                    "いや、わりに評判は聞いていないよ。",
+                    "そうね、たいしたことをしたね。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「そうだね、期待しすぎたかもしれないね。」. Đồng tình rằng có lẽ đã kỳ vọng quá.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "評判のわりに、たいしたことなかったね",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g31",
+              "listening": {
+                "transcriptJa": "女：締め切りが迫っているというのに、彼はのんびりしているね。",
+                "transcriptVi": "Nữ: Hạn chót đã gần kề mà anh ấy vẫn thong thả nhỉ.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-031",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "ええ、迫ってはいないよ。",
+                    "うん、のんびりして欲しいね。",
+                    "いや、締め切りは終わったよ。",
+                    "ほんとに。見ているこっちが焦るよ。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「ほんとに。見ているこっちが焦るよ。」. Đồng tình, nói mình nhìn mà sốt ruột.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "締め切りが迫っているというのに",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g32",
+              "listening": {
+                "transcriptJa": "男：お忙しいところ恐縮ですが、こちらにご署名をいただけますでしょうか。",
+                "transcriptVi": "Nam: Xin lỗi đã làm phiền lúc bận, xin quý khách vui lòng ký tên ở đây ạ.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-032",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "いいえ、ご署名は恐縮しております。",
+                    "ええ、署名を忙しくします。",
+                    "はい、承知しました。どちらに書けばよろしいですか。",
+                    "はい、署名をいただきました。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「はい、承知しました。どちらに書けばよろしいですか。」. Nhận lời và hỏi chỗ ký.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "こちらにご署名をいただけますでしょうか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g33",
+              "listening": {
+                "transcriptJa": "女：期待に反して、今回の売り上げは伸び悩んでいるそうだよ。",
+                "transcriptVi": "Nữ: Nghe nói trái với kỳ vọng, doanh số lần này đang chững lại.",
+                "durationSeconds": 10
+              },
+              "items": [
+                {
+                  "key": "n1-l-033",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "そうか。期待どおりでよかったね。",
+                    "うん、伸び悩んで期待に応えたね。",
+                    "いや、売り上げは伸びすぎだよ。",
+                    "そうか。原因を調べてみる必要があるね。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「そうか。原因を調べてみる必要があるね。」. Tiếp nhận thông tin và nói cần tìm nguyên nhân.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "今回の売り上げは伸び悩んでいるそうだよ",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-tougou",
+          "labelVi": "Nghe: tổng hợp",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N1",
+          "groups": [
+            {
+              "groupKey": "n1-l-g34",
+              "listening": {
+                "transcriptJa": "女：今度の社内旅行の行き先ですが、候補が三つあります。温泉、テーマパーク、それから山のキャンプです。\n男：アンケートの結果はどうでしたか。\n女：温泉が一番多くて、次がテーマパーク、キャンプは少数でした。ただ、温泉は去年も行ったので、同じでは新鮮味がないという意見も出ています。\n男：それなら、二番目に多かったテーマパークはどうでしょう。費用はどのくらいですか。\n女：入場料込みで一人一万五千円です。予算は一万円ですから、会社が半分補助するとしても少し足りません。\n男：では、予算内に収まる温泉にして、宿を去年と違うところにしませんか。\n女：それなら新鮮味もありますね。そうしましょう。",
+                "transcriptVi": "Nữ: Về điểm đến chuyến du lịch công ty lần này, có ba ứng viên: suối nước nóng, công viên giải trí và cắm trại trên núi. Nam: Kết quả khảo sát thế nào? Nữ: Suối nước nóng nhiều nhất, tiếp theo là công viên giải trí, cắm trại rất ít. Có điều năm ngoái đã đi suối nước nóng nên cũng có ý kiến là giống vậy thì không mới. Nam: Vậy công viên giải trí nhiều thứ hai thì sao? Chi phí khoảng bao nhiêu? Nữ: Gồm vé vào cổng là 15.000 yên một người. Ngân sách 10.000 yên, dù công ty hỗ trợ một nửa vẫn hơi thiếu. Nam: Vậy chọn suối nước nóng nằm trong ngân sách và đổi nhà trọ khác năm ngoái thì sao? Nữ: Vậy thì cũng có cái mới. Làm vậy nhé.",
+                "durationSeconds": 90
+              },
+              "items": [
+                {
+                  "key": "n1-l-034",
+                  "prompt": "社内旅行はどうなりましたか。",
+                  "options": [
+                    "去年と同じ宿の温泉にする",
+                    "去年と違う宿の温泉にする",
+                    "テーマパークに行く",
+                    "山のキャンプに行く"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「去年と違う宿の温泉にする」. Công viên vượt ngân sách; họ chọn suối nước nóng nhưng đổi nhà trọ.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "予算内に収まる温泉にして、宿を去年と違うところにしませんか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g35",
+              "listening": {
+                "transcriptJa": "男：新しい複合機を導入したいのですが、候補はＡ社とＢ社です。\n女：違いは何ですか。\n男：Ａ社は本体の価格が安いんですが、インクの交換費用が高くて、年間の維持費を含めると、三年でＢ社より高くなります。Ｂ社は最初に費用がかかりますが、インク代が安いです。\n女：うちの会社は印刷が多いですよね。\n男：はい、月に五千枚以上は使っています。\n女：それなら、長い目で見るとＢ社のほうが得ね。\n男：では、Ｂ社で進めます。",
+                "transcriptVi": "Nam: Tôi muốn lắp máy đa chức năng mới, ứng viên là công ty A và B. Nữ: Khác nhau thế nào? Nam: A giá máy rẻ nhưng chi phí thay mực cao, tính cả chi phí duy trì hằng năm thì sau ba năm đắt hơn B. B tốn chi phí ban đầu nhưng mực rẻ. Nữ: Công ty mình in nhiều nhỉ. Nam: Vâng, dùng hơn 5.000 tờ mỗi tháng. Nữ: Vậy nhìn lâu dài thì B có lợi hơn. Nam: Vậy tôi sẽ tiến hành với B.",
+                "durationSeconds": 80
+              },
+              "items": [
+                {
+                  "key": "n1-l-035",
+                  "prompt": "Ｂ社を選んだ理由は何ですか。",
+                  "options": [
+                    "印刷が多く、長期的には維持費が安くなるから",
+                    "本体の価格が安いから",
+                    "インクの交換が不要だから",
+                    "Ａ社より新しいから"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「印刷が多く、長期的には維持費が安くなるから」. Vì in nhiều nên về lâu dài B có chi phí duy trì thấp hơn.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "長い目で見るとＢ社のほうが得ね",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g36",
+              "listening": {
+                "transcriptJa": "女：今日は、色が人の心理に与える影響についてお話しします。たとえば、赤は食欲を増進させる色だと言われ、多くのレストランの看板や内装に使われています。一方、青には気持ちを落ち着かせる効果があり、病院や図書館で好まれます。ただ、色の印象は文化によって異なる場合があり、白は日本では清潔さの象徴ですが、国によっては喪を表す色とされることもあります。",
+                "transcriptVi": "Nữ: Hôm nay tôi nói về ảnh hưởng của màu sắc đến tâm lý con người. Ví dụ màu đỏ được cho là làm tăng cảm giác thèm ăn nên được dùng nhiều ở biển hiệu và nội thất nhà hàng. Mặt khác màu xanh có tác dụng làm bình tĩnh nên được ưa chuộng ở bệnh viện, thư viện. Tuy nhiên ấn tượng về màu sắc có thể khác nhau theo văn hóa; màu trắng ở Nhật là biểu tượng của sự sạch sẽ nhưng ở một số nước lại được coi là màu để tang.",
+                "durationSeconds": 90
+              },
+              "items": [
+                {
+                  "key": "n1-l-036",
+                  "prompt": "話の内容と合っているものはどれですか。",
+                  "options": [
+                    "青は食欲を増進させる",
+                    "赤は気持ちを落ち着かせる",
+                    "色の印象は文化によって異なることがある",
+                    "白はどの国でも清潔さの象徴だ"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「色の印象は文化によって異なることがある」. Bài nói nêu ví dụ màu trắng khác nhau tùy văn hóa.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "色の印象は文化によって異なる場合があり",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n1-l-g37",
+              "listening": {
+                "transcriptJa": "男：来週のプロジェクト会議ですが、全員が出席できる日が見つからなくて。\n女：私は水曜日は午後なら大丈夫です。\n男：水曜日は田中さんが午前も午後も出張です。木曜日はどうですか。\n女：木曜日は私が午前中、外出です。午後なら大丈夫です。\n男：木曜日の午後は、鈴木さんが別の会議に出ると言っていました。金曜日はどうでしょう。\n女：金曜日なら、全員予定が空いているはずです。確認してみましょう。\n男：では、金曜日の十時で確認します。",
+                "transcriptVi": "Nam: Về cuộc họp dự án tuần sau, tôi chưa tìm được ngày mọi người đều tham dự được. Nữ: Thứ Tư tôi buổi chiều thì được. Nam: Thứ Tư anh Tanaka đi công tác cả sáng lẫn chiều. Thứ Năm thì sao? Nữ: Thứ Năm sáng tôi đi ra ngoài, buổi chiều thì được. Nam: Chiều thứ Năm anh Suzuki nói sẽ dự cuộc họp khác. Thứ Sáu thì sao? Nữ: Thứ Sáu thì chắc mọi người đều rảnh. Hãy thử xác nhận. Nam: Vậy tôi sẽ xác nhận thứ Sáu lúc 10 giờ.",
+                "durationSeconds": 90
+              },
+              "items": [
+                {
+                  "key": "n1-l-037",
+                  "prompt": "会議は、いつ開かれる予定ですか。",
+                  "options": [
+                    "水曜日の午後",
+                    "木曜日の午後",
+                    "木曜日の午前",
+                    "金曜日の十時"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「金曜日の十時」. Thứ Tư và thứ Năm đều có người vắng, nên đề xuất thứ Sáu 10 giờ.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "金曜日の十時で確認します"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

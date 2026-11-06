@@ -9,18 +9,29 @@ export default function OnboardingPage() {
   const [selectedLevel, setSelectedLevel] = useState("N5");
   const [dailyMinutes, setDailyMinutes] = useState(30);
 
-  const handleComplete = () => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem(
-        "jlpt_user_profile",
-        JSON.stringify({
-          targetLevel: selectedLevel,
-          dailyMinutes: dailyMinutes,
-          onboardedAt: new Date().toISOString(),
-        })
-      );
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleComplete = async () => {
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/v1/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetLevel: selectedLevel, dailyGoalMinutes: dailyMinutes }),
+      });
+      if (res.status === 401) {
+        router.push("/login?redirect=/onboarding");
+        return;
+      }
+      if (!res.ok) throw new Error("save failed");
+      router.push("/dashboard");
+    } catch {
+      setError("Không lưu được thiết lập. Vui lòng thử lại.");
+    } finally {
+      setSaving(false);
     }
-    router.push("/dashboard");
   };
 
   return (
@@ -117,11 +128,17 @@ export default function OnboardingPage() {
         <button
           type="button"
           onClick={handleComplete}
-          className="w-full py-4 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-base shadow-lg shadow-red-900/10 flex items-center justify-center gap-2 transition-all"
+          disabled={saving}
+          className="disabled:opacity-60 w-full py-4 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-base shadow-lg shadow-red-900/10 flex items-center justify-center gap-2 transition-all"
         >
-          Hoàn tất thiết lập & Vào Bảng điều khiển
+          {saving ? "Đang lưu..." : "Hoàn tất thiết lập & Vào Bảng điều khiển"}
           <ArrowRight size={18} />
         </button>
+        {error && (
+          <p role="alert" className="text-sm text-red-700 text-center">
+            {error}
+          </p>
+        )}
       </div>
     </div>
   );

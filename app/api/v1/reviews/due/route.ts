@@ -1,21 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
+import { requireSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    let userId = searchParams.get("userId");
-
-    if (!userId) {
-      const demoStudent = await prisma.user.findUnique({
-        where: { email: "minh@jlptmaster.vn" },
-      });
-      userId = demoStudent?.id || null;
-    }
-
-    if (!userId) {
-      return NextResponse.json({ data: [] });
-    }
+    const { userId } = requireSession(req);
 
     const dueCards = await prisma.reviewCard.findMany({
       where: {
@@ -59,6 +48,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ data: formatted });
   } catch (error: any) {
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "DUE_REVIEWS_FETCH_FAILED", message: error.message } },
       { status: 500 }

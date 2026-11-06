@@ -2,214 +2,244 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Upload,
-  FileText,
-  CheckCircle2,
-  AlertTriangle,
-  XCircle,
-  ChevronLeft,
-  ArrowRight,
-  Download,
-} from "lucide-react";
+import { Upload, CheckCircle2, XCircle, ChevronLeft, Download, Loader2 } from "lucide-react";
 
-interface CsvRowPreview {
+const HEADERS = ["surface", "reading", "romaji", "pos", "meaningVi"] as const;
+const TEMPLATE_CSV =
+  "﻿" +
+  HEADERS.join(",") +
+  "\n" +
+  "雨,あめ,ame,Danh từ,Cơn mưa\n" +
+  "行く,いく,iku,Động từ,Đi\n";
+
+type CsvRow = Record<(typeof HEADERS)[number], string>;
+
+interface PreviewRow {
   line: number;
-  kanji: string;
-  reading: string;
-  meaningVi: string;
-  pos: string;
   status: "VALID" | "ERROR";
-  errorMsg?: string;
+  data: CsvRow | null;
+  error?: string;
+}
+
+interface Preview {
+  totalRows: number;
+  isValid: boolean;
+  validCount: number;
+  errorCount: number;
+  previewRows: PreviewRow[];
+}
+
+// Minimal RFC-4180 style parser (quoted fields, escaped quotes, CRLF, BOM).
+function parseCsv(text: string): string[][] {
+  const rows: string[][] = [];
+  let field = "";
+  let row: string[] = [];
+  let quoted = false;
+  const src = text.replace(/^﻿/, "");
+  for (let i = 0; i < src.length; i++) {
+    const c = src[i];
+    if (quoted) {
+      if (c === '"' && src[i + 1] === '"') {
+        field += '"';
+        i++;
+      } else if (c === '"') quoted = false;
+      else field += c;
+    } else if (c === '"') quoted = true;
+    else if (c === ",") {
+      row.push(field);
+      field = "";
+    } else if (c === "\n" || c === "\r") {
+      if (c === "\r" && src[i + 1] === "\n") i++;
+      row.push(field);
+      field = "";
+      if (row.some((v) => v.trim() !== "")) rows.push(row);
+      row = [];
+    } else field += c;
+  }
+  row.push(field);
+  if (row.some((v) => v.trim() !== "")) rows.push(row);
+  return rows;
 }
 
 export default function CsvImportPage() {
-  const [hasFile, setHasFile] = useState(true); // Pre-loaded with demo file
-  const [isCommitted, setIsCommitted] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [rows, setRows] = useState<CsvRow[]>([]);
+  const [preview, setPreview] = useState<Preview | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [insertedCount, setInsertedCount] = useState<number | null>(null);
 
-  const previewRows: CsvRowPreview[] = [
-    {
-      line: 1,
-      kanji: "雨",
-      reading: "あめ",
-      meaningVi: "Cơn mưa",
-      pos: "Danh từ",
-      status: "VALID",
-    },
-    {
-      line: 2,
-      kanji: "行く",
-      reading: "いく",
-      meaningVi: "Đi (động từ nhóm 1)",
-      pos: "Động từ",
-      status: "VALID",
-    },
-    {
-      line: 3,
-      kanji: "大きい",
-      reading: "", // Missing reading intentionally to demonstrate error reporting
-      meaningVi: "To lớn",
-      pos: "Tính từ",
-      status: "ERROR",
-      errorMsg: "Lỗi Zod schema: Cột 'reading' (phiên âm Hiragana) không được để trống.",
-    },
-    {
-      line: 4,
-      kanji: "食べる",
-      reading: "たべる",
-      meaningVi: "Ăn uống",
-      pos: "Động từ",
-      status: "VALID",
-    },
-  ];
+  const downloadTemplate = () => {
+    const url = URL.createObjectURL(new Blob([TEMPLATE_CSV], { type: "text/csv;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "n5-vocab-template.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
-  const validCount = previewRows.filter((r) => r.status === "VALID").length;
-  const errorCount = previewRows.filter((r) => r.status === "ERROR").length;
+  const onFile = async (file: File | undefined) => {
+    setError(null);
+    setPreview(null);
+    setInsertedCount(null);
+    setRows([]);
+    if (!file) return;
+    setFileName(file.name);
+    setBusy(true);
+    try {
+      const table = parseCsv(await file.text());
+      const [header, ...body] = table;
+      const missing = HEADERS.filter((h) => !header?.map((x) => x.trim()).includes(h));
+      if (missing.length > 0) {
+        throw new Error(`Tệp CSV thiếu cột: ${missing.join(", ")}. Hãy tải file mẫu để dùng đúng định dạng.`);
+      }
+      const idx = Object.fromEntries(HEADERS.map((h) => [h, header.map((x) => x.trim()).indexOf(h)]));
+      const parsed = body.map(
+        (r) => Object.fromEntries(HEADERS.map((h) => [h, (r[idx[h]] ?? "").trim()])) as CsvRow
+      );
+      if (parsed.length === 0) throw new Error("Tệp CSV không có dòng dữ liệu nào.");
+      setRows(parsed);
+
+      const res = await fetch("/api/v1/admin/content/import/preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rows: parsed }),
+      });
+      if (!res.ok) {
+        throw new Error(res.status === 401 || res.status === 403 ? "Bạn không có quyền quản trị." : "Không kiểm tra được tệp CSV.");
+      }
+      setPreview((await res.json()).data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi không xác định");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const commit = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/v1/admin/content/import/commit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rows }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body?.error?.message || "Nhập dữ liệu thất bại.");
+      setInsertedCount(body.data.insertedCount);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi không xác định");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <Link
-          href="/admin"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-indigo-600 transition-colors"
-        >
-          <ChevronLeft size={16} />
-          Bảng điều khiển Admin
-        </Link>
-        <span className="text-xs font-bold text-indigo-800 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
-          Công cụ nhập CSV (Dry-Run Zod)
-        </span>
-      </div>
+      <Link href="/admin" className="inline-flex items-center gap-1 text-sm font-bold text-indigo-700 hover:underline">
+        <ChevronLeft size={16} /> Về trang quản trị
+      </Link>
 
-      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-          Nhập Dữ Liệu Hàng Loạt Bằng CSV (Batch Ingestion)
-        </h1>
+      <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm space-y-4">
+        <h1 className="text-2xl font-extrabold text-gray-900">Nhập từ vựng hàng loạt từ CSV</h1>
         <p className="text-sm text-gray-600">
-          Hệ thống chạy kiểm tra cú pháp Dry-Run bằng Zod schema trước khi ghi vào cơ sở dữ liệu. Bất kỳ lỗi cú pháp hoặc trùng lặp khóa nào đều được phát hiện sớm để tránh dữ liệu rác.
+          Cột bắt buộc: <code>{HEADERS.join(", ")}</code>. Hệ thống kiểm tra toàn bộ tệp trước; nếu có dòng lỗi thì
+          không ghi dòng nào (giao dịch nguyên tử).
         </p>
-
-        {/* Download sample CSV template */}
-        <div className="pt-2">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
-            onClick={() => alert("Mô phỏng tải xuống file mẫu: n5-vocab-template.csv")}
-            className="text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-xl hover:bg-indigo-100 flex items-center gap-1.5 transition-colors"
+            onClick={downloadTemplate}
+            className="px-4 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-xs inline-flex items-center gap-1.5 cursor-pointer"
           >
-            <Download size={14} />
-            Tải file CSV Mẫu Chuẩn (Từ vựng N5)
+            <Download size={14} /> Tải file CSV mẫu
           </button>
+          <label className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer">
+            <Upload size={14} /> Chọn tệp CSV
+            <input
+              type="file"
+              accept=".csv,text/csv"
+              className="sr-only"
+              aria-label="Chọn tệp CSV"
+              onChange={(e) => onFile(e.target.files?.[0])}
+            />
+          </label>
+          {fileName && <span className="text-xs text-gray-600">{fileName}</span>}
+          {busy && <Loader2 size={16} className="animate-spin text-indigo-600" />}
         </div>
       </div>
 
-      {/* Upload Dropzone Preview */}
-      <div className="bg-white p-6 rounded-3xl border-2 border-dashed border-gray-300 text-center space-y-3">
-        <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
-          <FileText size={24} />
+      {error && (
+        <div role="alert" className="p-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-800">
+          {error}
         </div>
-        <div>
-          <span className="font-bold text-gray-900 text-sm block">
-            Tệp đang nạp: <code className="text-indigo-600 font-mono">n5_vocab_batch_01.csv</code> (4 dòng)
-          </span>
-          <span className="text-xs text-gray-500">Đã kiểm định tự động theo chuẩn Zod validator</span>
-        </div>
-      </div>
+      )}
 
-      {/* Dry-run Validation Results Table */}
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden space-y-4 p-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">
-              Bảng Kết quả Kiểm định Sơ bộ (Dry-Run Preview)
-            </h2>
-            <p className="text-xs text-gray-500">
-              Xem chi tiết từng dòng dữ liệu trước khi xác nhận lưu vào CSDL
+      {insertedCount !== null && (
+        <div role="status" className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-sm text-emerald-900 flex items-center gap-2">
+          <CheckCircle2 size={18} /> Đã nhập {insertedCount} từ vựng vào cơ sở dữ liệu.
+        </div>
+      )}
+
+      {preview && insertedCount === null && (
+        <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="p-5 border-b border-gray-200 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-gray-800">
+              <strong>{preview.validCount}</strong> dòng hợp lệ •{" "}
+              <strong className={preview.errorCount > 0 ? "text-red-700" : ""}>{preview.errorCount}</strong> dòng lỗi
             </p>
-          </div>
-
-          <div className="flex items-center gap-3 text-xs font-bold">
-            <span className="text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {validCount} dòng hợp lệ
-            </span>
-            <span className="text-red-700 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-              {errorCount} dòng lỗi
-            </span>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-gray-700">
-            <thead className="bg-[#F7F7F4] text-gray-500 uppercase font-bold text-[10px] tracking-wider border-b border-gray-200">
-              <tr>
-                <th className="px-4 py-3">Dòng</th>
-                <th className="px-4 py-3">Chữ Hán (Kanji)</th>
-                <th className="px-4 py-3">Phiên âm (Reading)</th>
-                <th className="px-4 py-3">Nghĩa tiếng Việt</th>
-                <th className="px-4 py-3">Từ loại</th>
-                <th className="px-4 py-3">Trạng thái kiểm tra</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {previewRows.map((row) => (
-                <tr
-                  key={row.line}
-                  className={`hover:bg-gray-50 transition-colors ${
-                    row.status === "ERROR" ? "bg-red-50/50" : ""
-                  }`}
-                >
-                  <td className="px-4 py-3 font-mono font-bold text-gray-500">{row.line}</td>
-                  <td className="px-4 py-3 font-bold font-japanese text-sm text-gray-900">{row.kanji}</td>
-                  <td className="px-4 py-3 font-japanese font-medium">
-                    {row.reading || <span className="text-red-500 italic">[Trống]</span>}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-800">{row.meaningVi}</td>
-                  <td className="px-4 py-3">{row.pos}</td>
-                  <td className="px-4 py-3">
-                    {row.status === "VALID" ? (
-                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
-                        <CheckCircle2 size={12} />
-                        HỢP LỆ
-                      </span>
-                    ) : (
-                      <div className="space-y-0.5">
-                        <span className="text-[10px] font-bold text-red-800 bg-red-100 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
-                          <XCircle size={12} />
-                          LỖI DỮ LIỆU
-                        </span>
-                        <p className="text-[11px] text-red-700 font-medium">{row.errorMsg}</p>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Action Commit Button */}
-        <div className="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-500 text-center sm:text-left">
-            *Chính sách an toàn: Bạn có thể chọn nhập {validCount} dòng hợp lệ hoặc hủy để sửa lại file CSV.
-          </p>
-
-          {!isCommitted ? (
             <button
               type="button"
-              onClick={() => setIsCommitted(true)}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all"
+              disabled={!preview.isValid || busy}
+              onClick={commit}
+              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs cursor-pointer"
             >
-              Xác nhận nhập {validCount} dòng hợp lệ vào CSDL
-              <ArrowRight size={16} />
+              Nhập {preview.validCount} dòng vào CSDL
             </button>
-          ) : (
-            <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-2 text-xs font-bold text-emerald-800">
-              <CheckCircle2 size={16} />
-              Đã mô phỏng nạp thành công {validCount} dòng vào bảng vocabulary!
-            </div>
+          </div>
+          {!preview.isValid && (
+            <p className="px-5 pt-3 text-xs text-red-700">Hãy sửa các dòng lỗi trong tệp CSV rồi chọn lại tệp.</p>
           )}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-gray-700">
+              <thead className="bg-[#F7F7F4] text-gray-500 font-bold border-b border-gray-200">
+                <tr>
+                  <th className="px-4 py-3">Dòng</th>
+                  <th className="px-4 py-3">Chữ</th>
+                  <th className="px-4 py-3">Cách đọc</th>
+                  <th className="px-4 py-3">Nghĩa</th>
+                  <th className="px-4 py-3">Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {preview.previewRows.map((r) => {
+                  const src = rows[r.line - 1];
+                  return (
+                    <tr key={r.line} className={r.status === "ERROR" ? "bg-red-50/50" : ""}>
+                      <td className="px-4 py-3">{r.line}</td>
+                      <td className="px-4 py-3 font-bold">{src?.surface}</td>
+                      <td className="px-4 py-3">{src?.reading}</td>
+                      <td className="px-4 py-3">{src?.meaningVi}</td>
+                      <td className="px-4 py-3">
+                        {r.status === "VALID" ? (
+                          <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
+                            <CheckCircle2 size={14} /> Hợp lệ
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-start gap-1 text-red-700 font-semibold">
+                            <XCircle size={14} className="mt-0.5 shrink-0" /> {r.error}
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

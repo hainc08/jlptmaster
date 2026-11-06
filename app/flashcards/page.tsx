@@ -2,51 +2,52 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { MOCK_SRS_CARDS, SrsCard } from "../fixtures/srs-cards";
 import { RubyText } from "../components/RubyText";
 import { AudioButton } from "../components/AudioButton";
 import {
   RotateCcw,
   CheckCircle2,
   ChevronLeft,
-  Sparkles,
-  HelpCircle,
-  Volume2,
+  Loader2,
 } from "lucide-react";
 
+interface DueCard {
+  id: string;
+  kind: string;
+  frontText: string;
+  frontReading: string;
+  backMeaningVi: string;
+  hanViet: string | null;
+  exampleJa: string | null;
+  exampleVi: string | null;
+}
+
 export default function FlashcardsReviewPage() {
-  const [cards, setCards] = useState<SrsCard[]>(MOCK_SRS_CARDS);
+  const [cards, setCards] = useState<DueCard[]>([]);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [saveWarning, setSaveWarning] = useState(false);
 
   useEffect(() => {
     let ignore = false;
-    fetch("/api/v1/reviews/due?limit=20")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json) => {
-        if (!ignore && Array.isArray(json?.data) && json.data.length > 0) {
-          const mapped: SrsCard[] = json.data
-            .filter((item: any) => item.contentItem?.vocabulary)
-            .map((item: any, idx: number) => {
-              const v = item.contentItem.vocabulary;
-              return {
-                id: item.id,
-                frontKanji: v.surface,
-                frontReading: v.reading,
-                romaji: v.searchNormalized?.split(" ")[0] || "",
-                meaningVi: v.meaningVi,
-                exampleJa: v.exampleJa || `${v.surface} は大切です。`,
-                exampleVi: v.exampleVi || `${v.meaningVi} rất quan trọng.`,
-                intervalText: idx === 0 ? "Đến hạn hôm nay" : "Ôn tập N5",
-              };
-            });
-          if (mapped.length > 0) {
-            setCards(mapped);
-          }
+    fetch("/api/v1/reviews/due")
+      .then(async (res) => {
+        if (res.status === 401) {
+          window.location.href = "/login?redirect=/flashcards";
+          return;
+        }
+        if (!res.ok) throw new Error("due fetch failed");
+        const json = await res.json();
+        if (!ignore) {
+          setCards(Array.isArray(json?.data) ? json.data : []);
+          setStatus("ready");
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!ignore) setStatus("error");
+      });
     return () => {
       ignore = true;
     };
@@ -59,17 +60,20 @@ export default function FlashcardsReviewPage() {
   };
 
   const handleGrade = (grade: "AGAIN" | "HARD" | "GOOD" | "EASY") => {
-    const ratingMap = { AGAIN: 1, HARD: 2, GOOD: 3, EASY: 4 } as const;
     if (currentCard?.id) {
       fetch("/api/v1/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          reviewCardId: currentCard.id,
-          rating: ratingMap[grade],
-          idempotencyKey: `srs-${currentCard.id}-${Date.now()}`,
+          cardId: currentCard.id,
+          grade,
+          idempotencyKey: `srs-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
         }),
-      }).catch(() => {});
+      })
+        .then((res) => {
+          if (!res.ok) setSaveWarning(true);
+        })
+        .catch(() => setSaveWarning(true));
     }
 
     if (currentIndex + 1 < cards.length) {
@@ -86,7 +90,7 @@ export default function FlashcardsReviewPage() {
   // Keyboard shortcut listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isCompleted) return;
+      if (isCompleted || status !== "ready" || cards.length === 0) return;
 
       if (e.code === "Space") {
         e.preventDefault();
@@ -101,7 +105,51 @@ export default function FlashcardsReviewPage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isFlipped, currentIndex, isCompleted]);
+  }, [isFlipped, currentIndex, isCompleted, status, cards.length]);
+
+  if (status === "loading") {
+    return (
+      <div className="max-w-xl mx-auto px-4 py-16 text-center text-sm text-gray-500 flex items-center justify-center gap-2">
+        <Loader2 size={18} className="animate-spin text-[#B9343F]" />
+        <span>Đang tải thẻ nhớ đến hạn...</span>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="max-w-xl mx-auto px-4 py-16 text-center space-y-3">
+        <p role="alert" className="text-sm text-red-800 bg-red-50 border border-red-200 rounded-2xl p-4">
+          Không tải được thẻ nhớ. Vui lòng thử lại sau.
+        </p>
+        <Link href="/dashboard" className="text-sm font-bold text-[#B9343F] hover:underline">
+          Quay lại Bảng điều khiển
+        </Link>
+      </div>
+    );
+  }
+
+  if (cards.length === 0) {
+    return (
+      <div className="max-w-xl mx-auto px-4 py-16 text-center space-y-4">
+        <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
+          <CheckCircle2 size={32} />
+        </div>
+        <h1 className="text-2xl font-extrabold text-gray-900">Không có thẻ nào đến hạn ôn tập</h1>
+        <p className="text-sm text-gray-600">
+          Bạn đã ôn xong hoặc chưa có thẻ nào được lên lịch. Hãy học thêm từ vựng để tạo thẻ nhớ mới.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <Link href="/vocabulary" className="px-6 py-3 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs">
+            Mở Sổ tay Từ vựng
+          </Link>
+          <Link href="/dashboard" className="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-xs">
+            Quay lại Bảng điều khiển
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (isCompleted) {
     return (
@@ -120,7 +168,7 @@ export default function FlashcardsReviewPage() {
 
         <div className="p-4 rounded-2xl bg-white border border-gray-200 shadow-sm max-w-sm mx-auto text-xs text-gray-600">
           <span className="font-bold text-gray-900 block mb-1">Cập nhật chỉ số SRS:</span>
-          <span>Hàng đợi hôm nay: <strong>0 thẻ</strong> • Chuỗi streak: <strong>5 ngày</strong></span>
+          <span>Hàng đợi hôm nay: <strong>0 thẻ</strong></span>
         </div>
 
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -147,6 +195,11 @@ export default function FlashcardsReviewPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+      {saveWarning && (
+        <p role="status" className="text-xs text-amber-900 bg-amber-50 border border-amber-200 rounded-xl p-3">
+          Một số kết quả ôn tập chưa được lưu. Hãy kiểm tra kết nối mạng.
+        </p>
+      )}
       {/* Header Bar */}
       <div className="flex items-center justify-between">
         <Link
@@ -211,19 +264,23 @@ export default function FlashcardsReviewPage() {
               <RubyText kanji={currentCard.frontText} reading={currentCard.frontReading} />
             </span>
             <div className="space-y-1">
-              <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block">
-                ÂM HÁN-VIỆT: {currentCard.hanViet}
-              </span>
+              {currentCard.hanViet && (
+                <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block">
+                  ÂM HÁN-VIỆT: {currentCard.hanViet}
+                </span>
+              )}
               <h2 className="text-xl sm:text-2xl font-bold text-emerald-800">
                 {currentCard.backMeaningVi}
               </h2>
             </div>
 
-            <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 text-xs text-left max-w-md mx-auto space-y-1">
-              <span className="font-bold text-gray-500 block">Ví dụ minh họa:</span>
-              <p className="text-gray-900 font-japanese font-medium">{currentCard.exampleJa}</p>
-              <p className="text-gray-600 italic">{currentCard.exampleVi}</p>
-            </div>
+            {currentCard.exampleJa && (
+              <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 text-xs text-left max-w-md mx-auto space-y-1">
+                <span className="font-bold text-gray-500 block">Ví dụ minh họa:</span>
+                <p className="text-gray-900 font-japanese font-medium">{currentCard.exampleJa}</p>
+                {currentCard.exampleVi && <p className="text-gray-600 italic">{currentCard.exampleVi}</p>}
+              </div>
+            )}
           </div>
         )}
 

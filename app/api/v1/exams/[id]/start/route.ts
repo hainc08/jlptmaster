@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
-import { ExamSnapshot, stripAnswerKeysFromExam } from "@/src/server/services/exam-service";
+import { requireSession, authErrorResponse } from "@/src/server/services/auth-service";
+import { ExamQuestionContext, ExamSnapshot, stripAnswerKeysFromExam } from "@/src/server/services/exam-service";
+
+const SECTION_TITLE_VI: Record<string, string> = {
+  VOCAB: "Phần 1: Từ vựng & Chữ Hán",
+  GRAMMAR_READING: "Phần 2: Ngữ pháp & Đọc hiểu",
+  LISTENING: "Phần 3: Nghe hiểu",
+};
 
 export async function POST(
   req: NextRequest,
@@ -8,22 +15,7 @@ export async function POST(
 ) {
   try {
     const { id: examId } = await params;
-    const body = await req.json().catch(() => ({}));
-    let userId: string | undefined = body.userId;
-
-    if (!userId) {
-      const demoStudent = await prisma.user.findUnique({
-        where: { email: "minh@jlptmaster.vn" },
-      });
-      userId = demoStudent?.id;
-    }
-
-    if (!userId) {
-      return NextResponse.json(
-        { error: { code: "UNAUTHORIZED", message: "Không xác định được thí sinh" } },
-        { status: 401 }
-      );
-    }
+    const { userId } = requireSession(req);
 
     const exam = await prisma.exam.findUnique({
       where: { id: examId },
@@ -39,6 +31,7 @@ export async function POST(
                     options: {
                       orderBy: { position: "asc" },
                     },
+                    contentItem: { include: { readingPassage: true, listeningTrack: true } },
                   },
                 },
               },
@@ -55,14 +48,31 @@ export async function POST(
       );
     }
 
+    if (exam.status !== "PUBLISHED") {
+      return NextResponse.json(
+        { error: { code: "EXAM_LOCKED", message: "Bộ đề đang bị khóa hoặc chưa mở. Vui lòng quay lại sau." } },
+        { status: 423 }
+      );
+    }
+
     // Gather questions from exam sections, or fallback to published level questions if section links are empty
-    let snapshotQuestions = exam.sections.flatMap((sec) =>
+    let snapshotQuestions: ExamSnapshot["questions"] = exam.sections.flatMap((sec) =>
       sec.examQuestions.map((eq) => {
+        const reading = eq.question.contentItem?.readingPassage;
+        const listening = eq.question.contentItem?.listeningTrack;
+        const context: ExamQuestionContext | undefined = reading
+          ? { id: reading.id, kind: "READING", text: reading.textJa }
+          : listening
+          ? { id: listening.id, kind: "LISTENING", text: listening.transcriptJa }
+          : undefined;
         const promptObj = eq.question.promptJson as { text?: string } | null;
         return {
           id: eq.question.id,
           prompt: promptObj?.text || String(eq.question.promptJson),
           explanationVi: eq.question.explanationVi,
+          skillTag: eq.question.skillTag,
+          sectionTitleVi: SECTION_TITLE_VI[sec.sectionType],
+          context,
           options: eq.question.options.map((opt) => {
             const optObj = opt.textJson as { text?: string } | null;
             return {
@@ -77,7 +87,7 @@ export async function POST(
 
     if (snapshotQuestions.length === 0) {
       const fallbackQuestions = await prisma.question.findMany({
-        where: { levelId: exam.levelId, status: "PUBLISHED" },
+        where: { levelId: exam.levelId, status: "PUBLISHED", contentItemId: null },
         take: 10,
         include: { options: { orderBy: { position: "asc" } } },
       });
@@ -88,6 +98,7 @@ export async function POST(
           id: q.id,
           prompt: promptObj?.text || String(q.promptJson),
           explanationVi: q.explanationVi,
+          skillTag: q.skillTag,
           options: q.options.map((opt) => {
             const optObj = opt.textJson as { text?: string } | null;
             return {
@@ -143,6 +154,8 @@ export async function POST(
       { status: 201 }
     );
   } catch (error: any) {
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "EXAM_START_FAILED", message: error.message } },
       { status: 500 }

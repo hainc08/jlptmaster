@@ -1,0 +1,1780 @@
+{
+  "schemaVersion": 1,
+  "level": "N5",
+  "exam": {
+    "slug": "n5-exam-02",
+    "title": "Đề thi thử JLPT N5 — Số 02 (Mô phỏng nội bộ)",
+    "version": "v1.0",
+    "scoringPolicy": "JLPT_SCALE_180",
+    "status": "PUBLISHED"
+  },
+  "sections": [
+    {
+      "type": "VOCAB",
+      "durationSeconds": 1500,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "kanji-yomi",
+          "labelVi": "Cách đọc chữ Hán",
+          "questionType": "KANJI_READING",
+          "skillTag": "Chữ Hán N5",
+          "items": [
+            {
+              "key": "n5-v-001",
+              "prompt": "「山」の読み方はどれですか。",
+              "options": [
+                "かわ",
+                "やま",
+                "もり",
+                "いし"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「やま」. 山 đọc là やま (núi). 川 = かわ (sông).",
+              "confidence": "high",
+              "target": "山"
+            },
+            {
+              "key": "n5-v-002",
+              "prompt": "「川」の読み方はどれですか。",
+              "options": [
+                "かわ",
+                "やま",
+                "はな",
+                "かぜ"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「かわ」. 川 đọc là かわ (sông).",
+              "confidence": "high",
+              "target": "川"
+            },
+            {
+              "key": "n5-v-003",
+              "prompt": "「花」の読み方はどれですか。",
+              "options": [
+                "はし",
+                "はら",
+                "はた",
+                "はな"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「はな」. 花 đọc là はな (hoa).",
+              "confidence": "high",
+              "target": "花"
+            },
+            {
+              "key": "n5-v-004",
+              "prompt": "「犬」の読み方はどれですか。",
+              "options": [
+                "いね",
+                "いす",
+                "いぬ",
+                "いの"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「いぬ」. 犬 đọc là いぬ (con chó).",
+              "confidence": "high",
+              "target": "犬"
+            },
+            {
+              "key": "n5-v-005",
+              "prompt": "「電車」の読み方はどれですか。",
+              "options": [
+                "てんしゃ",
+                "でんじゃ",
+                "でんしや",
+                "でんしゃ"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「でんしゃ」. 電車 đọc là でんしゃ (tàu điện). Chú ý でん có dấu đục.",
+              "confidence": "high",
+              "target": "電車"
+            },
+            {
+              "key": "n5-v-006",
+              "prompt": "「時計」の読み方はどれですか。",
+              "options": [
+                "どけい",
+                "とけい",
+                "とけえ",
+                "じけい"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「とけい」. 時計 đọc là とけい (đồng hồ), là từ đọc đặc biệt.",
+              "confidence": "high",
+              "target": "時計"
+            },
+            {
+              "key": "n5-v-007",
+              "prompt": "「友達」の読み方はどれですか。",
+              "options": [
+                "ともだち",
+                "ともたち",
+                "どもだち",
+                "ともだぢ"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「ともだち」. 友達 đọc là ともだち (bạn bè).",
+              "confidence": "high",
+              "target": "友達"
+            },
+            {
+              "key": "n5-v-008",
+              "prompt": "「毎日」の読み方はどれですか。",
+              "options": [
+                "まいじつ",
+                "めいにち",
+                "まいにち",
+                "まいひ"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「まいにち」. 毎日 đọc là まいにち (mỗi ngày).",
+              "confidence": "high",
+              "target": "毎日"
+            },
+            {
+              "key": "n5-v-009",
+              "prompt": "「今朝」の読み方はどれですか。",
+              "options": [
+                "けさ",
+                "こんあさ",
+                "いまあさ",
+                "きょうあさ"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「けさ」. 今朝 đọc là けさ (sáng nay), là từ đọc đặc biệt.",
+              "confidence": "check",
+              "target": "今朝",
+              "reviewNote": "Xác nhận 今朝 nằm trong danh sách N5."
+            },
+            {
+              "key": "n5-v-010",
+              "prompt": "「九月」の読み方はどれですか。",
+              "options": [
+                "きゅうがつ",
+                "くつき",
+                "くげつ",
+                "くがつ"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「くがつ」. 九月 đọc là くがつ (tháng chín). Số 9 trong tháng đọc là く.",
+              "confidence": "high",
+              "target": "九月"
+            },
+            {
+              "key": "n5-v-011",
+              "prompt": "「八つ」の読み方はどれですか。",
+              "options": [
+                "はちつ",
+                "やっつ",
+                "やつつ",
+                "はっつ"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「やっつ」. 八つ đọc là やっつ (tám cái), có âm ngắt っ.",
+              "confidence": "high",
+              "target": "八つ"
+            },
+            {
+              "key": "n5-v-012",
+              "prompt": "「新しい」の読み方はどれですか。",
+              "options": [
+                "あらたしい",
+                "あたしらい",
+                "あたらしい",
+                "しんしい"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「あたらしい」. 新しい đọc là あたらしい (mới). Dễ nhầm thứ tự あたら/あらた.",
+              "confidence": "high",
+              "target": "新しい"
+            }
+          ]
+        },
+        {
+          "partKey": "hyouki",
+          "labelVi": "Cách viết chữ Hán",
+          "questionType": "SINGLE_CHOICE",
+          "skillTag": "Chữ Hán N5",
+          "items": [
+            {
+              "key": "n5-v-013",
+              "prompt": "「やすみ」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "体み",
+                "伏み",
+                "木み",
+                "休み"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「休み」. 「やすみ」 viết là 休み (nghỉ). 体 (からだ) trông giống 休 nhưng là chữ khác.",
+              "confidence": "high",
+              "target": "休み"
+            },
+            {
+              "key": "n5-v-014",
+              "prompt": "「みせ」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "庭",
+                "店",
+                "底",
+                "府"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「店」. 「みせ」 viết là 店 (cửa hàng).",
+              "confidence": "high",
+              "target": "店"
+            },
+            {
+              "key": "n5-v-015",
+              "prompt": "「でんわ」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "雷話",
+                "電語",
+                "電話",
+                "電計"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「電話」. 「でんわ」 viết là 電話 (điện thoại).",
+              "confidence": "high",
+              "target": "電話"
+            },
+            {
+              "key": "n5-v-016",
+              "prompt": "「しごと」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "仕事",
+                "仕毒",
+                "化事",
+                "任事"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「仕事」. 「しごと」 viết là 仕事 (công việc).",
+              "confidence": "high",
+              "target": "仕事"
+            },
+            {
+              "key": "n5-v-017",
+              "prompt": "「くるま」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "東",
+                "車",
+                "軍",
+                "陣"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「車」. 「くるま」 viết là 車 (xe).",
+              "confidence": "high",
+              "target": "車"
+            },
+            {
+              "key": "n5-v-018",
+              "prompt": "「あめ」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "雪",
+                "雲",
+                "電",
+                "雨"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「雨」. 「あめ」 viết là 雨 (mưa). 雪 = ゆき (tuyết), 雲 = くも (mây).",
+              "confidence": "high",
+              "target": "雨"
+            },
+            {
+              "key": "n5-v-019",
+              "prompt": "「ながい」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "長い",
+                "民い",
+                "良い",
+                "高い"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「長い」. 「ながい」 viết là 長い (dài). 高い = たかい (cao/đắt).",
+              "confidence": "high",
+              "target": "長い"
+            },
+            {
+              "key": "n5-v-020",
+              "prompt": "「たべもの」を漢字で書くとき、どれがいちばんいいですか。",
+              "options": [
+                "良べ物",
+                "飲べ物",
+                "食べ物",
+                "食べ勿"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「食べ物」. 「たべもの」 viết là 食べ物 (đồ ăn).",
+              "confidence": "high",
+              "target": "食べ物"
+            }
+          ]
+        },
+        {
+          "partKey": "bunmyaku",
+          "labelVi": "Từ vựng theo ngữ cảnh",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Từ vựng N5",
+          "items": [
+            {
+              "key": "n5-v-021",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nまいあさ、こうえんを（　）います。",
+              "options": [
+                "のんで",
+                "みがいて",
+                "かいて",
+                "あるいて"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「あるいて」. 歩く (あるく) = đi bộ. 公園を歩いています = đang đi bộ trong công viên.",
+              "confidence": "high",
+              "target": "歩く"
+            },
+            {
+              "key": "n5-v-022",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nのどが かわいたので、みずを（　）。",
+              "options": [
+                "のみました",
+                "たべました",
+                "ききました",
+                "かきました"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「のみました」. 飲む (のむ) = uống. Uống nước khi khát.",
+              "confidence": "high",
+              "target": "飲む"
+            },
+            {
+              "key": "n5-v-023",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nくらいですから、でんきを（　）ください。",
+              "options": [
+                "けして",
+                "とめて",
+                "つけて",
+                "ならべて"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「つけて」. 電気をつける = bật đèn. Phòng tối nên bật đèn.",
+              "confidence": "high",
+              "target": "つける"
+            },
+            {
+              "key": "n5-v-024",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nにちようびは がっこうが（　）です。",
+              "options": [
+                "あさ",
+                "やすみ",
+                "ひる",
+                "よる"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「やすみ」. 休み (やすみ) = ngày nghỉ. Chủ nhật trường nghỉ.",
+              "confidence": "high",
+              "target": "休み"
+            },
+            {
+              "key": "n5-v-025",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nごはんの まえに、てを（　）ます。",
+              "options": [
+                "かい",
+                "あらい",
+                "あけ",
+                "ひき"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「あらい」. 洗う (あらう) = rửa. Rửa tay trước bữa ăn.",
+              "confidence": "high",
+              "target": "洗う"
+            },
+            {
+              "key": "n5-v-026",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nわたしは まいにち くるまで かいしゃへ（　）ます。",
+              "options": [
+                "いき",
+                "のり",
+                "みえ",
+                "はいり"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「いき」. 行く (いく) = đi. 会社へ行きます = đi đến công ty.",
+              "confidence": "high",
+              "target": "行く"
+            },
+            {
+              "key": "n5-v-027",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nでんしゃの なかで ほんを（　）ます。",
+              "options": [
+                "ひき",
+                "あらい",
+                "よみ",
+                "はき"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「よみ」. 読む (よむ) = đọc. Đọc sách trên tàu.",
+              "confidence": "high",
+              "target": "読む"
+            },
+            {
+              "key": "n5-v-028",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nおなかが すいたので、パンを（　）たいです。",
+              "options": [
+                "のみ",
+                "みえ",
+                "あげ",
+                "たべ"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「たべ」. 食べる (たべる) → 食べたい = muốn ăn. Đói bụng nên muốn ăn bánh mì.",
+              "confidence": "high",
+              "target": "食べる"
+            },
+            {
+              "key": "n5-v-029",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nこの ペンは だれの（　）ですか。",
+              "options": [
+                "どこ",
+                "もの",
+                "いつ",
+                "なに"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「もの」. 「だれのものですか」 = của ai vậy? 「もの」 chỉ đồ vật.",
+              "confidence": "high",
+              "target": "もの"
+            },
+            {
+              "key": "n5-v-030",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nあした、あめが（　）でしょう。",
+              "options": [
+                "おちる",
+                "あく",
+                "のる",
+                "ふる"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「ふる」. 雨が降る (あめがふる) = mưa rơi. Các động từ khác không đi với 雨.",
+              "confidence": "high",
+              "target": "降る"
+            }
+          ]
+        },
+        {
+          "partKey": "iikae",
+          "labelVi": "Câu đồng nghĩa",
+          "questionType": "SINGLE_CHOICE",
+          "skillTag": "Từ vựng N5",
+          "items": [
+            {
+              "key": "n5-v-031",
+              "prompt": "「　」の ぶんと だいたい おなじ いみの ぶんは どれですか。\n「この かばんは かるいです。」",
+              "options": [
+                "この かばんは おもいです。",
+                "この かばんは たかいです。",
+                "この かばんは おもくないです。",
+                "この かばんは おおきいです。"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「この かばんは おもくないです。」. 軽い (nhẹ) = 重くない (không nặng).",
+              "confidence": "high",
+              "target": "軽い"
+            },
+            {
+              "key": "n5-v-032",
+              "prompt": "「　」の ぶんと だいたい おなじ いみの ぶんは どれですか。\n「たなかさんは わたしの ともだちです。」",
+              "options": [
+                "わたしは たなかさんの ともだちです。",
+                "わたしは たなかさんの せんせいです。",
+                "たなかさんは わたしの せんせいです。",
+                "たなかさんは わたしの ともだちではありません。"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「わたしは たなかさんの ともだちです。」. Anh Tanaka là bạn của tôi nghĩa là tôi là bạn của anh Tanaka.",
+              "confidence": "high",
+              "target": "ともだち"
+            },
+            {
+              "key": "n5-v-033",
+              "prompt": "「　」の ぶんと だいたい おなじ いみの ぶんは どれですか。\n「あしたは にちようびです。」",
+              "options": [
+                "きょうは きんようびです。",
+                "きょうは げつようびです。",
+                "きょうは かようびです。",
+                "きょうは どようびです。"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「きょうは どようびです。」. Ngày mai là Chủ nhật thì hôm nay là thứ Bảy.",
+              "confidence": "high",
+              "target": "曜日"
+            },
+            {
+              "key": "n5-v-034",
+              "prompt": "「　」の ぶんと だいたい おなじ いみの ぶんは どれですか。\n「ゆうべ、おそく ねました。」",
+              "options": [
+                "けさ、おそく ねました。",
+                "あしたの よる、おそく ねます。",
+                "きのうの よる、おそく ねました。",
+                "きのうの あさ、おそく ねました。"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「きのうの よる、おそく ねました。」. ゆうべ = tối hôm qua = きのうの よる.",
+              "confidence": "high",
+              "target": "ゆうべ"
+            },
+            {
+              "key": "n5-v-035",
+              "prompt": "「　」の ぶんと だいたい おなじ いみの ぶんは どれですか。\n「えきは ここから ちかいです。」",
+              "options": [
+                "えきは ここから とおくないです。",
+                "えきは ここから とおいです。",
+                "えきは ここから おおきいです。",
+                "えきは ここから ひろいです。"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「えきは ここから とおくないです。」. 近い (gần) = 遠くない (không xa).",
+              "confidence": "high",
+              "target": "近い"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "GRAMMAR_READING",
+      "durationSeconds": 3000,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "bunpo",
+          "labelVi": "Ngữ pháp: chọn dạng đúng",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Ngữ pháp N5",
+          "items": [
+            {
+              "key": "n5-g-001",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nわたしは まいあさ ６じ（　）おきます。",
+              "options": [
+                "で",
+                "に",
+                "を",
+                "が"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「に」. Trợ từ に chỉ thời điểm cụ thể: 6 giờ.",
+              "confidence": "high",
+              "target": "時間+に"
+            },
+            {
+              "key": "n5-g-002",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nがっこう（　）バスで いきます。",
+              "options": [
+                "を",
+                "へ",
+                "が",
+                "も"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「へ」. Trợ từ へ chỉ hướng đến: đi đến trường.",
+              "confidence": "high",
+              "target": "へ"
+            },
+            {
+              "key": "n5-g-003",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nこれは だれ（　）かさですか。",
+              "options": [
+                "に",
+                "で",
+                "の",
+                "を"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「の」. Trợ từ の chỉ sở hữu: ô của ai.",
+              "confidence": "high",
+              "target": "の"
+            },
+            {
+              "key": "n5-g-004",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nテーブルの うえ（　）ほんが あります。",
+              "options": [
+                "に",
+                "で",
+                "を",
+                "は"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「に」. Trợ từ に chỉ nơi tồn tại của vật với あります.",
+              "confidence": "high",
+              "target": "～に～があります"
+            },
+            {
+              "key": "n5-g-005",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nともだち（　）てがみを かきます。",
+              "options": [
+                "を",
+                "で",
+                "が",
+                "に"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「に」. Trợ từ に chỉ đối tượng nhận: viết thư cho bạn.",
+              "confidence": "high",
+              "target": "～に～を書く"
+            },
+            {
+              "key": "n5-g-006",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nわたしは コーヒー（　）すきです。",
+              "options": [
+                "を",
+                "が",
+                "に",
+                "で"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「が」. Với すき (thích), đối tượng được thích đi với が.",
+              "confidence": "high",
+              "target": "～がすきです"
+            },
+            {
+              "key": "n5-g-007",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nきのう、えいがを（　）。",
+              "options": [
+                "みます",
+                "みて",
+                "みました",
+                "みません"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「みました」. Có きのう (hôm qua) nên dùng thì quá khứ みました.",
+              "confidence": "high",
+              "target": "～ました"
+            },
+            {
+              "key": "n5-g-008",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nあした、ともだちに（　）たいです。",
+              "options": [
+                "あい",
+                "あう",
+                "あって",
+                "あわ"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「あい」. V-ます(bỏ ます) + たい = muốn làm gì: あいたい.",
+              "confidence": "high",
+              "target": "～たい"
+            },
+            {
+              "key": "n5-g-009",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nここに なまえを かいて（　）。",
+              "options": [
+                "います",
+                "あります",
+                "です",
+                "ください"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「ください」. V-て + ください = xin hãy làm gì.",
+              "confidence": "high",
+              "target": "～てください"
+            },
+            {
+              "key": "n5-g-010",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nこの へやで たばこを すっても（　）です。",
+              "options": [
+                "ない",
+                "いい",
+                "いく",
+                "くる"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「いい」. V-ても + いいです = được phép làm gì.",
+              "confidence": "high",
+              "target": "～てもいいです"
+            },
+            {
+              "key": "n5-g-011",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nおんがくを きき（　）、べんきょうします。",
+              "options": [
+                "ために",
+                "まえに",
+                "ながら",
+                "あとで"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「ながら」. V-ます(bỏ ます) + ながら = vừa ... vừa ...",
+              "confidence": "high",
+              "target": "～ながら"
+            },
+            {
+              "key": "n5-g-012",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nけさは あめ（　）ふって います。",
+              "options": [
+                "が",
+                "を",
+                "に",
+                "へ"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「が」. Hiện tượng tự nhiên (mưa rơi) dùng が.",
+              "confidence": "high",
+              "target": "雨が降る"
+            },
+            {
+              "key": "n5-g-013",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nわたしは ６じ（　）７じまで はたらきます。",
+              "options": [
+                "まで",
+                "に",
+                "で",
+                "から"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「から」. 「～から～まで」 = từ ... đến ...",
+              "confidence": "high",
+              "target": "～から～まで"
+            },
+            {
+              "key": "n5-g-014",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nこれは あか（　）くるまです。",
+              "options": [
+                "な",
+                "の",
+                "に",
+                "い"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「い」. Tính từ đuôi い + danh từ: 赤い車 (xe màu đỏ).",
+              "confidence": "high",
+              "target": "い形容詞+名詞"
+            },
+            {
+              "key": "n5-g-015",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nきれい（　）はなですね。",
+              "options": [
+                "い",
+                "な",
+                "の",
+                "に"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「な」. Tính từ đuôi な + な + danh từ: きれいな花.",
+              "confidence": "high",
+              "target": "な形容詞+名詞"
+            },
+            {
+              "key": "n5-g-016",
+              "prompt": "（　）に入れるのに、いちばんいいものを一つ選んでください。\nA「だいがくせいですか。」B「いいえ、だいがくせい（　）ありません。」",
+              "options": [
+                "を",
+                "が",
+                "じゃ",
+                "に"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「じゃ」. Phủ định lịch sự: N + じゃありません / ではありません.",
+              "confidence": "high",
+              "target": "～じゃありません"
+            }
+          ]
+        },
+        {
+          "partKey": "narabekae",
+          "labelVi": "Ngữ pháp: sắp xếp câu (★)",
+          "questionType": "STAR_ORDER",
+          "skillTag": "Ngữ pháp N5",
+          "items": [
+            {
+              "key": "n5-g-017",
+              "prompt": "つぎの ぶんの ★に はいる ものは どれですか。\nあそこに＿＿＿ ＿＿＿ ★ ＿＿＿ です。",
+              "options": [
+                "わたしの",
+                "いる",
+                "ひとは",
+                "せんせい"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「わたしの」. Thứ tự đúng: あそこに いる ひとは わたしの せんせい です。 Ô có ★ là 「わたしの」.",
+              "confidence": "high",
+              "target": "連体修飾"
+            },
+            {
+              "key": "n5-g-018",
+              "prompt": "つぎの ぶんの ★に はいる ものは どれですか。\nわたしは＿＿＿ ＿＿＿ ★ ＿＿＿ すきです。",
+              "options": [
+                "つくった",
+                "ともだちの",
+                "おとうさんが",
+                "りょうりが"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「つくった」. Thứ tự đúng: わたしは ともだちの おとうさんが つくった りょうりが すきです。 Ô có ★ là 「つくった」.",
+              "confidence": "high",
+              "target": "連体修飾"
+            },
+            {
+              "key": "n5-g-019",
+              "prompt": "つぎの ぶんの ★に はいる ものは どれですか。\nつくえの＿＿＿ ＿＿＿ ★ ＿＿＿ あります。",
+              "options": [
+                "うえに",
+                "あかい",
+                "ペンが",
+                "３ぼん"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「ペンが」. Thứ tự đúng: つくえの うえに あかい ペンが ３ぼん あります。 Ô có ★ là 「ペンが」.",
+              "confidence": "high",
+              "target": "～に～があります"
+            },
+            {
+              "key": "n5-g-020",
+              "prompt": "つぎの ぶんの ★に はいる ものは どれですか。\nきょうは＿＿＿ ＿＿＿ ★ ＿＿＿ ください。",
+              "options": [
+                "あたまが",
+                "ので",
+                "いたい",
+                "やすんで"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「ので」. Thứ tự đúng: きょうは あたまが いたい ので やすんで ください。 Ô có ★ là 「ので」.",
+              "confidence": "high",
+              "target": "～ので"
+            },
+            {
+              "key": "n5-g-021",
+              "prompt": "つぎの ぶんの ★に はいる ものは どれですか。\nゆうべ＿＿＿ ＿＿＿ ★ ＿＿＿ ねました。",
+              "options": [
+                "ふろに",
+                "はいって",
+                "すぐ",
+                "から"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「から」. Thứ tự đúng: ゆうべ ふろに はいって から すぐ ねました。 Ô có ★ là 「から」.",
+              "confidence": "high",
+              "target": "～てから"
+            }
+          ]
+        },
+        {
+          "partKey": "bunsho-bunpo",
+          "labelVi": "Ngữ pháp đoạn văn",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Ngữ pháp N5",
+          "groups": [
+            {
+              "groupKey": "n5-g-g01",
+              "reading": {
+                "textJa": "わたしの かぞくは ４にんです。ちちと ははと あねと わたしです。ちちは かいしゃいん（１）、まいあさ ７じに うちを でます。あねは だいがくせいで、まいにち だいがく（２）いきます。ちちは いそがしいです。（３）、にちようびは かぞくみんなで いっしょに ごはんを たべます。ははが りょうりを つくって（４）。わたしは ははの りょうりが いちばん（５）です。",
+                "translatedVi": "Gia đình tôi có 4 người. Bố, mẹ, chị gái và tôi. Bố là nhân viên công ty (1) mỗi sáng 7 giờ ra khỏi nhà. Chị gái là sinh viên đại học, mỗi ngày (2) đại học. Bố bận. (3) Chủ nhật cả nhà cùng ăn cơm. Mẹ nấu ăn (4) cho. Tôi thích món mẹ nấu (5) nhất.",
+                "difficulty": 1,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n5-g-022",
+                  "prompt": "ぶんしょうの（1）に入れるのに、いちばんいいものを一つ選んでください。",
+                  "options": [
+                    "に",
+                    "を",
+                    "も",
+                    "で"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「で」. 「かいしゃいんで、～」: で ở đây là dạng nối câu của です (là nhân viên công ty và ...).",
+                  "confidence": "high",
+                  "target": "N+で(接続)"
+                },
+                {
+                  "key": "n5-g-023",
+                  "prompt": "ぶんしょうの（2）に入れるのに、いちばんいいものを一つ選んでください。",
+                  "options": [
+                    "を",
+                    "へ",
+                    "が",
+                    "と"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「へ」. Địa điểm đi đến + へ: だいがくへ いきます.",
+                  "confidence": "high",
+                  "target": "～へ行く",
+                  "inferred": true
+                },
+                {
+                  "key": "n5-g-024",
+                  "prompt": "ぶんしょうの（3）に入れるのに、いちばんいいものを一つ選んでください。",
+                  "options": [
+                    "でも",
+                    "だから",
+                    "それから",
+                    "そして"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「でも」. Câu trước nói bận, câu sau nói Chủ nhật cả nhà cùng ăn: tương phản, dùng でも.",
+                  "confidence": "high",
+                  "target": "でも(接続)",
+                  "inferred": true
+                },
+                {
+                  "key": "n5-g-025",
+                  "prompt": "ぶんしょうの（4）に入れるのに、いちばんいいものを一つ選んでください。",
+                  "options": [
+                    "あげます",
+                    "もらいます",
+                    "くれます",
+                    "やります"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「くれます」. Mẹ làm cho gia đình: V-てくれます (người khác làm giúp mình).",
+                  "confidence": "high",
+                  "target": "～てくれる",
+                  "inferred": true
+                },
+                {
+                  "key": "n5-g-026",
+                  "prompt": "ぶんしょうの（5）に入れるのに、いちばんいいものを一つ選んでください。",
+                  "options": [
+                    "すきな",
+                    "すきだ",
+                    "すきで",
+                    "すき"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「すき」. 「いちばん + すき + です」: thích nhất.",
+                  "confidence": "high",
+                  "target": "いちばん～",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-tan",
+          "labelVi": "Đọc hiểu: đoạn ngắn",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N5",
+          "groups": [
+            {
+              "groupKey": "n5-r-g01",
+              "reading": {
+                "textJa": "たなかさんへ\nあした、えいごの テストが あります。きょう、えいごの ほんを かえして ください。\nやまだ",
+                "translatedVi": "Gửi anh Tanaka. Ngày mai có bài kiểm tra tiếng Anh. Hôm nay hãy trả lại sách tiếng Anh cho tôi. Yamada.",
+                "difficulty": 1,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n5-r-001",
+                  "prompt": "やまださんは たなかさんに なにを たのみましたか。",
+                  "options": [
+                    "テストを うける こと",
+                    "えいごの ほんを かえす こと",
+                    "やまださんに でんわする こと",
+                    "ほんを かう こと"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「えいごの ほんを かえす こと」. Tin nhắn nhờ trả sách tiếng Anh vì ngày mai có kiểm tra.",
+                  "confidence": "high",
+                  "evidence": "えいごの ほんを かえして ください",
+                  "target": "メモ",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-r-g02",
+              "reading": {
+                "textJa": "きょうは にちようびです。あさ おそく おきました。ひるごはんの あとで、ともだちと かいものに いきました。あたらしい くつを かいました。よる、うちで ばんごはんを たべました。",
+                "translatedVi": "Hôm nay là Chủ nhật. Sáng tôi dậy muộn. Sau bữa trưa tôi đi mua sắm cùng bạn. Tôi mua một đôi giày mới. Buổi tối tôi ăn cơm ở nhà.",
+                "difficulty": 1,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n5-r-002",
+                  "prompt": "ひるごはんの あとで、なにを しましたか。",
+                  "options": [
+                    "ともだちと かいものに いきました",
+                    "うちで ねました",
+                    "がっこうに いきました",
+                    "ばんごはんを たべました"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「ともだちと かいものに いきました」. Sau bữa trưa, tôi đi mua sắm cùng bạn.",
+                  "confidence": "high",
+                  "evidence": "ともだちと かいものに いきました",
+                  "target": "日記"
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-r-g03",
+              "reading": {
+                "textJa": "おしらせ\n三月十日は、としょかんが やすみです。ほんは 三月四日から かりる ことが できます。かえす ひは 三月二十日までです。",
+                "translatedVi": "Thông báo. Ngày 10 tháng 3 thư viện nghỉ. Có thể mượn sách từ ngày 4 tháng 3. Ngày trả là đến hết ngày 20 tháng 3.",
+                "difficulty": 1,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n5-r-003",
+                  "prompt": "ほんを かりた ひとは いつまでに かえしますか。",
+                  "options": [
+                    "三月十日",
+                    "三月四日",
+                    "三月二十日",
+                    "三月三十日"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「三月二十日」. Văn bản nói ngày trả là đến 20 tháng 3.",
+                  "confidence": "high",
+                  "evidence": "かえす ひは 三月二十日までです",
+                  "target": "お知らせ"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-chu",
+          "labelVi": "Đọc hiểu: đoạn vừa",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N5",
+          "groups": [
+            {
+              "groupKey": "n5-r-g04",
+              "reading": {
+                "textJa": "わたしは にほんごがっこうの がくせいです。まいにち くじから じゅうにじまで べんきょうします。ひるごはんは ともだちと いっしょに たべます。ごごは アルバイトを して います。コンビニで ごじから くじまで はたらきます。うちへ かえるのは じゅうじごろです。",
+                "translatedVi": "Tôi là học sinh trường tiếng Nhật. Mỗi ngày tôi học từ 9 giờ đến 12 giờ. Bữa trưa tôi ăn cùng bạn. Buổi chiều tôi đi làm thêm. Tôi làm ở cửa hàng tiện lợi từ 5 giờ đến 9 giờ. Tôi về nhà lúc khoảng 10 giờ.",
+                "difficulty": 1,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n5-r-004",
+                  "prompt": "この ひとは ごごに なにを して いますか。",
+                  "options": [
+                    "やすんで います",
+                    "ひるごはんを つくって います",
+                    "にほんごを おしえて います",
+                    "アルバイトを して います"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「アルバイトを して います」. Buổi chiều người này đi làm thêm.",
+                  "confidence": "high",
+                  "evidence": "ごごは アルバイトを して います",
+                  "target": "内容理解"
+                },
+                {
+                  "key": "n5-r-005",
+                  "prompt": "この ひとは なんじごろ うちへ かえりますか。",
+                  "options": [
+                    "くじごろ",
+                    "じゅうじごろ",
+                    "ごじごろ",
+                    "じゅうにじごろ"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「じゅうじごろ」. Văn bản nói về nhà lúc khoảng 10 giờ.",
+                  "confidence": "high",
+                  "evidence": "うちへ かえるのは じゅうじごろです",
+                  "target": "時刻"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "joho",
+          "labelVi": "Đọc hiểu: tìm thông tin",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N5",
+          "groups": [
+            {
+              "groupKey": "n5-r-g05",
+              "reading": {
+                "textJa": "【えきの ちかくの カフェ】\nじかん：あさ 8じ ～ よる 8じ（にちようびは 6じまで）\nやすみ：まいしゅう すいようび\nコーヒー 300えん ／ こうちゃ 350えん ／ ジュース 400えん\nケーキ 450えん（コーヒーと いっしょなら 400えん）",
+                "translatedVi": "[Quán cà phê gần ga] Giờ mở cửa: 8 giờ sáng đến 8 giờ tối (Chủ nhật đến 6 giờ). Nghỉ: thứ Tư hằng tuần. Cà phê 300 yên / trà đen 350 yên / nước ép 400 yên. Bánh 450 yên (nếu gọi cùng cà phê thì 400 yên).",
+                "difficulty": 1,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n5-r-006",
+                  "prompt": "コーヒーと ケーキを ひとつずつ たのみます。ぜんぶで いくらですか。",
+                  "options": [
+                    "700えん",
+                    "750えん",
+                    "800えん",
+                    "850えん"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「700えん」. Gọi cà phê (300) và bánh kèm cà phê (400): tổng 700 yên.",
+                  "confidence": "high",
+                  "evidence": "ケーキ 450えん（コーヒーと いっしょなら 400えん）",
+                  "target": "料金計算",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "LISTENING",
+      "durationSeconds": 1800,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "choukai-kadai",
+          "labelVi": "Nghe: nắm vấn đề cần làm",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N5",
+          "groups": [
+            {
+              "groupKey": "n5-l-g01",
+              "listening": {
+                "transcriptJa": "おとこ：すみません、ここで しゃしんを とっても いいですか。\nおんな：すみません、ここは しゃしんは だめです。でも、そとなら いいですよ。\nおとこ：そうですか。じゃあ、そとで とります。",
+                "transcriptVi": "Nam: Xin lỗi, tôi chụp ảnh ở đây có được không? Nữ: Xin lỗi, ở đây không được chụp ảnh. Nhưng bên ngoài thì được. Nam: Vậy à. Vậy tôi sẽ chụp bên ngoài.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-001",
+                  "prompt": "おとこの ひとは このあと どうしますか。",
+                  "options": [
+                    "ここで しゃしんを とる",
+                    "しゃしんを みせる",
+                    "そとで しゃしんを とる",
+                    "うちへ かえる"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「そとで しゃしんを とる」. Nam nói 「そとで とります」 nên sẽ chụp ảnh bên ngoài.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "じゃあ、そとで とります",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g02",
+              "listening": {
+                "transcriptJa": "おんな：あした、パーティーに なにを もって いきますか。\nおとこ：わたしは ジュースを もって いきます。\nおんな：じゃあ、わたしは ケーキを つくります。\nおとこ：いいですね。",
+                "transcriptVi": "Nữ: Ngày mai bạn mang gì đến bữa tiệc? Nam: Tôi sẽ mang nước ép. Nữ: Vậy tôi sẽ làm bánh kem. Nam: Hay quá.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-002",
+                  "prompt": "おんなの ひとは あした なにを もって いきますか。",
+                  "options": [
+                    "ケーキ",
+                    "ジュース",
+                    "コーヒー",
+                    "パン"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「ケーキ」. Người nữ nói sẽ làm bánh kem (ケーキを つくります).",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "わたしは ケーキを つくります"
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g03",
+              "listening": {
+                "transcriptJa": "おとこ：もしもし、いま どこですか。\nおんな：えきの まえです。でんしゃが おくれて いるので、あと じゅっぷんぐらい かかります。\nおとこ：わかりました。じゃあ、さきに レストランで まって います。",
+                "transcriptVi": "Nam: A lô, bây giờ bạn ở đâu? Nữ: Tôi đang ở trước ga. Tàu bị trễ nên cần khoảng 10 phút nữa. Nam: Tôi hiểu rồi. Vậy tôi sẽ đợi trước ở nhà hàng.",
+                "durationSeconds": 30
+              },
+              "items": [
+                {
+                  "key": "n5-l-003",
+                  "prompt": "おとこの ひとは どこで おんなの ひとを まちますか。",
+                  "options": [
+                    "えきの まえ",
+                    "うち",
+                    "レストラン",
+                    "かいしゃ"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「レストラン」. Nam nói sẽ đợi ở nhà hàng.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "さきに レストランで まって います"
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g04",
+              "listening": {
+                "transcriptJa": "おんな：この くつ、ちいさいです。もう すこし おおきいのは ありますか。\nおとこ：はい、あります。ちょっと まって ください。\nおんな：おねがいします。",
+                "transcriptVi": "Nữ: Đôi giày này nhỏ. Có đôi nào lớn hơn một chút không? Nam: Có. Xin chờ một chút. Nữ: Nhờ anh.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-004",
+                  "prompt": "おとこの ひとは このあと なにを しますか。",
+                  "options": [
+                    "ちいさい くつを もって くる",
+                    "おかねを もらう",
+                    "くつを かえす",
+                    "おおきい くつを もって くる"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「おおきい くつを もって くる」. Khách muốn giày lớn hơn, nhân viên bảo chờ nên sẽ mang giày lớn ra.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "もう すこし おおきいのは ありますか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g05",
+              "listening": {
+                "transcriptJa": "おんな：きょうの しゅくだいは なんですか。\nおとこ：ほんの じゅうページを よんで、ノートに かんそうを かいて ください。\nおんな：わかりました。",
+                "transcriptVi": "Nữ: Bài tập hôm nay là gì ạ? Nam: Hãy đọc trang 10 của sách rồi viết cảm tưởng vào vở. Nữ: Em hiểu rồi.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-005",
+                  "prompt": "おんなの ひとは しゅくだいで なにを しますか。",
+                  "options": [
+                    "ほんを かって、ノートを かう",
+                    "ほんを よんで、ノートに かく",
+                    "テストを うける",
+                    "ノートを かえす"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「ほんを よんで、ノートに かく」. Đọc sách rồi viết cảm tưởng vào vở.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ほんの じゅうページを よんで、ノートに かんそうを かいて ください",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g06",
+              "listening": {
+                "transcriptJa": "おとこ：のどが いたいです。\nおんな：それは いけませんね。おくすりは のみましたか。\nおとこ：まだです。\nおんな：じゃあ、あたたかい おちゃを のんで、すぐ やすんで ください。",
+                "transcriptVi": "Nam: Tôi bị đau họng. Nữ: Thế thì không ổn. Anh đã uống thuốc chưa? Nam: Chưa ạ. Nữ: Vậy hãy uống trà ấm rồi nghỉ ngơi ngay.",
+                "durationSeconds": 30
+              },
+              "items": [
+                {
+                  "key": "n5-l-006",
+                  "prompt": "おとこの ひとは まず なにを しますか。",
+                  "options": [
+                    "おくすりを かう",
+                    "びょういんへ いく",
+                    "あたたかい おちゃを のむ",
+                    "かいしゃへ いく"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「あたたかい おちゃを のむ」. Người nữ bảo uống trà ấm rồi nghỉ ngơi.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "あたたかい おちゃを のんで、すぐ やすんで ください",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g07",
+              "listening": {
+                "transcriptJa": "おんな：あしたの かいぎは なんじからですか。\nおとこ：くじからです。でも、はちじ はんに ここに きて、いっしょに じゅんびを して ください。\nおんな：はい。",
+                "transcriptVi": "Nữ: Cuộc họp ngày mai bắt đầu từ mấy giờ? Nam: Từ 9 giờ. Nhưng hãy đến đây lúc 8 giờ rưỡi để cùng chuẩn bị. Nữ: Vâng.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-007",
+                  "prompt": "おんなの ひとは あした なんじに きますか。",
+                  "options": [
+                    "くじ",
+                    "はちじ はん",
+                    "しちじ",
+                    "じゅうじ"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「はちじ はん」. Cuộc họp 9 giờ nhưng nam nhờ đến lúc 8 giờ rưỡi để chuẩn bị.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "はちじ はんに ここに きて"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-point",
+          "labelVi": "Nghe: nắm điểm chính",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N5",
+          "groups": [
+            {
+              "groupKey": "n5-l-g08",
+              "listening": {
+                "transcriptJa": "おとこ：きのう、どうして がっこうを やすみましたか。\nおんな：あたまが いたかったからです。\nおとこ：もう だいじょうぶですか。\nおんな：はい。",
+                "transcriptVi": "Nam: Hôm qua sao bạn nghỉ học? Nữ: Vì tôi bị đau đầu. Nam: Bây giờ ổn rồi chứ? Nữ: Vâng.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-008",
+                  "prompt": "おんなの ひとは どうして がっこうを やすみましたか。",
+                  "options": [
+                    "ねつが あったから",
+                    "あめが ふって いたから",
+                    "おかねが なかったから",
+                    "あたまが いたかったから"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「あたまが いたかったから」. Chị nói vì đau đầu.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "あたまが いたかったからです"
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g09",
+              "listening": {
+                "transcriptJa": "おんな：この ラーメンやは いつも こんで いますね。\nおとこ：ええ。やすくて おいしいですから。",
+                "transcriptVi": "Nữ: Quán ramen này lúc nào cũng đông nhỉ. Nam: Vâng. Vì vừa rẻ vừa ngon.",
+                "durationSeconds": 20
+              },
+              "items": [
+                {
+                  "key": "n5-l-009",
+                  "prompt": "ラーメンやが こんで いる りゆうは なんですか。",
+                  "options": [
+                    "やすくて おいしいから",
+                    "ちかくて きれいだから",
+                    "ふるくて ゆうめいだから",
+                    "ひろくて しずかだから"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「やすくて おいしいから」. Nam giải thích vì quán vừa rẻ vừa ngon.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "やすくて おいしいですから",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g10",
+              "listening": {
+                "transcriptJa": "おとこ：すみません、トイレは どこですか。\nおんな：にかいに あります。エレベーターの よこです。",
+                "transcriptVi": "Nam: Xin lỗi, nhà vệ sinh ở đâu ạ? Nữ: Ở tầng hai, bên cạnh thang máy.",
+                "durationSeconds": 20
+              },
+              "items": [
+                {
+                  "key": "n5-l-010",
+                  "prompt": "トイレは どこに ありますか。",
+                  "options": [
+                    "いっかいの エレベーターの よこ",
+                    "にかいの かいだんの まえ",
+                    "さんがいの エレベーターの よこ",
+                    "にかいの エレベーターの よこ"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「にかいの エレベーターの よこ」. Nhà vệ sinh ở tầng hai, cạnh thang máy.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "にかいに あります。エレベーターの よこです",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g11",
+              "listening": {
+                "transcriptJa": "おんな：なつやすみに どこへ いきましたか。\nおとこ：うみへ いきました。ともだちと およぎました。\nおんな：いいですね。わたしは やまへ いきました。",
+                "transcriptVi": "Nữ: Kỳ nghỉ hè bạn đã đi đâu? Nam: Tôi đã đi biển, bơi cùng bạn. Nữ: Hay quá. Tôi đã đi núi.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-011",
+                  "prompt": "おんなの ひとは なつやすみに どこへ いきましたか。",
+                  "options": [
+                    "やま",
+                    "うみ",
+                    "かわ",
+                    "もり"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「やま」. Người nữ nói 「わたしは やまへ いきました」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "わたしは やまへ いきました"
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g12",
+              "listening": {
+                "transcriptJa": "おとこ：あした なにを しますか。\nおんな：ともだちと えいがを みます。\nおとこ：なんの えいがですか。\nおんな：にほんの えいがです。",
+                "transcriptVi": "Nam: Ngày mai bạn làm gì? Nữ: Tôi xem phim cùng bạn. Nam: Phim gì vậy? Nữ: Phim Nhật.",
+                "durationSeconds": 25
+              },
+              "items": [
+                {
+                  "key": "n5-l-012",
+                  "prompt": "おんなの ひとは どんな えいがを みますか。",
+                  "options": [
+                    "アメリカの えいが",
+                    "ふるい えいが",
+                    "にほんの えいが",
+                    "おもしろい えいが"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「にほんの えいが」. Người nữ nói đó là phim Nhật.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "にほんの えいがです"
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g13",
+              "listening": {
+                "transcriptJa": "おんな：この かばん、いくらですか。\nおとこ：さんぜんえんです。\nおんな：ちょっと たかいですね。もう すこし やすいのは ありますか。\nおとこ：これは にせんえんです。\nおんな：じゃあ、それを ください。",
+                "transcriptVi": "Nữ: Chiếc túi này giá bao nhiêu? Nam: 3.000 yên. Nữ: Hơi đắt nhỉ. Có cái nào rẻ hơn không? Nam: Cái này 2.000 yên. Nữ: Vậy cho tôi cái đó.",
+                "durationSeconds": 30
+              },
+              "items": [
+                {
+                  "key": "n5-l-013",
+                  "prompt": "おんなの ひとは いくらの かばんを かいますか。",
+                  "options": [
+                    "せんえん",
+                    "にせんえん",
+                    "さんぜんえん",
+                    "ごせんえん"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「にせんえん」. Cô ấy chọn chiếc túi rẻ hơn giá 2.000 yên.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "これは にせんえんです"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-hatsuwa",
+          "labelVi": "Nghe: biểu đạt theo tình huống",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N5",
+          "groups": [
+            {
+              "groupKey": "n5-l-g14",
+              "listening": {
+                "transcriptJa": "レストランで ごはんを たべました。おいしかったです。みせの ひとに なんと いいますか。",
+                "transcriptVi": "Bạn ăn ở nhà hàng. Món rất ngon. Bạn nói gì với nhân viên?",
+                "durationSeconds": 15
+              },
+              "items": [
+                {
+                  "key": "n5-l-014",
+                  "prompt": "この ばめんで、なんと いいますか。",
+                  "options": [
+                    "いただきます。",
+                    "いらっしゃいませ。",
+                    "おやすみなさい。",
+                    "ごちそうさまでした。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「ごちそうさまでした。」. Sau bữa ăn nói 「ごちそうさまでした」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ごはんを たべました",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g15",
+              "listening": {
+                "transcriptJa": "あさ、がっこうで せんせいに あいました。なんと いいますか。",
+                "transcriptVi": "Buổi sáng bạn gặp thầy ở trường. Bạn nói gì?",
+                "durationSeconds": 12
+              },
+              "items": [
+                {
+                  "key": "n5-l-015",
+                  "prompt": "この ばめんで、なんと いいますか。",
+                  "options": [
+                    "おはようございます。",
+                    "こんばんは。",
+                    "さようなら。",
+                    "いってきます。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「おはようございます。」. Buổi sáng chào 「おはようございます」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "あさ、がっこうで せんせいに あいました",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g16",
+              "listening": {
+                "transcriptJa": "ともだちの うちに はいります。なんと いいますか。",
+                "transcriptVi": "Bạn bước vào nhà của bạn. Bạn nói gì?",
+                "durationSeconds": 12
+              },
+              "items": [
+                {
+                  "key": "n5-l-016",
+                  "prompt": "この ばめんで、なんと いいますか。",
+                  "options": [
+                    "いってまいります。",
+                    "ただいま。",
+                    "おじゃまします。",
+                    "いらっしゃいませ。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「おじゃまします。」. Khi vào nhà người khác nói 「おじゃまします」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ともだちの うちに はいります",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g17",
+              "listening": {
+                "transcriptJa": "あなたは ペンを わすれました。ともだちに ペンを かりたいです。なんと いいますか。",
+                "transcriptVi": "Bạn quên bút. Bạn muốn mượn bút của bạn. Bạn nói gì?",
+                "durationSeconds": 15
+              },
+              "items": [
+                {
+                  "key": "n5-l-017",
+                  "prompt": "この ばめんで、なんと いいますか。",
+                  "options": [
+                    "ペンを かって ください。",
+                    "ペンを かして ください。",
+                    "ペンを あげましょうか。",
+                    "ペンが ありません。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「ペンを かして ください。」. Muốn mượn thì nói 「かして ください」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ともだちに ペンを かりたいです",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g18",
+              "listening": {
+                "transcriptJa": "ともだちが たんじょうびです。ともだちに なんと いいますか。",
+                "transcriptVi": "Hôm nay là sinh nhật bạn của bạn. Bạn nói gì với bạn ấy?",
+                "durationSeconds": 12
+              },
+              "items": [
+                {
+                  "key": "n5-l-018",
+                  "prompt": "この ばめんで、なんと いいますか。",
+                  "options": [
+                    "おだいじに。",
+                    "おたんじょうび おめでとう。",
+                    "ありがとう ございました。",
+                    "おやすみなさい。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「おたんじょうび おめでとう。」. Chúc mừng sinh nhật nói 「おたんじょうび おめでとう」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ともだちが たんじょうびです",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-sokuji",
+          "labelVi": "Nghe: đáp nhanh",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N5",
+          "groups": [
+            {
+              "groupKey": "n5-l-g19",
+              "listening": {
+                "transcriptJa": "おんな：おなまえは なんですか。",
+                "transcriptVi": "Nữ: Tên bạn là gì?",
+                "durationSeconds": 6
+              },
+              "items": [
+                {
+                  "key": "n5-l-019",
+                  "prompt": "いちばん いい へんじは どれですか。",
+                  "options": [
+                    "はい、なまえです。",
+                    "さんじです。",
+                    "あしたです。",
+                    "たなかです。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「たなかです。」. Được hỏi tên thì đáp tên.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "おなまえは なんですか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g20",
+              "listening": {
+                "transcriptJa": "おとこ：これは いくらですか。",
+                "transcriptVi": "Nam: Cái này giá bao nhiêu?",
+                "durationSeconds": 6
+              },
+              "items": [
+                {
+                  "key": "n5-l-020",
+                  "prompt": "いちばん いい へんじは どれですか。",
+                  "options": [
+                    "ごひゃくえんです。",
+                    "はい、これです。",
+                    "あそこです。",
+                    "みっつです。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「ごひゃくえんです。」. Hỏi giá thì đáp giá tiền.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "これは いくらですか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g21",
+              "listening": {
+                "transcriptJa": "おんな：おげんきですか。",
+                "transcriptVi": "Nữ: Bạn có khỏe không?",
+                "durationSeconds": 6
+              },
+              "items": [
+                {
+                  "key": "n5-l-021",
+                  "prompt": "いちばん いい へんじは どれですか。",
+                  "options": [
+                    "はい、すきです。",
+                    "いいえ、おいしいです。",
+                    "はい、げんきです。",
+                    "はい、いいですよ。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「はい、げんきです。」. Hỏi thăm sức khỏe thì đáp 「はい、げんきです」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "おげんきですか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g22",
+              "listening": {
+                "transcriptJa": "おとこ：すみません、いま なんじですか。",
+                "transcriptVi": "Nam: Xin lỗi, bây giờ là mấy giờ?",
+                "durationSeconds": 6
+              },
+              "items": [
+                {
+                  "key": "n5-l-022",
+                  "prompt": "いちばん いい へんじは どれですか。",
+                  "options": [
+                    "きのうです。",
+                    "さんにんです。",
+                    "そうです。",
+                    "さんじです。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「さんじです。」. Hỏi giờ thì đáp giờ.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "いま なんじですか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g23",
+              "listening": {
+                "transcriptJa": "おんな：コーヒーと おちゃと どちらが すきですか。",
+                "transcriptVi": "Nữ: Cà phê và trà, bạn thích cái nào hơn?",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n5-l-023",
+                  "prompt": "いちばん いい へんじは どれですか。",
+                  "options": [
+                    "おちゃが すきです。",
+                    "はい、すきです。",
+                    "みっつ ください。",
+                    "あそこに あります。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「おちゃが すきです。」. Được hỏi chọn cái nào thì trả lời cái mình thích.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "どちらが すきですか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n5-l-g24",
+              "listening": {
+                "transcriptJa": "おとこ：あした いっしょに ごはんを たべませんか。",
+                "transcriptVi": "Nam: Ngày mai cùng ăn cơm không?",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n5-l-024",
+                  "prompt": "いちばん いい へんじは どれですか。",
+                  "options": [
+                    "はい、たべました。",
+                    "いいですね。いきましょう。",
+                    "いいえ、おいしいです。",
+                    "あしたです。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「いいですね。いきましょう。」. Được mời thì nhận lời: 「いいですね。いきましょう」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "いっしょに ごはんを たべませんか",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

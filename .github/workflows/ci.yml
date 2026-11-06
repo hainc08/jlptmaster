@@ -42,12 +42,33 @@ jobs:
       - name: Push Database Schema to Test MariaDB
         env:
           DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
-        run: npx prisma db push
+        run: npx prisma migrate deploy
 
       - name: Run Test Suite (Vitest)
         env:
           DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
         run: npm test
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E Tests (Playwright, headless Chromium)
+        env:
+          DATABASE_URL: "mysql://jlpt_user:jlpt_pass@localhost:3306/jlpt_master_test"
+          NEXT_TELEMETRY_DISABLED: 1
+        run: |
+          SEED_DEMO_PASSWORDS=1 npm run db:seed
+          npm run test:e2e
+
+      - name: Upload Playwright Report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
 
       - name: Build Next.js Production App
         env:

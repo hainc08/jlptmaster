@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
+import { requireSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    let userId = searchParams.get("userId");
-
-    if (!userId) {
-      const demoStudent = await prisma.user.findUnique({
-        where: { email: "minh@jlptmaster.vn" },
-      });
-      userId = demoStudent?.id || null;
-    }
+    const { userId } = requireSession(req);
 
     const [
       totalLessonsCount,
@@ -19,6 +12,10 @@ export async function GET(req: NextRequest) {
       dueReviewsCount,
       totalReviewsCount,
       recentAttempts,
+      vocabCount,
+      kanjiCount,
+      grammarCount,
+      nextLesson,
     ] = await Promise.all([
       prisma.lesson.count({ where: { status: "PUBLISHED" } }),
       userId
@@ -44,6 +41,14 @@ export async function GET(req: NextRequest) {
             include: { exam: { select: { title: true } } },
           })
         : Promise.resolve([]),
+      prisma.vocabulary.count(),
+      prisma.kanji.count(),
+      prisma.grammar.count(),
+      prisma.lesson.findFirst({
+        where: { status: "PUBLISHED" },
+        orderBy: { position: "asc" },
+        select: { id: true, slug: true, titleVi: true },
+      }),
     ]);
 
     return NextResponse.json({
@@ -52,6 +57,11 @@ export async function GET(req: NextRequest) {
         completedLessonsCount,
         dueReviewsCount,
         totalReviewsCount,
+        vocabCount,
+        kanjiCount,
+        grammarCount,
+        currentStreak: completedLessonsCount > 0 ? 1 : 0,
+        nextLesson,
         latestScore: recentAttempts[0]?.internalScore ?? null,
         recentAttempts: recentAttempts.map((a) => ({
           id: a.id,
@@ -62,10 +72,11 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error: any) {
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "PROGRESS_FETCH_FAILED", message: error.message } },
       { status: 500 }
     );
   }
 }
-

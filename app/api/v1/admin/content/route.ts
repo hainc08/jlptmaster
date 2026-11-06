@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/src/server/db";
-import { assertAdminRole, UnauthorizedRoleError } from "@/src/server/services/auth-service";
+import { requireAdminSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 const CreateContentSchema = z.object({
-  actorId: z.string().optional(),
-  role: z.string().default("ADMIN"),
   levelId: z.string().default("N5"),
   kind: z.enum(["VOCAB", "KANJI", "GRAMMAR"]),
   slug: z.string().min(1),
@@ -20,6 +18,7 @@ const CreateContentSchema = z.object({
 
 export async function GET(req: NextRequest) {
   try {
+    requireAdminSession(req);
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
     const kind = searchParams.get("kind");
@@ -41,6 +40,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ data: items });
   } catch (error: any) {
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "ADMIN_CONTENT_FETCH_FAILED", message: error.message } },
       { status: 500 }
@@ -50,6 +51,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    requireAdminSession(req);
     const rawBody = await req.json();
     const parsed = CreateContentSchema.safeParse(rawBody);
 
@@ -60,12 +62,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { role, levelId, kind, slug, surface, reading, meaningVi, pos, pattern, formationVi, nuanceVi } =
+    const { levelId, kind, slug, surface, reading, meaningVi, pos, pattern, formationVi, nuanceVi } =
       parsed.data;
 
-    if (role !== "ADMIN" && role !== "EDITOR") {
-      assertAdminRole(role);
-    }
 
     const created = await prisma.contentItem.create({
       data: {
@@ -110,12 +109,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ data: created }, { status: 201 });
   } catch (error: any) {
-    if (error instanceof UnauthorizedRoleError) {
-      return NextResponse.json(
-        { error: { code: "FORBIDDEN", message: error.message } },
-        { status: 403 }
-      );
-    }
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "ADMIN_CREATE_CONTENT_FAILED", message: error.message } },
       { status: 500 }

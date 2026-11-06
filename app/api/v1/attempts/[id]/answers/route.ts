@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/src/server/db";
 import { validateAttemptTimeliness } from "@/src/server/services/exam-service";
-import { assertUserOwnership, OwnershipError } from "@/src/server/services/auth-service";
+import { assertUserOwnership, requireSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 const SaveAnswersSchema = z.object({
-  userId: z.string().optional(),
   answers: z.record(z.string(), z.string()),
 });
 
@@ -25,7 +24,7 @@ export async function PUT(
       );
     }
 
-    const { userId, answers } = parsed.data;
+    const { answers } = parsed.data;
 
     const attempt = await prisma.examAttempt.findUnique({
       where: { id: attemptId },
@@ -38,9 +37,8 @@ export async function PUT(
       );
     }
 
-    if (userId) {
-      assertUserOwnership(userId, attempt.userId);
-    }
+    const { userId: callerId } = requireSession(req);
+    assertUserOwnership(callerId, attempt.userId);
 
     if (attempt.status !== "IN_PROGRESS") {
       return NextResponse.json(
@@ -98,12 +96,8 @@ export async function PUT(
       },
     });
   } catch (error: any) {
-    if (error instanceof OwnershipError) {
-      return NextResponse.json(
-        { error: { code: "FORBIDDEN", message: error.message } },
-        { status: 403 }
-      );
-    }
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "AUTOSAVE_FAILED", message: error.message } },
       { status: 500 }

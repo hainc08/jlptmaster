@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/src/server/db";
 import { processSrsReview } from "@/src/server/services/srs-service";
-import { assertUserOwnership, OwnershipError } from "@/src/server/services/auth-service";
+import { assertUserOwnership, requireSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 const ReviewPostSchema = z.object({
-  userId: z.string().optional(),
   cardId: z.string().min(1),
   grade: z.enum(["AGAIN", "HARD", "GOOD", "EASY"]),
   idempotencyKey: z.string().min(1).max(36),
@@ -13,6 +12,7 @@ const ReviewPostSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    const { userId } = requireSession(req);
     const rawBody = await req.json();
     const parsed = ReviewPostSchema.safeParse(rawBody);
 
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { userId, cardId, grade, idempotencyKey } = parsed.data;
+    const { cardId, grade, idempotencyKey } = parsed.data;
 
     const card = await prisma.reviewCard.findUnique({
       where: { id: cardId },
@@ -42,9 +42,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (userId) {
-      assertUserOwnership(userId, card.userId);
-    }
+    assertUserOwnership(userId, card.userId);
 
     const existingKeys = card.reviewLogs.map((l) => l.idempotencyKey);
     const result = processSrsReview(
@@ -95,12 +93,8 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error: any) {
-    if (error instanceof OwnershipError) {
-      return NextResponse.json(
-        { error: { code: "FORBIDDEN", message: error.message } },
-        { status: 403 }
-      );
-    }
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "REVIEW_SUBMIT_FAILED", message: error.message } },
       { status: 500 }

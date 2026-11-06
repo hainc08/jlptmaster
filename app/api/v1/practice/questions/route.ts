@@ -7,6 +7,8 @@ export async function GET(req: NextRequest) {
       where: {
         status: "PUBLISHED",
         levelId: "N5",
+        // Reading/listening questions depend on a passage or audio, so they are exam-only for now.
+        questionType: { notIn: ["READING", "LISTENING"] },
       },
       take: 20,
       include: {

@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { applyMigrations } from "./db-migrate.mjs";
 
 console.log("==================================================");
 console.log("   JLPT MASTER — HOSTINGER PRODUCTION STARTUP   ");
@@ -17,11 +18,11 @@ function runCommand(command, args) {
 
 async function main() {
   try {
-    // 1. Sync database schema and idempotent seed on startup (non-blocking if DB is not ready yet)
+    // 1. Apply migrations and idempotent seed on startup (non-blocking if DB is not ready yet)
     if (process.env.DATABASE_URL) {
-      console.log("[STARTUP] Applying database schema with Prisma...");
+      console.log("[STARTUP] Applying database migrations with Prisma (migrate deploy)...");
       try {
-        await runCommand("npx", ["prisma", "db", "push", "--skip-generate"]);
+        await applyMigrations({ tag: "STARTUP" });
         console.log("[STARTUP] Database schema verified successfully.");
 
         console.log("[STARTUP] Running idempotent N5 dataset & admin seed...");
@@ -35,7 +36,7 @@ async function main() {
         console.warn("[STARTUP WARNING] Proceeding to start Next.js server so /api/health remains accessible.");
       }
     } else {
-      console.warn("[STARTUP] DATABASE_URL not set! Skipping DB push and seed.");
+      console.warn("[STARTUP] DATABASE_URL not set! Skipping DB migrate and seed.");
     }
 
     // 2. Start Next.js production server bound to 0.0.0.0 and Hostinger's assigned PORT

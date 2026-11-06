@@ -7,6 +7,12 @@ import {
   QuestionType,
   SectionType,
 } from "@prisma/client";
+import { createHash } from "node:crypto";
+import { hashPassword } from "../src/server/services/password-service";
+import { DEMO_PASSWORDS } from "./demo-credentials";
+import { N5_QUESTION_BANK } from "./n5-questions";
+import { importContent } from "./import-content";
+import { N5_READING_PASSAGES, N5_LISTENING_TRACKS, type BankQuestion } from "./n5-reading-listening";
 
 const prisma = new PrismaClient();
 
@@ -69,6 +75,29 @@ export async function seedDatabase() {
     },
   });
   console.log(`✔ Đã seed tài khoản mẫu: ${adminEmail} & minh@jlptmaster.vn`);
+
+  // 2b. Real password hashes (scrypt). Never overwrite an existing real password unless
+  // SEED_RESET_PASSWORDS=1. Where the password comes from:
+  //   1) SEED_ADMIN_PASSWORD / SEED_STUDENT_PASSWORD (use these in production), else
+  //   2) public demo passwords ONLY when SEED_DEMO_PASSWORDS=1 (local dev / CI), else
+  //   3) none: the account cannot log in until a password is set.
+  const useDemo = process.env.SEED_DEMO_PASSWORDS === "1";
+  const resetAll = process.env.SEED_RESET_PASSWORDS === "1";
+  for (const acct of [
+    { email: adminEmail, envPassword: process.env.SEED_ADMIN_PASSWORD, demo: DEMO_PASSWORDS.admin, label: "quản trị" },
+    { email: "minh@jlptmaster.vn", envPassword: process.env.SEED_STUDENT_PASSWORD, demo: DEMO_PASSWORDS.student, label: "học viên mẫu" },
+  ]) {
+    const user = await prisma.user.findUniqueOrThrow({ where: { email: acct.email } });
+    const hasRealHash = (user.passwordHash ?? "").startsWith("scrypt$");
+    if (hasRealHash && !(resetAll && acct.envPassword)) continue;
+    const password = acct.envPassword || (useDemo ? acct.demo : "");
+    if (!password) {
+      console.warn(`⚠ Tài khoản ${acct.label} (${acct.email}) chưa có mật khẩu. Đặt SEED_${acct.label === "quản trị" ? "ADMIN" : "STUDENT"}_PASSWORD rồi chạy lại seed.`);
+      continue;
+    }
+    await prisma.user.update({ where: { id: user.id }, data: { passwordHash: await hashPassword(password) } });
+    console.log(`✔ Đã đặt mật khẩu cho tài khoản ${acct.label} (${acct.email})`);
+  }
 
   // 3. Course N5
   const course = await prisma.course.upsert({
@@ -344,42 +373,170 @@ export async function seedDatabase() {
   }
   console.log("✔ Đã seed 5 mẫu ngữ pháp N5");
 
-  // 8. Practice Questions (20 questions, idempotent check)
+  // 8. Practice Questions: real N5 bank (idempotent, updates in place by stable order so
+  //    existing exam_questions / attempt_answers foreign keys are preserved)
+  // Questions imported from prisma/content/** carry a stable `promptJson.key` and are owned by import-content.ts;
+  // they must never be picked up (and overwritten) here. (A NOT-on-JSON filter would drop rows without a key
+  // because JSON_EXTRACT yields NULL, so exclude by id instead.)
+  const importedN5Ids = (
+    await prisma.question.findMany({
+      where: { levelId: "N5", contentItemId: null, promptJson: { path: "$.key", string_starts_with: "n5-" } },
+      select: { id: true },
+    })
+  ).map((q) => q.id);
   const existingQuestions = await prisma.question.findMany({
-    where: { levelId: "N5" },
+    where: { levelId: "N5", contentItemId: null, id: { notIn: importedN5Ids } },
     orderBy: { id: "asc" },
-    take: 20,
+    take: N5_QUESTION_BANK.length,
   });
 
-  if (existingQuestions.length < 20) {
-    for (let qIdx = existingQuestions.length + 1; qIdx <= 20; qIdx++) {
-      const createdQ = await prisma.question.create({
-        data: {
-          levelId: "N5",
-          questionType: qIdx % 2 === 0 ? QuestionType.KANJI_READING : QuestionType.BLANK_CHOICE,
-          promptJson: { text: `Câu hỏi luyện tập N5 số 0${qIdx}: Chọn đáp án đúng cho câu sau.` },
-          explanationVi: `Giải thích chi tiết tiếng Việt cho câu hỏi số 0${qIdx}. Đáp án đúng là lựa chọn số 1.`,
-          difficulty: 1,
-          skillTag: qIdx <= 10 ? "Từ vựng N5" : "Ngữ pháp N5",
-          status: ContentStatus.PUBLISHED,
-          options: {
-            create: [
-              { position: 1, textJson: { text: "Lựa chọn A (Chính xác)" }, isCorrect: true },
-              { position: 2, textJson: { text: "Lựa chọn B" }, isCorrect: false },
-              { position: 3, textJson: { text: "Lựa chọn C" }, isCorrect: false },
-              { position: 4, textJson: { text: "Lựa chọn D" }, isCorrect: false },
-            ],
-          },
-        },
+  for (let i = 0; i < N5_QUESTION_BANK.length; i++) {
+    const bank = N5_QUESTION_BANK[i];
+    const data = {
+      levelId: "N5",
+      questionType: bank.kind === "KANJI_READING" ? QuestionType.KANJI_READING : QuestionType.BLANK_CHOICE,
+      promptJson: { text: bank.prompt },
+      explanationVi: bank.explanationVi,
+      difficulty: 1,
+      skillTag: bank.skillTag,
+      status: ContentStatus.PUBLISHED,
+    };
+    const optionRows = bank.options.map((text, idx) => ({
+      position: idx + 1,
+      textJson: { text },
+      isCorrect: idx === bank.correctIndex,
+    }));
+
+    if (existingQuestions[i]) {
+      const q = existingQuestions[i];
+      await prisma.question.update({ where: { id: q.id }, data });
+      await prisma.questionOption.deleteMany({ where: { questionId: q.id } });
+      await prisma.questionOption.createMany({
+        data: optionRows.map((o) => ({ ...o, questionId: q.id })),
       });
-      existingQuestions.push(createdQ);
+    } else {
+      const created = await prisma.question.create({ data: { ...data, options: { create: optionRows } } });
+      existingQuestions.push(created);
     }
   }
-  console.log(`✔ Đã đảm bảo ${existingQuestions.length} câu hỏi luyện tập N5`);
+  console.log(`✔ Đã đảm bảo ${existingQuestions.length} câu hỏi luyện tập N5 (ngân hàng thật)`);
+
+  // 8b. Reading passages & listening tracks (original content; questions linked via content item)
+  const seedAdmin = await prisma.user.findUniqueOrThrow({ where: { email: adminEmail } });
+
+  async function syncContextQuestions(
+    contentItemId: string,
+    kind: "READING" | "LISTENING",
+    skillTag: string,
+    questions: BankQuestion[]
+  ) {
+    const existing = await prisma.question.findMany({ where: { contentItemId }, orderBy: { id: "asc" } });
+    const out: { id: string }[] = [];
+    for (let i = 0; i < questions.length; i++) {
+      const bank = questions[i];
+      const data = {
+        levelId: "N5",
+        contentItemId,
+        questionType: kind === "READING" ? QuestionType.READING : QuestionType.LISTENING,
+        promptJson: { text: bank.prompt },
+        explanationVi: bank.explanationVi,
+        difficulty: 1,
+        skillTag,
+        status: ContentStatus.PUBLISHED,
+      };
+      const optionRows = bank.options.map((text, idx) => ({
+        position: idx + 1,
+        textJson: { text },
+        isCorrect: idx === bank.correctIndex,
+      }));
+      if (existing[i]) {
+        await prisma.question.update({ where: { id: existing[i].id }, data });
+        await prisma.questionOption.deleteMany({ where: { questionId: existing[i].id } });
+        await prisma.questionOption.createMany({
+          data: optionRows.map((o) => ({ ...o, questionId: existing[i].id })),
+        });
+        out.push(existing[i]);
+      } else {
+        out.push(await prisma.question.create({ data: { ...data, options: { create: optionRows } } }));
+      }
+    }
+    return out;
+  }
+
+  const readingQuestions: { id: string }[] = [];
+  for (const p of N5_READING_PASSAGES) {
+    let item = await prisma.contentItem.findFirst({ where: { levelId: "N5", kind: ContentKind.READING, slug: p.slug } });
+    if (!item) {
+      item = await prisma.contentItem.create({
+        data: { levelId: "N5", kind: ContentKind.READING, slug: p.slug, status: ContentStatus.PUBLISHED, publishedAt: new Date() },
+      });
+    } else if (item.status !== ContentStatus.PUBLISHED) {
+      item = await prisma.contentItem.update({
+        where: { id: item.id },
+        data: { status: ContentStatus.PUBLISHED, publishedAt: item.publishedAt ?? new Date() },
+      });
+    }
+    await prisma.readingPassage.upsert({
+      where: { contentItemId: item.id },
+      update: { textJa: p.textJa, translatedVi: p.translatedVi, difficulty: p.difficulty, copyrightSource: p.copyrightSource },
+      create: {
+        contentItemId: item.id,
+        textJa: p.textJa,
+        translatedVi: p.translatedVi,
+        difficulty: p.difficulty,
+        copyrightSource: p.copyrightSource,
+      },
+    });
+    readingQuestions.push(...(await syncContextQuestions(item.id, "READING", "Đọc hiểu N5", p.questions)));
+  }
+
+  const listeningQuestions: { id: string }[] = [];
+  for (const t of N5_LISTENING_TRACKS) {
+    // No real audio file exists yet: the "asset" records that playback uses browser text-to-speech.
+    const storageKey = `tts:${t.slug}`;
+    const asset = await prisma.mediaAsset.upsert({
+      where: { storageKey },
+      update: {},
+      create: {
+        storageKey,
+        mimeType: "text/plain",
+        byteSize: Buffer.byteLength(t.transcriptJa, "utf8"),
+        sha256: createHash("sha256").update(t.transcriptJa).digest("hex"),
+        licenseType: "TTS_BROWSER",
+        attribution: "Giọng đọc tổng hợp của trình duyệt (Web Speech API) đọc lời thoại gốc của dự án; chưa có file ghi âm thật.",
+        ownerId: seedAdmin.id,
+      },
+    });
+    let item = await prisma.contentItem.findFirst({ where: { levelId: "N5", kind: ContentKind.LISTENING, slug: t.slug } });
+    if (!item) {
+      item = await prisma.contentItem.create({
+        data: { levelId: "N5", kind: ContentKind.LISTENING, slug: t.slug, status: ContentStatus.PUBLISHED, publishedAt: new Date() },
+      });
+    } else if (item.status !== ContentStatus.PUBLISHED) {
+      item = await prisma.contentItem.update({
+        where: { id: item.id },
+        data: { status: ContentStatus.PUBLISHED, publishedAt: item.publishedAt ?? new Date() },
+      });
+    }
+    await prisma.listeningTrack.upsert({
+      where: { contentItemId: item.id },
+      update: { transcriptJa: t.transcriptJa, transcriptVi: t.transcriptVi, durationSeconds: t.durationSeconds, mediaAssetId: asset.id },
+      create: {
+        contentItemId: item.id,
+        mediaAssetId: asset.id,
+        transcriptJa: t.transcriptJa,
+        transcriptVi: t.transcriptVi,
+        durationSeconds: t.durationSeconds,
+      },
+    });
+    listeningQuestions.push(...(await syncContextQuestions(item.id, "LISTENING", "Nghe hiểu N5", t.questions)));
+  }
+  console.log(`✔ Đã seed ${N5_READING_PASSAGES.length} bài đọc hiểu và ${N5_LISTENING_TRACKS.length} bài nghe hiểu N5`);
 
   // 9. Full Demo Mock Exam (3 sections + linked questions, idempotent)
+  // Exam "Số 01" is the first/original N5 exam; additional N5 exams (e.g. "Số 02") come from prisma/content/**.
   let mockExam = await prisma.exam.findFirst({
-    where: { levelId: "N5" },
+    where: { levelId: "N5", NOT: [{ title: { contains: "Số 02" } }, { title: { startsWith: "TEST" } }] },
     include: { sections: { orderBy: { position: "asc" } } },
   });
 
@@ -404,31 +561,33 @@ export async function seedDatabase() {
     });
   }
 
-  // Ensure ExamSection 1 has linked questions without colliding on dual unique keys
-  if (mockExam.sections.length > 0 && existingQuestions.length > 0) {
-    const firstSection = mockExam.sections[0];
-    const sampleQuestions = existingQuestions.slice(0, 5);
-    const existingExamQuestions = await prisma.examQuestion.findMany({
-      where: { sectionId: firstSection.id },
+  // Link questions to sections: 1 = vocabulary & kanji, 2 = grammar + reading, 3 = listening.
+  const plan: Array<{ sectionIndex: number; questions: { id: string }[] }> = [
+    { sectionIndex: 0, questions: existingQuestions.slice(0, 10) },
+    { sectionIndex: 1, questions: [...existingQuestions.slice(10, 20), ...readingQuestions] },
+    { sectionIndex: 2, questions: listeningQuestions },
+  ];
+  for (const { sectionIndex, questions } of plan) {
+    const section = mockExam.sections[sectionIndex];
+    if (!section) continue;
+    const current = await prisma.examQuestion.findMany({
+      where: { sectionId: section.id },
+      orderBy: { position: "asc" },
     });
-
-    if (existingExamQuestions.length < sampleQuestions.length) {
-      await prisma.examQuestion.deleteMany({
-        where: { sectionId: firstSection.id },
+    const same =
+      current.length === questions.length && current.every((c, i) => c.questionId === questions[i].id);
+    if (same) continue;
+    await prisma.examQuestion.deleteMany({ where: { sectionId: section.id } });
+    for (let i = 0; i < questions.length; i++) {
+      await prisma.examQuestion.create({
+        data: { sectionId: section.id, questionId: questions[i].id, position: i + 1, points: 3 },
       });
-      for (let i = 0; i < sampleQuestions.length; i++) {
-        await prisma.examQuestion.create({
-          data: {
-            sectionId: firstSection.id,
-            questionId: sampleQuestions[i].id,
-            position: i + 1,
-            points: 2,
-          },
-        });
-      }
     }
   }
   console.log(`✔ Đã seed đề thi thử JLPT N5: ${mockExam.title}`);
+
+  // 10. Đề thi thử N4–N1 (+ N5 đề bổ sung) từ prisma/content/** — idempotent, luôn ở DRAFT cho tới khi chủ dự án duyệt.
+  await importContent(prisma, { log: console.log });
 
   console.log("--- HOÀN TẤT SEED DỮ LIỆU MARIADB THÀNH CÔNG ---");
 }

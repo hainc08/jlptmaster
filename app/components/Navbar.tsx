@@ -39,6 +39,29 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
       : "student");
 
   const [role, setRole] = useState<UserRole>(derivedRole);
+  const [accountEmail, setAccountEmail] = useState<string | null>(null);
+  const [goalText, setGoalText] = useState<string | null>(null);
+  const [dueCount, setDueCount] = useState(0);
+
+  useEffect(() => {
+    try {
+      setAccountEmail(localStorage.getItem("jlpt_auth_email"));
+    } catch {
+      setAccountEmail(null);
+    }
+    fetch("/api/v1/profile")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.data) setGoalText(`Mục tiêu: JLPT ${json.data.targetLevel} (${json.data.dailyGoalMinutes} phút/ngày)`);
+      })
+      .catch(() => {});
+    fetch("/api/v1/progress/overview")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (typeof json?.data?.dueReviewsCount === "number") setDueCount(json.data.dueReviewsCount);
+      })
+      .catch(() => {});
+  }, []);
   const [selectedLevel, setSelectedLevel] = useState<string>("N5");
   const [openDropdown, setOpenDropdown] = useState<SectionId | null>(null);
   const [levelMenuOpen, setLevelMenuOpen] = useState<boolean>(false);
@@ -454,10 +477,12 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                   className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg border border-transparent hover:bg-gray-100 text-[#1F2937] flex items-center justify-center shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
                 >
                   <Bell size={18} className="shrink-0" />
-                  <span
-                    className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-[#B9343F] ring-2 ring-white"
-                    aria-hidden="true"
-                  />
+                  {dueCount > 0 && (
+                    <span
+                      className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-[#B9343F] ring-2 ring-white"
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
 
                 {notifMenuOpen && (
@@ -468,35 +493,25 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                   >
                     <div className="flex items-center justify-between border-b border-gray-100 pb-2">
                       <span className="text-xs font-bold text-[#1F2937]">Thông báo học tập</span>
-                      <span className="text-[11px] font-semibold text-[#B9343F] bg-[#FBEBEB] px-2 py-0.5 rounded-full">
-                        2 mới
-                      </span>
+                      {dueCount > 0 && (
+                        <span className="text-[11px] font-semibold text-[#B9343F] bg-[#FBEBEB] px-2 py-0.5 rounded-full">
+                          {dueCount} mới
+                        </span>
+                      )}
                     </div>
                     <div className="space-y-1.5 text-xs">
-                      <Link
-                        href="/flashcards"
-                        onClick={closeAllMenus}
-                        className="block p-2.5 rounded-lg bg-[#FBEBEB]/40 border border-[#FBEBEB] hover:bg-[#FBEBEB]/70 space-y-0.5"
-                      >
-                        <p className="font-semibold text-[#1F2937]">
-                          8 thẻ nhớ SRS N5 đã đến hạn ôn tập
-                        </p>
-                        <p className="text-[#6B7280]">
-                          Duy trì chuỗi 7 ngày học liên tiếp ngay hôm nay.
-                        </p>
-                      </Link>
-                      <Link
-                        href="/results/att-01"
-                        onClick={closeAllMenus}
-                        className="block p-2.5 rounded-lg bg-gray-50 hover:bg-gray-100 space-y-0.5"
-                      >
-                        <p className="font-semibold text-[#1F2937]">
-                          Đã lưu kết quả Đề thi thử N5 Số 01
-                        </p>
-                        <p className="text-[#6B7280]">
-                          Điểm ước tính nội bộ: 142 / 180 điểm.
-                        </p>
-                      </Link>
+                      {dueCount > 0 ? (
+                        <Link
+                          href="/flashcards"
+                          onClick={closeAllMenus}
+                          className="block p-2.5 rounded-lg bg-[#FBEBEB]/40 border border-[#FBEBEB] hover:bg-[#FBEBEB]/70 space-y-0.5"
+                        >
+                          <p className="font-semibold text-[#1F2937]">{dueCount} thẻ nhớ SRS đã đến hạn ôn tập</p>
+                          <p className="text-[#6B7280]">Ôn ngay để giữ lịch ghi nhớ.</p>
+                        </Link>
+                      ) : (
+                        <p className="p-2.5 text-[#6B7280]">Chưa có thông báo mới.</p>
+                      )}
                     </div>
                   </div>
                 )}
@@ -538,10 +553,10 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                   >
                     <div className="px-3 py-2 border-b border-gray-100">
                       <p className="text-xs font-bold text-[#1F2937]">
-                        {role === "admin" ? "admin@jlptmaster.vn" : "minh@jlptmaster.vn"}
+                        {accountEmail ?? (role === "admin" ? "Quản trị viên" : "Học viên")}
                       </p>
                       <p className="text-[11px] text-[#6B7280] mt-0.5">
-                        Mục tiêu: JLPT N5 (30 phút/ngày)
+                        {goalText ?? "Chưa thiết lập mục tiêu"}
                       </p>
                     </div>
 

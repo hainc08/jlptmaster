@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { applyMigrations } from "./db-migrate.mjs";
 
 function runCommand(command, args) {
   return new Promise((resolve, reject) => {
@@ -13,14 +14,14 @@ function runCommand(command, args) {
 
 async function main() {
   if (!process.env.DATABASE_URL) {
-    console.log("[DB-SETUP] DATABASE_URL not set; skipping postbuild DB push & seed.");
+    console.log("[DB-SETUP] DATABASE_URL not set; skipping postbuild DB migrate & seed.");
     return;
   }
 
   try {
-    console.log("[DB-SETUP] Applying MariaDB/MySQL schema with Prisma...");
-    await runCommand("npx", ["prisma", "db", "push", "--skip-generate"]);
-    console.log("[DB-SETUP] Schema verified. Running idempotent N5 seed...");
+    console.log("[DB-SETUP] Applying Prisma migrations (migrate deploy)...");
+    await applyMigrations({ tag: "DB-SETUP" });
+    console.log("[DB-SETUP] Schema up to date. Running idempotent N5 seed...");
     await runCommand("npx", ["tsx", "prisma/seed.ts"]);
     console.log("[DB-SETUP] Database setup and seed completed successfully.");
   } catch (err) {

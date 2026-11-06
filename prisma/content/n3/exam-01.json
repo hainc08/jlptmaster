@@ -1,0 +1,2066 @@
+{
+  "schemaVersion": 1,
+  "level": "N3",
+  "exam": {
+    "slug": "n3-exam-01",
+    "title": "Đề thi thử JLPT N3 — Số 01 (Mô phỏng nội bộ)",
+    "version": "v1.0",
+    "scoringPolicy": "JLPT_SCALE_180",
+    "status": "PUBLISHED"
+  },
+  "sections": [
+    {
+      "type": "VOCAB",
+      "durationSeconds": 1800,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "kanji-yomi",
+          "labelVi": "Cách đọc chữ Hán",
+          "questionType": "KANJI_READING",
+          "skillTag": "Chữ Hán N3",
+          "items": [
+            {
+              "key": "n3-v-001",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\nこの仕事は「経験」がなくてもできます。",
+              "options": [
+                "けいげん",
+                "けいけん",
+                "けっけん",
+                "きょうけん"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「けいけん」. 経験 (kinh nghiệm) đọc là けいけん.",
+              "confidence": "high",
+              "target": "経験"
+            },
+            {
+              "key": "n3-v-002",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n二つの問題には「関係」があります。",
+              "options": [
+                "かんげい",
+                "かんけ",
+                "げんけい",
+                "かんけい"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「かんけい」. 関係 (quan hệ) đọc là かんけい; 関 đọc かん.",
+              "confidence": "high",
+              "target": "関係"
+            },
+            {
+              "key": "n3-v-003",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n日本は多くの食料を外国から「輸入」しています。",
+              "options": [
+                "ゆにゅう",
+                "ゆうにゅう",
+                "ゆにゅ",
+                "ゆいにゅう"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「ゆにゅう」. 輸入 (nhập khẩu) đọc là ゆにゅう; 輸 đọc ゆ (âm ngắn).",
+              "confidence": "check",
+              "target": "輸入",
+              "reviewNote": "Xác nhận 輸入 thuộc N3."
+            },
+            {
+              "key": "n3-v-004",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n飛行機は予定どおり九時に「到着」しました。",
+              "options": [
+                "とうじゃく",
+                "とちゃく",
+                "とうちゃく",
+                "どうちゃく"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「とうちゃく」. 到着 (đến nơi) đọc là とうちゃく.",
+              "confidence": "high",
+              "target": "到着"
+            },
+            {
+              "key": "n3-v-005",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n旅行の「準備」はもう終わりましたか。",
+              "options": [
+                "じゅんぴ",
+                "じゅんび",
+                "しゅんび",
+                "じゅうんび"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「じゅんび」. 準備 (chuẩn bị) đọc là じゅんび, 備 đọc đục び.",
+              "confidence": "high",
+              "target": "準備"
+            },
+            {
+              "key": "n3-v-006",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n事故の「原因」はまだ分かっていません。",
+              "options": [
+                "げんにん",
+                "けんいん",
+                "げんいい",
+                "げんいん"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「げんいん」. 原因 (nguyên nhân) đọc là げんいん.",
+              "confidence": "high",
+              "target": "原因"
+            },
+            {
+              "key": "n3-v-007",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n早く起きる「習慣」をつけたいです。",
+              "options": [
+                "しゅかん",
+                "しゅうがん",
+                "しゅうかん",
+                "しゅうけん"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「しゅうかん」. 習慣 (thói quen) đọc là しゅうかん, có âm kéo dài しゅう.",
+              "confidence": "high",
+              "target": "習慣"
+            },
+            {
+              "key": "n3-v-008",
+              "prompt": "次の文の下線の言葉の読み方として、いちばんよいものを選びなさい。\n山の上からの「景色」はとてもきれいでした。",
+              "options": [
+                "けしき",
+                "けいしき",
+                "げしき",
+                "けしょく"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「けしき」. 景色 (phong cảnh) đọc là けしき, đây là từ đọc đặc biệt.",
+              "confidence": "high",
+              "target": "景色"
+            }
+          ]
+        },
+        {
+          "partKey": "hyouki",
+          "labelVi": "Cách viết chữ Hán",
+          "questionType": "SINGLE_CHOICE",
+          "skillTag": "Chữ Hán N3",
+          "items": [
+            {
+              "key": "n3-v-009",
+              "prompt": "次の文の「　」の言葉を漢字で書くとき、いちばんよいものを選びなさい。\nこの町の人口は年々「ぞうか」しています。",
+              "options": [
+                "憎加",
+                "増化",
+                "贈加",
+                "増加"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「増加」. 「ぞうか」 viết là 増加 (gia tăng).",
+              "confidence": "high",
+              "target": "増加"
+            },
+            {
+              "key": "n3-v-010",
+              "prompt": "次の文の「　」の言葉を漢字で書くとき、いちばんよいものを選びなさい。\n友だちを両親に「しょうかい」しました。",
+              "options": [
+                "招介",
+                "紹会",
+                "紹介",
+                "詔介"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「紹介」. 「しょうかい」 viết là 紹介 (giới thiệu).",
+              "confidence": "high",
+              "target": "紹介"
+            },
+            {
+              "key": "n3-v-011",
+              "prompt": "次の文の「　」の言葉を漢字で書くとき、いちばんよいものを選びなさい。\n店で料理を「ちゅうもん」しました。",
+              "options": [
+                "注文",
+                "注丈",
+                "柱文",
+                "主文"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「注文」. 「ちゅうもん」 viết là 注文 (gọi món, đặt hàng).",
+              "confidence": "high",
+              "target": "注文"
+            },
+            {
+              "key": "n3-v-012",
+              "prompt": "次の文の「　」の言葉を漢字で書くとき、いちばんよいものを選びなさい。\n手伝ってもらって、「かんしゃ」しています。",
+              "options": [
+                "感射",
+                "感謝",
+                "惑謝",
+                "感諸"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「感謝」. 「かんしゃ」 viết là 感謝 (cảm ơn).",
+              "confidence": "high",
+              "target": "感謝"
+            },
+            {
+              "key": "n3-v-013",
+              "prompt": "次の文の「　」の言葉を漢字で書くとき、いちばんよいものを選びなさい。\n電気を「せつやく」するために、こまめに消します。",
+              "options": [
+                "即約",
+                "節約",
+                "節的",
+                "切約"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「節約」. 「せつやく」 viết là 節約 (tiết kiệm).",
+              "confidence": "high",
+              "target": "節約"
+            },
+            {
+              "key": "n3-v-014",
+              "prompt": "次の文の「　」の言葉を漢字で書くとき、いちばんよいものを選びなさい。\n来月の旅行の「けいかく」を立てました。",
+              "options": [
+                "計書",
+                "訂画",
+                "計劃",
+                "計画"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「計画」. 「けいかく」 viết là 計画 (kế hoạch).",
+              "confidence": "high",
+              "target": "計画"
+            }
+          ]
+        },
+        {
+          "partKey": "bunmyaku",
+          "labelVi": "Từ vựng theo ngữ cảnh",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Từ vựng N3",
+          "items": [
+            {
+              "key": "n3-v-015",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nこの店は人気があって、いつも客で（　）います。",
+              "options": [
+                "こんで",
+                "あわせて",
+                "のびて",
+                "かわいて"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「こんで」. 込む (こむ) = đông đúc. 客でこんでいる = đông khách.",
+              "confidence": "high",
+              "target": "込む"
+            },
+            {
+              "key": "n3-v-016",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nレストランを（　）しておいたので、安心してください。",
+              "options": [
+                "しっぱい",
+                "ちゅうい",
+                "よやく",
+                "やくそく"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「よやく」. 予約 (よやく) = đặt chỗ trước. レストランを予約する là cách nói thường dùng.",
+              "confidence": "high",
+              "target": "予約"
+            },
+            {
+              "key": "n3-v-017",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n雨の日は洗濯物が（　）にくいです。",
+              "options": [
+                "かわき",
+                "ぬれ",
+                "とり",
+                "たたみ"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「かわき」. 乾く (かわく) → 乾きにくい = khó khô. Ngày mưa quần áo giặt khó khô.",
+              "confidence": "high",
+              "target": "乾く"
+            },
+            {
+              "key": "n3-v-018",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n弟は試験に（　）して、とても落ち込んでいます。",
+              "options": [
+                "せいこう",
+                "うんてん",
+                "はっけん",
+                "しっぱい"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「しっぱい」. 失敗 (しっぱい) = thất bại. Vì chán nản nên hợp với thi trượt.",
+              "confidence": "high",
+              "target": "失敗"
+            },
+            {
+              "key": "n3-v-019",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nバスの時刻表を（　）てから、家を出ました。",
+              "options": [
+                "あずけ",
+                "しらべ",
+                "みがい",
+                "つつみ"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「しらべ」. 調べる (しらべる) = tra cứu. Tra bảng giờ xe buýt trước khi ra khỏi nhà.",
+              "confidence": "high",
+              "target": "調べる"
+            },
+            {
+              "key": "n3-v-020",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n父は私が留学することに（　）しています。",
+              "options": [
+                "しょうたい",
+                "ぞうか",
+                "はんたい",
+                "せつめい"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「はんたい」. 反対 (はんたい) = phản đối. 〜に反対する.",
+              "confidence": "high",
+              "target": "反対"
+            },
+            {
+              "key": "n3-v-021",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nこの荷物は大切な物なので、（　）扱ってください。",
+              "options": [
+                "さかんに",
+                "ふくざつに",
+                "ていねいに",
+                "きゅうに"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「ていねいに」. 丁寧に (ていねいに) = cẩn thận, tỉ mỉ. 丁寧に扱う = xử lý cẩn thận.",
+              "confidence": "high",
+              "target": "丁寧"
+            },
+            {
+              "key": "n3-v-022",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n新しいデパートが駅の前に（　）しました。",
+              "options": [
+                "せいかつ",
+                "かんせい",
+                "かいけつ",
+                "かんけい"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「かんせい」. 完成 (かんせい) = hoàn thành. Tòa nhà được xây xong.",
+              "confidence": "high",
+              "target": "完成"
+            },
+            {
+              "key": "n3-v-023",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n約束の時間に（　）ように、早めに家を出ました。",
+              "options": [
+                "まにあう",
+                "まちがう",
+                "まかせる",
+                "まもる"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「まにあう」. 間に合う (まにあう) = kịp. 時間に間に合うように = để kịp giờ.",
+              "confidence": "high",
+              "target": "間に合う"
+            },
+            {
+              "key": "n3-v-024",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n友だちの話があまりにおもしろくて、思わず（　）ました。",
+              "options": [
+                "ふみ",
+                "かこみ",
+                "たたき",
+                "わらい"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「わらい」. 笑う (わらう): 思わず笑ってしまいました = bất giác bật cười.",
+              "confidence": "high",
+              "target": "笑う"
+            },
+            {
+              "key": "n3-v-025",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n大事な書類なので、なくさないように、かばんの中に（　）しまっておきました。",
+              "options": [
+                "しっかり",
+                "そっと",
+                "やっと",
+                "ぎっしり"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「しっかり」. しっかり = chắc chắn, cẩn thận. しっかりしまっておく = cất giữ cẩn thận.",
+              "confidence": "check",
+              "target": "しっかり",
+              "reviewNote": "Các phó từ そっと/ぎっしり: xác nhận mức độ N3 và sự hợp lý của đáp án."
+            }
+          ]
+        },
+        {
+          "partKey": "iikae",
+          "labelVi": "Từ đồng nghĩa",
+          "questionType": "SINGLE_CHOICE",
+          "skillTag": "Từ vựng N3",
+          "items": [
+            {
+              "key": "n3-v-026",
+              "prompt": "「　」の言葉に意味が近いものを選びなさい。\n彼は「まもなく」来るでしょう。",
+              "options": [
+                "ゆっくり",
+                "ときどき",
+                "だんだん",
+                "すぐに"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「すぐに」. まもなく (chẳng bao lâu nữa) gần nghĩa với すぐに (ngay).",
+              "confidence": "high",
+              "target": "まもなく"
+            },
+            {
+              "key": "n3-v-027",
+              "prompt": "「　」の言葉に意味が近いものを選びなさい。\n今日は「ひどく」暑いですね。",
+              "options": [
+                "あまり",
+                "すこし",
+                "とても",
+                "ぜんぜん"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「とても」. ひどく (rất, cực kỳ – dùng với điều khó chịu) gần nghĩa với とても.",
+              "confidence": "check",
+              "target": "ひどく",
+              "reviewNote": "Xác nhận ひどく là N3 và とても là đáp án chấp nhận được."
+            },
+            {
+              "key": "n3-v-028",
+              "prompt": "「　」の言葉に意味が近いものを選びなさい。\n母は私の意見に「賛成」しました。",
+              "options": [
+                "反対",
+                "同意",
+                "質問",
+                "注意"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「同意」. 賛成 (tán thành) gần nghĩa với 同意 (đồng ý).",
+              "confidence": "check",
+              "target": "賛成/同意",
+              "reviewNote": "Xác nhận 同意 thuộc N3."
+            },
+            {
+              "key": "n3-v-029",
+              "prompt": "「　」の言葉に意味が近いものを選びなさい。\n彼女はいつも「にこにこ」しています。",
+              "options": [
+                "おこっている",
+                "ないている",
+                "わらっている",
+                "だまっている"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「わらっている」. にこにこ là trạng thái mỉm cười, nên gần nghĩa với わらっている.",
+              "confidence": "high",
+              "target": "にこにこ"
+            },
+            {
+              "key": "n3-v-030",
+              "prompt": "「　」の言葉に意味が近いものを選びなさい。\n「たしか」あの人は先生だったと思います。",
+              "options": [
+                "たぶん",
+                "ぜったい",
+                "けっして",
+                "もちろん"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「たぶん」. たしか (nếu tôi nhớ không nhầm) diễn tả ý không chắc chắn, gần với たぶん (có lẽ).",
+              "confidence": "check",
+              "target": "たしか",
+              "reviewNote": "Sắc thái たしか/たぶん có chút khác biệt; cần giáo viên xác nhận."
+            }
+          ]
+        },
+        {
+          "partKey": "youhou",
+          "labelVi": "Cách dùng từ",
+          "questionType": "SINGLE_CHOICE",
+          "skillTag": "Từ vựng N3",
+          "items": [
+            {
+              "key": "n3-v-031",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nさっそく",
+              "options": [
+                "さっそく去年の夏は暑かったです。",
+                "新しいパソコンを買って、さっそく使ってみました。",
+                "毎朝さっそく散歩をしています。",
+                "さっそくこの本はおもしろいです。"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「新しいパソコンを買って、さっそく使ってみました。」. さっそく = ngay lập tức; dùng cho hành động tiến hành ngay sau một việc.",
+              "confidence": "high",
+              "target": "さっそく"
+            },
+            {
+              "key": "n3-v-032",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nうっかり",
+              "options": [
+                "うっかり毎日運動をしています。",
+                "うっかり先生に質問しました。",
+                "うっかり駅まで歩いて行きます。",
+                "うっかり傘を電車に忘れてしまいました。"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「うっかり傘を電車に忘れてしまいました。」. うっかり = sơ ý, lỡ; dùng với việc lỡ làm sai như quên đồ.",
+              "confidence": "high",
+              "target": "うっかり"
+            },
+            {
+              "key": "n3-v-033",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nそれぞれ",
+              "options": [
+                "それぞれ昨日は雨でした。",
+                "私はそれぞれ駅に行きます。",
+                "学生はそれぞれ好きな本を選びました。",
+                "それぞれ食べたいです。"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「学生はそれぞれ好きな本を選びました。」. それぞれ = mỗi người/mỗi cái một; dùng khi nói về nhiều đối tượng.",
+              "confidence": "high",
+              "target": "それぞれ"
+            },
+            {
+              "key": "n3-v-034",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nぜひ",
+              "options": [
+                "ぜひ昨日は忙しかったです。",
+                "今度の日曜日、ぜひ遊びに来てください。",
+                "私はぜひ行きませんでした。",
+                "ぜひ雨が降っています。"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「今度の日曜日、ぜひ遊びに来てください。」. ぜひ = nhất định; đi với lời mời, mong muốn (〜てください/〜たい).",
+              "confidence": "high",
+              "target": "ぜひ"
+            },
+            {
+              "key": "n3-v-035",
+              "prompt": "次の言葉の使い方として、いちばんよいものを選びなさい。\nやっと",
+              "options": [
+                "三時間待って、やっとバスが来ました。",
+                "やっと明日は雨が降るでしょう。",
+                "彼はやっと毎日走っています。",
+                "やっと山田さんに会いたいです。"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「三時間待って、やっとバスが来ました。」. やっと = cuối cùng thì (sau khi chờ lâu); dùng khi một việc cuối cùng đã xảy ra.",
+              "confidence": "high",
+              "target": "やっと"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "GRAMMAR_READING",
+      "durationSeconds": 4200,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "bunpo",
+          "labelVi": "Ngữ pháp: chọn dạng đúng",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Ngữ pháp N3",
+          "items": [
+            {
+              "key": "n3-g-001",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n子どもが寝ている（　）、掃除をしてしまいましょう。",
+              "options": [
+                "あとで",
+                "はずに",
+                "ように",
+                "うちに"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「うちに」. 「V-ている + うちに」 = nhân lúc/trong khi còn đang ở trạng thái đó: nhân lúc con ngủ.",
+              "confidence": "high",
+              "target": "～うちに"
+            },
+            {
+              "key": "n3-g-002",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n先生の説明（　）、この問題を解いてみました。",
+              "options": [
+                "のとおりに",
+                "ぐらいに",
+                "どころに",
+                "だけに"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「のとおりに」. 「N + のとおりに」 = theo đúng như N.",
+              "confidence": "high",
+              "target": "～のとおり"
+            },
+            {
+              "key": "n3-g-003",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n日本の文化（　）調べています。",
+              "options": [
+                "によって",
+                "として",
+                "について",
+                "に対して"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「について」. 「N + について」 = về N (chủ đề).",
+              "confidence": "high",
+              "target": "～について"
+            },
+            {
+              "key": "n3-g-004",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n彼女は先生（　）、この学校で働いています。",
+              "options": [
+                "について",
+                "として",
+                "によって",
+                "に対して"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「として」. 「N + として」 = với tư cách là N.",
+              "confidence": "high",
+              "target": "～として"
+            },
+            {
+              "key": "n3-g-005",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n雨が降った（　）、試合は中止になりました。",
+              "options": [
+                "ように",
+                "ながら",
+                "とおり",
+                "ために"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「ために」. 「普通形 + ために」 chỉ nguyên nhân/lý do: vì mưa nên trận đấu bị hủy.",
+              "confidence": "high",
+              "target": "～ために(原因)"
+            },
+            {
+              "key": "n3-g-006",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n田中さんは毎日ジュースを飲んで（　）、太ってしまいました。",
+              "options": [
+                "ほどいて",
+                "ぐらいいて",
+                "だけいて",
+                "ばかりいて"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「ばかりいて」. 「V-てばかりいる」 = chỉ toàn làm một việc (thường mang ý tiêu cực).",
+              "confidence": "high",
+              "target": "～てばかりいる"
+            },
+            {
+              "key": "n3-g-007",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n先生に何度も注意された（　）、宿題を忘れてしまった。",
+              "options": [
+                "ので",
+                "から",
+                "のに",
+                "し"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「のに」. 「普通形 + のに」 = mặc dù ... vẫn ...; diễn đạt kết quả trái với kỳ vọng.",
+              "confidence": "high",
+              "target": "～のに"
+            },
+            {
+              "key": "n3-g-008",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n資料は私が（　）。",
+              "options": [
+                "お持ちになります",
+                "お持ちします",
+                "持たれます",
+                "お持ちください"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「お持ちします」. Khiêm nhường ngữ 「お + V-ます + する」 dùng cho hành động của bản thân: お持ちします (tôi xin mang).",
+              "confidence": "high",
+              "target": "謙譲語 お～する"
+            },
+            {
+              "key": "n3-g-009",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nA「今日は忙しいですか。」B「いいえ、忙しい（　）ではありませんが、ちょっと疲れています。」",
+              "options": [
+                "わけ",
+                "はず",
+                "ため",
+                "つもり"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「わけ」. 「～わけではない」 = không hẳn là; phủ định một phần.",
+              "confidence": "high",
+              "target": "～わけではない"
+            },
+            {
+              "key": "n3-g-010",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n窓を開ける（　）、風が入ってきました。",
+              "options": [
+                "でも",
+                "と",
+                "ほど",
+                "まで"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「と」. 「V-辞書形 + と」 = hễ ... thì ...; kết quả tự nhiên xảy ra sau hành động.",
+              "confidence": "high",
+              "target": "～と(条件)"
+            },
+            {
+              "key": "n3-g-011",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\nこの仕事は一人で（　）には大変すぎます。",
+              "options": [
+                "やった",
+                "やって",
+                "やる",
+                "やり"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「やる」. 「V-辞書形 + には」 = để làm (việc gì) thì...",
+              "confidence": "high",
+              "target": "～には"
+            },
+            {
+              "key": "n3-g-012",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n新しいスマホを買った（　）で、まだ使い方がよく分かりません。",
+              "options": [
+                "うち",
+                "つもり",
+                "ほど",
+                "ばかり"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「ばかり」. 「V-たばかり」 = vừa mới. Vừa mới mua nên chưa quen cách dùng.",
+              "confidence": "high",
+              "target": "～たばかり"
+            },
+            {
+              "key": "n3-g-013",
+              "prompt": "（　）に入れるのに、いちばんよいものを一つ選びなさい。\n先生に勧められて、この本を読んでみる（　）しました。",
+              "options": [
+                "ことに",
+                "ように",
+                "ばかりに",
+                "ほどに"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「ことに」. 「V-辞書形 + ことにする」 = quyết định làm gì.",
+              "confidence": "high",
+              "target": "～ことにする"
+            }
+          ]
+        },
+        {
+          "partKey": "narabekae",
+          "labelVi": "Ngữ pháp: sắp xếp câu (★)",
+          "questionType": "STAR_ORDER",
+          "skillTag": "Ngữ pháp N3",
+          "items": [
+            {
+              "key": "n3-g-014",
+              "prompt": "次の文の★に入るものはどれですか。\n日本語が＿＿＿ ＿＿＿ ★ ＿＿＿ しています。",
+              "options": [
+                "ために",
+                "上手に",
+                "なる",
+                "毎日練習"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「ために」. Thứ tự đúng: 日本語が 上手に なる ために 毎日練習 しています。 Ô có ★ là 「ために」.",
+              "confidence": "high",
+              "target": "～ために(目的)"
+            },
+            {
+              "key": "n3-g-015",
+              "prompt": "次の文の★に入るものはどれですか。\n雨が＿＿＿ ＿＿＿ ★ ＿＿＿ 出かけました。",
+              "options": [
+                "降って",
+                "いる",
+                "のに",
+                "かさを持たずに"
+              ],
+              "correctIndex": 2,
+              "explanationVi": "Đáp án đúng: 「のに」. Thứ tự đúng: 雨が 降って いる のに かさを持たずに 出かけました。 Ô có ★ là 「のに」.",
+              "confidence": "high",
+              "target": "～のに"
+            },
+            {
+              "key": "n3-g-016",
+              "prompt": "次の文の★に入るものはどれですか。\nこの漢字は＿＿＿ ＿＿＿ ★ ＿＿＿ わけではありません。",
+              "options": [
+                "読めない",
+                "意味が",
+                "けれど",
+                "分からない"
+              ],
+              "correctIndex": 1,
+              "explanationVi": "Đáp án đúng: 「意味が」. Thứ tự đúng: この漢字は 読めない けれど 意味が 分からない わけではありません。 Ô có ★ là 「意味が」.",
+              "confidence": "high",
+              "target": "～わけではない"
+            },
+            {
+              "key": "n3-g-017",
+              "prompt": "次の文の★に入るものはどれですか。\n毎日＿＿＿ ＿＿＿ ★ ＿＿＿ なりました。",
+              "options": [
+                "運動した",
+                "おかげで",
+                "丈夫に",
+                "体が"
+              ],
+              "correctIndex": 3,
+              "explanationVi": "Đáp án đúng: 「体が」. Thứ tự đúng: 毎日 運動した おかげで 体が 丈夫に なりました。 Ô có ★ là 「体が」.",
+              "confidence": "high",
+              "target": "～おかげで"
+            },
+            {
+              "key": "n3-g-018",
+              "prompt": "次の文の★に入るものはどれですか。\n留学するなら、＿＿＿ ＿＿＿ ★ ＿＿＿ ほうがいいです。",
+              "options": [
+                "から",
+                "日本語を",
+                "勉強して",
+                "行った"
+              ],
+              "correctIndex": 0,
+              "explanationVi": "Đáp án đúng: 「から」. Thứ tự đúng: 留学するなら、日本語を 勉強して から 行った ほうがいいです。 Ô có ★ là 「から」.",
+              "confidence": "high",
+              "target": "～てから"
+            }
+          ]
+        },
+        {
+          "partKey": "bunsho-bunpo",
+          "labelVi": "Ngữ pháp đoạn văn",
+          "questionType": "BLANK_CHOICE",
+          "skillTag": "Ngữ pháp N3",
+          "groups": [
+            {
+              "groupKey": "n3-g-g01",
+              "reading": {
+                "textJa": "最近、わたしは健康のために毎朝走ることにしました。始めたばかりのころは、五分（１）走ると息が苦しくなりました。（２）、毎日続けているうちに、少しずつ長い時間走れる（３）なりました。今では三十分走っても疲れません。運動を始めてから、体の調子が（４）なりました。これからも、無理をしない（５）続けていきたいです。",
+                "translatedVi": "Gần đây tôi quyết định chạy bộ mỗi sáng vì sức khỏe. Hồi mới bắt đầu, chạy (1) 5 phút là thở đã khó. (2), trong lúc kiên trì mỗi ngày, tôi dần có thể chạy lâu hơn (3). Bây giờ chạy 30 phút cũng không mệt. Từ khi bắt đầu vận động, thể trạng (4). Từ giờ tôi muốn tiếp tục (5) cố quá sức.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-g-019",
+                  "prompt": "文章の（1）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "を",
+                    "が",
+                    "も",
+                    "へ"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「も」. 「五分も走ると」 = chỉ mới chạy 5 phút (nhấn mạnh thời gian ngắn mà đã thấy khó). Trợ từ も nhấn mạnh số lượng.",
+                  "confidence": "high",
+                  "target": "数量+も",
+                  "inferred": true
+                },
+                {
+                  "key": "n3-g-020",
+                  "prompt": "文章の（2）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "だから",
+                    "でも",
+                    "それに",
+                    "つまり"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「でも」. Câu trước nói khó khăn, câu sau nói dần tiến bộ: quan hệ tương phản, dùng でも.",
+                  "confidence": "high",
+                  "target": "でも(接続)",
+                  "inferred": true
+                },
+                {
+                  "key": "n3-g-021",
+                  "prompt": "文章の（3）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "ために",
+                    "ほどに",
+                    "はずに",
+                    "ように"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「ように」. 「V-可能形 + ようになる」 = trở nên có thể làm gì.",
+                  "confidence": "high",
+                  "target": "～ようになる",
+                  "inferred": true
+                },
+                {
+                  "key": "n3-g-022",
+                  "prompt": "文章の（4）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "よい",
+                    "よくて",
+                    "よかった",
+                    "よく"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「よく」. 「形容詞い(bỏ い) + く + なる」 = trở nên ...: よくなる (khá lên).",
+                  "confidence": "high",
+                  "target": "～くなる",
+                  "inferred": true
+                },
+                {
+                  "key": "n3-g-023",
+                  "prompt": "文章の（5）に入れるのに、いちばんよいものを一つ選びなさい。",
+                  "options": [
+                    "ながら",
+                    "ために",
+                    "ように",
+                    "ばかり"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「ように」. 「V-ない + ように」 = để không (làm gì): cố gắng không quá sức.",
+                  "confidence": "high",
+                  "target": "～ないように",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-tan",
+          "labelVi": "Đọc hiểu: đoạn ngắn",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-r-g01",
+              "reading": {
+                "textJa": "最近、家で料理をする人が増えているそうです。外食は便利ですが、お金がかかるし、栄養も偏りがちです。自分で作れば、好きな味にできるし、食費も節約できます。ただ、忙しい人にとっては、毎日作るのは大変です。そこで、週末にまとめて作って冷凍しておく人が多いようです。",
+                "translatedVi": "Gần đây nghe nói số người nấu ăn ở nhà đang tăng. Ăn ngoài tiện nhưng tốn tiền và dinh dưỡng dễ mất cân đối. Nếu tự nấu thì có thể làm đúng vị mình thích và tiết kiệm tiền ăn. Có điều với người bận rộn thì ngày nào cũng nấu thật vất vả. Vì vậy có vẻ nhiều người nấu dồn vào cuối tuần rồi cấp đông.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-001",
+                  "prompt": "忙しい人は、どのようにして料理をしていると書いてありますか。",
+                  "options": [
+                    "毎日外食をする",
+                    "週末にまとめて作って冷凍する",
+                    "食費を節約するために食べない",
+                    "栄養のある食品を買う"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「週末にまとめて作って冷凍する」. Đoạn cuối: người bận rộn nấu dồn vào cuối tuần rồi cấp đông.",
+                  "confidence": "high",
+                  "evidence": "週末にまとめて作って冷凍しておく人が多いようです",
+                  "inferred": true,
+                  "target": "説明文"
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-r-g02",
+              "reading": {
+                "textJa": "お客様へ\n駐車場が満車のときは、近くの有料駐車場をご利用ください。ご利用の際は、レシートに店のスタンプを押しますので、レジにお持ちください。三千円以上お買い物をされた方は、二時間まで無料になります。",
+                "translatedVi": "Kính gửi quý khách. Khi bãi đỗ xe đầy, xin hãy dùng bãi đỗ xe có thu phí gần đó. Khi dùng, chúng tôi sẽ đóng dấu cửa hàng lên hóa đơn nên xin mang đến quầy thu ngân. Quý khách mua sắm từ 3.000 yên trở lên sẽ được miễn phí tối đa 2 giờ.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-002",
+                  "prompt": "駐車料金が二時間まで無料になるのは、どんな人ですか。",
+                  "options": [
+                    "三千円以上買い物をした人",
+                    "三千円以下の買い物をした人",
+                    "二時間以上店にいた人",
+                    "駐車場が満車だった人"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「三千円以上買い物をした人」. Văn bản nói người mua từ 3.000 yên trở lên được miễn phí tối đa 2 giờ.",
+                  "confidence": "high",
+                  "evidence": "三千円以上お買い物をされた方は、二時間まで無料になります",
+                  "inferred": true,
+                  "target": "お知らせ"
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-r-g03",
+              "reading": {
+                "textJa": "佐藤さん\nお疲れさまです。来週の出張のことですが、ホテルの予約が取れました。出発は月曜日の朝八時、東京駅の新幹線のホームで待ち合わせましょう。資料は私が準備しますので、佐藤さんはパソコンだけ持ってきてください。\n木村",
+                "translatedVi": "Gửi anh Sato. Anh vất vả rồi. Về chuyến công tác tuần sau, tôi đã đặt được khách sạn. Xuất phát 8 giờ sáng thứ Hai, hẹn nhau ở sân ga Shinkansen ga Tokyo. Tài liệu tôi sẽ chuẩn bị nên anh Sato chỉ cần mang máy tính. Kimura.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-003",
+                  "prompt": "佐藤さんは、月曜日に何を持って行きますか。",
+                  "options": [
+                    "資料",
+                    "ホテルの予約表",
+                    "パソコン",
+                    "新幹線の切符"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「パソコン」. Kimura chuẩn bị tài liệu, Sato chỉ cần mang パソコン.",
+                  "confidence": "high",
+                  "evidence": "佐藤さんはパソコンだけ持ってきてください",
+                  "target": "メール"
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-r-g04",
+              "reading": {
+                "textJa": "私は、子どものときから本を読むのが好きでした。しかし、大人になってからは、忙しくて本を読む時間がなくなりました。最近は、通勤電車の中で読むようにしています。短い時間でも、毎日続けると、一か月で三冊くらい読めることが分かりました。",
+                "translatedVi": "Từ nhỏ tôi đã thích đọc sách. Nhưng từ khi lớn lên vì bận nên không còn thời gian đọc. Gần đây tôi cố gắng đọc trên tàu đi làm. Tôi nhận ra dù thời gian ngắn nhưng nếu duy trì mỗi ngày thì một tháng đọc được khoảng ba cuốn.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-004",
+                  "prompt": "筆者は、どうして最近また本が読めるようになりましたか。",
+                  "options": [
+                    "通勤電車の中で読むようにしているから",
+                    "仕事が忙しくなくなったから",
+                    "本が安くなったから",
+                    "子どもが本を好きになったから"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「通勤電車の中で読むようにしているから」. Tác giả đọc trong thời gian đi tàu làm việc nên đọc lại được sách.",
+                  "confidence": "high",
+                  "evidence": "最近は、通勤電車の中で読むようにしています",
+                  "inferred": true,
+                  "target": "エッセイ"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-chu",
+          "labelVi": "Đọc hiểu: đoạn vừa",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-r-g05",
+              "reading": {
+                "textJa": "駅や商店街で、無料で傘を貸すサービスを始める町が増えています。急に雨が降ったとき、傘を買うのはお金がもったいないと考える人が多いからです。借りた傘は、駅や店の返却場所に戻せばよいので、手続きも簡単です。ところが、返さない人も多く、傘が足りなくなるという問題も出てきました。そこで、ある町では、傘にバーコードをつけて、誰がいつ借りたかが分かるようにしました。すると、返す人が増えたそうです。",
+                "translatedVi": "Ngày càng nhiều thị trấn bắt đầu dịch vụ cho mượn ô miễn phí ở nhà ga, khu phố buôn bán. Đó là vì nhiều người cho rằng khi trời bất ngờ mưa, mua ô thì lãng phí tiền. Ô mượn chỉ cần trả lại chỗ trả ở ga hoặc cửa hàng nên thủ tục cũng đơn giản. Tuy nhiên có nhiều người không trả, nảy sinh vấn đề thiếu ô. Vì vậy, ở một thị trấn họ gắn mã vạch lên ô để biết ai mượn khi nào. Nghe nói nhờ đó số người trả ô tăng lên.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-005",
+                  "prompt": "傘を貸すサービスが増えている理由は何ですか。",
+                  "options": [
+                    "町に傘の店が少ないから",
+                    "急な雨のときに傘を買うのはもったいないと考える人が多いから",
+                    "傘の値段が高くなったから",
+                    "雨の日が増えたから"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「急な雨のときに傘を買うのはもったいないと考える人が多いから」. Văn bản nêu lý do: nhiều người thấy mua ô khi mưa bất ngờ là lãng phí.",
+                  "confidence": "high",
+                  "evidence": "急に雨が降ったとき、傘を買うのはお金がもったいないと考える人が多いからです",
+                  "inferred": true,
+                  "target": "理由"
+                },
+                {
+                  "key": "n3-r-006",
+                  "prompt": "ある町では、傘が返されるようにするために、何をしましたか。",
+                  "options": [
+                    "傘の値段を高くした",
+                    "返却場所を増やした",
+                    "貸す日を減らした",
+                    "誰がいつ借りたか分かるようにした"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「誰がいつ借りたか分かるようにした」. Họ gắn mã vạch để biết ai mượn khi nào, nhờ đó người trả ô tăng.",
+                  "confidence": "high",
+                  "evidence": "傘にバーコードをつけて、誰がいつ借りたかが分かるようにしました",
+                  "inferred": true,
+                  "target": "対策"
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-r-g06",
+              "reading": {
+                "textJa": "私の祖母は、毎朝庭の花に水をやるのが日課です。八十歳を過ぎても元気で、病気もほとんどしません。祖母は「花は毎日見ていないと、元気がなくなる。人も同じで、毎日だれかに会って話すことが大切なんだよ」と言います。私は、仕事が忙しいと家族と話す時間が少なくなりがちですが、祖母の言葉を聞いて、少しでも毎日話すようにしようと思いました。",
+                "translatedVi": "Việc thường nhật của bà tôi là tưới nước cho hoa trong vườn mỗi sáng. Dù đã ngoài tám mươi bà vẫn khỏe và hầu như không ốm. Bà nói: 「Hoa nếu không nhìn mỗi ngày thì sẽ héo. Con người cũng vậy, quan trọng là mỗi ngày gặp ai đó và nói chuyện」. Khi bận việc tôi hay ít nói chuyện với gia đình, nhưng nghe lời bà, tôi nghĩ mình sẽ cố nói chuyện mỗi ngày dù chỉ một chút.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-007",
+                  "prompt": "祖母は、毎朝何をしますか。",
+                  "options": [
+                    "庭の花に水をやる",
+                    "家族と散歩する",
+                    "病院へ行く",
+                    "花を買う"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「庭の花に水をやる」. Đoạn đầu: việc hằng ngày của bà là tưới hoa trong vườn.",
+                  "confidence": "high",
+                  "evidence": "毎朝庭の花に水をやるのが日課です",
+                  "inferred": true,
+                  "target": "内容理解"
+                },
+                {
+                  "key": "n3-r-008",
+                  "prompt": "「私」は祖母の言葉を聞いて、どう思いましたか。",
+                  "options": [
+                    "花を育てようと思った",
+                    "仕事をやめようと思った",
+                    "少しでも毎日家族と話すようにしようと思った",
+                    "祖母の家に引っ越そうと思った"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「少しでも毎日家族と話すようにしようと思った」. Câu cuối: 少しでも毎日話すようにしようと思いました.",
+                  "confidence": "high",
+                  "evidence": "少しでも毎日話すようにしようと思いました",
+                  "inferred": true,
+                  "target": "気持ち"
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-r-g07",
+              "reading": {
+                "textJa": "日本には、町のあちこちに自動販売機があります。二十四時間いつでも飲み物が買えるので、とても便利です。しかし、電気をたくさん使うことが問題になっています。そのため、最近は、夜は明かりを消したり、使う電気の少ない機械に変えたりする会社が増えています。また、売り上げの一部を、災害にあった地域に送る自動販売機もあります。",
+                "translatedVi": "Ở Nhật có máy bán hàng tự động khắp nơi trong thành phố. Vì có thể mua đồ uống bất cứ lúc nào trong 24 giờ nên rất tiện. Tuy nhiên việc dùng nhiều điện đang trở thành vấn đề. Vì thế gần đây ngày càng nhiều công ty tắt đèn vào ban đêm hoặc đổi sang máy dùng ít điện. Ngoài ra cũng có máy gửi một phần doanh thu đến khu vực bị thiên tai.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-009",
+                  "prompt": "自動販売機の問題として、どんなことが書いてありますか。",
+                  "options": [
+                    "値段が高いこと",
+                    "夜は買えないこと",
+                    "飲み物が古いこと",
+                    "電気をたくさん使うこと"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「電気をたくさん使うこと」. Văn bản nêu vấn đề là dùng nhiều điện.",
+                  "confidence": "high",
+                  "evidence": "電気をたくさん使うことが問題になっています",
+                  "target": "問題点"
+                },
+                {
+                  "key": "n3-r-010",
+                  "prompt": "最近、会社は何をしていますか。",
+                  "options": [
+                    "自動販売機をなくしている",
+                    "夜は明かりを消したり、電気の少ない機械に変えたりしている",
+                    "二十四時間売らないようにしている",
+                    "値段を安くしている"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「夜は明かりを消したり、電気の少ない機械に変えたりしている」. Công ty tắt đèn ban đêm và đổi sang máy tiết kiệm điện.",
+                  "confidence": "high",
+                  "evidence": "夜は明かりを消したり、使う電気の少ない機械に変えたりする会社が増えています",
+                  "inferred": true,
+                  "target": "対策"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "dokkai-cho",
+          "labelVi": "Đọc hiểu: đoạn dài",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-r-g08",
+              "reading": {
+                "textJa": "大学二年の夏、私は初めて一人で海外へ旅行に行きました。行き先は、友だちがすすめてくれたタイの小さな町です。出発前は、言葉が通じるかどうか不安で、何度も旅行の本を読み直しました。\n町に着いた日、私は道に迷ってしまいました。地図を見ても分からず困っていると、通りかかったおばあさんが、英語と身振りで道を教えてくれました。それだけでなく、自分の家に招いて、冷たいお茶とお菓子までごちそうしてくれました。言葉はほとんど通じませんでしたが、おばあさんの親切な気持ちはよく伝わってきました。\nその後も、市場の人や宿の人など、たくさんの人に助けられました。そのたびに、私は「言葉が上手でなくても、笑顔と感謝の気持ちがあれば、人と心を通わせることができる」と感じました。\n帰国してから、私は英語の勉強を前よりまじめにするようになりました。次に旅行するときは、助けてもらうだけでなく、困っている人を助けられるようになりたいと思っています。",
+                "translatedVi": "Mùa hè năm hai đại học, lần đầu tiên tôi một mình đi du lịch nước ngoài. Điểm đến là một thị trấn nhỏ ở Thái Lan do bạn giới thiệu. Trước khi đi tôi lo không biết có giao tiếp được không nên đã đọc đi đọc lại sách du lịch. Ngày đến thị trấn tôi bị lạc đường. Xem bản đồ cũng không hiểu, đang bối rối thì một bà cụ đi ngang chỉ đường bằng tiếng Anh và cử chỉ. Không chỉ vậy, bà còn mời tôi về nhà và đãi trà lạnh, bánh. Dù hầu như không nói chung ngôn ngữ nhưng tôi cảm nhận rõ sự tử tế của bà. Sau đó tôi còn được nhiều người giúp đỡ như người ở chợ, người ở nhà trọ. Mỗi lần như vậy tôi cảm thấy: dù không giỏi ngôn ngữ, chỉ cần nụ cười và lòng biết ơn thì vẫn có thể kết nối với người khác. Sau khi về nước, tôi học tiếng Anh nghiêm túc hơn trước. Lần du lịch sau, tôi muốn không chỉ được giúp mà còn giúp được những người đang gặp khó khăn.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-011",
+                  "prompt": "出発前、「私」はどんなことが不安でしたか。",
+                  "options": [
+                    "食べ物が合うかどうか",
+                    "友だちと会えるかどうか",
+                    "言葉が通じるかどうか",
+                    "飛行機に乗れるかどうか"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「言葉が通じるかどうか」. Đoạn đầu: 言葉が通じるかどうか不安で.",
+                  "confidence": "high",
+                  "evidence": "言葉が通じるかどうか不安で",
+                  "target": "不安の内容"
+                },
+                {
+                  "key": "n3-r-012",
+                  "prompt": "おばあさんは、道に迷った「私」にどうしてくれましたか。",
+                  "options": [
+                    "道を教えて、お茶とお菓子もごちそうしてくれた",
+                    "地図をくれた",
+                    "ホテルまで車で送ってくれた",
+                    "英語を教えてくれた"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「道を教えて、お茶とお菓子もごちそうしてくれた」. Bà cụ chỉ đường rồi còn đãi trà và bánh.",
+                  "confidence": "high",
+                  "evidence": "英語と身振りで道を教えてくれました",
+                  "inferred": true,
+                  "target": "行為"
+                },
+                {
+                  "key": "n3-r-013",
+                  "prompt": "「私」は旅行で何を感じましたか。",
+                  "options": [
+                    "英語が話せなければ旅行はできない",
+                    "言葉が上手でなくても、笑顔と感謝の気持ちがあれば心を通わせられる",
+                    "一人の旅行は危険だ",
+                    "町の人は冷たい"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「言葉が上手でなくても、笑顔と感謝の気持ちがあれば心を通わせられる」. Tác giả cảm nhận rằng nụ cười và lòng biết ơn đủ để kết nối.",
+                  "confidence": "high",
+                  "evidence": "言葉が上手でなくても、笑顔と感謝の気持ちがあれば、人と心を通わせることができる",
+                  "inferred": true,
+                  "target": "筆者の考え"
+                },
+                {
+                  "key": "n3-r-014",
+                  "prompt": "「私」は帰国してから、どう変わりましたか。",
+                  "options": [
+                    "旅行をやめた",
+                    "友だちと旅行するようになった",
+                    "おばあさんに手紙を書くようになった",
+                    "英語の勉強をまじめにするようになった"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「英語の勉強をまじめにするようになった」. Đoạn cuối: 英語の勉強を前よりまじめにするようになりました.",
+                  "confidence": "high",
+                  "evidence": "英語の勉強を前よりまじめにするようになりました",
+                  "inferred": true,
+                  "target": "変化"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "joho",
+          "labelVi": "Đọc hiểu: tìm thông tin",
+          "questionType": "READING",
+          "skillTag": "Đọc hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-r-g09",
+              "reading": {
+                "textJa": "【さくら公民館 文化教室のお知らせ】\nA 料理教室：毎週火曜日 午前十時～十二時 費用 千五百円（材料費を含む）\nB 絵の教室：毎週水曜日 午後一時～三時 費用 千円（絵の具は各自で用意）\nC 英会話教室：毎週木曜日 午後七時～八時半 費用 二千円\nD ヨガ教室：毎週土曜日 午前九時～十時 費用 千円（マットは貸し出します）\n※申し込みは教室の一週間前までに受付へ。",
+                "translatedVi": "[Thông báo lớp văn hóa Trung tâm văn hóa Sakura] A Lớp nấu ăn: thứ Ba hằng tuần 10–12 giờ sáng, phí 1.500 yên (đã gồm tiền nguyên liệu). B Lớp vẽ: thứ Tư hằng tuần 1–3 giờ chiều, phí 1.000 yên (tự chuẩn bị màu vẽ). C Lớp tiếng Anh giao tiếp: thứ Năm hằng tuần 7–8 giờ 30 tối, phí 2.000 yên. D Lớp yoga: thứ Bảy hằng tuần 9–10 giờ sáng, phí 1.000 yên (cho mượn thảm). * Đăng ký tại quầy lễ tân trước buổi học một tuần.",
+                "difficulty": 3,
+                "copyrightSource": "Nội dung gốc do đội ngũ dự án biên soạn"
+              },
+              "items": [
+                {
+                  "key": "n3-r-015",
+                  "prompt": "林さんは平日、会社が六時に終わります。平日の夜に参加できる教室はどれですか。",
+                  "options": [
+                    "料理教室",
+                    "英会話教室",
+                    "絵の教室",
+                    "ヨガ教室"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「英会話教室」. Chỉ lớp C (thứ Năm 7 giờ tối) diễn ra vào buổi tối ngày thường; A, B diễn ra ban ngày, D vào thứ Bảy.",
+                  "confidence": "high",
+                  "evidence": "C 英会話教室：毎週木曜日 午後七時～八時半",
+                  "target": "情報検索"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "LISTENING",
+      "durationSeconds": 2400,
+      "maxInternalPoints": 60,
+      "parts": [
+        {
+          "partKey": "choukai-kadai",
+          "labelVi": "Nghe: nắm vấn đề cần làm",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-l-g01",
+              "listening": {
+                "transcriptJa": "男：課長、来週の出張のことですが、新幹線の切符はどうしましょうか。\n女：もう予約してあるから大丈夫よ。それより、取引先に送る資料はできた？\n男：まだ最後のページが残っていて…。今日中に仕上げます。\n女：じゃあ、できたら私にメールで送って。確認してから先方に送るから。\n男：わかりました。",
+                "transcriptVi": "Nam: Thưa trưởng phòng, về chuyến công tác tuần sau, vé Shinkansen thì sao ạ? Nữ: Đã đặt rồi nên không sao. Hơn nữa, tài liệu gửi đối tác xong chưa? Nam: Vẫn còn trang cuối... Tôi sẽ hoàn thành trong hôm nay. Nữ: Vậy xong thì gửi mail cho tôi. Tôi kiểm tra rồi gửi họ. Nam: Vâng, tôi hiểu rồi.",
+                "durationSeconds": 45
+              },
+              "items": [
+                {
+                  "key": "n3-l-001",
+                  "prompt": "男の人は、このあとまず何をしますか。",
+                  "options": [
+                    "資料の最後のページを作る",
+                    "新幹線の切符を予約する",
+                    "資料を取引先に送る",
+                    "課長に資料を渡す"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「資料の最後のページを作る」. Anh nói còn trang cuối và sẽ hoàn thành trong hôm nay; sau đó mới gửi mail cho trưởng phòng.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "まだ最後のページが残っていて",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g02",
+              "listening": {
+                "transcriptJa": "女：すみません、この冷蔵庫、配達してもらえますか。\n男：はい。お届けは、ご自宅でよろしいですか。\n女：はい。でも、うちはマンションの五階で、エレベーターがないんです。\n男：それでしたら、階段で運ぶ料金が千円かかりますが、よろしいですか。\n女：ええ、お願いします。じゃあ、この用紙に住所を書けばいいですか。\n男：はい、お願いします。",
+                "transcriptVi": "Nữ: Xin lỗi, tủ lạnh này có giao hàng được không? Nam: Được. Giao tới nhà quý khách phải không ạ? Nữ: Vâng. Nhưng nhà tôi ở tầng 5 chung cư, không có thang máy. Nam: Vậy thì phí khuân vác bằng cầu thang là 1.000 yên, được chứ ạ? Nữ: Vâng, nhờ anh. Vậy tôi viết địa chỉ vào tờ này nhé? Nam: Vâng, xin mời.",
+                "durationSeconds": 50
+              },
+              "items": [
+                {
+                  "key": "n3-l-002",
+                  "prompt": "女の人は、このあとまず何をしますか。",
+                  "options": [
+                    "千円を払う",
+                    "エレベーターを調べる",
+                    "冷蔵庫を選ぶ",
+                    "用紙に住所を書く"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「用紙に住所を書く」. Chị hỏi và được đồng ý viết địa chỉ vào tờ giấy; đó là việc đầu tiên.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "この用紙に住所を書けばいいですか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g03",
+              "listening": {
+                "transcriptJa": "男：先生、レポートの提出が明後日なんですが、まだ半分しか書けていません。\n女：テーマは決まっているんでしょう？\n男：はい。でも、資料が足りなくて。\n女：それなら、図書館の三階に専門の本がたくさんあるから、まずそこで探してみたら？\n男：わかりました。ありがとうございます。",
+                "transcriptVi": "Nam: Thưa cô, em phải nộp báo cáo vào ngày kia nhưng mới viết được một nửa. Nữ: Em đã quyết định đề tài rồi chứ? Nam: Vâng. Nhưng em thiếu tài liệu. Nữ: Vậy thì ở tầng ba thư viện có nhiều sách chuyên ngành, trước tiên em thử tìm ở đó xem. Nam: Vâng, em cảm ơn cô.",
+                "durationSeconds": 40
+              },
+              "items": [
+                {
+                  "key": "n3-l-003",
+                  "prompt": "男の学生は、このあとまず何をしますか。",
+                  "options": [
+                    "レポートを提出する",
+                    "テーマを変える",
+                    "図書館へ行って本を探す",
+                    "先生に資料をもらう"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「図書館へ行って本を探す」. Cô gợi ý đến thư viện tầng ba tìm sách trước; nam sinh đồng ý.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "図書館の三階に専門の本がたくさんあるから、まずそこで探してみたら",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g04",
+              "listening": {
+                "transcriptJa": "女：ねえ、今度の日曜日、友だちを呼んでパーティーをしたいんだけど。\n男：いいよ。何人来るの？\n女：六人。料理は私が作るから、あなたは飲み物とケーキを買ってきてくれる？\n男：わかった。ケーキは予約したほうがいいかな。\n女：そうね。人気の店だから、今日のうちに電話しておいて。",
+                "transcriptVi": "Nữ: Này, Chủ nhật này em muốn mời bạn đến mở tiệc. Nam: Được thôi. Mấy người đến? Nữ: Sáu người. Đồ ăn em nấu, anh mua đồ uống và bánh kem giúp em nhé? Nam: Được. Bánh kem nên đặt trước nhỉ. Nữ: Ừ. Vì là tiệm nổi tiếng nên anh gọi điện ngay trong hôm nay nhé.",
+                "durationSeconds": 40
+              },
+              "items": [
+                {
+                  "key": "n3-l-004",
+                  "prompt": "男の人は、このあとまず何をしますか。",
+                  "options": [
+                    "ケーキの店に電話して予約する",
+                    "飲み物を買う",
+                    "料理を作る",
+                    "友だちを呼ぶ"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「ケーキの店に電話して予約する」. Người nữ nhờ gọi điện đặt bánh ngay hôm nay, nên việc đầu tiên là gọi đặt bánh.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "今日のうちに電話しておいて",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g05",
+              "listening": {
+                "transcriptJa": "男：いらっしゃいませ。ご予約のお名前をお願いします。\n女：七時に予約した小林です。\n男：小林様、お待ちしておりました。あいにく、ご予約の窓際のお席が使えなくなってしまいまして、奥のお席でもよろしいでしょうか。\n女：ええ、かまいません。\n男：ありがとうございます。それでは、こちらへどうぞ。",
+                "transcriptVi": "Nam: Xin chào quý khách. Cho tôi tên người đặt chỗ ạ. Nữ: Tôi là Kobayashi, đặt lúc 7 giờ. Nam: Chị Kobayashi, chúng tôi đã đợi chị. Rất tiếc chỗ cạnh cửa sổ chị đặt không dùng được, chỗ bên trong có được không ạ? Nữ: Vâng, không sao. Nam: Cảm ơn chị. Mời chị đi lối này.",
+                "durationSeconds": 40
+              },
+              "items": [
+                {
+                  "key": "n3-l-005",
+                  "prompt": "女の人は、このあとどうしますか。",
+                  "options": [
+                    "窓際の席を待つ",
+                    "奥の席に座る",
+                    "別の店に行く",
+                    "予約を変える"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「奥の席に座る」. Chị đồng ý (かまいません) ngồi ghế bên trong.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "奥のお席でもよろしいでしょうか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g06",
+              "listening": {
+                "transcriptJa": "女：明日のハイキング、天気予報は雨だけど、どうする？\n男：午後から降るらしいよ。午前中なら大丈夫だから、予定より二時間早く出発しよう。\n女：そうね。じゃあ、集合時間を七時に変えるって、みんなに連絡するわ。\n男：頼むよ。僕はお弁当を買っておく。",
+                "transcriptVi": "Nữ: Dã ngoại ngày mai, dự báo là mưa, làm sao đây? Nam: Nghe nói từ chiều mới mưa. Buổi sáng thì ổn nên mình xuất phát sớm hơn dự định hai tiếng. Nữ: Ừ. Vậy em sẽ báo mọi người đổi giờ tập trung thành 7 giờ. Nam: Nhờ em nhé. Anh sẽ mua sẵn cơm hộp.",
+                "durationSeconds": 40
+              },
+              "items": [
+                {
+                  "key": "n3-l-006",
+                  "prompt": "女の人は、このあとまず何をしますか。",
+                  "options": [
+                    "お弁当を買う",
+                    "ハイキングを中止する",
+                    "みんなに集合時間を連絡する",
+                    "天気予報を見る"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「みんなに集合時間を連絡する」. Chị nói sẽ báo mọi người về giờ tập trung mới; mua cơm hộp là việc của người nam.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "集合時間を七時に変えるって、みんなに連絡するわ",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-point",
+          "labelVi": "Nghe: nắm điểm chính",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-l-g07",
+              "listening": {
+                "transcriptJa": "女：田中さん、最近よく残業していますね。\n男：実は、来月から新しい部署に移ることになって、引き継ぎの資料を作っているんです。\n女：そうですか。大変ですね。\n男：でも、新しい仕事は前からやってみたかったので、楽しみです。",
+                "transcriptVi": "Nữ: Anh Tanaka, dạo này anh hay làm thêm giờ nhỉ. Nam: Thật ra từ tháng sau tôi chuyển sang bộ phận mới nên đang làm tài liệu bàn giao. Nữ: Vậy à, vất vả nhỉ. Nam: Nhưng công việc mới tôi muốn thử từ trước nên rất mong chờ.",
+                "durationSeconds": 35
+              },
+              "items": [
+                {
+                  "key": "n3-l-007",
+                  "prompt": "男の人が残業している理由は何ですか。",
+                  "options": [
+                    "新しい仕事を覚えるため",
+                    "来月から忙しくなるため",
+                    "上司に頼まれたから",
+                    "引き継ぎの資料を作っているから"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「引き継ぎの資料を作っているから」. Anh nói đang làm tài liệu bàn giao vì sắp chuyển bộ phận.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "引き継ぎの資料を作っているんです",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g08",
+              "listening": {
+                "transcriptJa": "男：このカメラ、新しいのを買ったんだね。\n女：うん。前のは古くて、写真がぼやけてしまったの。\n男：高かったでしょう。\n女：ううん、ネットで探したら、店よりずっと安く買えたよ。",
+                "transcriptVi": "Nam: Em mua máy ảnh mới à. Nữ: Ừ. Cái cũ đã cũ, ảnh bị mờ. Nam: Chắc đắt lắm nhỉ. Nữ: Không, em tìm trên mạng thì mua được rẻ hơn cửa hàng nhiều.",
+                "durationSeconds": 30
+              },
+              "items": [
+                {
+                  "key": "n3-l-008",
+                  "prompt": "女の人は、どうしてカメラをネットで買いましたか。",
+                  "options": [
+                    "店より安く買えたから",
+                    "前のカメラが壊れたから",
+                    "店が遠いから",
+                    "ネットのほうが早いから"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「店より安く買えたから」. Chị nói tìm trên mạng thì mua được rẻ hơn cửa hàng.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ネットで探したら、店よりずっと安く買えたよ",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g09",
+              "listening": {
+                "transcriptJa": "女：山本さん、今度の旅行、行けなくなったって聞きましたけど。\n男：ええ。実は、母が入院することになって、看病しなければならないんです。\n女：それは心配ですね。\n男：幸い、命に関わる病気ではないので、少し安心しました。",
+                "transcriptVi": "Nữ: Anh Yamamoto, nghe nói anh không đi được chuyến du lịch lần này? Nam: Vâng. Thật ra mẹ tôi phải nhập viện nên tôi phải chăm sóc. Nữ: Lo quá nhỉ. Nam: May là không phải bệnh nguy hiểm đến tính mạng nên tôi cũng yên tâm phần nào.",
+                "durationSeconds": 35
+              },
+              "items": [
+                {
+                  "key": "n3-l-009",
+                  "prompt": "男の人は、どうして旅行に行けなくなりましたか。",
+                  "options": [
+                    "仕事が忙しくなったから",
+                    "母親の看病をしなければならないから",
+                    "お金がなくなったから",
+                    "自分が入院するから"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「母親の看病をしなければならないから」. Mẹ anh nhập viện nên anh phải chăm sóc.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "母が入院することになって、看病しなければならないんです",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g10",
+              "listening": {
+                "transcriptJa": "男：最近、体の調子はどう？\n女：実は、ずっと座って仕事をしているせいか、肩がこって頭も痛いの。\n男：運動不足じゃない？一時間に一回は立って、体を動かすといいよ。\n女：そうね。まずは階段を使うようにしてみる。",
+                "transcriptVi": "Nam: Dạo này sức khỏe em thế nào? Nữ: Thật ra có lẽ do ngồi làm việc suốt nên em bị mỏi vai và đau đầu. Nam: Có phải thiếu vận động không? Mỗi giờ nên đứng dậy cử động một lần. Nữ: Ừ. Trước hết em sẽ thử đi cầu thang.",
+                "durationSeconds": 35
+              },
+              "items": [
+                {
+                  "key": "n3-l-010",
+                  "prompt": "女の人の体の調子が悪い原因は何だと言っていますか。",
+                  "options": [
+                    "睡眠不足",
+                    "食べすぎ",
+                    "運動のしすぎ",
+                    "ずっと座って仕事をしていること"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「ずっと座って仕事をしていること」. Chị cho rằng nguyên nhân là ngồi làm việc suốt.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "ずっと座って仕事をしているせいか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g11",
+              "listening": {
+                "transcriptJa": "女：先生、この前の試験、結果はどうでしたか。\n男：全体的によくできていましたが、漢字の書き間違いが多かったですね。\n女：はい…。読むのは得意なんですが、書くのが苦手で。\n男：毎日少しずつ書く練習をすれば、必ず上達しますよ。",
+                "transcriptVi": "Nữ: Thưa thầy, kết quả bài thi lần trước thế nào ạ? Nam: Nhìn chung làm tốt, nhưng em viết sai chữ Hán nhiều. Nữ: Vâng... Em đọc thì giỏi nhưng viết thì kém. Nam: Nếu mỗi ngày luyện viết một chút thì chắc chắn sẽ tiến bộ.",
+                "durationSeconds": 35
+              },
+              "items": [
+                {
+                  "key": "n3-l-011",
+                  "prompt": "女の学生は、何が苦手だと言っていますか。",
+                  "options": [
+                    "漢字を読むこと",
+                    "作文",
+                    "漢字を書くこと",
+                    "会話"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「漢字を書くこと」. Em nói đọc thì giỏi còn viết thì kém.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "読むのは得意なんですが、書くのが苦手で",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g12",
+              "listening": {
+                "transcriptJa": "男：すみません、この電車、空港まで行きますか。\n女：いいえ、この電車は途中の駅までです。空港へ行くなら、次の駅で急行に乗り換えてください。\n男：次の駅ですね。乗り換えには何分ぐらいかかりますか。\n女：ホームが同じなので、すぐに乗り換えられますよ。",
+                "transcriptVi": "Nam: Xin lỗi, tàu này có đến sân bay không? Nữ: Không, tàu này chỉ đến ga giữa đường. Nếu đi sân bay thì hãy đổi sang tàu nhanh ở ga tiếp theo. Nam: Ga tiếp theo nhỉ. Đổi tàu mất khoảng mấy phút? Nữ: Cùng một sân ga nên đổi được ngay.",
+                "durationSeconds": 35
+              },
+              "items": [
+                {
+                  "key": "n3-l-012",
+                  "prompt": "男の人は、空港へ行くためにどうしますか。",
+                  "options": [
+                    "この電車に乗り続ける",
+                    "一つ前の駅で降りる",
+                    "次の駅で急行に乗り換える",
+                    "バスに乗る"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「次の駅で急行に乗り換える」. Người nữ hướng dẫn đổi sang tàu nhanh ở ga tiếp theo.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "次の駅で急行に乗り換えてください",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-gaiyou",
+          "labelVi": "Nghe: nắm khái quát",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-l-g13",
+              "listening": {
+                "transcriptJa": "女：みなさん、今日は、毎日の食事で気をつけたい点についてお話しします。まず、朝ごはんを食べない人が増えていますが、朝ごはんは一日の活動のエネルギーになります。次に、野菜を食べる量が足りない人も多いです。野菜は、体の調子を整える働きがあります。忙しくても、バナナやヨーグルトなど、簡単に食べられるものでいいので、朝ごはんを食べるようにしましょう。",
+                "transcriptVi": "Nữ: Thưa mọi người, hôm nay tôi sẽ nói về những điểm cần chú ý trong bữa ăn hằng ngày. Trước hết, số người không ăn sáng đang tăng, nhưng bữa sáng là năng lượng cho hoạt động cả ngày. Tiếp theo, nhiều người ăn thiếu rau. Rau có tác dụng điều chỉnh thể trạng. Dù bận, chỉ cần những món dễ ăn như chuối hay sữa chua cũng được, hãy cố gắng ăn sáng.",
+                "durationSeconds": 60
+              },
+              "items": [
+                {
+                  "key": "n3-l-013",
+                  "prompt": "この話の内容として、最も合っているものはどれですか。",
+                  "options": [
+                    "野菜をたくさん食べる方法",
+                    "忙しくても簡単な朝ごはんを食べるようにすることの大切さ",
+                    "バナナとヨーグルトの作り方",
+                    "朝ごはんを食べない人の数"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「忙しくても簡単な朝ごはんを食べるようにすることの大切さ」. Bài nói nhấn mạnh dù bận vẫn nên ăn sáng đơn giản.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "簡単に食べられるものでいいので、朝ごはんを食べるようにしましょう",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g14",
+              "listening": {
+                "transcriptJa": "男：私が通っている大学には、留学生と日本人学生が一緒に生活する寮があります。最初は、文化や習慣の違いで、困ることもありました。たとえば、ごみの出し方や、夜の静かさについての考え方などです。しかし、みんなで話し合って、ルールを作ったことで、問題はだんだん減りました。今では、お互いの国の料理を作ったり、パーティーを開いたりして、とても楽しく暮らしています。",
+                "transcriptVi": "Nam: Trường đại học tôi theo học có ký túc xá nơi lưu học sinh và sinh viên Nhật sống cùng nhau. Lúc đầu có những lúc khó xử vì khác biệt văn hóa, thói quen, chẳng hạn cách đổ rác hay quan niệm về yên tĩnh ban đêm. Nhưng nhờ mọi người cùng bàn và đặt ra quy tắc nên vấn đề dần giảm. Bây giờ chúng tôi nấu món ăn của nước nhau, mở tiệc và sống rất vui vẻ.",
+                "durationSeconds": 60
+              },
+              "items": [
+                {
+                  "key": "n3-l-014",
+                  "prompt": "この話の主な内容は何ですか。",
+                  "options": [
+                    "ごみの出し方の説明",
+                    "留学生のための入学案内",
+                    "大学の寮の料金",
+                    "留学生と日本人が一緒に暮らす寮での経験"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「留学生と日本人が一緒に暮らす寮での経験」. Người nói kể về trải nghiệm sống chung trong ký túc xá.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "留学生と日本人学生が一緒に生活する寮があります",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g15",
+              "listening": {
+                "transcriptJa": "女：最近、電子書籍を読む人が増えています。一冊ずつ本を持ち運ぶ必要がなく、旅行のときも便利です。一方、紙の本のほうが目が疲れにくいと言う人もいます。私は、通勤のときは電子書籍、家でゆっくり読むときは紙の本というように、場面によって使い分けています。",
+                "transcriptVi": "Nữ: Gần đây số người đọc sách điện tử đang tăng. Không cần mang từng cuốn, lúc đi du lịch cũng tiện. Mặt khác cũng có người nói sách giấy ít mỏi mắt hơn. Tôi thì dùng linh hoạt theo hoàn cảnh: lúc đi làm dùng sách điện tử, ở nhà đọc thong thả thì dùng sách giấy.",
+                "durationSeconds": 50
+              },
+              "items": [
+                {
+                  "key": "n3-l-015",
+                  "prompt": "この人の考えに合っているものはどれですか。",
+                  "options": [
+                    "場面によって電子書籍と紙の本を使い分けるのがよい",
+                    "電子書籍だけで十分だ",
+                    "紙の本は目に悪い",
+                    "通勤では本を読まないほうがよい"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「場面によって電子書籍と紙の本を使い分けるのがよい」. Người nói dùng sách điện tử khi đi làm và sách giấy khi ở nhà.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "場面によって使い分けています",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-hatsuwa",
+          "labelVi": "Nghe: biểu đạt theo tình huống",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-l-g16",
+              "listening": {
+                "transcriptJa": "あなたは会社で、同僚の山田さんに仕事を手伝ってもらいました。山田さんに何と言いますか。",
+                "transcriptVi": "Ở công ty, đồng nghiệp Yamada đã giúp bạn công việc. Bạn nói gì với anh Yamada?",
+                "durationSeconds": 18
+              },
+              "items": [
+                {
+                  "key": "n3-l-016",
+                  "prompt": "この場面で、何と言いますか。",
+                  "options": [
+                    "おかげで助かりました。ありがとうございました。",
+                    "お先に失礼いたします。",
+                    "どういたしまして。",
+                    "ご苦労さまでした。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「おかげで助かりました。ありがとうございました。」. Cảm ơn người đã giúp: 「おかげで助かりました」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "山田さんに仕事を手伝ってもらいました",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g17",
+              "listening": {
+                "transcriptJa": "レストランで、頼んだ料理がなかなか来ません。店の人に何と言いますか。",
+                "transcriptVi": "Ở nhà hàng, món đã gọi mãi không đến. Bạn nói gì với nhân viên?",
+                "durationSeconds": 18
+              },
+              "items": [
+                {
+                  "key": "n3-l-017",
+                  "prompt": "この場面で、何と言いますか。",
+                  "options": [
+                    "すみません、料理をもう食べました。",
+                    "ごちそうさまでした。おいしかったです。",
+                    "すみません、まだ注文した料理が来ていないんですが。",
+                    "すみません、料理が多すぎるんですが。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「すみません、まだ注文した料理が来ていないんですが。」. Nhắc nhẹ nhàng rằng món chưa đến.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "頼んだ料理がなかなか来ません",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g18",
+              "listening": {
+                "transcriptJa": "友だちが引っ越しの準備をしています。あなたは手伝いたいと思っています。友だちに何と言いますか。",
+                "transcriptVi": "Bạn của bạn đang chuẩn bị chuyển nhà. Bạn muốn giúp. Bạn nói gì với bạn ấy?",
+                "durationSeconds": 18
+              },
+              "items": [
+                {
+                  "key": "n3-l-018",
+                  "prompt": "この場面で、何と言いますか。",
+                  "options": [
+                    "何か手伝ってもらえる？",
+                    "何か手伝おうか。",
+                    "手伝わなくてもいいよ。",
+                    "手伝ってくれてありがとう。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「何か手伝おうか。」. Đề nghị giúp đỡ: 「何か手伝おうか」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "あなたは手伝いたいと思っています",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g19",
+              "listening": {
+                "transcriptJa": "先生に出す宿題を、家に忘れてきてしまいました。先生に何と言いますか。",
+                "transcriptVi": "Bạn để quên bài tập định nộp cho thầy ở nhà. Bạn nói gì với thầy?",
+                "durationSeconds": 18
+              },
+              "items": [
+                {
+                  "key": "n3-l-019",
+                  "prompt": "この場面で、何と言いますか。",
+                  "options": [
+                    "宿題はもう終わりました。",
+                    "宿題を忘れないでください。",
+                    "宿題を持ってきてあげましょうか。",
+                    "すみません、宿題を家に忘れてしまいました。明日持ってきてもいいでしょうか。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「すみません、宿題を家に忘れてしまいました。明日持ってきてもいいでしょうか。」. Xin lỗi và xin phép mang vào ngày mai.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "宿題を、家に忘れてきてしまいました",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "partKey": "choukai-sokuji",
+          "labelVi": "Nghe: đáp nhanh",
+          "questionType": "LISTENING",
+          "skillTag": "Nghe hiểu N3",
+          "groups": [
+            {
+              "groupKey": "n3-l-g20",
+              "listening": {
+                "transcriptJa": "女：すみません、そのペン、ちょっと貸してもらえませんか。",
+                "transcriptVi": "Nữ: Xin lỗi, cho tôi mượn cây bút đó một chút được không?",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n3-l-020",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "はい、どうぞ。使ってください。",
+                    "いえ、ペンは買いました。",
+                    "はい、貸してもらいます。",
+                    "いいえ、返してくれませんでした。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「はい、どうぞ。使ってください。」. Khi được nhờ cho mượn thì đáp 「はい、どうぞ」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "そのペン、ちょっと貸してもらえませんか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g21",
+              "listening": {
+                "transcriptJa": "男：来週の会議、出席できそうですか。",
+                "transcriptVi": "Nam: Cuộc họp tuần sau, anh có vẻ tham dự được không?",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n3-l-021",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "いいえ、出席してもいいです。",
+                    "はい、会議は終わりました。",
+                    "はい、その予定です。",
+                    "ええ、出席させます。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「はい、その予定です。」. Trả lời dự định tham dự: 「はい、その予定です」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "来週の会議、出席できそうですか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g22",
+              "listening": {
+                "transcriptJa": "女：どうしたの？顔色が悪いよ。",
+                "transcriptVi": "Nữ: Sao vậy? Sắc mặt anh xấu quá.",
+                "durationSeconds": 7
+              },
+              "items": [
+                {
+                  "key": "n3-l-022",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "うん、元気だよ。",
+                    "顔は洗ったよ。",
+                    "そうだね、いい色だね。",
+                    "昨日あまり寝ていないんだ。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「昨日あまり寝ていないんだ。」. Giải thích lý do sắc mặt xấu: ngủ không đủ.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "顔色が悪いよ",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g23",
+              "listening": {
+                "transcriptJa": "男：すみません、お待たせしてしまって。",
+                "transcriptVi": "Nam: Xin lỗi đã để anh/chị phải đợi.",
+                "durationSeconds": 7
+              },
+              "items": [
+                {
+                  "key": "n3-l-023",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "はい、お待たせしました。",
+                    "いえ、私も今来たところです。",
+                    "いいえ、待たせてください。",
+                    "ええ、遅れてありがとうございます。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「いえ、私も今来たところです。」. Đáp lại lời xin lỗi vì để đợi: 「いえ、私も今来たところです」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "お待たせしてしまって",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g24",
+              "listening": {
+                "transcriptJa": "女：この資料、コピーしておきましょうか。",
+                "transcriptVi": "Nữ: Tài liệu này, để tôi photo sẵn nhé?",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n3-l-024",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "ええ、お願いします。",
+                    "はい、コピーしておきます。",
+                    "いいえ、資料はおいしいです。",
+                    "ええ、結構でした。"
+                  ],
+                  "correctIndex": 0,
+                  "explanationVi": "Đáp án đúng: 「ええ、お願いします。」. Được đề nghị giúp thì nhận lời: 「ええ、お願いします」.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "この資料、コピーしておきましょうか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g25",
+              "listening": {
+                "transcriptJa": "男：もうすぐ試験ですね。準備は進んでいますか。",
+                "transcriptVi": "Nam: Sắp thi rồi nhỉ. Việc chuẩn bị tiến triển thế nào?",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n3-l-025",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "はい、試験は終わりました。",
+                    "いいえ、準備をしてあげます。",
+                    "ええ、もうすぐ進めます。",
+                    "それが、なかなか進まなくて…。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「それが、なかなか進まなくて…。」. Trả lời trung thực rằng chưa tiến triển nhiều.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "準備は進んでいますか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g26",
+              "listening": {
+                "transcriptJa": "女：先週貸した本、読み終わった？",
+                "transcriptVi": "Nữ: Cuốn sách tuần trước tôi cho mượn, anh đọc xong chưa?",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n3-l-026",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "うん、貸してもらうよ。",
+                    "ごめん、まだ半分しか読んでないんだ。",
+                    "いや、本は貸さないよ。",
+                    "ありがとう、読みに行くよ。"
+                  ],
+                  "correctIndex": 1,
+                  "explanationVi": "Đáp án đúng: 「ごめん、まだ半分しか読んでないんだ。」. Xin lỗi và nói tiến độ đọc.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "先週貸した本、読み終わった",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g27",
+              "listening": {
+                "transcriptJa": "男：明日の天気は、どうなるでしょうか。",
+                "transcriptVi": "Nam: Thời tiết ngày mai sẽ thế nào nhỉ?",
+                "durationSeconds": 7
+              },
+              "items": [
+                {
+                  "key": "n3-l-027",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "昨日は晴れでした。",
+                    "はい、明日は天気です。",
+                    "夕方から雨が降るそうですよ。",
+                    "雨が降っていました。"
+                  ],
+                  "correctIndex": 2,
+                  "explanationVi": "Đáp án đúng: 「夕方から雨が降るそうですよ。」. Trả lời dự báo thời tiết cho ngày mai.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "明日の天気は、どうなるでしょうか",
+                  "inferred": true
+                }
+              ]
+            },
+            {
+              "groupKey": "n3-l-g28",
+              "listening": {
+                "transcriptJa": "女：この道、通行止めになっているみたいですよ。",
+                "transcriptVi": "Nữ: Con đường này hình như bị cấm đi lại đấy.",
+                "durationSeconds": 8
+              },
+              "items": [
+                {
+                  "key": "n3-l-028",
+                  "prompt": "どれがいちばんよい返事ですか。",
+                  "options": [
+                    "はい、通行止めにします。",
+                    "ええ、道を作りました。",
+                    "いいえ、通ってはいけません。",
+                    "じゃあ、別の道から行きましょう。"
+                  ],
+                  "correctIndex": 3,
+                  "explanationVi": "Đáp án đúng: 「じゃあ、別の道から行きましょう。」. Khi đường bị chặn thì đề nghị đi đường khác.",
+                  "confidence": "high",
+                  "target": "聴解",
+                  "evidence": "この道、通行止めになっているみたいですよ",
+                  "inferred": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

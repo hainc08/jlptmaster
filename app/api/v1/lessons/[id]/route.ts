@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
+import { resolveSession } from "@/src/server/services/auth-service";
 
 export async function GET(
   req: NextRequest,
@@ -7,8 +8,8 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
+    // Lesson content is public; progress is only ever read for the signed-in caller.
+    const userId = resolveSession(req)?.userId;
 
     const lesson = await prisma.lesson.findFirst({
       where: {

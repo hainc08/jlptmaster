@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { NextRequest } from "next/server";
 import { prisma } from "@/src/server/db";
+import { signSessionToken } from "@/src/server/services/auth-service";
 
 import { GET as getCourses } from "@/app/api/v1/courses/route";
 import { GET as getLessonById } from "@/app/api/v1/lessons/[id]/route";
@@ -24,6 +25,11 @@ import { POST as commitCsvImport } from "@/app/api/v1/admin/content/import/commi
 describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
   let studentUser: { id: string; email: string };
   let adminUser: { id: string; email: string };
+  const cookieFor = (u: { id: string; email: string }, role: "STUDENT" | "ADMIN") => ({
+    Cookie: `jlpt_session=${signSessionToken({ userId: u.id, email: u.email, role })}`,
+  });
+  const studentH = () => cookieFor(studentUser, "STUDENT");
+  const adminH = () => cookieFor(adminUser, "ADMIN");
   let lessonId: string;
   let examId: string;
 
@@ -36,7 +42,7 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
     const firstLesson = await prisma.lesson.findFirstOrThrow({ orderBy: { position: "asc" } });
     lessonId = firstLesson.id;
 
-    const firstExam = await prisma.exam.findFirstOrThrow({ where: { levelId: "N5" } });
+    const firstExam = await prisma.exam.findFirstOrThrow({ where: { levelId: "N5", status: "PUBLISHED", NOT: { title: { startsWith: "TEST platform" } } } });
     examId = firstExam.id;
   });
 
@@ -51,7 +57,7 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
   });
 
   it("GET /api/v1/lessons/:id & POST /api/v1/lessons/:id/complete work idempotently", async () => {
-    const getReq = new NextRequest(`http://localhost:3000/api/v1/lessons/${lessonId}?userId=${studentUser.id}`);
+    const getReq = new NextRequest(`http://localhost:3000/api/v1/lessons/${lessonId}`, { headers: studentH() });
     const getRes = await getLessonById(getReq, { params: Promise.resolve({ id: lessonId }) });
     expect(getRes.status).toBe(200);
     const lessonBody = await getRes.json();
@@ -59,7 +65,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
 
     const postReq1 = new NextRequest(`http://localhost:3000/api/v1/lessons/${lessonId}/complete`, {
       method: "POST",
-      body: JSON.stringify({ userId: studentUser.id }),
+      headers: studentH(),
+      body: JSON.stringify({}),
     });
     const postRes1 = await completeLesson(postReq1, { params: Promise.resolve({ id: lessonId }) });
     expect(postRes1.status).toBe(200);
@@ -67,7 +74,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
     // Second call must be idempotent
     const postReq2 = new NextRequest(`http://localhost:3000/api/v1/lessons/${lessonId}/complete`, {
       method: "POST",
-      body: JSON.stringify({ userId: studentUser.id }),
+      headers: studentH(),
+      body: JSON.stringify({}),
     });
     const postRes2 = await completeLesson(postReq2, { params: Promise.resolve({ id: lessonId }) });
     expect(postRes2.status).toBe(200);
@@ -90,7 +98,13 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
   });
 
   it("GET /api/v1/reviews/due & POST /api/v1/reviews enforce idempotency in MariaDB", async () => {
-    const dueReq = new NextRequest(`http://localhost:3000/api/v1/reviews/due?userId=${studentUser.id}`);
+    const content = await prisma.contentItem.findFirstOrThrow();
+    await prisma.reviewCard.upsert({
+      where: { userId_contentItemId: { userId: studentUser.id, contentItemId: content.id } },
+      update: { dueAt: new Date(Date.now() - 3600 * 1000) },
+      create: { userId: studentUser.id, contentItemId: content.id, dueAt: new Date(Date.now() - 3600 * 1000), intervalSeconds: 86400, easeFactor: 2.5 }
+    });
+    const dueReq = new NextRequest(`http://localhost:3000/api/v1/reviews/due`, { headers: studentH() });
     const dueRes = await getDueReviews(dueReq);
     expect(dueRes.status).toBe(200);
     const dueBody = await dueRes.json();
@@ -102,8 +116,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
 
     const revReq1 = new NextRequest("http://localhost:3000/api/v1/reviews", {
       method: "POST",
+      headers: studentH(),
       body: JSON.stringify({
-        userId: studentUser.id,
         cardId,
         grade: "GOOD",
         idempotencyKey: idemKey,
@@ -117,8 +131,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
     // Duplicate submission with same idempotencyKey
     const revReq2 = new NextRequest("http://localhost:3000/api/v1/reviews", {
       method: "POST",
+      headers: studentH(),
       body: JSON.stringify({
-        userId: studentUser.id,
         cardId,
         grade: "GOOD",
         idempotencyKey: idemKey,
@@ -141,7 +155,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
     // 2. Start exam attempt
     const startReq = new NextRequest(`http://localhost:3000/api/v1/exams/${examId}/start`, {
       method: "POST",
-      body: JSON.stringify({ userId: studentUser.id }),
+      headers: studentH(),
+      body: JSON.stringify({}),
     });
     const startRes = await startExam(startReq, { params: Promise.resolve({ id: examId }) });
     expect(startRes.status).toBe(201);
@@ -157,7 +172,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
 
     // 3. Premature result access must be blocked while IN_PROGRESS
     const earlyResReq = new NextRequest(
-      `http://localhost:3000/api/v1/attempts/${attemptId}/result?userId=${studentUser.id}`
+      `http://localhost:3000/api/v1/attempts/${attemptId}/result`,
+      { headers: studentH() }
     );
     const earlyRes = await getAttemptResult(earlyResReq, { params: Promise.resolve({ id: attemptId }) });
     expect(earlyRes.status).toBe(409);
@@ -168,14 +184,16 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
     };
     const saveReq = new NextRequest(`http://localhost:3000/api/v1/attempts/${attemptId}/answers`, {
       method: "PUT",
-      body: JSON.stringify({ userId: studentUser.id, answers: answersPayload }),
+      headers: studentH(),
+      body: JSON.stringify({ answers: answersPayload }),
     });
     const saveRes = await saveAttemptAnswers(saveReq, { params: Promise.resolve({ id: attemptId }) });
     expect(saveRes.status).toBe(200);
 
     // 5. Resume attempt & check saved answers
     const resumeReq = new NextRequest(
-      `http://localhost:3000/api/v1/attempts/${attemptId}?userId=${studentUser.id}`
+      `http://localhost:3000/api/v1/attempts/${attemptId}`,
+      { headers: studentH() }
     );
     const resumeRes = await getAttempt(resumeReq, { params: Promise.resolve({ id: attemptId }) });
     expect(resumeRes.status).toBe(200);
@@ -185,7 +203,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
     // 6. Finish attempt (idempotent transactional grading)
     const finReq = new NextRequest(`http://localhost:3000/api/v1/attempts/${attemptId}/finish`, {
       method: "POST",
-      body: JSON.stringify({ userId: studentUser.id }),
+      headers: studentH(),
+      body: JSON.stringify({}),
     });
     const finRes = await finishAttempt(finReq, { params: Promise.resolve({ id: attemptId }) });
     expect(finRes.status).toBe(200);
@@ -195,7 +214,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
 
     // 7. Fetch result after finalization
     const resultReq = new NextRequest(
-      `http://localhost:3000/api/v1/attempts/${attemptId}/result?userId=${studentUser.id}`
+      `http://localhost:3000/api/v1/attempts/${attemptId}/result`,
+      { headers: studentH() }
     );
     const resultRes = await getAttemptResult(resultReq, { params: Promise.resolve({ id: attemptId }) });
     expect(resultRes.status).toBe(200);
@@ -205,7 +225,7 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
   });
 
   it("GET /api/v1/progress/overview returns genuine database counts", async () => {
-    const req = new NextRequest(`http://localhost:3000/api/v1/progress/overview?userId=${studentUser.id}`);
+    const req = new NextRequest(`http://localhost:3000/api/v1/progress/overview`, { headers: studentH() });
     const res = await getProgressOverview(req);
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -215,16 +235,15 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
 
   it("Admin CMS & CSV import preview/commit enforce RBAC and atomic persistence", async () => {
     // 1. Student blocked from publishing content
-    const listReq = new NextRequest("http://localhost:3000/api/v1/admin/content");
+    const listReq = new NextRequest("http://localhost:3000/api/v1/admin/content", { headers: adminH() });
     const listRes = await getAdminContent(listReq);
     expect(listRes.status).toBe(200);
 
     // 2. Create draft content as ADMIN
     const createReq = new NextRequest("http://localhost:3000/api/v1/admin/content", {
       method: "POST",
+      headers: adminH(),
       body: JSON.stringify({
-        actorId: adminUser.id,
-        role: "ADMIN",
         levelId: "N5",
         kind: "VOCAB",
         slug: `vocab-admin-test-${Date.now()}`,
@@ -244,7 +263,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
       `http://localhost:3000/api/v1/admin/content/${contentId}/publish`,
       {
         method: "POST",
-        body: JSON.stringify({ actorId: studentUser.id, role: "STUDENT", status: "PUBLISHED" }),
+        headers: studentH(),
+        body: JSON.stringify({ role: "ADMIN", status: "PUBLISHED" }),
       }
     );
     const forbiddenPubRes = await publishAdminContent(forbiddenPubReq, {
@@ -257,13 +277,14 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
       `http://localhost:3000/api/v1/admin/content/${contentId}/publish`,
       {
         method: "POST",
-        body: JSON.stringify({ actorId: adminUser.id, role: "ADMIN", status: "PUBLISHED" }),
+        headers: adminH(),
+        body: JSON.stringify({ status: "PUBLISHED" }),
       }
     );
     const adminPubRes = await publishAdminContent(adminPubReq, {
       params: Promise.resolve({ id: contentId }),
     });
-    expect(adminPubRes.status).toBe(200);
+    expect(adminPubRes.status, await adminPubRes.clone().text()).toBe(200);
 
     // 5. CSV Import Preview & Commit
     const csvRows = [
@@ -277,7 +298,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
     ];
     const previewReq = new NextRequest("http://localhost:3000/api/v1/admin/content/import/preview", {
       method: "POST",
-      body: JSON.stringify({ role: "ADMIN", rows: csvRows }),
+      headers: adminH(),
+      body: JSON.stringify({ rows: csvRows }),
     });
     const previewRes = await previewCsvImport(previewReq);
     expect(previewRes.status).toBe(200);
@@ -286,7 +308,8 @@ describe("API v1 Route Handlers Integration Suite (MariaDB)", () => {
 
     const commitReq = new NextRequest("http://localhost:3000/api/v1/admin/content/import/commit", {
       method: "POST",
-      body: JSON.stringify({ actorId: adminUser.id, role: "ADMIN", rows: csvRows }),
+      headers: adminH(),
+      body: JSON.stringify({ rows: csvRows }),
     });
     const commitRes = await commitCsvImport(commitReq);
     expect(commitRes.status).toBe(200);

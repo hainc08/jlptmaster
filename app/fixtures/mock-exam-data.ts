@@ -7,6 +7,7 @@ export interface ExamQuestion {
   prompt: string;
   promptRuby?: { text: string; reading: string };
   passageText?: string;
+  context?: { id: string; kind: "READING" | "LISTENING"; text: string };
   audioKey?: string;
   options: { id: string; text: string }[];
   correctOptionId: string;
@@ -59,10 +60,10 @@ export const MOCK_EXAM_N5_01: ExamQuestion[] = [
     questionType: "VOCAB_SELECTION",
     prompt: "のどがかわきましたから、冷たい [ ___ ] を飲みたいです。",
     options: [
-      { id: "opt-1", text: "みず (Nước)" },
-      { id: "opt-2", text: "ごはん (Cơm)" },
-      { id: "opt-3", text: "パン (Bánh mì)" },
-      { id: "opt-4", text: "にく (Thịt)" },
+      { id: "opt-1", text: "みず" },
+      { id: "opt-2", text: "ごはん" },
+      { id: "opt-3", text: "パン" },
+      { id: "opt-4", text: "にく" },
     ],
     correctOptionId: "opt-1",
     explanationVi: "Vì khát nước (のどがかわきました) nên muốn uống (飲みたい) 'nước lạnh' (冷たい水 - mizu).",

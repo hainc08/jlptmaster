@@ -3,21 +3,49 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Lock, Mail, Shield } from "lucide-react";
+import { ArrowRight, Lock, Mail, AlertCircle, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("minh@jlptmaster.vn");
-  const [password, setPassword] = useState("password123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const isAdmin = email.trim().toLowerCase() === "admin@jlptmaster.vn" || email.trim().toLowerCase().startsWith("admin@");
-    if (typeof window !== "undefined") {
-      localStorage.setItem("jlpt_auth_role", isAdmin ? "admin" : "student");
-      localStorage.setItem("jlpt_auth_email", email.trim());
+    setLoading(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const body = await res.json();
+      if (!res.ok) {
+        throw new Error(body.error?.message || "Đăng nhập thất bại");
+      }
+
+      const user = body.data.user;
+      const isAdmin = user.role === "ADMIN";
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("jlpt_auth_role", isAdmin ? "admin" : "student");
+        localStorage.setItem("jlpt_auth_email", user.email);
+        localStorage.setItem("jlpt_auth_user_id", user.id);
+      }
+
+      const redirect = new URLSearchParams(window.location.search).get("redirect");
+      const safeRedirect = redirect && /^\/(?!\/)/.test(redirect) ? redirect : null;
+      router.push(safeRedirect && (isAdmin || !safeRedirect.startsWith("/admin")) ? safeRedirect : isAdmin ? "/admin" : "/dashboard");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Đã xảy ra lỗi đăng nhập");
+    } finally {
+      setLoading(false);
     }
-    router.push(isAdmin ? "/admin" : "/dashboard");
   };
 
   return (
@@ -32,13 +60,22 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {errorMsg && (
+          <div className="p-3 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2 text-xs text-red-700">
+            <AlertCircle size={16} className="shrink-0 text-red-500" />
+            <span>{errorMsg}</span>
+          </div>
+        )}
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs font-bold text-gray-700 block">Email:</label>
+            <label htmlFor="login-email" className="text-xs font-bold text-gray-700 block">Email:</label>
             <div className="relative">
               <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
+                id="login-email"
                 type="email"
+                autoComplete="username"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -49,15 +86,15 @@ export default function LoginPage() {
 
           <div className="space-y-1">
             <div className="flex justify-between items-center text-xs">
-              <label className="font-bold text-gray-700">Mật khẩu:</label>
-              <a href="#" className="text-[#B9343F] hover:underline">
-                Quên mật khẩu?
-              </a>
+              <label htmlFor="login-password" className="font-bold text-gray-700">Mật khẩu:</label>
+              <span className="text-gray-400">Quên mật khẩu? Liên hệ quản trị viên.</span>
             </div>
             <div className="relative">
               <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
+                id="login-password"
                 type="password"
+                autoComplete="current-password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -68,54 +105,22 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full py-3.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all mt-2"
+            disabled={loading}
+            className="w-full py-3.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] disabled:opacity-50 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all mt-2 cursor-pointer"
           >
-            Đăng nhập vào hệ thống
-            <ArrowRight size={16} />
+            {loading ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                Đang xử lý...
+              </>
+            ) : (
+              <>
+                Đăng nhập vào hệ thống
+                <ArrowRight size={16} />
+              </>
+            )}
           </button>
         </form>
-
-        {/* Quick Account Switcher for Demo / Admin CMS Access */}
-        <div className="p-3.5 rounded-2xl bg-[#F7F7F4] border border-gray-200 space-y-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block">
-            Tài khoản có sẵn trên MariaDB (Chọn nhanh):
-          </span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("minh@jlptmaster.vn");
-                setPassword("password123");
-              }}
-              className={`p-2.5 rounded-xl border text-left transition-all ${
-                email === "minh@jlptmaster.vn"
-                  ? "bg-white border-[#B9343F] ring-1 ring-[#B9343F]"
-                  : "bg-white/70 border-gray-200 hover:bg-white"
-              }`}
-            >
-              <span className="text-xs font-bold text-gray-900 block">Học viên (Student)</span>
-              <span className="text-[11px] text-gray-500 block truncate">minh@jlptmaster.vn</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("admin@jlptmaster.vn");
-                setPassword("password123");
-              }}
-              className={`p-2.5 rounded-xl border text-left transition-all ${
-                email === "admin@jlptmaster.vn"
-                  ? "bg-indigo-50/80 border-indigo-600 ring-1 ring-indigo-600"
-                  : "bg-white/70 border-gray-200 hover:bg-white"
-              }`}
-            >
-              <span className="text-xs font-bold text-indigo-900 flex items-center gap-1">
-                <Shield size={12} className="text-indigo-700" />
-                Quản trị BE (Admin)
-              </span>
-              <span className="text-[11px] text-indigo-700 block truncate">admin@jlptmaster.vn</span>
-            </button>
-          </div>
-        </div>
 
         <div className="text-center text-xs text-gray-500 pt-2 border-t border-gray-100">
           Chưa có tài khoản?{" "}

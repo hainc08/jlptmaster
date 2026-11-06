@@ -5,7 +5,11 @@ import {
   stripAnswerKeysFromExam,
   validateAttemptTimeliness,
 } from "@/src/server/services/exam-service";
-import { assertUserOwnership, OwnershipError } from "@/src/server/services/auth-service";
+import {
+  assertUserOwnership,
+  requireSession,
+  authErrorResponse,
+} from "@/src/server/services/auth-service";
 
 export async function GET(
   req: NextRequest,
@@ -13,8 +17,6 @@ export async function GET(
 ) {
   try {
     const { id: attemptId } = await params;
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
 
     const attempt = await prisma.examAttempt.findUnique({
       where: { id: attemptId },
@@ -31,9 +33,8 @@ export async function GET(
       );
     }
 
-    if (userId) {
-      assertUserOwnership(userId, attempt.userId);
-    }
+    const { userId: callerId } = requireSession(req);
+    assertUserOwnership(callerId, attempt.userId);
 
     const snapshot = attempt.examSnapshotJson as unknown as ExamSnapshot;
     const sanitized = stripAnswerKeysFromExam(snapshot);
@@ -63,12 +64,8 @@ export async function GET(
       },
     });
   } catch (error: any) {
-    if (error instanceof OwnershipError) {
-      return NextResponse.json(
-        { error: { code: "FORBIDDEN", message: error.message } },
-        { status: 403 }
-      );
-    }
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "ATTEMPT_FETCH_FAILED", message: error.message } },
       { status: 500 }

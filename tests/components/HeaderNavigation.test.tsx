@@ -123,9 +123,10 @@ describe("Redesigned Header, BottomNav & LearningToolbar (TDD RED -> GREEN)", ()
     const sheet = screen.getByRole("dialog", { name: /Menu Luyện tập/i });
     expect(sheet).toBeInTheDocument();
     expect(screen.getByText("Trắc nghiệm")).toBeInTheDocument();
-    expect(screen.getByText("Đọc hiểu")).toBeInTheDocument();
-    expect(screen.getByText("Nghe hiểu")).toBeInTheDocument();
-    expect(screen.getByText("Ôn câu sai")).toBeInTheDocument();
+    // Sub-items without real content/pages (reading, listening, mistakes) are not offered
+    expect(screen.queryByText("Đọc hiểu")).not.toBeInTheDocument();
+    expect(screen.queryByText("Nghe hiểu")).not.toBeInTheDocument();
+    expect(screen.queryByText("Ôn câu sai")).not.toBeInTheDocument();
   });
 
   it("renders LearningToolbar with contextual Furigana toggle", () => {

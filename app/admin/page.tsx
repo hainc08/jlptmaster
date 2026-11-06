@@ -20,58 +20,79 @@ import {
 export default function AdminDashboardPage() {
   const [filterStatus, setFilterStatus] = useState<string>("ALL");
 
-  const [contentItems, setContentItems] = useState([
-    {
-      id: "cnt-01",
-      title: "Bài 01: Nhập môn Chữ cái Hiragana & Phát âm",
-      kind: "BÀI HỌC",
-      version: "v1.2",
-      status: "PUBLISHED",
-      updatedAt: "2026-10-27",
-    },
-    {
-      id: "cnt-02",
-      title: "Cấu trúc V-てください (Yêu cầu lịch sự)",
-      kind: "NGỮ PHÁP",
-      version: "v1.0",
-      status: "PUBLISHED",
-      updatedAt: "2026-10-26",
-    },
-    {
-      id: "cnt-03",
-      title: "Bộ câu hỏi Trợ từ De vs Ni (20 câu)",
-      kind: "CÂU HỎI",
-      version: "v0.5",
-      status: "IN_REVIEW",
-      updatedAt: "2026-10-27",
-    },
-    {
-      id: "cnt-04",
-      title: "Đề thi thử JLPT N5 — Số 02 (Đề nâng cao)",
-      kind: "ĐỀ THI",
-      version: "v0.8",
-      status: "IN_REVIEW",
-      updatedAt: "2026-10-28",
-    },
-    {
-      id: "cnt-05",
-      title: "Bài đọc hiểu: Một ngày tại Tokyo",
-      kind: "ĐỌC HIỂU",
-      version: "v0.2",
-      status: "DRAFT",
-      updatedAt: "2026-10-28",
-    },
-  ]);
+  interface ContentRow {
+    id: string;
+    title: string;
+    kind: string;
+    slug: string;
+    status: string;
+  }
+
+  const KIND_LABEL: Record<string, string> = { VOCAB: "TỪ VỰNG", KANJI: "CHỮ HÁN", GRAMMAR: "NGỮ PHÁP" };
+
+  const [contentItems, setContentItems] = useState<ContentRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadContent = async () => {
+    setError(null);
+    try {
+      const res = await fetch("/api/v1/admin/content");
+      if (!res.ok) {
+        throw new Error(
+          res.status === 401 || res.status === 403
+            ? "Bạn không có quyền quản trị."
+            : "Không tải được danh sách nội dung."
+        );
+      }
+      const json = await res.json();
+      setContentItems(
+        (json.data ?? []).map((it: any): ContentRow => {
+          const title =
+            it.vocabulary
+              ? `${it.vocabulary.surface}（${it.vocabulary.reading}）— ${it.vocabulary.meaningVi}`
+              : it.grammar
+              ? `${it.grammar.pattern} — ${it.grammar.meaningVi}`
+              : it.kanji
+              ? `${it.kanji.character}`
+              : it.slug;
+          return { id: it.id, title, kind: KIND_LABEL[it.kind] ?? it.kind, slug: it.slug, status: it.status };
+        })
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi không xác định");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteredItems = contentItems.filter((item) => {
     if (filterStatus === "ALL") return true;
     return item.status === filterStatus;
   });
 
-  const handlePublish = (id: string) => {
-    setContentItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, status: "PUBLISHED" } : item))
-    );
+  const changeStatus = async (id: string, status: "PUBLISHED" | "ARCHIVED") => {
+    setBusyId(id);
+    setError(null);
+    try {
+      const res = await fetch(`/api/v1/admin/content/${id}/publish`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) throw new Error("Không đổi được trạng thái nội dung.");
+      await loadContent();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi không xác định");
+    } finally {
+      setBusyId(null);
+    }
   };
 
   return (
@@ -107,14 +128,14 @@ export default function AdminDashboardPage() {
             Nhập dữ liệu hàng loạt từ CSV
           </Link>
 
-          <button
-            type="button"
-            onClick={() => alert("Mô phỏng: Mở modal soạn thảo bài học mới")}
-            className="px-4 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-xs flex items-center gap-1.5 transition-all"
+          <Link
+            href="/admin/exams"
+            className="px-4 py-2.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
           >
-            <Plus size={14} />
-            Tạo bài học mới
-          </button>
+            <FileText size={14} />
+            Quản lý bộ đề thi thử
+          </Link>
+
         </div>
       </div>
 
@@ -148,7 +169,7 @@ export default function AdminDashboardPage() {
       <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">Danh sách nội dung học liệu N5</h2>
+            <h2 className="text-lg font-bold text-gray-900">Danh sách nội dung học liệu</h2>
             <p className="text-xs text-gray-500">
               Quy trình biên tập: DRAFT → IN_REVIEW → PUBLISHED → ARCHIVED
             </p>
@@ -173,13 +194,23 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
+        {error && (
+          <div role="alert" className="m-4 p-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-800">
+            {error}
+          </div>
+        )}
+        {loading && <p className="p-6 text-sm text-gray-500">Đang tải nội dung...</p>}
+        {!loading && !error && filteredItems.length === 0 && (
+          <p className="p-6 text-sm text-gray-500">Không có mục nội dung nào.</p>
+        )}
+
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-gray-700">
             <thead className="bg-[#F7F7F4] text-gray-500 uppercase font-bold text-[10px] tracking-wider border-b border-gray-200">
               <tr>
                 <th className="px-6 py-4">Tiêu đề học liệu</th>
                 <th className="px-6 py-4">Phân loại</th>
-                <th className="px-6 py-4">Phiên bản</th>
+                <th className="px-6 py-4">Mã (slug)</th>
                 <th className="px-6 py-4">Trạng thái</th>
                 <th className="px-6 py-4 text-right">Thao tác duyệt</th>
               </tr>
@@ -199,29 +230,33 @@ export default function AdminDashboardPage() {
                         {item.kind}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-mono text-gray-500">{item.version}</td>
+                    <td className="px-6 py-4 font-mono text-gray-500">{item.slug}</td>
                     <td className="px-6 py-4">
                       <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${badgeStyle}`}>
                         {item.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right space-x-2">
-                      {item.status === "IN_REVIEW" && (
+                      {(item.status === "IN_REVIEW" || item.status === "DRAFT" || item.status === "ARCHIVED") && (
                         <button
                           type="button"
-                          onClick={() => handlePublish(item.id)}
-                          className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors shadow-sm"
+                          disabled={busyId === item.id}
+                          onClick={() => changeStatus(item.id, "PUBLISHED")}
+                          className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white font-bold text-xs transition-colors shadow-sm"
                         >
                           Phê duyệt xuất bản
                         </button>
                       )}
-                      <button
-                        type="button"
-                        onClick={() => alert(`Xem chi tiết mã: ${item.id}`)}
-                        className="px-2.5 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-100 text-gray-600 text-xs"
-                      >
-                        Xem
-                      </button>
+                      {item.status === "PUBLISHED" && (
+                        <button
+                          type="button"
+                          disabled={busyId === item.id}
+                          onClick={() => changeStatus(item.id, "ARCHIVED")}
+                          className="px-3 py-1.5 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-60 text-gray-700 font-semibold text-xs"
+                        >
+                          Gỡ xuất bản
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );

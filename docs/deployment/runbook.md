@@ -24,6 +24,10 @@ Hệ thống JLPT Master được tối ưu hóa đặc biệt cho hạ tầng *
    - **Password:** Mật khẩu mạnh gồm tối thiểu 16 ký tự chữ và số (tránh dùng ký tự đặc biệt như `@`, `#`, `%` để không gây lỗi parse chuỗi kết nối URL).
 3. Ghi lại chuỗi kết nối nội bộ:
    ```
+
+> [!CAUTION]
+> - `AUTH_SECRET` **bắt buộc** khi chạy production: thiếu, ngắn hơn 32 ký tự hoặc dùng giá trị mặc định công khai thì đăng nhập sẽ bị từ chối. Một giá trị `AUTH_SECRET` từng được ghi trong tài liệu này ở các phiên bản cũ — nếu nó đã được dùng thật, hãy **tạo giá trị mới** (mọi phiên đăng nhập hiện tại sẽ hết hiệu lực).
+> - **Không** đặt `SEED_DEMO_PASSWORDS=1` trên production (mật khẩu demo là công khai trong repo). Mật khẩu quản trị lấy từ `SEED_ADMIN_PASSWORD`; seed không ghi đè mật khẩu đã có, trừ khi đặt thêm `SEED_RESET_PASSWORDS=1`.
    mysql://u774510961_jlptusr:<PASSWORD>@localhost:3306/u774510961_jlptdb
    ```
 
@@ -48,12 +52,12 @@ Thêm các biến sau vào mục **Environment variables**:
 DATABASE_URL=mysql://u774510961_jlptusr:<PASSWORD>@localhost:3306/u774510961_jlptdb?connection_limit=5
 SITE_URL=https://jlpt.manabihub.me
 NEXTAUTH_URL=https://jlpt.manabihub.me
-SESSION_SECRET=U2D1kyzbeITq0TIqdw4E13lIgjDUxFMnPO4+FBmOrR143dLM6R2PLbWSbOq/CSd9
-AUTH_SECRET=U2D1kyzbeITq0TIqdw4E13lIgjDUxFMnPO4+FBmOrR143dLM6R2PLbWSbOq/CSd9
+AUTH_SECRET=<CHUỖI NGẪU NHIÊN >= 32 KÝ TỰ, ví dụ: openssl rand -base64 48>
 TRUST_PROXY=true
 DATABASE_POOL_MAX=5
 NEXT_TELEMETRY_DISABLED=1
 SEED_ADMIN_EMAIL=admin@jlptmaster.vn
+SEED_ADMIN_PASSWORD=<MẬT KHẨU QUẢN TRỊ MẠNH, chỉ dùng lần seed đầu>
 HOSTNAME=0.0.0.0
 ```
 
@@ -67,8 +71,21 @@ HOSTNAME=0.0.0.0
 ## 4. QUY TRÌNH MIGRATION & NẠP DỮ LIỆU BAN ĐẦU (SEEDING)
 
 Script [scripts/start-production.mjs](file:///d:/100.JLPT/00.web_app/scripts/start-production.mjs) được thiết lập làm entrypoint chạy mỗi khi ứng dụng khởi động (`npm start`):
-1. Tự động kiểm tra và đồng bộ cấu trúc 22 bảng MariaDB thông qua `npx prisma db push --skip-generate`.
+1. Tự động áp dụng các migration còn thiếu cho 26 bảng MariaDB bằng `prisma migrate deploy` (qua [scripts/db-migrate.mjs](file:///d:/100.JLPT/00.web_app/scripts/db-migrate.mjs)). **Không còn dùng `prisma db push`**; lệnh này không bao giờ reset hay xóa dữ liệu.
 2. Tự động thực thi `npx tsx prisma/seed.ts` theo cơ chế **idempotent** (chỉ tạo hoặc cập nhật an toàn nếu chưa tồn tại, tuyệt đối không ghi đè dữ liệu học viên hoặc gây lỗi trùng khóa) để khởi tạo tài khoản Quản trị viên (`admin@jlptmaster.vn`), cấu trúc 5 cấp độ N5–N1, bài học N5, từ vựng, Kanji, ngữ pháp, thẻ nhớ SRS và ngân hàng đề thi thử ban đầu.
+
+### 4.1 Lần đầu chuyển từ `db push` sang migration (baseline)
+CSDL production cũ được tạo bằng `db push` nên chưa có bảng `_prisma_migrations`. Khi chạy lần đầu, `prisma migrate deploy` báo **P3005** ("database schema is not empty"). Script `db-migrate.mjs` tự xử lý: đánh dấu các migration hiện có là *đã áp dụng* (`prisma migrate resolve --applied 0_init`) rồi chạy lại `migrate deploy`. Không có câu lệnh DDL nào được chạy lên bảng dữ liệu.
+
+> [!WARNING]
+> Baseline chỉ an toàn khi cấu trúc production **đang khớp** `prisma/schema.prisma`. Trước lần deploy đầu tiên: sao lưu CSDL, rồi (nếu có thể) chạy `npx prisma migrate diff --from-schema-datasource prisma/schema.prisma --to-schema-datamodel prisma/schema.prisma --script` — kết quả phải là `-- This is an empty migration.`
+
+### 4.2 Quy trình khi đổi schema (từ nay về sau)
+1. Sửa `prisma/schema.prisma`.
+2. Trên máy dev: `npm run db:migrate:dev -- --name mo_ta_thay_doi` (tạo thư mục mới trong `prisma/migrations/`).
+3. Đọc file `migration.sql` được sinh ra (cẩn thận với `DROP`/đổi kiểu cột), chạy test, rồi commit **cả thư mục migration**.
+4. Deploy: khởi động ứng dụng sẽ tự chạy `migrate deploy`. Kiểm tra bằng `npm run db:migrate:status`.
+5. Rollback: Prisma không có migration "down". Cách hoàn tác là khôi phục bản sao lưu CSDL, hoặc viết một migration mới đảo ngược thay đổi.
 
 ---
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
+import { requireSession, authErrorResponse } from "@/src/server/services/auth-service";
 
 export async function POST(
   req: NextRequest,
@@ -7,22 +8,7 @@ export async function POST(
 ) {
   try {
     const { id } = await params;
-    const body = await req.json().catch(() => ({}));
-    let userId: string | undefined = body.userId;
-
-    if (!userId) {
-      const demoStudent = await prisma.user.findUnique({
-        where: { email: "minh@jlptmaster.vn" },
-      });
-      userId = demoStudent?.id;
-    }
-
-    if (!userId) {
-      return NextResponse.json(
-        { error: { code: "UNAUTHORIZED", message: "Không xác định được học viên" } },
-        { status: 401 }
-      );
-    }
+    const { userId } = requireSession(req);
 
     const lesson = await prisma.lesson.findFirst({
       where: {
@@ -65,6 +51,8 @@ export async function POST(
       },
     });
   } catch (error: any) {
+    const authRes = authErrorResponse(error);
+    if (authRes) return authRes;
     return NextResponse.json(
       { error: { code: "COMPLETE_LESSON_FAILED", message: error.message } },
       { status: 500 }
