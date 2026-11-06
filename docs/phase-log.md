@@ -363,3 +363,29 @@ Plan `docs/superpowers/plans/2026-11-06-learner-app-redesign.md`, Task 1 (docs o
 - `docs/design-system.md` §7: proposed tokens (marked not approved), contrast measured: all text pairs ≥ 5.37:1; `--outline` 4.29:1 restricted to non-text.
 - `docs/api/learner-activity.md`: contract for Tasks 11–14 (activity heartbeat, overview `activity` replacing `currentStreak`, per-lesson status, best score + attempt history, profile preferences + PATCH) and Prisma diff.
 - **Gate:** awaiting written owner approval of UI (Part A) and API/DB (Part B). Execution stops here.
+
+---
+
+## 16. Learner app redesign — implementation and verification (2026-11-06)
+
+Plan `docs/superpowers/plans/2026-11-06-learner-app-redesign.md`, Tasks 2–16, executed inline after owner approval ("theo phương án 1 nhé"). Not deployed; production needs explicit owner approval.
+
+### 16.1 Delivered
+- Tokens (indigo/vermilion, Noto Sans), 5-tab shell (bottom bar < 1024px, sidebar ≥ 1024px), contextual furigana switch, VI/EN (nav + headings).
+- Screens: welcome/auth, Home, Learn, Lesson cards, Kanji handbook, mock lobby, exam taking (flags, navigator, guarded submit), result (estimated score + 80/180 reference mark + disclaimer), new Profile, locked `/learn/n4…n1`.
+- API/DB (migrations `2_study_activity`, `3_profile_preferences`): POST `/progress/activity`, overview `activity` (replaces fake `currentStreak`), per-lesson `progressStatus`, `bestInternalScore`/`attemptCount`, GET `/attempts`, PATCH `/profile`. `/profile` added to the auth proxy.
+
+### 16.2 Verification (real runs, local MariaDB `jlpt_master_test`)
+- `npx vitest run` → ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files 1 failed | 66 passed (67)
+ Tests 1 failed | 495 passed (496). The single failure is the baseline measured before any change (`seeded-content`: "N5 mock exam links 28 distinct questions").
+- `npx playwright test` (all specs, incl. new learner-shell, learner-journey) → 21 passed.
+- `npm run typecheck` → 0 errors. `npx next build --webpack` → exit 0; `/profile`, `/learn/[level]`, `/api/v1/progress/activity`, `/api/v1/attempts` listed.
+- ESLint: no problems in new code; remaining problems are pre-existing (e.g. `ListeningPlayer.tsx` set-state-in-effect, `catch (error: any)` in older routes).
+- Screenshots (375px, 2x; desktop 1280px): `docs/design/screenshots/learner-{01,02,03,04,05,06,06b,07,08,08b,09,S1,S2,S3,S4,02D,05D,06D}*.png`.
+
+### 16.3 Known limits
+- Lessons have no Japanese title and vocabulary has no Hán Việt in the DB, so those lines are omitted (not invented).
+- Result shows a per-skill breakdown (the data model has no per-section grouping).
+- Content defect found, not changed: kanji 日 example in the DB reads "日生 / せんせい / Thầy cô".
+- Migrations were applied to `jlpt_master_test` only; the local `jlpt_master` DB was already behind (missing `1_admin_cms`).

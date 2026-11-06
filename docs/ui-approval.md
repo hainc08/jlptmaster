@@ -57,7 +57,7 @@
 
 ## 5. Learner app redesign — approval request (2026-11-06)
 
-**Status:** Approved by the owner in chat on 2026-11-06 ("theo phương án 1 nhé": UI + API/DB, Q1–Q6 defaults). Recorded in `docs/phase-state.yaml` → `learner_redesign`.
+**Status:** Implemented — awaiting QA sign-off. Approved by the owner in chat on 2026-11-06 ("theo phương án 1 nhé": UI + API/DB, Q1–Q6 defaults), recorded in `docs/phase-state.yaml` → `learner_redesign`. Evidence: `docs/phase-log.md` §16, screenshots `docs/design/screenshots/learner-*.png`.
 **Review prototype:** `docs/design/learner-app/index.html` (static, mock data, no API/DB).
 **Plan:** `docs/superpowers/plans/2026-11-06-learner-app-redesign.md`.
 **API/DB contract (separate approval):** `docs/api/learner-activity.md`.
