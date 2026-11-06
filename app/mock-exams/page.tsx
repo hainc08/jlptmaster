@@ -1,50 +1,33 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import { Award, Clock, FileText, ChevronRight, AlertTriangle, Loader2 } from "lucide-react";
+import React, { Suspense, useCallback, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronRight, Clock, FileText, Info, Lock, Trophy } from "lucide-react";
+import { LevelSelector } from "../components/ui/LevelSelector";
+import { StateView } from "../components/ui/StateView";
+import { useApi } from "../components/useApi";
+import { useT } from "../components/i18n";
+import { SCORE_DISCLAIMER } from "../components/scoring";
 
-const LEVELS = ["N5", "N4", "N3", "N2", "N1"] as const;
 
 interface ExamSummary {
   id: string;
-  levelId: string;
   title: string;
   totalMinutes: number;
   totalQuestions: number;
-  sections: { id: string; sectionType: string; durationSeconds: number; questionCount: number }[];
+  bestInternalScore?: number | null;
+  attemptCount?: number;
 }
 
-export default function MockExamsCatalogPage() {
+/** Frame 05 / 05D: N5 mock exams; N4–N1 are one locked card. */
+function Lobby() {
+  const t = useT();
   const router = useRouter();
-  const [level, setLevel] = useState<(typeof LEVELS)[number]>("N5");
-  const [exams, setExams] = useState<ExamSummary[]>([]);
-  const [loading, setLoading] = useState(true);
+  const level = (useSearchParams().get("level") ?? "N5").toUpperCase();
+  const locked = level !== "N5";
+  const api = useApi<{ data?: ExamSummary[] }>(locked ? null : "/api/v1/exams?level=N5");
   const [startingId, setStartingId] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    let alive = true;
-    setLoading(true);
-    setMessage(null);
-    fetch(`/api/v1/exams?level=${level}`)
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error("fetch failed"))))
-      .then((json) => {
-        if (alive) setExams(Array.isArray(json?.data) ? json.data : []);
-      })
-      .catch(() => {
-        if (alive) {
-          setExams([]);
-          setMessage("Không tải được danh sách đề thi. Vui lòng thử lại sau.");
-        }
-      })
-      .finally(() => {
-        if (alive) setLoading(false);
-      });
-    return () => {
-      alive = false;
-    };
-  }, [level]);
 
   const startExam = useCallback(
     async (examId: string) => {
@@ -57,12 +40,8 @@ export default function MockExamsCatalogPage() {
           return;
         }
         const body = await res.json().catch(() => ({}));
-        if (res.status === 423) {
-          setMessage(body?.error?.message || "Bộ đề đang bị khóa.");
-          return;
-        }
         if (!res.ok || !body?.data?.id) {
-          setMessage(body?.error?.message || "Không thể bắt đầu bài thi.");
+          setMessage(body?.error?.message || (res.status === 423 ? "Bộ đề đang bị khóa." : "Không thể bắt đầu bài thi."));
           return;
         }
         router.push(`/mock-exams/${body.data.id}`);
@@ -75,96 +54,85 @@ export default function MockExamsCatalogPage() {
     [router]
   );
 
-  return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
-        <div className="flex items-center gap-2">
-          <span className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-sm">
-            <Award size={22} />
-          </span>
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-              Phòng Thi Thử JLPT {level} Bấm Giờ
-            </h1>
-            <p className="text-xs text-gray-500">
-              Mô phỏng quy chế thi, đồng hồ tính ở máy chủ, tự động lưu bài làm.
-            </p>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5">
-          <AlertTriangle size={16} className="text-amber-700 shrink-0 mt-0.5" />
-          <p className="leading-relaxed">
-            <strong>Quy chế thi mô phỏng:</strong> Đáp án đúng và lời giải chỉ hiển thị sau khi bạn nộp bài. Điểm
-            là điểm quy đổi nội bộ (0–180), không phải điểm JLPT chính thức.
-          </p>
-        </div>
-
-        <div role="tablist" aria-label="Chọn cấp độ" className="flex flex-wrap gap-2">
-          {LEVELS.map((l) => (
-            <button
-              key={l}
-              role="tab"
-              aria-selected={level === l}
-              onClick={() => setLevel(l)}
-              className={`px-4 py-1.5 rounded-full text-sm font-bold border transition-colors cursor-pointer ${
-                level === l
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-              }`}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
+  const lockedCard = (
+    <div className="rounded-2xl border-2 border-dashed border-border p-4 flex items-center gap-3 text-locked">
+      <Lock size={20} aria-hidden="true" className="flex-none" />
+      <div>
+        <p className="font-semibold">{locked ? `${level} · Sắp ra mắt` : "N4–N1 · Sắp ra mắt"}</p>
+        <p className="text-sm">Đề thi thử các cấp độ khác đang được biên soạn.</p>
       </div>
+    </div>
+  );
+
+  const exams = api.status === "ok" ? api.data.data ?? [] : [];
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 py-4 flex flex-col gap-4">
+      <h1 className="text-[22px] font-bold">{t("test.title")}</h1>
+      <LevelSelector />
+      <p className="flex items-start gap-2 rounded-xl bg-warning-bg text-warning-text p-3 text-sm">
+        <Info size={18} aria-hidden="true" className="flex-none mt-0.5" />
+        <span>
+          <span>{SCORE_DISCLAIMER}</span> <span>Đáp án và lời giải chỉ hiển thị sau khi nộp bài.</span>
+        </span>
+      </p>
 
       {message && (
-        <div role="alert" className="p-4 rounded-2xl bg-red-50 border border-red-200 text-sm text-red-800">
+        <div role="alert" className="rounded-xl bg-danger-bg text-danger-text p-3 text-sm">
           {message}
         </div>
       )}
 
-      {loading ? (
-        <div className="p-12 text-center text-sm text-gray-500 flex items-center justify-center gap-2">
-          <Loader2 size={18} className="animate-spin text-primary" />
-          <span>Đang tải danh sách đề thi...</span>
-        </div>
-      ) : exams.length === 0 ? (
-        <div className="bg-white p-10 rounded-3xl border border-dashed border-gray-300 text-center text-sm text-gray-600">
-          Hiện chưa có bộ đề nào đang mở cho cấp độ {level}.
-        </div>
+      {locked ? (
+        lockedCard
+      ) : api.status === "error" ? (
+        <StateView kind="error" title="Không tải được danh sách đề" body="Kiểm tra kết nối rồi thử lại." action={{ label: "Thử lại", onClick: api.retry }} />
+      ) : api.status === "loading" ? (
+        <StateView kind="loading" title="Đang tải danh sách đề" />
       ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {exams.map((ex) => (
-            <div
-              key={ex.id}
-              className="bg-white p-5 sm:p-6 rounded-3xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-4"
-            >
-              <div className="space-y-2">
-                <h2 className="text-lg font-bold text-gray-900">{ex.title}</h2>
-                <div className="flex flex-wrap gap-4 text-xs text-gray-600">
-                  <span className="inline-flex items-center gap-1">
-                    <Clock size={14} /> {ex.totalMinutes} phút
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    <FileText size={14} /> {ex.totalQuestions} câu
-                  </span>
-                </div>
-              </div>
-              <button
-                type="button"
-                disabled={startingId === ex.id}
-                onClick={() => startExam(ex.id)}
-                className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-60 text-white font-bold text-sm shadow-sm inline-flex items-center gap-1.5 cursor-pointer"
-              >
-                {startingId === ex.id ? "Đang khởi tạo..." : "Bắt đầu thi"}
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          ))}
-        </div>
+        <>
+          {exams.length === 0 ? (
+            <StateView kind="empty" title="Hiện chưa có đề N5 nào đang mở" />
+          ) : (
+            <ul className="grid gap-3 lg:grid-cols-2">
+              {exams.map((ex) => {
+                const again = (ex.attemptCount ?? 0) > 0;
+                return (
+                  <li key={ex.id} className="rounded-2xl border border-border bg-surface p-4 flex flex-col gap-3">
+                    <h2 className="font-bold text-lg">{ex.title}</h2>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
+                      <span className="inline-flex items-center gap-1"><Clock size={16} aria-hidden="true" /> {ex.totalMinutes} phút</span>
+                      <span className="inline-flex items-center gap-1"><FileText size={16} aria-hidden="true" /> {ex.totalQuestions} câu</span>
+                      <span className="inline-flex items-center gap-1">
+                        <Trophy size={16} aria-hidden="true" /> Cao nhất:{" "}
+                        {typeof ex.bestInternalScore === "number" ? `${ex.bestInternalScore}/180` : "—"}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={startingId === ex.id}
+                      onClick={() => startExam(ex.id)}
+                      className="min-h-12 rounded-xl bg-primary text-white font-semibold text-sm inline-flex items-center justify-center gap-1 disabled:opacity-60"
+                    >
+                      {startingId === ex.id ? "Đang khởi tạo…" : again ? "Làm lại" : "Bắt đầu"}
+                      <ChevronRight size={18} aria-hidden="true" />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {lockedCard}
+        </>
       )}
     </div>
+  );
+}
+
+export default function MockExamsCatalogPage() {
+  return (
+    <Suspense fallback={null}>
+      <Lobby />
+    </Suspense>
   );
 }
