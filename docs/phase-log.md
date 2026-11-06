@@ -353,3 +353,13 @@ Approved by the owner in chat on 2026-11-06 (UI prototype `docs/design/admin-cms
 
 ### 14.4 Known limits (explicit, see contract §4 and §7)
 Settings (exam rules, notifications) are stored only; password reset cannot send email; logo upload is not available; admin screen bodies are English (chrome is VI/EN/JA).
+
+---
+
+## 15. Learner app redesign — approval packet (2026-11-06)
+
+Plan `docs/superpowers/plans/2026-11-06-learner-app-redesign.md`, Task 1 (docs only). No code, schema or `phase-state.yaml` change.
+- `docs/ui-approval.md` §5: frames 01–09, 06b, S1–S4, 02D/05D/06D → routes and replaced screens; open questions Q1–Q6 with defaults.
+- `docs/design-system.md` §7: proposed tokens (marked not approved), contrast measured: all text pairs ≥ 5.37:1; `--outline` 4.29:1 restricted to non-text.
+- `docs/api/learner-activity.md`: contract for Tasks 11–14 (activity heartbeat, overview `activity` replacing `currentStreak`, per-lesson status, best score + attempt history, profile preferences + PATCH) and Prisma diff.
+- **Gate:** awaiting written owner approval of UI (Part A) and API/DB (Part B). Execution stops here.

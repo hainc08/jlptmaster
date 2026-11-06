@@ -141,3 +141,30 @@ All layout margins, paddings, and component alignments strictly adhere to the 8p
 - Front side: Prominent 48px character display with speaker button.
 - Back side: Full lexical entry with Sino-Vietnamese reading, example sentence, and meaning.
 - Keyboard support: Hotkeys `1`, `2`, `3`, `4` mapped to Again, Hard, Good, Easy.
+
+---
+
+## 7. PROPOSED — Learner app redesign tokens (not approved)
+
+**Status:** Proposal for owner approval (see `docs/ui-approval.md` §5, question 2). Sections 2–3 above stay in force until approved. Source: `:root` of `docs/design/learner-app/index.html`, shared with the Admin CMS.
+
+| Token | Hex | Use | Contrast (measured) |
+|---|---|---|---|
+| `--primary` | `#3730A3` | Brand, primary buttons, active tab | white on it 9.93:1 |
+| `--primary-container` | `#E3E1FF` | Selected chips, active nav pill | `--on-primary-container` on it 12.37:1 |
+| `--on-primary-container` | `#1A1465` | Text on primary container | — |
+| `--accent` | `#C0331B` | Vermilion: timer warning, flags, highlights | white on it 5.63:1; on surface 5.37:1 |
+| `--accent-container` | `#FFDAD3` | Accent backgrounds | — |
+| `--surface` | `#FAF9FD` | Page background | — |
+| `--on-surface` | `#1B1B22` | Body text | 16.33:1 |
+| `--on-surface-variant` | `#46464F` | Secondary text | 8.91:1 |
+| `--outline` | `#767680` | Borders, dividers, input outlines | 4.29:1 — **non-text only** (≥ 3:1) |
+| `--outline-variant` | `#CAC9D4` | Subtle card borders (decorative) | — |
+| `--ok` / `--ok-c` | `#14663A` / `#D3F0DC` | Correct, completed | 5.77:1 |
+| `--warn` / `--warn-c` | `#744C00` / `#FFE7B0` | In progress, time warnings | 6.23:1 |
+| `--err` / `--err-c` | `#9A2B1B` / `#FFDAD3` | Errors, wrong answers | 5.93:1 |
+| `--locked` | `#5E5E68` | Locked level text ("Sắp ra mắt") | 6.11:1 |
+
+- **Fonts:** Noto Sans (subsets `latin`, `vietnamese`) for UI; Noto Sans JP for Japanese; both via `next/font/google`. Replaces Be Vietnam Pro.
+- **Shape and spacing:** cards 16px radius, controls 12px, 8px grid, touch targets ≥ 48px (raised from 44px in §5).
+- **Mode:** light only.
