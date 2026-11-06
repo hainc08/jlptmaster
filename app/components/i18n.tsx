@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect } from "react";
+import { useStoredValue, writeStoredValue } from "./stored-value";
 
 export type Locale = "vi" | "en";
 
@@ -98,29 +99,14 @@ const LocaleContext = createContext<LocaleContextType>({ locale: "vi", setLocale
 const STORAGE_KEY = "jlpt.locale";
 
 export function LocaleProvider({ children, initial }: { children: React.ReactNode; initial?: Locale }) {
-  const [locale, setLocaleState] = useState<Locale>(initial ?? "vi");
-
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored === "vi" || stored === "en") setLocaleState(stored);
-    } catch {
-      // storage unavailable: keep the default
-    }
-  }, []);
+  const stored = useStoredValue(STORAGE_KEY);
+  const locale: Locale = stored === "vi" || stored === "en" ? stored : initial ?? "vi";
 
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
 
-  const setLocale = (l: Locale) => {
-    setLocaleState(l);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, l);
-    } catch {
-      // storage unavailable: the choice lasts for this page only
-    }
-  };
+  const setLocale = (l: Locale) => writeStoredValue(STORAGE_KEY, l);
 
   return <LocaleContext.Provider value={{ locale, setLocale }}>{children}</LocaleContext.Provider>;
 }

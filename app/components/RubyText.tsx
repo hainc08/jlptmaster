@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext } from "react";
+import { useStoredValue, writeStoredValue } from "./stored-value";
 
 interface FuriganaContextType {
   showFurigana: boolean;
@@ -22,25 +23,9 @@ const STORAGE_KEY = "jlpt.furigana";
  * mode), so every access is guarded and the in-memory value still works.
  */
 export function FuriganaProvider({ children, initial }: { children: React.ReactNode; initial?: boolean }) {
-  const [showFurigana, setShowFurigana] = useState(initial ?? true);
-
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored === "0" || stored === "1") setShowFurigana(stored === "1");
-    } catch {
-      // storage unavailable: keep the default
-    }
-  }, []);
-
-  const setFurigana = (on: boolean) => {
-    setShowFurigana(on);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, on ? "1" : "0");
-    } catch {
-      // storage unavailable: the choice lasts for this page only
-    }
-  };
+  const stored = useStoredValue(STORAGE_KEY);
+  const showFurigana = stored === "1" ? true : stored === "0" ? false : initial ?? true;
+  const setFurigana = (on: boolean) => writeStoredValue(STORAGE_KEY, on ? "1" : "0");
 
   return (
     <FuriganaContext.Provider
