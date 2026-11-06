@@ -41,7 +41,7 @@ export default function N5CoursePage() {
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="w-10 h-10 rounded-2xl bg-[#B9343F] text-white font-extrabold flex items-center justify-center text-lg shadow-sm">
+            <span className="w-10 h-10 rounded-2xl bg-primary text-white font-extrabold flex items-center justify-center text-lg shadow-sm">
               N5
             </span>
             <div>
@@ -65,11 +65,11 @@ export default function N5CoursePage() {
 
         <div className="flex flex-wrap gap-4 pt-2 text-xs text-gray-600">
           <span className="flex items-center gap-1 font-semibold text-gray-800">
-            <BookOpen size={15} className="text-[#B9343F]" />
+            <BookOpen size={15} className="text-primary" />
             5 bài học cốt lõi (MVP)
           </span>
           <span className="flex items-center gap-1 font-semibold text-gray-800">
-            <Clock size={15} className="text-[#2B4C7E]" />
+            <Clock size={15} className="text-secondary" />
             ~3 giờ học lý thuyết & thực hành
           </span>
           <span className="flex items-center gap-1 font-semibold text-emerald-700">
@@ -82,7 +82,7 @@ export default function N5CoursePage() {
       {/* Kana Beginner Special Card */}
       <div className="bg-gradient-to-r from-red-50 to-amber-50 border border-red-200 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="space-y-1">
-          <span className="text-[11px] font-extrabold text-[#B9343F] uppercase tracking-wider bg-red-100 px-2.5 py-0.5 rounded-full">
+          <span className="text-[11px] font-extrabold text-primary uppercase tracking-wider bg-red-100 px-2.5 py-0.5 rounded-full">
             Khởi đầu quan trọng
           </span>
           <h2 className="text-xl font-bold text-gray-900">
@@ -94,7 +94,7 @@ export default function N5CoursePage() {
         </div>
         <Link
           href="/learn/n5/bai-01-kana-nhap-mon"
-          className="px-6 py-3 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all whitespace-nowrap"
+          className="px-6 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all whitespace-nowrap"
         >
           Học bảng Kana
           <ChevronRight size={16} />
@@ -120,7 +120,7 @@ export default function N5CoursePage() {
                     className={`w-9 h-9 rounded-xl font-extrabold text-sm flex items-center justify-center shrink-0 ${
                       lesson.isCompleted
                         ? "bg-emerald-100 text-emerald-800"
-                        : "bg-gray-100 text-gray-700 group-hover:bg-red-50 group-hover:text-[#B9343F]"
+                        : "bg-gray-100 text-gray-700 group-hover:bg-red-50 group-hover:text-primary"
                     }`}
                   >
                     {lesson.isCompleted ? <CheckCircle2 size={18} /> : `0${lesson.order}`}
@@ -128,7 +128,7 @@ export default function N5CoursePage() {
 
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-bold text-gray-900 text-base group-hover:text-[#B9343F] transition-colors">
+                      <h3 className="font-bold text-gray-900 text-base group-hover:text-primary transition-colors">
                         {lesson.titleVi}
                       </h3>
                       {lesson.isCompleted && (
@@ -149,7 +149,7 @@ export default function N5CoursePage() {
                 </div>
 
                 <div className="self-end sm:self-center shrink-0">
-                  <span className="text-xs font-semibold text-[#B9343F] group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                  <span className="text-xs font-semibold text-primary group-hover:translate-x-1 transition-transform flex items-center gap-1">
                     {lesson.isCompleted ? "Ôn lại bài" : "Bắt đầu học"}
                     <ChevronRight size={16} />
                   </span>

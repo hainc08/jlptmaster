@@ -84,7 +84,7 @@ function LessonContent() {
       <div className="flex items-center justify-between gap-4">
         <Link
           href="/learn/n5"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-[#B9343F] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-primary transition-colors"
         >
           <ChevronLeft size={16} />
           Lộ trình N5
@@ -105,7 +105,7 @@ function LessonContent() {
       {/* Lesson Header */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-extrabold uppercase bg-red-100 text-[#B9343F] px-2.5 py-0.5 rounded-full">
+          <span className="text-xs font-extrabold uppercase bg-red-100 text-primary px-2.5 py-0.5 rounded-full">
             Bài 0{lesson.order}
           </span>
           <span className="text-xs text-gray-500 font-medium">
@@ -124,7 +124,7 @@ function LessonContent() {
             onClick={() => setActiveTab("THEORY")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === "THEORY"
-                ? "bg-[#B9343F] text-white shadow-sm"
+                ? "bg-primary text-white shadow-sm"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
@@ -134,7 +134,7 @@ function LessonContent() {
             onClick={() => setActiveTab("VOCAB")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === "VOCAB"
-                ? "bg-[#B9343F] text-white shadow-sm"
+                ? "bg-primary text-white shadow-sm"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
@@ -145,7 +145,7 @@ function LessonContent() {
               onClick={() => setActiveTab("KANA")}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === "KANA"
-                  ? "bg-[#B9343F] text-white shadow-sm"
+                  ? "bg-primary text-white shadow-sm"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -164,7 +164,7 @@ function LessonContent() {
               className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#2B4C7E] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                <span className="text-xs font-bold text-secondary uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
                   Mẫu câu 0{idx + 1}
                 </span>
                 <span className="text-xs text-gray-500">{g.formation}</span>
@@ -185,7 +185,7 @@ function LessonContent() {
                 <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">
                   Câu ví dụ thực tế:
                 </h3>
-                <div className="p-3.5 rounded-2xl bg-[#F7F7F4] border border-gray-100 flex items-start justify-between gap-3">
+                <div className="p-3.5 rounded-2xl bg-background border border-gray-100 flex items-start justify-between gap-3">
                   <div className="space-y-1">
                     <p className="text-base font-medium text-gray-900 font-japanese">
                       {g.exampleJa}
@@ -241,7 +241,7 @@ function LessonContent() {
             {hiraganaTable.map((item) => (
               <div
                 key={item.kana}
-                className="p-3 rounded-xl border border-gray-200 text-center bg-[#F7F7F4] flex flex-col items-center justify-center hover:border-red-300 transition-all"
+                className="p-3 rounded-xl border border-gray-200 text-center bg-background flex flex-col items-center justify-center hover:border-red-300 transition-all"
               >
                 <span className="text-2xl font-bold font-japanese text-gray-900">{item.kana}</span>
                 <span className="text-[10px] text-gray-500 font-medium mt-1">{item.ro}</span>
@@ -294,7 +294,7 @@ function LessonContent() {
 
           <Link
             href="/practice"
-            className="px-6 py-3 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-md flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer"
+            className="px-6 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-md flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer"
           >
             Luyện tập 5 câu hỏi bài này
             <ArrowRight size={16} />

@@ -109,7 +109,7 @@ export default function MockExamsCatalogPage() {
               onClick={() => setLevel(l)}
               className={`px-4 py-1.5 rounded-full text-sm font-bold border transition-colors cursor-pointer ${
                 level === l
-                  ? "bg-[#B9343F] text-white border-[#B9343F]"
+                  ? "bg-primary text-white border-primary"
                   : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
               }`}
             >
@@ -127,7 +127,7 @@ export default function MockExamsCatalogPage() {
 
       {loading ? (
         <div className="p-12 text-center text-sm text-gray-500 flex items-center justify-center gap-2">
-          <Loader2 size={18} className="animate-spin text-[#B9343F]" />
+          <Loader2 size={18} className="animate-spin text-primary" />
           <span>Đang tải danh sách đề thi...</span>
         </div>
       ) : exams.length === 0 ? (
@@ -156,7 +156,7 @@ export default function MockExamsCatalogPage() {
                 type="button"
                 disabled={startingId === ex.id}
                 onClick={() => startExam(ex.id)}
-                className="px-5 py-2.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] disabled:opacity-60 text-white font-bold text-sm shadow-sm inline-flex items-center gap-1.5 cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-60 text-white font-bold text-sm shadow-sm inline-flex items-center gap-1.5 cursor-pointer"
               >
                 {startingId === ex.id ? "Đang khởi tạo..." : "Bắt đầu thi"}
                 <ChevronRight size={16} />

@@ -127,7 +127,7 @@ export default function PracticeQuizPage() {
   if (loading) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center space-y-4">
-        <Loader2 className="w-8 h-8 animate-spin mx-auto text-[#B9343F]" />
+        <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary" />
         <p className="text-sm font-semibold text-gray-700">Đang tải câu hỏi luyện tập từ MariaDB...</p>
       </div>
     );
@@ -155,7 +155,7 @@ export default function PracticeQuizPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center space-y-3">
         <p className="text-base font-semibold text-gray-700">Chưa có câu hỏi luyện tập khả dụng.</p>
-        <Link href="/dashboard" className="text-xs text-[#B9343F] underline">
+        <Link href="/dashboard" className="text-xs text-primary underline">
           Quay lại Bảng điều khiển
         </Link>
       </div>
@@ -168,7 +168,7 @@ export default function PracticeQuizPage() {
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-[#B9343F] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-primary transition-colors"
         >
           <ChevronLeft size={16} />
           Bảng điều khiển
@@ -185,7 +185,7 @@ export default function PracticeQuizPage() {
       {/* Progress Bar */}
       <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
         <div
-          className="h-full bg-[#B9343F] transition-all duration-300"
+          className="h-full bg-primary transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
         />
       </div>
@@ -201,7 +201,7 @@ export default function PracticeQuizPage() {
       {/* Main Question Card */}
       <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 sm:p-8 space-y-6">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-[#B9343F] uppercase tracking-wider bg-red-50 px-2.5 py-1 rounded-full border border-red-100">
+          <span className="text-xs font-bold text-primary uppercase tracking-wider bg-red-50 px-2.5 py-1 rounded-full border border-red-100">
             {currentQ.skillTag}
           </span>
           <span className="text-xs text-gray-400 font-medium">JLPT N5</span>
@@ -221,7 +221,7 @@ export default function PracticeQuizPage() {
         <div className="space-y-2.5">
           {currentQ.options.map((opt, idx) => {
             const isSelected = selectedOptionId === opt.id;
-            let optionStyle = "border-gray-200 hover:border-gray-300 bg-[#F7F7F4]";
+            let optionStyle = "border-gray-200 hover:border-gray-300 bg-background";
 
             if (isSubmitted) {
               if (opt.id === submissionResult?.correctOptionId) {
@@ -232,7 +232,7 @@ export default function PracticeQuizPage() {
                 optionStyle = "border-gray-200 opacity-50";
               }
             } else if (isSelected) {
-              optionStyle = "border-[#B9343F] bg-red-50/70 text-[#B9343F] font-bold shadow-sm";
+              optionStyle = "border-primary bg-red-50/70 text-primary font-bold shadow-sm";
             }
 
             return (
@@ -269,7 +269,7 @@ export default function PracticeQuizPage() {
             onClick={handleSubmit}
             className={`w-full py-3.5 rounded-2xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${
               selectedOptionId && !isSubmitting
-                ? "bg-[#B9343F] hover:bg-[#A02731] text-white"
+                ? "bg-primary hover:bg-primary-hover text-white"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
           >
@@ -315,14 +315,14 @@ export default function PracticeQuizPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="w-full py-3.5 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all"
+                className="w-full py-3.5 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all"
               >
                 Chuyển sang câu tiếp theo
                 <ArrowRight size={16} />
               </button>
             ) : (
               <div className="p-6 bg-white rounded-2xl border border-gray-200 text-center space-y-3">
-                <span className="text-2xl font-extrabold text-[#B9343F] block">
+                <span className="text-2xl font-extrabold text-primary block">
                   Đã hoàn thành! {score} / {questions.length} câu đúng
                 </span>
                 <p className="text-xs text-gray-600">
@@ -338,7 +338,7 @@ export default function PracticeQuizPage() {
                   </button>
                   <Link
                     href="/dashboard"
-                    className="px-4 py-2 rounded-xl bg-[#B9343F] text-white text-xs font-semibold hover:bg-[#A02731]"
+                    className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-hover"
                   >
                     Về Bảng điều khiển
                   </Link>

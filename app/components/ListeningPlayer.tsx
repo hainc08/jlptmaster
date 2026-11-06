@@ -97,7 +97,7 @@ export function ListeningPlayer({
         onClick={play}
         disabled={playing || remaining === 0}
         aria-label="Nghe bài hội thoại"
-        className="px-4 py-2.5 rounded-xl bg-[#2B4C7E] hover:bg-[#223d66] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs inline-flex items-center gap-2 cursor-pointer"
+        className="px-4 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs inline-flex items-center gap-2 cursor-pointer"
       >
         {playing ? <Loader2 size={16} className="animate-spin" /> : <Headphones size={16} />}
         {playing ? "Đang phát..." : "Nghe"}

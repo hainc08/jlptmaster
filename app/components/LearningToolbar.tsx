@@ -18,21 +18,21 @@ export function LearningToolbar({
     <div
       role="region"
       aria-label="Thanh công cụ học tập"
-      className="bg-white px-4 py-3 rounded-xl border border-[#E5E7EB] shadow-sm flex flex-wrap items-center justify-between gap-3"
+      className="bg-white px-4 py-3 rounded-xl border border-border shadow-sm flex flex-wrap items-center justify-between gap-3"
     >
       <div>
-        <p className="text-xs font-bold text-[#1F2937]">{title}</p>
-        <p className="text-[11px] text-[#6B7280]">{subtitle}</p>
+        <p className="text-xs font-bold text-foreground">{title}</p>
+        <p className="text-[11px] text-muted">{subtitle}</p>
       </div>
 
       <button
         type="button"
         onClick={toggleFurigana}
         aria-pressed={showFurigana}
-        className={`min-h-[44px] px-3.5 py-2 rounded-lg border text-xs font-semibold flex items-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2 ${
+        className={`min-h-[44px] px-3.5 py-2 rounded-lg border text-xs font-semibold flex items-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
           showFurigana
-            ? "bg-[#FBEBEB] text-[#B9343F] border-[#B9343F]/30"
-            : "bg-[#F7F7F4] text-[#6B7280] border-[#E5E7EB]"
+            ? "bg-primary-subtle text-primary border-primary/30"
+            : "bg-background text-muted border-border"
         }`}
       >
         <span

@@ -144,7 +144,7 @@ function ExamRoomContent() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto p-12 text-center text-sm text-gray-500 flex items-center justify-center gap-2">
-        <Loader2 size={18} className="animate-spin text-[#B9343F]" />
+        <Loader2 size={18} className="animate-spin text-primary" />
         <span>Đang nạp đề thi và đồng bộ câu hỏi từ máy chủ...</span>
       </div>
     );
@@ -154,7 +154,7 @@ function ExamRoomContent() {
     return (
       <div className="max-w-xl mx-auto p-12 text-center space-y-3">
         <p className="text-sm text-gray-700">{loadError || "Lượt thi này không có câu hỏi."}</p>
-        <a href="/mock-exams" className="text-sm font-bold text-[#B9343F] hover:underline">
+        <a href="/mock-exams" className="text-sm font-bold text-primary hover:underline">
           Quay lại danh sách đề thi
         </a>
       </div>
@@ -167,7 +167,7 @@ function ExamRoomContent() {
       <div className="bg-white p-4 sm:p-6 rounded-3xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-white bg-[#B9343F] px-2.5 py-0.5 rounded-full uppercase">
+            <span className="text-xs font-bold text-white bg-primary px-2.5 py-0.5 rounded-full uppercase">
               JLPT N5
             </span>
             <h1 className="text-lg sm:text-xl font-bold text-gray-900">
@@ -183,12 +183,12 @@ function ExamRoomContent() {
         <div className="flex items-center gap-4">
           {/* Synchronized Timer */}
           <div className="flex items-center gap-2 bg-red-50 border border-red-200 px-4 py-2 rounded-2xl text-red-900">
-            <Clock size={18} className="text-[#B9343F] animate-pulse" />
+            <Clock size={18} className="text-primary animate-pulse" />
             <div>
               <span className="text-[10px] text-red-700 font-bold block uppercase leading-none">
                 Thời gian còn lại
               </span>
-              <span className="text-xl font-mono font-extrabold text-[#B9343F]">
+              <span className="text-xl font-mono font-extrabold text-primary">
                 {formatTimer(timeLeft)}
               </span>
             </div>
@@ -197,7 +197,7 @@ function ExamRoomContent() {
           <button
             type="button"
             onClick={() => setShowSubmitModal(true)}
-            className="px-5 py-2.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-sm transition-all whitespace-nowrap cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-sm transition-all whitespace-nowrap cursor-pointer"
           >
             Nộp bài thi
           </button>
@@ -213,7 +213,7 @@ function ExamRoomContent() {
               <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Câu hỏi {currentQ.questionNumber || currentIndex + 1} / {questions.length}
               </span>
-              <span className="text-xs text-[#2B4C7E] font-semibold bg-blue-50 px-2.5 py-1 rounded-lg">
+              <span className="text-xs text-secondary font-semibold bg-blue-50 px-2.5 py-1 rounded-lg">
                 {currentQ.skillTag || "Kiến thức N5"}
               </span>
             </div>
@@ -252,8 +252,8 @@ function ExamRoomContent() {
                     onClick={() => handleSelectOption(opt.id)}
                     className={`w-full p-4 rounded-2xl border-2 text-left transition-all flex items-center justify-between touch-target cursor-pointer ${
                       isSelected
-                        ? "border-[#B9343F] bg-red-50/70 text-[#B9343F] font-bold shadow-sm"
-                        : "border-gray-200 hover:border-gray-300 bg-[#F7F7F4]"
+                        ? "border-primary bg-red-50/70 text-primary font-bold shadow-sm"
+                        : "border-gray-200 hover:border-gray-300 bg-background"
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -263,7 +263,7 @@ function ExamRoomContent() {
                       <span className="text-base font-medium">{opt.text}</span>
                     </div>
 
-                    {isSelected && <CheckCircle2 size={18} className="text-[#B9343F]" />}
+                    {isSelected && <CheckCircle2 size={18} className="text-primary" />}
                   </button>
                 );
               })}
@@ -310,7 +310,7 @@ function ExamRoomContent() {
         <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-gray-900 text-sm">Bảng câu hỏi (Palette)</h3>
-            <span className="text-xs font-bold text-[#B9343F]">
+            <span className="text-xs font-bold text-primary">
               {answeredCount}/{questions.length}
             </span>
           </div>
@@ -322,7 +322,7 @@ function ExamRoomContent() {
 
               let btnStyle = "bg-gray-100 text-gray-600 hover:bg-gray-200";
               if (isCurrent) {
-                btnStyle = "ring-2 ring-[#B9343F] bg-red-100 text-[#B9343F] font-bold";
+                btnStyle = "ring-2 ring-primary bg-red-100 text-primary font-bold";
               } else if (isAnswered) {
                 btnStyle = "bg-emerald-600 text-white font-semibold";
               }
@@ -351,7 +351,7 @@ function ExamRoomContent() {
               <span>Chưa làm ({questions.length - answeredCount})</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3.5 h-3.5 rounded bg-red-100 border-2 border-[#B9343F]" />
+              <span className="w-3.5 h-3.5 rounded bg-red-100 border-2 border-primary" />
               <span>Đang chọn</span>
             </div>
           </div>
@@ -393,7 +393,7 @@ function ExamRoomContent() {
                 type="button"
                 disabled={isSubmitting}
                 onClick={handleFinalSubmit}
-                className="flex-1 py-3 rounded-xl bg-[#B9343F] hover:bg-[#A02731] disabled:opacity-50 text-white font-bold text-xs shadow-md transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-bold text-xs shadow-md transition-colors cursor-pointer flex items-center justify-center gap-1.5"
               >
                 {isSubmitting ? (
                   <>

@@ -116,7 +116,7 @@ export default function KanjiPage() {
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="space-y-1">
-            <span className="text-xs font-bold text-[#B9343F] uppercase tracking-wider flex items-center gap-1.5">
+            <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
               <Languages size={14} />
               Chữ Hán JLPT N5 trọng tâm
             </span>
@@ -141,7 +141,7 @@ export default function KanjiPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Tìm kiếm chữ Hán, âm Hán-Việt hoặc ý nghĩa (ví dụ: Nhật, Học, mặt trời)..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-[#F7F7F4] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#B9343F] text-sm text-gray-900 transition-all"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-background focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-gray-900 transition-all"
           />
         </div>
       </div>
@@ -149,7 +149,7 @@ export default function KanjiPage() {
       {/* Kanji Grid */}
       {loading ? (
         <div className="py-12 text-center text-sm text-gray-500 flex items-center justify-center gap-2">
-          <RefreshCw size={16} className="animate-spin text-[#B9343F]" />
+          <RefreshCw size={16} className="animate-spin text-primary" />
           <span>Đang tải dữ liệu Chữ Hán N5 từ MariaDB...</span>
         </div>
       ) : (
@@ -172,7 +172,7 @@ export default function KanjiPage() {
                 className="p-6 rounded-3xl bg-white border border-gray-200 hover:border-red-200 hover:shadow-md transition-all flex flex-col justify-between gap-4"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-[#FBEBEB] border border-[#B9343F]/20 text-[#B9343F] font-japanese text-3xl font-bold flex items-center justify-center shrink-0">
+                  <div className="w-16 h-16 rounded-2xl bg-primary-subtle border border-primary/20 text-primary font-japanese text-3xl font-bold flex items-center justify-center shrink-0">
                     {item.character}
                   </div>
                   <div className="flex-1 min-w-0 space-y-1">
@@ -185,7 +185,7 @@ export default function KanjiPage() {
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-2 pt-2 text-xs">
-                      <div className="p-2 rounded-xl bg-[#F7F7F4] border border-gray-100">
+                      <div className="p-2 rounded-xl bg-background border border-gray-100">
                         <span className="text-[10px] font-bold uppercase text-gray-500 block">
                           Âm On (Onyomi)
                         </span>
@@ -193,7 +193,7 @@ export default function KanjiPage() {
                           {onReading}
                         </span>
                       </div>
-                      <div className="p-2 rounded-xl bg-[#F7F7F4] border border-gray-100">
+                      <div className="p-2 rounded-xl bg-background border border-gray-100">
                         <span className="text-[10px] font-bold uppercase text-gray-500 block">
                           Âm Kun (Kunyomi)
                         </span>
@@ -218,7 +218,7 @@ export default function KanjiPage() {
                     </div>
                     <Link
                       href="/practice"
-                      className="text-[#B9343F] font-semibold hover:underline inline-flex items-center gap-0.5"
+                      className="text-primary font-semibold hover:underline inline-flex items-center gap-0.5"
                     >
                       Luyện tập
                       <ChevronRight size={13} />

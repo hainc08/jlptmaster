@@ -20,7 +20,7 @@ export function Footer() {
     <footer role="contentinfo" className="bg-white border-t border-gray-200 mt-8 pb-20 md:pb-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
         <div className="space-y-2">
-          <p className="text-base font-extrabold text-[#B9343F]">JLPT Master · ManabiHub</p>
+          <p className="text-base font-extrabold text-primary">JLPT Master · ManabiHub</p>
           <p className="text-xs text-gray-600 leading-relaxed">
             Học tiếng Nhật chuẩn JLPT, ôn tập ngắt quãng và thi thử bấm giờ với lời giải chi tiết bằng tiếng Việt.
           </p>
@@ -31,7 +31,7 @@ export function Footer() {
           <ul className="space-y-1.5">
             {LEARN_LINKS.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-gray-700 hover:text-[#B9343F] hover:underline">
+                <Link href={l.href} className="text-gray-700 hover:text-primary hover:underline">
                   {l.label}
                 </Link>
               </li>
@@ -44,7 +44,7 @@ export function Footer() {
           <ul className="space-y-1.5">
             {PRACTICE_LINKS.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-gray-700 hover:text-[#B9343F] hover:underline">
+                <Link href={l.href} className="text-gray-700 hover:text-primary hover:underline">
                   {l.label}
                 </Link>
               </li>

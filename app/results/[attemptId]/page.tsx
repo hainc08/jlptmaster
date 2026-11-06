@@ -82,7 +82,7 @@ function ExamResultsContent() {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto p-12 text-center text-sm text-gray-500 flex items-center justify-center gap-2">
-        <Loader2 size={18} className="animate-spin text-[#B9343F]" />
+        <Loader2 size={18} className="animate-spin text-primary" />
         <span>Đang tổng hợp điểm số và phân tích kết quả bài thi...</span>
       </div>
     );
@@ -94,7 +94,7 @@ function ExamResultsContent() {
         <p className="text-sm text-gray-700">
           Không tải được kết quả. Bài thi có thể chưa được nộp, hoặc bạn chưa đăng nhập đúng tài khoản đã làm bài.
         </p>
-        <Link href="/mock-exams" className="text-sm font-bold text-[#B9343F] hover:underline">
+        <Link href="/mock-exams" className="text-sm font-bold text-primary hover:underline">
           Quay lại danh sách đề thi
         </Link>
       </div>
@@ -137,8 +137,8 @@ function ExamResultsContent() {
         <p className="text-xs text-gray-500">Mã lượt thi: {attemptId} • Đã hoàn tất và lưu trữ vào MariaDB</p>
 
         {/* Circular Score Display */}
-        <div className="my-6 inline-flex flex-col items-center justify-center p-8 rounded-full bg-red-50 border-4 border-[#B9343F] w-48 h-48 mx-auto shadow-inner">
-          <span className="text-4xl sm:text-5xl font-extrabold text-[#B9343F]">
+        <div className="my-6 inline-flex flex-col items-center justify-center p-8 rounded-full bg-red-50 border-4 border-primary w-48 h-48 mx-auto shadow-inner">
+          <span className="text-4xl sm:text-5xl font-extrabold text-primary">
             {totalScore}
           </span>
           <span className="text-xs font-bold text-gray-500 uppercase mt-0.5">/ {maxScore} điểm</span>
@@ -171,7 +171,7 @@ function ExamResultsContent() {
               <div key={sec.name} className="space-y-1.5">
                 <div className="flex justify-between text-xs sm:text-sm font-semibold text-gray-800">
                   <span>{sec.name}</span>
-                  <span className="font-bold text-[#B9343F]">
+                  <span className="font-bold text-primary">
                     {sec.score} / {sec.max} điểm ({sec.pct}%)
                   </span>
                 </div>
@@ -196,13 +196,13 @@ function ExamResultsContent() {
               <div key={r.skill} className="space-y-1.5">
                 <div className="flex justify-between text-xs sm:text-sm font-semibold text-gray-800">
                   <span>{r.skill}</span>
-                  <span className={r.percent < 70 ? "text-[#B9343F]" : "text-emerald-700"}>
+                  <span className={r.percent < 70 ? "text-primary" : "text-emerald-700"}>
                     {r.correct}/{r.total} câu ({r.percent}%)
                   </span>
                 </div>
                 <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full ${r.percent < 70 ? "bg-[#B9343F]" : "bg-emerald-500"}`}
+                    className={`h-full rounded-full ${r.percent < 70 ? "bg-primary" : "bg-emerald-500"}`}
                     style={{ width: `${Math.min(100, Math.max(0, r.percent))}%` }}
                   />
                 </div>
@@ -216,7 +216,7 @@ function ExamResultsContent() {
       {weakSkills.length > 0 && (
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-red-100 text-[#B9343F] flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-xl bg-red-100 text-primary flex items-center justify-center font-bold">
               !
             </div>
             <div>
@@ -245,7 +245,7 @@ function ExamResultsContent() {
 
                 <Link
                   href={w.remedialHref}
-                  className="text-xs font-bold text-[#B9343F] hover:underline flex items-center gap-1 self-start"
+                  className="text-xs font-bold text-primary hover:underline flex items-center gap-1 self-start"
                 >
                   Bắt đầu ôn tập
                   <ArrowRight size={14} />
@@ -277,7 +277,7 @@ function ExamResultsContent() {
                   <button
                     type="button"
                     onClick={() => setExpandedQuestionId(isExpanded ? null : q.questionId)}
-                    className="w-full p-4 text-left bg-[#F7F7F4] hover:bg-gray-100 flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold text-gray-900 transition-colors cursor-pointer"
+                    className="w-full p-4 text-left bg-background hover:bg-gray-100 flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold text-gray-900 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
                       <span
@@ -346,7 +346,7 @@ function ExamResultsContent() {
 
                       {q.explanationVi && (
                         <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-950 space-y-1">
-                          <span className="font-bold block text-xs uppercase text-[#2B4C7E]">
+                          <span className="font-bold block text-xs uppercase text-secondary">
                             Giải thích chi tiết tiếng Việt:
                           </span>
                           <p className="leading-relaxed text-xs sm:text-sm text-gray-800">
@@ -367,7 +367,7 @@ function ExamResultsContent() {
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
         <Link
           href="/mock-exams"
-          className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
+          className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
         >
           <RotateCcw size={16} />
           Làm đề thi thử khác

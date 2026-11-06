@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Be_Vietnam_Pro, Noto_Sans_JP } from "next/font/google";
+import { Noto_Sans, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { FuriganaProvider } from "./components/RubyText";
 import { Navbar } from "./components/Navbar";
 import { BottomNav } from "./components/BottomNav";
 import { Footer } from "./components/Footer";
 
-const beVietnamPro = Be_Vietnam_Pro({
+const notoSans = Noto_Sans({
   variable: "--font-vietnamese",
   weight: ["400", "500", "600", "700"],
   subsets: ["latin", "vietnamese"],
@@ -34,9 +34,9 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${beVietnamPro.variable} ${notoSansJP.variable} h-full antialiased`}
+      className={`${notoSans.variable} ${notoSansJP.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#F7F7F4] text-[#1F2937]">
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <FuriganaProvider>
           <Suspense fallback={<div className="h-16 bg-white border-b border-gray-200" />}>
             <Navbar />

@@ -39,7 +39,7 @@ export function AudioButton({
       onClick={handleSpeak}
       aria-label={`Nghe phát âm: ${textToSpeak}`}
       title={`Nghe phát âm tiếng Nhật`}
-      className={`p-2 rounded-full hover:bg-red-50 text-[#B9343F] transition-colors touch-target inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#B9343F] ${className}`}
+      className={`p-2 rounded-full hover:bg-red-50 text-primary transition-colors touch-target inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary ${className}`}
     >
       {isPlaying ? (
         <VolumeX size={size} className="animate-pulse" />

@@ -142,7 +142,7 @@ export default function DashboardPage() {
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm flex flex-col justify-between space-y-6 relative overflow-hidden group">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#B9343F] uppercase tracking-wider bg-red-50 px-3 py-1 rounded-full border border-red-100">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-wider bg-red-50 px-3 py-1 rounded-full border border-red-100">
                 <BookOpen size={14} />
                 Lộ trình học tập
               </span>
@@ -165,7 +165,7 @@ export default function DashboardPage() {
               </div>
               <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-[#B9343F] rounded-full transition-all duration-500"
+                  className="h-full bg-primary rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(100, Math.max(0, lessonPct))}%` }}
                 />
               </div>
@@ -174,7 +174,7 @@ export default function DashboardPage() {
 
           <Link
             href={`/learn/n5/${nextLessonSlug}`}
-            className="w-full py-3.5 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
+            className="w-full py-3.5 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
           >
             {completedLessons > 0 ? "Tiếp tục học bài mới" : "Bắt đầu học ngay"}
             <ArrowRight size={16} />
@@ -185,7 +185,7 @@ export default function DashboardPage() {
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm flex flex-col justify-between space-y-6 relative overflow-hidden">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2B4C7E] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-secondary uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
                 <Layers size={14} />
                 Thẻ nhớ Spaced Repetition
               </span>
@@ -193,7 +193,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-baseline gap-3">
-              <span className="text-4xl sm:text-5xl font-extrabold text-[#2B4C7E]">
+              <span className="text-4xl sm:text-5xl font-extrabold text-secondary">
                 {dueSrsCount}
               </span>
               <span className="text-base text-gray-700 font-semibold">
@@ -221,7 +221,7 @@ export default function DashboardPage() {
             href="/flashcards"
             className={`w-full py-3.5 rounded-2xl font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer ${
               dueSrsCount > 0
-                ? "bg-[#2B4C7E] hover:bg-[#1E365B] text-white"
+                ? "bg-secondary hover:bg-secondary-hover text-white"
                 : "bg-emerald-600 hover:bg-emerald-700 text-white"
             }`}
           >
@@ -245,7 +245,7 @@ export default function DashboardPage() {
           <span className="text-gray-700">
             Mục tiêu của bạn: <strong>JLPT {goal.targetLevel}</strong> • <strong>{goal.dailyGoalMinutes} phút/ngày</strong>
           </span>
-          <Link href="/onboarding" className="text-xs font-bold text-[#B9343F] hover:underline">
+          <Link href="/onboarding" className="text-xs font-bold text-primary hover:underline">
             {goal.onboarded ? "Đổi mục tiêu" : "Thiết lập mục tiêu"}
           </Link>
         </div>
@@ -266,11 +266,11 @@ export default function DashboardPage() {
               <li key={r.skill} className="flex items-start justify-between gap-3 p-3 rounded-2xl bg-red-50/60 border border-red-200">
                 <div>
                   <p className="text-sm font-bold text-gray-900">
-                    {r.step}. {r.skill} <span className="text-[#B9343F]">({r.percent}%)</span>
+                    {r.step}. {r.skill} <span className="text-primary">({r.percent}%)</span>
                   </p>
                   <p className="text-xs text-gray-600">{r.actionVi}</p>
                 </div>
-                <Link href={r.href} className="text-xs font-bold text-[#B9343F] hover:underline whitespace-nowrap">
+                <Link href={r.href} className="text-xs font-bold text-primary hover:underline whitespace-nowrap">
                   Ôn ngay
                 </Link>
               </li>
@@ -290,7 +290,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/learn/n5"
-              className="text-xs font-semibold text-[#B9343F] hover:underline"
+              className="text-xs font-semibold text-primary hover:underline"
             >
               Xem toàn bộ lộ trình
             </Link>
@@ -350,7 +350,7 @@ export default function DashboardPage() {
 
                 <div className="py-2">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-extrabold text-[#B9343F]">
+                    <span className="text-3xl font-extrabold text-primary">
                       {latestAttempt.internalScore ?? 0}
                     </span>
                     <span className="text-sm font-semibold text-gray-500">/ 180 điểm</span>
@@ -385,7 +385,7 @@ export default function DashboardPage() {
 
               <Link
                 href="/mock-exams"
-                className="w-full py-2.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-semibold text-xs text-center block transition-colors cursor-pointer shadow-sm"
+                className="w-full py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white font-semibold text-xs text-center block transition-colors cursor-pointer shadow-sm"
               >
                 Làm đề thi thử ngay
               </Link>

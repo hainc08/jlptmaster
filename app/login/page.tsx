@@ -79,7 +79,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-[#F7F7F4] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#B9343F] text-sm text-gray-900"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-background focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-gray-900"
               />
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-[#F7F7F4] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#B9343F] text-sm text-gray-900"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-background focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-gray-900"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] disabled:opacity-50 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all mt-2 cursor-pointer"
+            className="w-full py-3.5 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all mt-2 cursor-pointer"
           >
             {loading ? (
               <>
@@ -124,7 +124,7 @@ export default function LoginPage() {
 
         <div className="text-center text-xs text-gray-500 pt-2 border-t border-gray-100">
           Chưa có tài khoản?{" "}
-          <Link href="/register" className="font-bold text-[#B9343F] hover:underline">
+          <Link href="/register" className="font-bold text-primary hover:underline">
             Đăng ký học miễn phí
           </Link>
         </div>

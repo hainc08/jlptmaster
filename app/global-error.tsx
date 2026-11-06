@@ -5,17 +5,17 @@
 export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <html lang="vi">
-      <body style={{ fontFamily: "system-ui, sans-serif", background: "#F7F7F4", color: "#1F2937", margin: 0 }}>
+      <body style={{ fontFamily: "system-ui, sans-serif", background: "#FAF9FD", color: "#1B1B22", margin: 0 }}>
         <div style={{ maxWidth: 480, margin: "0 auto", padding: "80px 16px", textAlign: "center" }}>
           <h1 style={{ fontSize: 24, marginBottom: 12 }}>Hệ thống đang gặp sự cố</h1>
-          <p style={{ fontSize: 14, color: "#4B5563", marginBottom: 24 }}>
+          <p style={{ fontSize: 14, color: "#46464F", marginBottom: 24 }}>
             Vui lòng thử tải lại trang. Nếu lỗi tiếp diễn, hãy quay lại sau ít phút.
           </p>
           <button
             type="button"
             onClick={() => reset()}
             style={{
-              background: "#B9343F",
+              background: "#3730A3",
               color: "#fff",
               border: 0,
               borderRadius: 12,

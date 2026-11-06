@@ -38,7 +38,7 @@ export default function OnboardingPage() {
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="max-w-xl w-full bg-white rounded-3xl border border-gray-200 shadow-xl p-6 sm:p-10 space-y-8">
         <div className="text-center space-y-2">
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#B9343F] bg-[#FBEBEB] px-3 py-1 rounded-full">
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary bg-primary-subtle px-3 py-1 rounded-full">
             Thiết lập hồ sơ học viên • Bước 1/1
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
@@ -60,13 +60,13 @@ export default function OnboardingPage() {
               onClick={() => setSelectedLevel("N5")}
               className={`p-4 rounded-2xl border-2 text-left transition-all relative ${
                 selectedLevel === "N5"
-                  ? "border-[#B9343F] bg-red-50/70 shadow-sm"
+                  ? "border-primary bg-red-50/70 shadow-sm"
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xl font-extrabold text-[#B9343F]">JLPT N5</span>
-                <span className="w-5 h-5 rounded-full bg-[#B9343F] text-white flex items-center justify-center text-xs">
+                <span className="text-xl font-extrabold text-primary">JLPT N5</span>
+                <span className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-xs">
                   <Check size={12} strokeWidth={3} />
                 </span>
               </div>
@@ -109,7 +109,7 @@ export default function OnboardingPage() {
                 onClick={() => setDailyMinutes(mins)}
                 className={`py-3 px-2 rounded-xl border-2 text-center transition-all ${
                   dailyMinutes === mins
-                    ? "border-[#B9343F] bg-red-50 text-[#B9343F] font-bold shadow-sm"
+                    ? "border-primary bg-red-50 text-primary font-bold shadow-sm"
                     : "border-gray-200 hover:bg-gray-50 text-gray-700 font-medium"
                 }`}
               >
@@ -129,7 +129,7 @@ export default function OnboardingPage() {
           type="button"
           onClick={handleComplete}
           disabled={saving}
-          className="disabled:opacity-60 w-full py-4 rounded-2xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-base shadow-lg shadow-red-900/10 flex items-center justify-center gap-2 transition-all"
+          className="disabled:opacity-60 w-full py-4 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-base shadow-lg shadow-red-900/10 flex items-center justify-center gap-2 transition-all"
         >
           {saving ? "Đang lưu..." : "Hoàn tất thiết lập & Vào Bảng điều khiển"}
           <ArrowRight size={18} />

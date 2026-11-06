@@ -69,7 +69,7 @@ export default function RegisterPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-[#F7F7F4] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#B9343F] text-sm text-gray-900"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-background focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-gray-900"
               />
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function RegisterPage() {
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-[#F7F7F4] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#B9343F] text-sm text-gray-900"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-background focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-gray-900"
               />
             </div>
             <p className="text-[10px] text-gray-500">Tối thiểu 8 ký tự, gồm cả chữ và số</p>
@@ -97,7 +97,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] disabled:opacity-50 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all mt-2 cursor-pointer"
+            className="w-full py-3.5 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all mt-2 cursor-pointer"
           >
             {loading ? (
               <>
@@ -115,7 +115,7 @@ export default function RegisterPage() {
 
         <div className="text-center text-xs text-gray-500 pt-2 border-t border-gray-100">
           Đã có tài khoản?{" "}
-          <Link href="/login" className="font-bold text-[#B9343F] hover:underline">
+          <Link href="/login" className="font-bold text-primary hover:underline">
             Đăng nhập ngay
           </Link>
         </div>

@@ -29,7 +29,7 @@ export default function ErrorPage({
         <button
           type="button"
           onClick={() => reset()}
-          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-sm cursor-pointer"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-sm cursor-pointer"
         >
           Thử lại
         </button>

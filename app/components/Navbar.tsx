@@ -123,18 +123,18 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
 
   if (isExamAttempt) {
     return (
-      <header className="sticky top-0 z-40 bg-white border-b border-[#E5E7EB] shadow-sm px-4 py-3">
+      <header className="sticky top-0 z-40 bg-white border-b border-border shadow-sm px-4 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span
-              className="w-8 h-8 rounded-lg bg-[#B9343F] text-white font-bold flex items-center justify-center text-sm shadow-sm"
+              className="w-8 h-8 rounded-lg bg-primary text-white font-bold flex items-center justify-center text-sm shadow-sm"
               style={{ fontFamily: "var(--font-japanese), sans-serif" }}
             >
               日
             </span>
-            <span className="font-bold text-[#1F2937] tracking-tight text-lg">
+            <span className="font-bold text-foreground tracking-tight text-lg">
               JLPT MASTER{" "}
-              <span className="text-xs text-[#B9343F] font-semibold uppercase tracking-wider ml-1">
+              <span className="text-xs text-primary font-semibold uppercase tracking-wider ml-1">
                 Phòng thi {selectedLevel}
               </span>
             </span>
@@ -144,8 +144,8 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
             onClick={toggleFurigana}
             className={`min-h-[40px] px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
               showFurigana
-                ? "bg-[#FBEBEB] text-[#B9343F] border-[#B9343F]/30"
-                : "bg-gray-100 text-[#6B7280] border-[#E5E7EB]"
+                ? "bg-primary-subtle text-primary border-primary/30"
+                : "bg-gray-100 text-muted border-border"
             }`}
           >
             振 Furigana: {showFurigana ? "BẬT" : "TẮT"}
@@ -160,7 +160,7 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
   return (
     <header
       ref={navContainerRef}
-      className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E5E7EB]"
+      className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-border"
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 h-14 md:h-16 flex items-center justify-between gap-2 lg:gap-3">
         {/* LEFT ZONE: Brand Identity + JLPT Level Selector */}
@@ -168,25 +168,25 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
           <Link
             href="/"
             onClick={closeAllMenus}
-            className="flex items-center gap-2 min-h-[40px] md:min-h-[44px] pr-0.5 rounded-lg shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2 group"
+            className="flex items-center gap-2 min-h-[40px] md:min-h-[44px] pr-0.5 rounded-lg shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 group"
           >
             <span
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#B9343F] group-hover:bg-[#A02731] text-white font-bold flex items-center justify-center text-sm sm:text-base shadow-sm shrink-0 transition-colors"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-primary group-hover:bg-primary-hover text-white font-bold flex items-center justify-center text-sm sm:text-base shadow-sm shrink-0 transition-colors"
               style={{ fontFamily: "var(--font-japanese), sans-serif" }}
             >
               日
             </span>
             <div className="leading-tight shrink-0">
-              <span className="font-bold text-[#1F2937] tracking-tight text-sm sm:text-base xl:text-lg block whitespace-nowrap">
+              <span className="font-bold text-foreground tracking-tight text-sm sm:text-base xl:text-lg block whitespace-nowrap">
                 JLPT <span className="md:hidden lg:inline">MASTER</span>
               </span>
-              <span className="hidden 2xl:block text-[11px] text-[#6B7280] font-medium whitespace-nowrap">
+              <span className="hidden 2xl:block text-[11px] text-muted font-medium whitespace-nowrap">
                 Học & Luyện thi chuẩn Nhật
               </span>
             </div>
           </Link>
 
-          <span className="h-5 w-px bg-[#E5E7EB] hidden lg:block shrink-0" aria-hidden="true" />
+          <span className="h-5 w-px bg-border hidden lg:block shrink-0" aria-hidden="true" />
 
           {/* JLPT Level Selector (N5–N1) */}
           <div className="relative shrink-0">
@@ -201,16 +201,16 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
               aria-haspopup="true"
               aria-controls="jlpt-level-menu"
               aria-label="Chọn cấp độ JLPT"
-              className="h-9 md:h-10 px-2.5 lg:px-3 py-1.5 rounded-lg border border-[#E5E7EB] bg-[#F7F7F4] hover:bg-gray-100 text-xs font-semibold text-[#1F2937] flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+              className="h-9 md:h-10 px-2.5 lg:px-3 py-1.5 rounded-lg border border-border bg-background hover:bg-gray-100 text-xs font-semibold text-foreground flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
-              <span className="w-2 h-2 rounded-full bg-[#B9343F] shrink-0" />
-              <span className="hidden xl:inline text-[#6B7280] font-medium whitespace-nowrap">
+              <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
+              <span className="hidden xl:inline text-muted font-medium whitespace-nowrap">
                 Cấp độ:
               </span>
-              <span className="font-bold text-[#B9343F] whitespace-nowrap">{selectedLevel}</span>
+              <span className="font-bold text-primary whitespace-nowrap">{selectedLevel}</span>
               <ChevronDown
                 size={14}
-                className={`text-[#6B7280] shrink-0 transition-transform ${
+                className={`text-muted shrink-0 transition-transform ${
                   levelMenuOpen ? "rotate-180" : ""
                 }`}
               />
@@ -221,9 +221,9 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                 id="jlpt-level-menu"
                 role="menu"
                 aria-label="Danh sách cấp độ JLPT"
-                className="absolute left-0 mt-2 w-64 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-2 z-50"
+                className="absolute left-0 mt-2 w-64 rounded-xl bg-white border border-border shadow-lg p-2 z-50"
               >
-                <div className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#6B7280]">
+                <div className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted">
                   Mục tiêu JLPT của bạn
                 </div>
                 <div className="space-y-1 mt-1">
@@ -241,15 +241,15 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                       }}
                       className={`w-full min-h-[44px] px-3 py-2 rounded-lg text-left flex items-center justify-between transition-colors ${
                         lvl.active
-                          ? "bg-[#FBEBEB]/70 text-[#1F2937] hover:bg-[#FBEBEB] cursor-pointer"
-                          : "opacity-60 cursor-not-allowed text-[#6B7280] bg-gray-50/60"
+                          ? "bg-primary-subtle/70 text-foreground hover:bg-primary-subtle cursor-pointer"
+                          : "opacity-60 cursor-not-allowed text-muted bg-gray-50/60"
                       }`}
                     >
                       <div className="flex items-center gap-2">
                         <span
                           className={`text-xs font-bold px-1.5 py-0.5 rounded ${
                             lvl.active
-                              ? "bg-[#B9343F] text-white"
+                              ? "bg-primary text-white"
                               : "bg-gray-200 text-gray-600"
                           }`}
                         >
@@ -258,7 +258,7 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                         <span className="text-xs font-semibold">{lvl.name}</span>
                       </div>
                       {lvl.active ? (
-                        <span className="text-[11px] font-semibold text-[#B9343F] flex items-center gap-1">
+                        <span className="text-[11px] font-semibold text-primary flex items-center gap-1">
                           <Check size={13} />
                           {lvl.statusText}
                         </span>
@@ -307,28 +307,28 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                     aria-expanded={isDropdownOpen}
                     aria-haspopup="true"
                     aria-current={isActive ? "page" : undefined}
-                    className={`relative h-10 px-1.5 lg:px-2.5 xl:px-3.5 py-1.5 rounded-lg text-xs lg:text-sm flex items-center flex-nowrap whitespace-nowrap shrink-0 gap-1 xl:gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2 ${
+                    className={`relative h-10 px-1.5 lg:px-2.5 xl:px-3.5 py-1.5 rounded-lg text-xs lg:text-sm flex items-center flex-nowrap whitespace-nowrap shrink-0 gap-1 xl:gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                       isActive
-                        ? "text-[#B9343F] bg-[#FBEBEB]/60 font-semibold"
-                        : "text-[#1F2937] hover:bg-gray-100 font-medium"
+                        ? "text-primary bg-primary-subtle/60 font-semibold"
+                        : "text-foreground hover:bg-gray-100 font-medium"
                     }`}
                   >
                     <Icon
                       size={15}
                       className={`hidden xl:inline-block shrink-0 ${
-                        isActive ? "text-[#B9343F] stroke-[2.2]" : "text-[#6B7280]"
+                        isActive ? "text-primary stroke-[2.2]" : "text-muted"
                       }`}
                     />
                     <span className="whitespace-nowrap">{sec.label}</span>
                     <ChevronDown
                       size={13}
                       className={`shrink-0 transition-transform duration-150 ${
-                        isDropdownOpen ? "rotate-180 text-[#B9343F]" : "text-[#6B7280]"
+                        isDropdownOpen ? "rotate-180 text-primary" : "text-muted"
                       }`}
                     />
                     {isActive && (
                       <span
-                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#B9343F] rounded-full"
+                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary rounded-full"
                         aria-hidden="true"
                       />
                     )}
@@ -339,22 +339,22 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                     role="button"
                     onClick={closeAllMenus}
                     aria-current={isActive ? "page" : undefined}
-                    className={`relative h-10 px-1.5 lg:px-2.5 xl:px-3.5 py-1.5 rounded-lg text-xs lg:text-sm flex items-center flex-nowrap whitespace-nowrap shrink-0 gap-1 xl:gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2 ${
+                    className={`relative h-10 px-1.5 lg:px-2.5 xl:px-3.5 py-1.5 rounded-lg text-xs lg:text-sm flex items-center flex-nowrap whitespace-nowrap shrink-0 gap-1 xl:gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                       isActive
-                        ? "text-[#B9343F] bg-[#FBEBEB]/60 font-semibold"
-                        : "text-[#1F2937] hover:bg-gray-100 font-medium"
+                        ? "text-primary bg-primary-subtle/60 font-semibold"
+                        : "text-foreground hover:bg-gray-100 font-medium"
                     }`}
                   >
                     <Icon
                       size={15}
                       className={`hidden xl:inline-block shrink-0 ${
-                        isActive ? "text-[#B9343F] stroke-[2.2]" : "text-[#6B7280]"
+                        isActive ? "text-primary stroke-[2.2]" : "text-muted"
                       }`}
                     />
                     <span className="whitespace-nowrap">{sec.label}</span>
                     {isActive && (
                       <span
-                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#B9343F] rounded-full"
+                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary rounded-full"
                         aria-hidden="true"
                       />
                     )}
@@ -366,13 +366,13 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                   <div
                     role="menu"
                     aria-label={`Menu ${sec.label}`}
-                    className="absolute left-0 mt-2 w-80 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-2 z-50"
+                    className="absolute left-0 mt-2 w-80 rounded-xl bg-white border border-border shadow-lg p-2 z-50"
                   >
                     <div className="px-3 py-1.5 border-b border-gray-100 flex items-center justify-between">
-                      <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6B7280]">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">
                         {sec.label} — JLPT {selectedLevel}
                       </span>
-                      <span className="text-[11px] text-[#B9343F] font-medium">
+                      <span className="text-[11px] text-primary font-medium">
                         {sec.subItems?.length} mục
                       </span>
                     </div>
@@ -386,17 +386,17 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                             href={sub.href}
                             role="menuitem"
                             onClick={closeAllMenus}
-                            className={`min-h-[48px] px-3 py-2.5 rounded-lg flex items-start gap-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] ${
+                            className={`min-h-[48px] px-3 py-2.5 rounded-lg flex items-start gap-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                               isSubActive
-                                ? "bg-[#FBEBEB]/70 text-[#B9343F]"
-                                : "hover:bg-[#F3F4F6] text-[#1F2937]"
+                                ? "bg-primary-subtle/70 text-primary"
+                                : "hover:bg-surface-hover text-foreground"
                             }`}
                           >
                             <span
                               className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
                                 isSubActive
-                                  ? "bg-[#B9343F] text-white"
-                                  : "bg-[#F7F7F4] text-[#1F2937] border border-[#E5E7EB]"
+                                  ? "bg-primary text-white"
+                                  : "bg-background text-foreground border border-border"
                               }`}
                             >
                               <SubIcon size={16} />
@@ -407,12 +407,12 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                                   {sub.label}
                                 </span>
                                 {sub.badge && (
-                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#FBEBEB] text-[#B9343F]">
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary-subtle text-primary">
                                     {sub.badge}
                                   </span>
                                 )}
                               </div>
-                              <p className="text-xs text-[#6B7280] leading-normal mt-0.5">
+                              <p className="text-xs text-muted leading-normal mt-0.5">
                                 {sub.description}
                               </p>
                             </div>
@@ -434,7 +434,7 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
             <Link
               href="/admin"
               onClick={closeAllMenus}
-              className="hidden lg:inline-flex h-10 px-2.5 xl:px-3 py-1.5 rounded-lg bg-[#E7ECF8] hover:bg-indigo-100 text-[#1D4ED8] text-xs font-semibold items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4ED8] focus-visible:ring-offset-2"
+              className="hidden lg:inline-flex h-10 px-2.5 xl:px-3 py-1.5 rounded-lg bg-info-bg hover:bg-indigo-100 text-info-text text-xs font-semibold items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-info-text focus-visible:ring-offset-2"
             >
               <Shield size={14} className="shrink-0" />
               <span className="hidden xl:inline whitespace-nowrap">Quản trị CMS</span>
@@ -448,14 +448,14 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
               <Link
                 href="/login"
                 onClick={closeAllMenus}
-                className="h-9 md:h-10 px-2.5 lg:px-3.5 py-1.5 rounded-lg border border-[#E5E7EB] bg-white hover:bg-gray-50 text-xs lg:text-sm font-semibold text-[#1F2937] flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                className="h-9 md:h-10 px-2.5 lg:px-3.5 py-1.5 rounded-lg border border-border bg-white hover:bg-gray-50 text-xs lg:text-sm font-semibold text-foreground flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 Đăng nhập
               </Link>
               <Link
                 href="/register"
                 onClick={closeAllMenus}
-                className="h-9 md:h-10 px-2.5 lg:px-4 py-1.5 rounded-lg bg-[#B9343F] hover:bg-[#A02731] text-xs lg:text-sm font-semibold text-white flex items-center justify-center shadow-sm whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                className="h-9 md:h-10 px-2.5 lg:px-4 py-1.5 rounded-lg bg-primary hover:bg-primary-hover text-xs lg:text-sm font-semibold text-white flex items-center justify-center shadow-sm whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 Đăng ký
               </Link>
@@ -475,12 +475,12 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                   aria-expanded={notifMenuOpen}
                   aria-haspopup="true"
                   aria-label="Thông báo học tập"
-                  className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg border border-transparent hover:bg-gray-100 text-[#1F2937] flex items-center justify-center shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                  className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg border border-transparent hover:bg-gray-100 text-foreground flex items-center justify-center shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   <Bell size={18} className="shrink-0" />
                   {dueCount > 0 && (
                     <span
-                      className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-[#B9343F] ring-2 ring-white"
+                      className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-primary ring-2 ring-white"
                       aria-hidden="true"
                     />
                   )}
@@ -490,12 +490,12 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                   <div
                     role="menu"
                     aria-label="Danh sách thông báo"
-                    className="absolute right-0 mt-2 w-80 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-3 z-50 space-y-2"
+                    className="absolute right-0 mt-2 w-80 rounded-xl bg-white border border-border shadow-lg p-3 z-50 space-y-2"
                   >
                     <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-                      <span className="text-xs font-bold text-[#1F2937]">Thông báo học tập</span>
+                      <span className="text-xs font-bold text-foreground">Thông báo học tập</span>
                       {dueCount > 0 && (
-                        <span className="text-[11px] font-semibold text-[#B9343F] bg-[#FBEBEB] px-2 py-0.5 rounded-full">
+                        <span className="text-[11px] font-semibold text-primary bg-primary-subtle px-2 py-0.5 rounded-full">
                           {dueCount} mới
                         </span>
                       )}
@@ -505,13 +505,13 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                         <Link
                           href="/flashcards"
                           onClick={closeAllMenus}
-                          className="block p-2.5 rounded-lg bg-[#FBEBEB]/40 border border-[#FBEBEB] hover:bg-[#FBEBEB]/70 space-y-0.5"
+                          className="block p-2.5 rounded-lg bg-primary-subtle/40 border border-primary-subtle hover:bg-primary-subtle/70 space-y-0.5"
                         >
-                          <p className="font-semibold text-[#1F2937]">{dueCount} thẻ nhớ SRS đã đến hạn ôn tập</p>
-                          <p className="text-[#6B7280]">Ôn ngay để giữ lịch ghi nhớ.</p>
+                          <p className="font-semibold text-foreground">{dueCount} thẻ nhớ SRS đã đến hạn ôn tập</p>
+                          <p className="text-muted">Ôn ngay để giữ lịch ghi nhớ.</p>
                         </Link>
                       ) : (
-                        <p className="p-2.5 text-[#6B7280]">Chưa có thông báo mới.</p>
+                        <p className="p-2.5 text-muted">Chưa có thông báo mới.</p>
                       )}
                     </div>
                   </div>
@@ -530,33 +530,33 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                   aria-expanded={profileMenuOpen}
                   aria-haspopup="true"
                   aria-label="Menu tài khoản cá nhân"
-                  className="h-9 md:h-10 pl-1.5 pr-2 lg:pr-2.5 py-1 rounded-lg border border-[#E5E7EB] hover:bg-gray-50 flex items-center gap-1.5 lg:gap-2 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                  className="h-9 md:h-10 pl-1.5 pr-2 lg:pr-2.5 py-1 rounded-lg border border-border hover:bg-gray-50 flex items-center gap-1.5 lg:gap-2 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
-                  <span className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-[#1F2937] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                  <span className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-foreground text-white text-xs font-bold flex items-center justify-center shrink-0">
                     {role === "admin" ? "AD" : "MN"}
                   </span>
                   <div className="hidden xl:block text-left leading-tight shrink-0">
-                    <span className="text-xs font-semibold text-[#1F2937] block whitespace-nowrap">
+                    <span className="text-xs font-semibold text-foreground block whitespace-nowrap">
                       {role === "admin" ? "Quản trị viên" : "Minh Nguyễn"}
                     </span>
-                    <span className="hidden 2xl:block text-[10px] text-[#6B7280] whitespace-nowrap">
+                    <span className="hidden 2xl:block text-[10px] text-muted whitespace-nowrap">
                       {role === "admin" ? "ADMIN • N5–N1" : "Học viên • Mục tiêu N5"}
                     </span>
                   </div>
-                  <ChevronDown size={14} className="text-[#6B7280] shrink-0" />
+                  <ChevronDown size={14} className="text-muted shrink-0" />
                 </button>
 
                 {profileMenuOpen && (
                   <div
                     role="menu"
                     aria-label="Tùy chọn tài khoản"
-                    className="absolute right-0 mt-2 w-64 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-2 z-50"
+                    className="absolute right-0 mt-2 w-64 rounded-xl bg-white border border-border shadow-lg p-2 z-50"
                   >
                     <div className="px-3 py-2 border-b border-gray-100">
-                      <p className="text-xs font-bold text-[#1F2937]">
+                      <p className="text-xs font-bold text-foreground">
                         {accountEmail ?? (role === "admin" ? "Quản trị viên" : "Học viên")}
                       </p>
-                      <p className="text-[11px] text-[#6B7280] mt-0.5">
+                      <p className="text-[11px] text-muted mt-0.5">
                         {goalText ?? "Chưa thiết lập mục tiêu"}
                       </p>
                     </div>
@@ -566,18 +566,18 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                         href="/dashboard"
                         role="menuitem"
                         onClick={closeAllMenus}
-                        className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-[#1F2937] hover:bg-gray-100 flex items-center gap-2.5"
+                        className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-foreground hover:bg-gray-100 flex items-center gap-2.5"
                       >
-                        <User size={15} className="text-[#6B7280]" />
+                        <User size={15} className="text-muted" />
                         Hồ sơ & Lộ trình cá nhân
                       </Link>
                       <Link
                         href="/onboarding"
                         role="menuitem"
                         onClick={closeAllMenus}
-                        className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-[#1F2937] hover:bg-gray-100 flex items-center gap-2.5"
+                        className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-foreground hover:bg-gray-100 flex items-center gap-2.5"
                       >
-                        <Settings size={15} className="text-[#6B7280]" />
+                        <Settings size={15} className="text-muted" />
                         Cài đặt mục tiêu học tập
                       </Link>
 
@@ -586,7 +586,7 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                           href="/admin"
                           role="menuitem"
                           onClick={closeAllMenus}
-                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-[#1D4ED8] bg-[#E7ECF8]/60 hover:bg-[#E7ECF8] flex items-center gap-2.5"
+                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-info-text bg-info-bg/60 hover:bg-info-bg flex items-center gap-2.5"
                         >
                           <Shield size={15} />
                           Bảng điều khiển Admin CMS
@@ -616,7 +616,7 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                           }
                           closeAllMenus();
                         }}
-                        className="w-full min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-[#B9343F] hover:bg-[#FBEBEB]/60 flex items-center gap-2.5"
+                        className="w-full min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-primary hover:bg-primary-subtle/60 flex items-center gap-2.5"
                       >
                         <LogOut size={15} />
                         Đăng xuất

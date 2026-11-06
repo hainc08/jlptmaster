@@ -39,6 +39,42 @@ export function postLoginTarget(role: string, redirect: string | null): string {
   return home;
 }
 
+export type TabId = "home" | "learn" | "test" | "kanji" | "profile";
+
+/** Learner navigation: bottom bar below 1024px, sidebar at ≥1024px. */
+export const LEARNER_TABS: { id: TabId; labelKey: string; href: string }[] = [
+  { id: "home", labelKey: "nav.home", href: "/dashboard" },
+  { id: "learn", labelKey: "nav.learn", href: "/learn/n5" },
+  { id: "test", labelKey: "nav.test", href: "/mock-exams" },
+  { id: "kanji", labelKey: "nav.kanji", href: "/kanji" },
+  { id: "profile", labelKey: "nav.profile", href: "/profile" },
+];
+
+const under = (pathname: string, base: string) =>
+  pathname === base || pathname.startsWith(base + "/");
+
+export function getActiveTab(pathname: string): TabId | null {
+  if (under(pathname, "/dashboard")) return "home";
+  if (["/learn", "/vocabulary", "/grammar", "/flashcards", "/practice"].some((b) => under(pathname, b))) {
+    return "learn";
+  }
+  if (under(pathname, "/mock-exams") || under(pathname, "/results")) return "test";
+  if (under(pathname, "/kanji")) return "kanji";
+  if (under(pathname, "/profile")) return "profile";
+  return null;
+}
+
+/** Lesson and exam screens hide the tab bar and sidebar. */
+export function isFocusPath(pathname: string): boolean {
+  return /^\/learn\/n5\/[^/]+\/?$/.test(pathname) || /^\/mock-exams\/[^/]+\/?$/.test(pathname);
+}
+
+/** The furigana switch only appears on screens that show Japanese text. */
+export function showsFurigana(pathname: string): boolean {
+  const tab = getActiveTab(pathname);
+  return tab === "learn" || tab === "kanji" || tab === "test";
+}
+
 export type UserRole = "student" | "guest" | "admin";
 export type SectionId = "trang-chu" | "hoc-tap" | "luyen-tap" | "thi-thu" | "tien-do";
 

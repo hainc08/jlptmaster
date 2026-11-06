@@ -1,30 +1,37 @@
 @import "tailwindcss";
 
+/* Learner tokens — approved 2026-11-06 (docs/design-system.md §7). Light mode only. */
 :root {
-  --background: #F7F7F4;
-  --foreground: #1F2937;
+  --background: #FAF9FD;
+  --foreground: #1B1B22;
   --surface: #FFFFFF;
-  --surface-hover: #F3F4F6;
-  --primary: #B9343F;
-  --primary-hover: #A02731;
-  --primary-subtle: #FBEBEB;
-  --secondary: #2B4C7E;
-  --secondary-hover: #1E365B;
-  --border: #E5E7EB;
-  --muted: #6B7280;
-  
-  --success-bg: #E8F3EC;
-  --success-text: #1E6B37;
-  --info-bg: #E7ECF8;
-  --info-text: #1D4ED8;
-  --warning-bg: #FEF3C7;
-  --warning-text: #B45309;
-  --danger-bg: #FDE8E8;
-  --danger-text: #991B1B;
+  --surface-hover: #F1F0F6;
+  --primary: #3730A3;
+  --primary-hover: #2B2585;
+  --primary-subtle: #E3E1FF;
+  --primary-container: #E3E1FF;
+  --on-primary-container: #1A1465;
+  --secondary: #1A1465;
+  --secondary-hover: #120E4A;
+  --accent: #C0331B;
+  --accent-container: #FFDAD3;
+  --border: #CAC9D4;
+  --outline: #767680;
+  --muted: #46464F;
+  --locked: #5E5E68;
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --success-bg: #D3F0DC;
+  --success-text: #14663A;
+  --info-bg: #E3E1FF;
+  --info-text: #1A1465;
+  --warning-bg: #FFE7B0;
+  --warning-text: #744C00;
+  --danger-bg: #FFDAD3;
+  --danger-text: #9A2B1B;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 }
 
 @theme inline {
@@ -38,7 +45,13 @@
   --color-secondary: var(--secondary);
   --color-secondary-hover: var(--secondary-hover);
   --color-border: var(--border);
+  --color-outline: var(--outline);
   --color-muted: var(--muted);
+  --color-locked: var(--locked);
+  --color-accent: var(--accent);
+  --color-accent-container: var(--accent-container);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
   
   --color-success-bg: var(--success-bg);
   --color-success-text: var(--success-text);
@@ -84,14 +97,13 @@ rt {
 }
 
 .furigana-hidden rt {
-  opacity: 0 !important;
   visibility: hidden !important;
 }
 
 /* Custom interactive touch target and focus */
 .touch-target {
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 48px;
+  min-width: 48px;
 }
 
 :focus-visible {

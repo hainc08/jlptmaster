@@ -37,13 +37,13 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="text-center max-w-3xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-100 text-[#B9343F] text-xs font-semibold tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-100 text-primary text-xs font-semibold tracking-wide">
             <Sparkles size={14} />
             Lộ trình học JLPT N5 tinh gọn dành riêng cho người Việt
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight">
-            Chinh phục <span className="text-[#B9343F]">JLPT N5</span> từ con số 0 với giải thích tiếng Việt chuẩn xác
+            Chinh phục <span className="text-primary">JLPT N5</span> từ con số 0 với giải thích tiếng Việt chuẩn xác
           </h1>
 
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -53,7 +53,7 @@ export default function LandingPage() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/onboarding"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-base shadow-lg shadow-red-900/10 flex items-center justify-center gap-2 transition-all"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-base shadow-lg shadow-red-900/10 flex items-center justify-center gap-2 transition-all"
             >
               Bắt đầu học miễn phí
               <ArrowRight size={18} />
@@ -88,7 +88,7 @@ export default function LandingPage() {
       <section className="bg-white border-y border-gray-200 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold text-[#B9343F] uppercase tracking-wider">
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">
               Khởi đầu từ căn bản
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
@@ -106,8 +106,8 @@ export default function LandingPage() {
                 onClick={() => setSelectedKana(k.char)}
                 className={`p-3 rounded-xl border flex flex-col items-center justify-center transition-all ${
                   selectedKana === k.char
-                    ? "border-[#B9343F] bg-red-50 text-[#B9343F] shadow-sm scale-105"
-                    : "border-gray-200 bg-[#F7F7F4] hover:bg-gray-100 text-gray-800"
+                    ? "border-primary bg-red-50 text-primary shadow-sm scale-105"
+                    : "border-gray-200 bg-background hover:bg-gray-100 text-gray-800"
                 }`}
               >
                 <span className="text-2xl font-bold font-japanese">{k.char}</span>
@@ -118,7 +118,7 @@ export default function LandingPage() {
 
           <div className="mt-6 flex items-center justify-center gap-3">
             <span className="text-sm text-gray-700">
-              Đang chọn: <strong className="font-japanese text-lg text-[#B9343F]">{selectedKana}</strong>
+              Đang chọn: <strong className="font-japanese text-lg text-primary">{selectedKana}</strong>
             </span>
             <AudioButton textToSpeak={selectedKana} />
           </div>
@@ -126,7 +126,7 @@ export default function LandingPage() {
           <div className="text-center mt-6">
             <Link
               href="/learn/n5/bai-01-kana-nhap-mon"
-              className="text-sm font-semibold text-[#B9343F] hover:underline inline-flex items-center gap-1"
+              className="text-sm font-semibold text-primary hover:underline inline-flex items-center gap-1"
             >
               Xem toàn bộ 46 chữ cái và bài tập luyện viết
               <ChevronRight size={16} />
@@ -138,7 +138,7 @@ export default function LandingPage() {
       {/* Curriculum Preview Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-bold text-[#B9343F] uppercase tracking-wider">
+          <span className="text-xs font-bold text-primary uppercase tracking-wider">
             Lộ trình học tập
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
@@ -151,12 +151,12 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           {/* N5 Active Card */}
-          <div className="p-6 rounded-2xl bg-white border-2 border-[#B9343F] shadow-md flex flex-col justify-between relative overflow-hidden">
-            <span className="absolute top-3 right-3 text-[10px] font-extrabold uppercase bg-red-100 text-[#B9343F] px-2 py-0.5 rounded-full">
+          <div className="p-6 rounded-2xl bg-white border-2 border-primary shadow-md flex flex-col justify-between relative overflow-hidden">
+            <span className="absolute top-3 right-3 text-[10px] font-extrabold uppercase bg-red-100 text-primary px-2 py-0.5 rounded-full">
               Sẵn sàng
             </span>
             <div>
-              <span className="text-3xl font-extrabold text-[#B9343F]">N5</span>
+              <span className="text-3xl font-extrabold text-primary">N5</span>
               <h3 className="font-bold text-gray-900 mt-1">Nhập môn căn bản</h3>
               <p className="text-xs text-gray-600 mt-2 leading-relaxed">
                 800 từ vựng, 100 chữ Hán, 80 mẫu ngữ pháp và đề thi thử bấm giờ.
@@ -164,7 +164,7 @@ export default function LandingPage() {
             </div>
             <Link
               href="/learn/n5"
-              className="mt-6 w-full py-2.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white text-xs font-bold text-center block transition-colors"
+              className="mt-6 w-full py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold text-center block transition-colors"
             >
               Vào học N5 ngay
             </Link>
@@ -203,8 +203,8 @@ export default function LandingPage() {
       {/* Feature Highlights */}
       <section className="bg-white border-t border-gray-200 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-6 rounded-2xl bg-[#F7F7F4] border border-gray-200 space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-red-100 text-[#B9343F] flex items-center justify-center font-bold">
+          <div className="p-6 rounded-2xl bg-background border border-gray-200 space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-red-100 text-primary flex items-center justify-center font-bold">
               <Layers size={24} />
             </div>
             <h3 className="text-lg font-bold text-gray-900">Thẻ nhớ SRS 4 mức độ nhớ</h3>
@@ -213,8 +213,8 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#F7F7F4] border border-gray-200 space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-indigo-100 text-[#2B4C7E] flex items-center justify-center font-bold">
+          <div className="p-6 rounded-2xl bg-background border border-gray-200 space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-indigo-100 text-secondary flex items-center justify-center font-bold">
               <Award size={24} />
             </div>
             <h3 className="text-lg font-bold text-gray-900">Thi thử bấm giờ bảo mật</h3>
@@ -223,7 +223,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#F7F7F4] border border-gray-200 space-y-3">
+          <div className="p-6 rounded-2xl bg-background border border-gray-200 space-y-3">
             <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
               <BookOpen size={24} />
             </div>
@@ -240,7 +240,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 text-white font-bold text-base mb-1">
-              <span className="w-6 h-6 rounded bg-[#B9343F] text-white flex items-center justify-center text-xs">
+              <span className="w-6 h-6 rounded bg-primary text-white flex items-center justify-center text-xs">
                 日
               </span>
               JLPT MASTER
