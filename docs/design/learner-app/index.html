@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JLPT Master — Learner App Design Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tokens: identical roles/values to docs/design/admin-cms (Material Design 3) ---------- */
+:root{
+  --primary:#3730A3; --on-primary:#fff; --primary-container:#E3E1FF; --on-primary-container:#1A1465;
+  --accent:#C0331B; --on-accent:#fff; --accent-container:#FFDAD3; --on-accent-container:#5C1000;
+  --surface:#FAF9FD; --surface-1:#fff; --surface-2:#F3F2F8; --surface-3:#EBEAF2;
+  --on-surface:#1B1B22; --on-surface-variant:#46464F; --outline:#767680; --outline-variant:#CAC9D4;
+  --ok:#14663A; --ok-c:#D3F0DC; --warn:#744C00; --warn-c:#FFE7B0; --err:#9A2B1B; --err-c:#FFDAD3; --neu-c:#E4E2EC;
+  --locked:#5E5E68;
+  --r-card:16px; --r-ctl:12px;
+  --shadow:0 1px 2px rgba(27,27,34,.08),0 1px 3px rgba(27,27,34,.06);
+  --font:'Noto Sans','Noto Sans JP','Hiragino Sans','Yu Gothic UI','Segoe UI',system-ui,sans-serif;
+  --jp:'Noto Sans JP','Hiragino Sans','Yu Gothic UI',sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);background:#ECEBF1;color:var(--on-surface);font-size:14px;line-height:20px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px;border-radius:8px}
+svg.i{width:24px;height:24px;fill:currentColor;flex:none}
+svg.i.s{width:18px;height:18px}
+.jp{font-family:var(--jp)}
+.muted{color:var(--on-surface-variant)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ruby{ruby-align:center}
+rt{font-size:.5em;font-weight:500;color:var(--on-surface-variant);font-family:var(--jp)}
+body.nofuri rt{visibility:hidden}
+
+/* ---------- Review page (not part of the app) ---------- */
+.review-head{background:var(--surface-1);border-bottom:1px solid var(--outline-variant);padding:24px 16px}
+.review-head .inner{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
+.review-head h1{font-size:24px;line-height:32px}
+.review-head p{color:var(--on-surface-variant);max-width:760px;margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.legend span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:12px;background:var(--surface-2);color:var(--on-surface-variant)}
+.sec{max-width:1320px;margin:0 auto;padding:40px 16px 8px}
+.sec>h2{font-size:20px;line-height:28px;margin-bottom:4px}
+.sec>p{color:var(--on-surface-variant);margin-bottom:24px}
+.gallery{display:flex;flex-wrap:wrap;gap:40px 32px}
+.frame{width:375px;max-width:100%;display:flex;flex-direction:column;gap:10px}
+.frame>.cap{font-weight:700;font-size:15px}
+.frame>.cap small{display:block;font-weight:400;font-size:12px;color:var(--on-surface-variant);margin-top:2px}
+.note{font-size:12px;line-height:18px;color:var(--on-surface-variant);background:var(--surface-1);border-radius:10px;padding:10px 12px;border:1px solid var(--outline-variant)}
+.note b{color:var(--on-surface)}
+footer.review{max-width:1320px;margin:48px auto 0;padding:24px 16px 64px;color:var(--on-surface-variant);font-size:13px;border-top:1px solid var(--outline-variant)}
+
+/* ---------- Phone frame ---------- */
+.phone{position:relative;width:375px;max-width:100%;height:812px;background:var(--surface);border-radius:28px;border:1px solid var(--outline-variant);box-shadow:0 12px 32px rgba(27,27,34,.14);overflow:hidden;display:flex;flex-direction:column}
+.phone.short{height:640px}
+.scr{flex:1;overflow:auto;padding:16px 16px 24px;display:flex;flex-direction:column;gap:16px}
+.scr>*,.dbody>*,.dcol>*,.qpane>*,.npane>*{flex-shrink:0}
+
+/* top app bar */
+.tb{height:64px;flex:none;display:flex;align-items:center;gap:8px;padding:0 8px 0 16px;background:var(--surface-1);border-bottom:1px solid var(--outline-variant)}
+.tb .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;white-space:nowrap;min-width:0}
+.tb .ttl{font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.logo{width:32px;height:32px;border-radius:9px;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px;position:relative;flex:none;font-family:var(--jp)}
+.logo::after{content:"";position:absolute;right:-3px;bottom:-3px;width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid var(--surface-1)}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid var(--outline);border-radius:20px;overflow:hidden;flex:none}
+.seg button{border:0;background:transparent;padding:0 10px;height:32px;min-width:36px;cursor:pointer;font-weight:600;font-size:12px;color:var(--on-surface-variant)}
+.seg button[aria-pressed=true]{background:var(--primary-container);color:var(--on-primary-container)}
+.seg button+button{border-left:1px solid var(--outline-variant)}
+.seg-wrap{display:flex;align-items:center;gap:6px}
+.seg-wrap .k{font-family:var(--jp);font-size:12px;font-weight:700;color:var(--on-surface-variant)}
+/* 48px hit area around 32px visual controls */
+.tb .seg button{position:relative}
+.tb .seg button::before{content:"";position:absolute;inset:-8px 0}
+.icon-btn{width:48px;height:48px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--on-surface-variant);flex:none}
+.icon-btn:hover{background:var(--surface-3)}
+
+/* bottom nav */
+.bn{flex:none;display:grid;grid-template-columns:repeat(5,1fr);background:var(--surface-1);border-top:1px solid var(--outline-variant);padding:6px 4px 10px}
+.bn a{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:56px;justify-content:center;text-decoration:none;color:var(--on-surface-variant);font-size:12px;font-weight:600;cursor:pointer}
+.bn a .pill{width:56px;height:30px;border-radius:15px;display:grid;place-items:center}
+.bn a[aria-current=page]{color:var(--on-surface)}
+.bn a[aria-current=page] .pill{background:var(--primary-container);color:var(--on-primary-container)}
+.navk{font-family:var(--jp);font-weight:700;font-size:18px;line-height:24px;width:24px;text-align:center}
+
+/* ---------- Components ---------- */
+.card{background:var(--surface-1);border-radius:var(--r-card);box-shadow:var(--shadow);border:1px solid var(--outline-variant)}
+.pad{padding:16px}
+.btn{min-height:48px;padding:0 20px;border-radius:24px;border:1px solid transparent;font-weight:600;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;text-decoration:none}
+.btn.block{width:100%}
+.btn.filled{background:var(--primary);color:var(--on-primary)}
+.btn.filled:hover{background:#2c2688}
+.btn.accent{background:var(--accent);color:var(--on-accent)}
+.btn.accent:hover{background:#a72a15}
+.btn.tonal{background:var(--primary-container);color:var(--on-primary-container)}
+.btn.outline{border-color:var(--outline);color:var(--primary);background:var(--surface-1)}
+.btn.outline:hover{background:var(--primary-container)}
+.btn.outline-accent{border-color:var(--accent);color:var(--accent);background:var(--surface-1)}
+.btn.text{background:transparent;color:var(--primary);padding:0 12px}
+.btn.sm{min-height:40px;font-size:14px;padding:0 16px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.chip.ok{background:var(--ok-c);color:var(--ok)}
+.chip.warn{background:var(--warn-c);color:var(--warn)}
+.chip.err{background:var(--err-c);color:var(--err)}
+.chip.neu{background:var(--neu-c);color:var(--locked)}
+.chip.lvl{background:var(--primary-container);color:var(--on-primary-container);border-radius:6px;padding:0 8px}
+.chip.acc{background:var(--accent-container);color:var(--on-accent-container)}
+.t-h1{font-size:24px;line-height:32px;font-weight:700}
+.t-h2{font-size:18px;line-height:24px;font-weight:700}
+.t-label{font-size:12px;line-height:16px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--on-surface-variant)}
+.row{display:flex;align-items:center;gap:12px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.prog{height:8px;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--primary);border-radius:4px}
+.prog.ok i{background:var(--ok)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:600;font-size:13px}
+.in{height:48px;border:1px solid var(--outline);border-radius:var(--r-ctl);padding:0 14px 0 44px;background:#fff;width:100%}
+.in:focus{border-color:var(--primary);outline:2px solid var(--primary);outline-offset:-1px}
+.in-wrap{position:relative}
+.in-wrap>svg{position:absolute;left:12px;top:12px;color:var(--on-surface-variant)}
+
+/* level selector (shared by Welcome, Home, Lobby) */
+.lvls{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.lvls::-webkit-scrollbar{display:none}
+.lv{flex:none;min-width:60px;min-height:48px;border-radius:12px;border:1px solid var(--outline-variant);background:var(--surface-1);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 10px;cursor:pointer;font-weight:700;font-size:15px}
+.lv small{font-size:11px;font-weight:600;line-height:14px}
+.lv[aria-pressed=true]{background:var(--primary);color:#fff;border-color:var(--primary)}
+.lv.locked{background:var(--surface-2);color:var(--locked);border-style:dashed;cursor:not-allowed}
+.lv.locked .lk{display:flex;align-items:center;gap:2px}
+.lv.locked svg{width:14px;height:14px}
+
+/* ring */
+.ring{position:relative;width:88px;height:88px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .v{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:18px}
+.ring .v b{font-size:20px;display:block;line-height:24px}
+.ring .v span{font-size:11px;color:var(--on-surface-variant)}
+
+/* streak */
+.flame{color:var(--accent)}
+.week{display:flex;gap:6px;margin-top:10px}
+.week span{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;background:var(--surface-3);color:var(--on-surface-variant)}
+.week span.on{background:var(--accent);color:#fff}
+.week span.today{outline:2px solid var(--accent);outline-offset:1px;background:var(--accent-container);color:var(--on-accent-container)}
+
+/* chart */
+.bars{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:120px;margin-top:12px}
+.bars div{display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.bars i{display:block;width:100%;max-width:28px;border-radius:6px 6px 2px 2px;background:var(--primary-container)}
+.bars .today i{background:var(--accent)}
+.bars .fut i{background:transparent;border:1px dashed var(--outline-variant);height:6px!important}
+.bars em{font-style:normal;font-size:11px;color:var(--on-surface-variant);font-weight:600}
+.bars b{font-size:11px;font-weight:600}
+
+/* tabs */
+.tabs{display:flex;border-bottom:1px solid var(--outline-variant);margin:0 -16px;padding:0 8px;background:var(--surface-1)}
+.tabs button{flex:1;border:0;background:transparent;height:48px;font-weight:600;color:var(--on-surface-variant);cursor:pointer;position:relative}
+.tabs button[aria-selected=true]{color:var(--primary)}
+.tabs button[aria-selected=true]::after{content:"";position:absolute;left:16px;right:16px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--primary)}
+
+/* units */
+.unit{display:flex;gap:14px;align-items:center;padding:14px 16px;min-height:72px}
+.unit+.unit{border-top:1px solid var(--surface-3)}
+.unit .num{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:700;flex:none;background:var(--primary-container);color:var(--on-primary-container)}
+.unit.done .num{background:var(--ok-c);color:var(--ok)}
+.unit.cur{background:#F7F6FF}
+.unit.cur .num{background:var(--primary);color:#fff}
+.unit.locked .num{background:var(--surface-3);color:var(--locked)}
+.unit.locked{color:var(--locked)}
+.unit .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.unit .body .jp{font-size:13px}
+
+/* flashcard */
+.word{padding:24px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.word .big{font-family:var(--jp);font-size:56px;line-height:1.25;font-weight:500;margin-top:8px}
+.word .big rt{font-size:18px}
+.word .reading{font-family:var(--jp);font-size:18px;color:var(--on-surface-variant)}
+.word .mean{font-size:22px;font-weight:700}
+.audio{width:48px;height:48px;border-radius:50%;border:0;background:var(--primary-container);color:var(--on-primary-container);display:grid;place-items:center;cursor:pointer;flex:none}
+.example{background:var(--surface-2);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;text-align:left;width:100%}
+.example .jp{font-size:18px;line-height:2}
+.steps{display:flex;gap:4px}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--surface-3)}
+.steps i.d{background:var(--ok)}
+.steps i.c{background:var(--primary)}
+
+/* exam */
+.exam-head{flex:none;background:var(--surface-1);border-bottom:1px solid var(--outline-variant);padding:8px 8px 10px 4px;position:sticky;top:0;z-index:5}
+.timer{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:18px;background:var(--accent-container);color:var(--on-accent-container);font-weight:700;font-variant-numeric:tabular-nums}
+.qnav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.npane .qnav{grid-template-columns:repeat(8,1fr);gap:6px}
+.npane .qnav button{height:32px}
+.qnav button{height:44px;min-width:0;border-radius:8px;border:1px solid var(--outline);background:var(--surface-1);font-size:12px;font-weight:600;cursor:pointer;position:relative;padding:0;font-variant-numeric:tabular-nums}
+.qnav button.a{background:var(--primary);border-color:var(--primary);color:#fff}
+.qnav button.f::after{content:"";position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--surface-1)}
+.qnav button.cur{outline:3px solid var(--accent);outline-offset:1px}
+.qleg{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--on-surface-variant);margin-top:10px}
+.qleg span{display:flex;align-items:center;gap:6px}
+.qleg i{width:14px;height:14px;border-radius:4px;border:1px solid var(--outline);display:inline-block;position:relative}
+.qleg i.a{background:var(--primary);border-color:var(--primary)}
+.qleg i.f::after{content:"";position:absolute;top:-4px;right:-4px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.qtext{font-family:var(--jp);font-size:18px;line-height:2}
+.qtext u{text-decoration:none;border-bottom:2px solid var(--on-surface);padding:0 2px}
+.choice{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 14px;border-radius:14px;border:1px solid var(--outline-variant);background:var(--surface-1);cursor:pointer;text-align:left;font-family:var(--jp);font-size:18px}
+.choice .n{width:32px;height:32px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;font-weight:700;font-size:14px;font-family:var(--font);flex:none}
+.choice[aria-checked=true]{border:2px solid var(--primary);background:#F4F3FF}
+.choice[aria-checked=true] .n{background:var(--primary);color:#fff}
+.choices{display:flex;flex-direction:column;gap:8px}
+.exam-foot{flex:none;display:grid;grid-template-columns:1fr auto 1fr;gap:8px;padding:10px 12px 14px;background:var(--surface-1);border-top:1px solid var(--outline-variant)}
+.flag-btn[aria-pressed=true]{background:var(--accent-container);color:var(--on-accent-container);border-color:var(--accent)}
+
+/* dialog / sheet (scoped inside a frame) */
+.scrim{position:absolute;inset:0;background:rgba(27,27,34,.45);z-index:20;display:none}
+.scrim.open{display:block}
+.dialog{position:absolute;left:24px;right:24px;top:50%;transform:translateY(-50%);background:var(--surface-1);border-radius:24px;padding:24px;z-index:21;display:none;box-shadow:0 12px 32px rgba(27,27,34,.24)}
+.dialog.open{display:block}
+.dialog h3{font-size:22px;line-height:28px;margin:12px 0 8px}
+.dl-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.dl-stats div{background:var(--surface-2);border-radius:12px;padding:10px 6px;text-align:center}
+.dl-stats b{display:block;font-size:20px;line-height:26px}
+.dl-stats span{font-size:12px;color:var(--on-surface-variant)}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:86%;overflow:auto;background:var(--surface-1);border-radius:24px 24px 0 0;z-index:21;padding:8px 16px 24px;transform:translateY(105%);transition:transform .2s;box-shadow:0 -8px 24px rgba(27,27,34,.2)}
+.sheet.open{transform:none}
+.sheet .grab{width:36px;height:4px;border-radius:2px;background:var(--outline-variant);margin:6px auto 8px}
+
+/* result */
+.score{display:flex;gap:16px;align-items:center}
+.score .ring{width:112px;height:112px}
+.score .ring .v b{font-size:26px;line-height:30px}
+.sect{padding:14px 0;border-top:1px solid var(--surface-3);display:flex;flex-direction:column;gap:8px}
+.sect:first-of-type{border-top:0}
+.mist{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.mist+.mist{border-top:1px solid var(--surface-3)}
+.ans{display:flex;gap:8px;flex-wrap:wrap;font-size:13px}
+.ans span{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:8px}
+.ans .bad{background:var(--err-c);color:var(--err)}
+.ans .good{background:var(--ok-c);color:var(--ok)}
+.ans .jp{font-size:15px}
+
+/* kanji */
+.search{position:relative}
+.search .in{border-radius:24px;background:var(--surface-1)}
+.kgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kcell{border-radius:14px;border:1px solid var(--outline-variant);background:var(--surface-1);padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;min-height:112px;box-shadow:var(--shadow)}
+.kcell:hover{border-color:var(--primary)}
+.kcell .k{font-family:var(--jp);font-size:36px;line-height:48px}
+.kcell b{font-size:12px;letter-spacing:.04em}
+.kcell span{font-size:12px;color:var(--on-surface-variant);text-align:center;line-height:16px}
+.khero{display:flex;gap:16px;align-items:center}
+.khero .k{width:112px;height:112px;border-radius:20px;background:var(--surface-2);display:grid;place-items:center;font-family:var(--jp);font-size:72px;line-height:1;border:1px solid var(--outline-variant);background-image:linear-gradient(var(--outline-variant) 1px,transparent 1px),linear-gradient(90deg,var(--outline-variant) 1px,transparent 1px);background-size:56px 56px;background-position:center;flex:none}
+.kdl{display:grid;grid-template-columns:96px 1fr;gap:0}
+.kdl>div{padding:12px 0;border-top:1px solid var(--surface-3)}
+.kdl>div:nth-child(odd){color:var(--on-surface-variant);font-weight:600}
+.kdl .jp{font-size:16px}
+.exw{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--surface-3)}
+.exw .jp{font-size:20px;line-height:2}
+
+/* profile */
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:700;flex:none}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat3 div{background:var(--surface-1);border:1px solid var(--outline-variant);border-radius:14px;padding:12px 8px;text-align:center}
+.stat3 b{display:block;font-size:20px;line-height:26px}
+.stat3 span{font-size:12px;color:var(--on-surface-variant)}
+.li{display:flex;align-items:center;gap:12px;padding:12px 16px;min-height:64px}
+.li+.li{border-top:1px solid var(--surface-3)}
+.li .grow{flex:1;min-width:0}
+.sw{position:relative;width:52px;height:32px;flex:none}
+.sw input{position:absolute;inset:-8px 0;opacity:0;cursor:pointer;margin:0;width:100%;height:48px;z-index:1}
+.sw i{position:absolute;inset:0;border-radius:16px;border:2px solid var(--outline);background:var(--surface-3);transition:.15s}
+.sw i::after{content:"";position:absolute;left:6px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--outline);transition:.15s}
+.sw input:checked+i{background:var(--primary);border-color:var(--primary)}
+.sw input:checked+i::after{left:22px;top:2px;width:24px;height:24px;background:#fff}
+.sw input:focus-visible+i{outline:3px solid var(--primary);outline-offset:2px}
+
+/* states */
+.state{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:40px 16px}
+.state .ic{width:80px;height:80px;border-radius:50%;display:grid;place-items:center;background:var(--surface-3);color:var(--on-surface-variant)}
+.state .ic svg{width:40px;height:40px}
+.state.err .ic{background:var(--err-c);color:var(--err)}
+.state.lock .ic{background:var(--primary-container);color:var(--primary)}
+.skel{display:block;border-radius:8px;background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-2) 50%,var(--surface-3) 75%);background-size:200% 100%;animation:sh 1.2s infinite linear}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}.sheet{transition:none}}
+
+/* welcome */
+.hero{display:flex;flex-direction:column;gap:10px;padding-top:8px}
+.hero h1{font-size:28px;line-height:36px;font-weight:700;color:var(--primary)}
+.benefits{display:flex;flex-wrap:wrap;gap:8px}
+.benefits span{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:16px;background:var(--surface-1);border:1px solid var(--outline-variant);font-size:13px;font-weight:600}
+.benefits svg{width:16px;height:16px;color:var(--primary)}
+.auth-seg{display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border-radius:14px;padding:4px}
+.auth-seg button{border:0;background:transparent;min-height:44px;border-radius:10px;font-weight:600;cursor:pointer;color:var(--on-surface-variant)}
+.auth-seg button[aria-selected=true]{background:var(--surface-1);color:var(--primary);box-shadow:var(--shadow)}
+
+/* ---------- Desktop frame (1280 × 800, scaled to fit the page) ---------- */
+.desk-frame{margin-bottom:40px}
+.desk-frame .cap{font-weight:700;font-size:15px;margin-bottom:10px}
+.desk-frame .cap small{font-weight:400;font-size:12px;color:var(--on-surface-variant);margin-left:8px}
+.desk-wrap{width:100%;overflow:hidden;border-radius:14px;border:1px solid var(--outline-variant);box-shadow:0 12px 32px rgba(27,27,34,.14);background:var(--surface)}
+.desk{width:1280px;height:800px;transform-origin:0 0;display:grid;grid-template-columns:248px 1fr;background:var(--surface);position:relative;overflow:hidden}
+.desk.focus{grid-template-columns:1fr}
+.side{background:var(--surface-1);border-right:1px solid var(--outline-variant);padding:16px 12px;display:flex;flex-direction:column;gap:4px}
+.side .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;padding:4px 8px 20px}
+.side a{display:flex;align-items:center;gap:14px;height:52px;padding:0 16px;border-radius:26px;color:var(--on-surface-variant);text-decoration:none;font-weight:600;font-size:15px;cursor:pointer}
+.side a:hover{background:var(--surface-2)}
+.side a[aria-current=page]{background:var(--primary-container);color:var(--on-primary-container)}
+.side .foot{margin-top:auto;padding:12px;border-radius:12px;background:var(--surface-2);display:flex;gap:10px;align-items:center}
+.dmain{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.dtb{height:64px;flex:none;display:flex;align-items:center;gap:12px;padding:0 32px;background:var(--surface-1);border-bottom:1px solid var(--outline-variant)}
+.dbody{flex:1;overflow:auto;padding:28px 32px}
+.dgrid{display:grid;grid-template-columns:1.55fr 1fr;gap:20px;align-items:start}
+.dcol{display:flex;flex-direction:column;gap:20px}
+.egrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.exam-card{padding:20px;display:flex;flex-direction:column;gap:14px}
+.exam-card.locked{background:var(--surface-2);box-shadow:none;border-style:dashed}
+.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--on-surface-variant);font-size:13px}
+.meta span{display:inline-flex;align-items:center;gap:4px}
+.meta svg{width:16px;height:16px}
+.dexam{display:grid;grid-template-columns:1fr 340px;flex:1;min-height:0}
+.dexam .qpane{overflow:auto;padding:32px 64px;display:flex;flex-direction:column;gap:20px}
+.dexam .npane{border-left:1px solid var(--outline-variant);background:var(--surface-1);padding:20px;overflow:auto;display:flex;flex-direction:column;gap:16px}
+</style>
+</head>
+<body>
+
+<!-- Icon sprite (Material Symbols paths) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></symbol>
+  <symbol id="i-test" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M19.48 12.35c-1.57-4.08-7.16-4.3-5.81-10.23.1-.44-.37-.78-.75-.55C9.29 3.71 6.68 8 8.87 13.62c.18.46-.36.89-.75.59-1.81-1.37-2-3.34-1.84-4.75.06-.52-.62-.77-.91-.34C4.69 10.16 4 11.84 4 14.37c.38 5.6 5.11 7.32 6.81 7.54 2.43.31 5.06-.14 6.95-1.87 2.08-1.93 2.84-5.01 1.72-7.69zm-9.28 5.03c1.44-.35 2.18-1.39 2.38-2.31.33-1.43-.96-2.83-.09-5.09.33 1.87 3.27 3.04 3.27 5.08.08 2.53-2.66 4.7-5.56 2.32z"/></symbol>
+  <symbol id="i-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></symbol>
+  <symbol id="i-cloudoff" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0012 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46a5.497 5.497 0 018.05 4.87v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45C23.16 18.16 24 16.68 24 15c0-2.64-2.05-4.78-4.65-4.96zM3 5.27l2.75 2.74C2.56 8.15 0 10.77 0 14c0 3.31 2.69 6 6 6h11.73l2 2L21 20.73 4.27 4 3 5.27zM7.73 10l8 8H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M13 3a9 9 0 00-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0013 21a9 9 0 000-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-okc" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M3 3v8h8V3H3zm6 6H5V5h4v4zm-6 4v8h8v-8H3zm6 6H5v-4h4v4zm4-16v8h8V3h-8zm6 6h-4V5h4v4zm-6 4v8h8v-8h-8zm6 6h-4v-4h4v4z"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></symbol>
+  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
+</svg>
+
+<header class="review-head">
+  <div class="inner">
+    <div style="flex:1;min-width:280px">
+      <h1>JLPT Master — Learner App · Design Review</h1>
+      <p>Mobile-first prototype (375px) of the 9 learner screens plus 1280px versions of Home, Mock test lobby and Exam taking. Tokens, type, chips, switches and nav patterns are the same as the Admin CMS review (<code>docs/design/admin-cms</code>). All data is mock data. Nothing here calls the API or the database.</p>
+      <div class="legend"><span>Primary indigo #3730A3</span><span>Accent vermilion #C0331B</span><span>Cards 16px · controls 12px · 8px grid</span><span>Touch targets ≥ 48px</span><span>Light mode only</span></div>
+    </div>
+    <div class="note" style="max-width:340px">The <b>Furigana</b> and <b>VI / EN</b> controls in any top bar are live. They change every frame on this page. EN covers navigation and the main headings only.</div>
+  </div>
+</header>
+
+<!-- ======================= MOBILE ======================= -->
+<section class="sec">
+  <h2 data-en="Mobile · 375px">Mobile · 375px</h2>
+  <p>Screens 1–9 in order. Bottom tab bar: Trang chủ · Học · Thi thử · Kanji · Hồ sơ. The lesson and exam flows run in focus mode, without the tab bar.</p>
+  <div class="gallery">
+
+  <!-- 1 Welcome -->
+  <div class="frame">
+    <div class="cap">01 · Chào mừng &amp; Đăng nhập<small>Welcome and sign in / sign up</small></div>
+    <div class="phone">
+      <header class="tb" data-tb="welcome"></header>
+      <div class="scr">
+        <div class="hero">
+          <h1>Ôn thi JLPT dễ dàng, mỗi ngày một chút</h1>
+          <p class="muted" style="font-size:15px;line-height:22px">Học từ vựng, ngữ pháp, kanji và thi thử N5 ngay trên điện thoại.</p>
+          <div class="benefits">
+            <span><svg class="i"><use href="#i-clock"/></svg>5 phút/ngày</span>
+            <span><svg class="i"><use href="#i-test"/></svg>Thi thử có chấm điểm</span>
+            <span><svg class="i"><use href="#i-trend"/></svg>Theo dõi tiến độ</span>
+          </div>
+        </div>
+        <div class="card pad" style="display:flex;flex-direction:column;gap:16px">
+          <div class="auth-seg" role="tablist">
+            <button role="tab" aria-selected="true" data-auth="in">Đăng nhập</button>
+            <button role="tab" aria-selected="false" data-auth="up">Đăng ký</button>
+          </div>
+          <div class="field"><label for="em">Email</label>
+            <div class="in-wrap"><svg class="i"><use href="#i-mail"/></svg><input class="in" id="em" type="email" placeholder="ban@email.com" autocomplete="email"></div></div>
+          <div class="field"><label for="pw">Mật khẩu</label>
+            <div class="in-wrap"><svg class="i"><use href="#i-lock"/></svg><input class="in" id="pw" type="password" placeholder="Tối thiểu 8 ký tự" autocomplete="current-password"></div></div>
+          <div class="field">
+            <label>Chọn cấp độ</label>
+            <div class="lvls" data-lvls></div>
+          </div>
+          <button class="btn filled block" id="authBtn">Đăng nhập</button>
+          <button class="btn text" id="forgot" style="align-self:center">Quên mật khẩu?</button>
+        </div>
+      </div>
+    </div>
+    <div class="note"><b>Notes:</b> N5 is selected by default. N4–N1 show a lock and "Sắp ra mắt" and can't be selected. Click "Đăng ký" to see the sign-up button label. No social login.</div>
+  </div>
+
+  <!-- 2 Home -->
+  <div class="frame">
+    <div class="cap">02 · Trang chủ<small>Home dashboard</small></div>
+    <div class="phone">
+      <header class="tb" data-tb="brand"></header>
+      <div class="scr">
+        <div><div class="t-h1">Chào buổi sáng, Minh Anh</div><p class="muted">Còn 5 phút nữa là đạt mục tiêu hôm nay.</p></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="card pad" style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="ring" data-ring="67"><div class="v"><div><b>10</b><span>/ 15 phút</span></div></div></div>
+            <div style="font-weight:600;font-size:13px">Mục tiêu hôm nay</div>
+          </div>
+          <div class="card pad">
+            <div class="row" style="gap:6px"><svg class="i flame"><use href="#i-flame"/></svg><b style="font-size:24px;line-height:30px">12</b></div>
+            <div style="font-weight:600;font-size:13px;margin-top:2px">ngày liên tiếp</div>
+            <div class="week" aria-label="5 ngày đã học tuần này"><span class="on">T2</span><span class="on">T3</span><span class="on">T4</span><span class="on">T5</span><span class="today">T6</span></div>
+          </div>
+        </div>
+        <div class="lvls" data-lvls></div>
+        <div class="card pad" style="display:flex;flex-direction:column;gap:12px;border-left:4px solid var(--primary)">
+          <div class="t-label">Tiếp tục học</div>
+          <div class="between"><div><div class="t-h2">Bài 3 · Gia đình</div><div class="jp muted" style="font-size:15px;line-height:28px"><ruby>家族<rt>かぞく</rt></ruby> · Từ vựng</div></div><span class="chip lvl">N5</span></div>
+          <div class="prog"><i style="width:50%"></i></div>
+          <div class="between"><span class="muted" style="font-size:13px">6/12 từ · khoảng 5 phút</span><button class="btn filled sm">Tiếp tục<svg class="i s"><use href="#i-next"/></svg></button></div>
+        </div>
+        <div class="card pad">
+          <div class="between"><div class="t-h2">Hoạt động tuần này</div><span class="muted" style="font-size:13px"><b style="color:var(--on-surface)">64</b> phút</span></div>
+          <div class="bars" data-bars="12,18,9,15,10,-,-" data-today="4"></div>
+        </div>
+      </div>
+      <nav class="bn" data-bn="home"></nav>
+    </div>
+    <div class="note"><b>Next action first:</b> the goal ring and streak are at the top, and "Tiếp tục học" is one tap away. Today (T6) is vermilion. Future days are dashed. Locked level tabs can't be selected.</div>
+  </div>
+
+  <!-- 3 Learn -->
+  <div class="frame">
+    <div class="cap">03 · Học — Lộ trình N5<small>Learn curriculum</small></div>
+    <div class="phone">
+      <header class="tb" data-tb="furi" data-title="Lộ trình N5"></header>
+      <div class="scr" style="padding-top:0">
+        <div class="tabs" role="tablist"><button role="tab" aria-selected="true">Từ vựng</button><button role="tab" aria-selected="false">Ngữ pháp</button><button role="tab" aria-selected="false">Đọc hiểu</button></div>
+        <div class="card pad row" style="gap:16px">
+          <div class="ring" data-ring="35" style="width:64px;height:64px"><div class="v"><b style="font-size:16px">35%</b></div></div>
+          <div><div style="font-weight:700">33 / 94 từ đã thuộc</div><div class="muted" style="font-size:13px">2 bài hoàn thành · 1 bài đang học</div></div>
+        </div>
+        <div class="card" style="overflow:hidden">
+          <div class="unit done"><div class="num"><svg class="i"><use href="#i-check"/></svg></div><div class="body"><div class="between"><b>Bài 1 · Chào hỏi</b><span class="chip ok">Hoàn thành</span></div><span class="jp muted">あいさつ</span><div class="prog ok"><i style="width:100%"></i></div><span class="muted" style="font-size:12px">12/12 từ</span></div></div>
+          <div class="unit done"><div class="num"><svg class="i"><use href="#i-check"/></svg></div><div class="body"><div class="between"><b>Bài 2 · Số đếm</b><span class="chip ok">Hoàn thành</span></div><span class="jp muted" style="line-height:24px"><ruby>数<rt>かず</rt></ruby></span><div class="prog ok"><i style="width:100%"></i></div><span class="muted" style="font-size:12px">15/15 từ</span></div></div>
+          <div class="unit cur"><div class="num">3</div><div class="body"><div class="between"><b>Bài 3 · Gia đình</b><span class="chip lvl">Đang học</span></div><span class="jp muted" style="line-height:24px"><ruby>家族<rt>かぞく</rt></ruby></span><div class="prog"><i style="width:50%"></i></div><span class="muted" style="font-size:12px">6/12 từ</span></div></div>
+          <div class="unit"><div class="num">4</div><div class="body"><div class="between"><b>Bài 4 · Thời gian</b><span class="chip neu">Chưa học</span></div><span class="jp muted" style="line-height:24px"><ruby>時間<rt>じかん</rt></ruby></span><div class="prog"><i style="width:0"></i></div><span class="muted" style="font-size:12px">0/14 từ</span></div></div>
+          <div class="unit locked"><div class="num"><svg class="i"><use href="#i-lock"/></svg></div><div class="body"><div class="between"><b>Bài 5 · Mua sắm</b><span class="chip neu"><svg class="i s" style="width:14px;height:14px"><use href="#i-lock"/></svg>Đã khóa</span></div><span class="jp" style="line-height:24px"><ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby></span><span style="font-size:12px">Hoàn thành Bài 4 để mở khóa</span></div></div>
+          <div class="unit locked"><div class="num"><svg class="i"><use href="#i-lock"/></svg></div><div class="body"><div class="between"><b>Bài 6 · Phương tiện</b><span class="chip neu"><svg class="i s" style="width:14px;height:14px"><use href="#i-lock"/></svg>Đã khóa</span></div><span class="jp" style="line-height:24px"><ruby>乗<rt>の</rt></ruby>り<ruby>物<rt>もの</rt></ruby></span><span style="font-size:12px">Hoàn thành Bài 5 để mở khóa</span></div></div>
+        </div>
+      </div>
+      <nav class="bn" data-bn="learn"></nav>
+    </div>
+    <div class="note"><b>Unit states:</b> Hoàn thành (green check), Đang học (indigo, tinted row), Chưa học (neutral) and Đã khóa (lock, with the unlock condition). The furigana toggle appears in the top bar because this screen shows kanji.</div>
+  </div>
+
+  <!-- 4 Lesson -->
+  <div class="frame">
+    <div class="cap">04 · Bài học — Thẻ từ vựng<small>Lesson / vocabulary card</small></div>
+    <div class="phone">
+      <header class="tb" data-tb="lesson"></header>
+      <div class="scr">
+        <div>
+          <div class="between" style="margin-bottom:8px"><span style="font-weight:600">Thẻ <span id="lsN">7</span> / 12</span><span class="muted" style="font-size:13px">Đã thuộc <b id="lsK" style="color:var(--ok)">5</b> · Cần ôn <b id="lsR" style="color:var(--accent)">1</b></span></div>
+          <div class="steps" id="lsSteps"></div>
+        </div>
+        <div class="card word">
+          <div class="row" style="align-self:stretch;justify-content:space-between"><span class="chip lvl">Danh từ</span><span class="chip neu">N5</span></div>
+          <div class="big" id="lsWord"><ruby>家族<rt>かぞく</rt></ruby></div>
+          <div class="reading" id="lsRead">かぞく · kazoku</div>
+          <div class="row"><button class="audio" aria-label="Phát âm từ"><svg class="i"><use href="#i-vol"/></svg></button><span class="t-label" id="lsHV">Hán Việt: GIA TỘC</span></div>
+          <div class="mean" id="lsMean">Gia đình</div>
+          <div class="example">
+            <div style="flex:1"><div class="jp" id="lsEx"><ruby>私<rt>わたし</rt></ruby>の<ruby>家族<rt>かぞく</rt></ruby>は<ruby>四人<rt>よにん</rt></ruby>です。</div><div class="muted" style="font-size:13px" id="lsExVi">Gia đình tôi có bốn người.</div></div>
+            <button class="audio" aria-label="Phát câu ví dụ"><svg class="i"><use href="#i-play"/></svg></button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:auto">
+          <button class="btn outline-accent" id="lsAgain"><svg class="i s"><use href="#i-replay"/></svg>Ôn lại</button>
+          <button class="btn filled" id="lsKnow"><svg class="i s"><use href="#i-check"/></svg>Đã thuộc</button>
+        </div>
+      </div>
+    </div>
+    <div class="note"><b>Interactive:</b> "Đã thuộc" and "Ôn lại" move to the next card and update the progress bar and counts. Turning furigana off hides the readings above the kanji but keeps their space, so the layout doesn't jump.</div>
+  </div>
+
+  <!-- 5 Lobby -->
+  <div class="frame">
+    <div class="cap">05 · Thi thử<small>Mock test lobby</small></div>
+    <div class="phone">
+      <header class="tb" data-tb="brand" data-title="Thi thử"></header>
+      <div class="scr">
+        <div class="lvls" data-lvls></div>
+        <div class="row note" style="gap:10px;padding:10px 12px"><svg class="i s" style="color:var(--primary)"><use href="#i-info"/></svg><span>Điểm thi thử chỉ là ước tính, không phải cách chấm điểm chính thức của JLPT.</span></div>
+        <div class="card exam-card">
+          <div class="between"><div><div class="t-h2">N5 Đề 01</div><div class="muted" style="font-size:13px">Từ vựng · Ngữ pháp · Đọc hiểu · Nghe hiểu</div></div><span class="chip ok">Đã làm</span></div>
+          <div class="meta"><span><svg class="i"><use href="#i-clock"/></svg>90 phút</span><span><svg class="i"><use href="#i-test"/></svg>60 câu</span><span><svg class="i"><use href="#i-trend"/></svg>Cao nhất <b style="color:var(--on-surface)">&nbsp;129/180</b></span></div>
+          <button class="btn outline block">Làm lại</button>
+        </div>
+        <div class="card exam-card">
+          <div class="between"><div><div class="t-h2">N5 Đề 02</div><div class="muted" style="font-size:13px">Từ vựng · Ngữ pháp · Đọc hiểu · Nghe hiểu</div></div><span class="chip neu">Chưa làm</span></div>
+          <div class="meta"><span><svg class="i"><use href="#i-clock"/></svg>90 phút</span><span><svg class="i"><use href="#i-test"/></svg>60 câu</span><span><svg class="i"><use href="#i-trend"/></svg>Cao nhất —</span></div>
+          <button class="btn filled block">Bắt đầu</button>
+        </div>
+        <div class="t-label" style="margin-top:4px">Cấp độ khác</div>
+        <div class="card exam-card locked">
+          <div class="between"><div class="row" style="gap:10px;color:var(--locked)"><svg class="i"><use href="#i-lock"/></svg><div><div class="t-h2">N4 · N3 · N2 · N1</div><div style="font-size:13px">Đề thi thử đang được biên soạn</div></div></div><span class="chip neu">Sắp ra mắt</span></div>
+        </div>
+      </div>
+      <nav class="bn" data-bn="test"></nav>
+    </div>
+    <div class="note"><b>Notes:</b> each exam card shows duration, question count, best score and one CTA. "Bắt đầu" is used for a first attempt and "Làm lại" for a retake. Locked levels are grouped into a single dashed card with no button.</div>
+  </div>
+
+  <!-- 6 Exam -->
+  <div class="frame">
+    <div class="cap">06 · Làm bài thi<small>Exam taking (focus mode)</small></div>
+    <div class="phone" id="examPhone">
+      <div class="exam-head">
+        <div class="row" style="gap:4px">
+          <button class="icon-btn" aria-label="Thoát"><svg class="i"><use href="#i-close"/></svg></button>
+          <div style="flex:1;min-width:0"><div style="font-weight:700">N5 Đề 01</div><div class="muted" style="font-size:12px">Câu <span class="qcur">12</span>/60</div></div>
+          <span class="timer" aria-label="Thời gian còn lại"><svg class="i s"><use href="#i-clock"/></svg>42:18</span>
+          <button class="btn accent sm" data-submit style="margin-left:4px">Nộp bài</button>
+        </div>
+        <div class="prog" style="margin:10px 8px 0 12px;height:4px"><i style="width:20%"></i></div>
+      </div>
+      <div class="scr">
+        <details class="card" open>
+          <summary class="between pad" style="cursor:pointer;list-style:none;min-height:48px;padding:12px 16px"><span class="row" style="gap:8px;font-weight:600"><svg class="i s"><use href="#i-grid"/></svg>Câu 1–20</span><span class="muted" style="font-size:12px">Đã làm 10 · Đánh dấu 2</span></summary>
+          <div style="padding:0 16px 14px"><div class="qnav" data-qnav="20"></div>
+            <div class="qleg"><span><i class="a"></i>Đã trả lời</span><span><i class="f"></i>Đánh dấu</span><span><i></i>Chưa trả lời</span></div></div>
+        </details>
+        <div class="card pad" style="display:flex;flex-direction:column;gap:14px">
+          <div class="t-label">もんだい 1 · Câu <span class="qcur">12</span></div>
+          <div class="qtext">＿＿の ことばは ひらがなで どう かきますか。</div>
+          <div class="qtext" style="background:var(--surface-2);border-radius:12px;padding:8px 12px">まいにち <u>学校</u>へ いきます。</div>
+          <div class="choices" role="radiogroup" data-choices>
+            <button class="choice" role="radio" aria-checked="false"><span class="n">1</span>がこう</button>
+            <button class="choice" role="radio" aria-checked="true"><span class="n">2</span>がっこう</button>
+            <button class="choice" role="radio" aria-checked="false"><span class="n">3</span>かっこう</button>
+            <button class="choice" role="radio" aria-checked="false"><span class="n">4</span>がっこ</button>
+          </div>
+        </div>
+      </div>
+      <div class="exam-foot">
+        <button class="btn outline sm"><svg class="i s"><use href="#i-prev"/></svg>Trước</button>
+        <button class="btn outline sm flag-btn" aria-pressed="false" data-flag><svg class="i s"><use href="#i-flag"/></svg>Đánh dấu</button>
+        <button class="btn filled sm">Tiếp<svg class="i s"><use href="#i-next"/></svg></button>
+      </div>
+      <div class="scrim" data-scrim></div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgT" data-dialog>
+        <span class="chip acc">Còn 42:18</span>
+        <h3 id="dlgT">Nộp bài thi?</h3>
+        <p class="muted">Sau khi nộp, bạn không thể sửa đáp án.</p>
+        <div class="dl-stats"><div><b>54</b><span>Đã trả lời</span></div><div><b style="color:var(--accent)">6</b><span>Chưa trả lời</span></div><div><b>2</b><span>Đánh dấu</span></div></div>
+        <div style="display:grid;gap:8px"><button class="btn accent block">Nộp bài</button><button class="btn outline block" data-close>Tiếp tục làm bài</button></div>
+      </div>
+    </div>
+    <div class="note"><b>Interactive:</b> you can pick an answer, toggle "Đánh dấu", and jump between questions with the grid. "Nộp bài" opens the confirmation dialog. The timer stays fixed at the top. The underlined word in the question never gets furigana, because that would give the answer away.</div>
+  </div>
+
+  <!-- 6b dialog static -->
+  <div class="frame">
+    <div class="cap">06b · Xác nhận nộp bài<small>Submit confirmation (static)</small></div>
+    <div class="phone short" style="background:var(--surface-2)">
+      <div class="exam-head"><div class="row" style="gap:4px"><button class="icon-btn" aria-hidden="true" tabindex="-1"><svg class="i"><use href="#i-close"/></svg></button><div style="flex:1;font-weight:700">N5 Đề 01</div><span class="timer"><svg class="i s"><use href="#i-clock"/></svg>42:18</span></div></div>
+      <div class="scrim open"></div>
+      <div class="dialog open" role="dialog" aria-label="Nộp bài thi?">
+        <span class="chip acc">Còn 42:18</span>
+        <h3>Nộp bài thi?</h3>
+        <p class="muted">Sau khi nộp, bạn không thể sửa đáp án.</p>
+        <div class="dl-stats"><div><b>54</b><span>Đã trả lời</span></div><div><b style="color:var(--accent)">6</b><span>Chưa trả lời</span></div><div><b>2</b><span>Đánh dấu</span></div></div>
+        <div style="display:grid;gap:8px"><button class="btn accent block">Nộp bài</button><button class="btn outline block">Tiếp tục làm bài</button></div>
+      </div>
+    </div>
+    <div class="note">Unanswered questions are highlighted in vermilion so the learner can go back to them. The safe action, "Tiếp tục làm bài", is the second button.</div>
+  </div>
+
+  <!-- 7 Result -->
+  <div class="frame">
+    <div class="cap">07 · Kết quả<small>Exam result</small></div>
+    <div class="phone">
+      <header class="tb" data-tb="furi" data-title="Kết quả · N5 Đề 01"></header>
+      <div class="scr">
+        <div class="card pad" style="display:flex;flex-direction:column;gap:14px">
+          <div class="score">
+            <div class="ring" data-ring="72" data-color="ok"><div class="v"><div><b>129</b><span>/ 180</span></div></div></div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span class="chip ok" style="align-self:flex-start"><svg class="i s" style="width:14px;height:14px"><use href="#i-okc"/></svg>Có khả năng đạt</span>
+              <div class="t-h2">Điểm ước tính</div>
+              <div class="muted" style="font-size:12px;line-height:16px">Mốc tham khảo: 80/180. 43/60 câu đúng · 71 phút</div>
+            </div>
+          </div>
+          <div class="row note" style="gap:8px;padding:8px 10px;background:var(--warn-c);border-color:transparent;color:var(--warn)"><svg class="i s"><use href="#i-info"/></svg><span><b style="color:var(--warn)">Điểm ước tính</b>, không phải cách chấm điểm chính thức của JLPT.</span></div>
+        </div>
+        <div class="card pad">
+          <div class="t-h2" style="margin-bottom:6px">Theo phần thi</div>
+          <div class="sect"><div class="between"><b>Kiến thức ngôn ngữ</b><span>21/28 · 75%</span></div><div class="muted" style="font-size:12px">Từ vựng · Ngữ pháp</div><div class="prog"><i style="width:75%"></i></div></div>
+          <div class="sect"><div class="between"><b>Đọc hiểu</b><span>7/10 · 70%</span></div><div class="prog"><i style="width:70%"></i></div></div>
+          <div class="sect"><div class="between"><b>Nghe hiểu</b><span>15/22 · 68%</span></div><div class="prog"><i style="width:68%"></i></div></div>
+        </div>
+        <div class="card" style="overflow:hidden">
+          <div class="between pad" style="padding-bottom:6px"><div class="t-h2">Câu sai cần xem lại</div><span class="chip err">17</span></div>
+          <div class="mist"><div class="between"><span class="t-label">Câu 7 · Từ vựng</span></div><div class="jp" style="font-size:16px">くるま を かんじで かくと？</div><div class="ans"><span class="bad"><svg class="i s" style="width:14px;height:14px"><use href="#i-close"/></svg>Bạn chọn <b class="jp">東</b></span><span class="good"><svg class="i s" style="width:14px;height:14px"><use href="#i-check"/></svg>Đáp án <b class="jp">車</b></span></div></div>
+          <div class="mist"><span class="t-label">Câu 15 · Ngữ pháp</span><div class="jp" style="font-size:16px;line-height:2">まいあさ パン（　）<ruby>食<rt>た</rt></ruby>べます。</div><div class="ans"><span class="bad"><svg class="i s" style="width:14px;height:14px"><use href="#i-close"/></svg>Bạn chọn <b class="jp">が</b></span><span class="good"><svg class="i s" style="width:14px;height:14px"><use href="#i-check"/></svg>Đáp án <b class="jp">を</b></span></div></div>
+          <div class="mist"><div class="between"><span class="t-label">Câu 52 · Nghe hiểu</span><button class="audio" style="width:40px;height:40px" aria-label="Nghe lại"><svg class="i s"><use href="#i-play"/></svg></button></div><div class="ans"><span class="bad">Bạn chọn 3</span><span class="good">Đáp án 2</span></div></div>
+          <div style="padding:8px 16px 16px"><button class="btn tonal block">Xem tất cả 17 câu</button></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><button class="btn outline">Về danh sách đề</button><button class="btn filled">Làm lại</button></div>
+      </div>
+      <nav class="bn" data-bn="test"></nav>
+    </div>
+    <div class="note"><b>Mandatory label:</b> both the score card and the banner say "Điểm ước tính", not official JLPT scoring. The 80/180 mark is shown only as a reference point. Each mistake shows the learner's answer next to the correct one.</div>
+  </div>
+
+  <!-- 8 Kanji -->
+  <div class="frame">
+    <div class="cap">08 · Sổ tay Kanji<small>Kanji handbook + detail sheet</small></div>
+    <div class="phone" id="kanjiPhone">
+      <header class="tb" data-tb="furi" data-title="Kanji N5"></header>
+      <div class="scr">
+        <div class="search in-wrap"><svg class="i"><use href="#i-search"/></svg><input class="in" id="kq" type="search" placeholder="Tìm kanji, Hán Việt, nghĩa…" aria-label="Tìm kanji"></div>
+        <div class="between"><span class="muted" style="font-size:13px" id="kcount">12 chữ</span><span class="chip lvl">N5</span></div>
+        <div class="kgrid" id="kgrid"></div>
+        <div class="state" id="kempty" hidden><div class="ic"><svg class="i"><use href="#i-search"/></svg></div><b>Không tìm thấy kanji</b><span class="muted">Thử tìm bằng âm Hán Việt, ví dụ "nhật".</span></div>
+      </div>
+      <nav class="bn" data-bn="kanji"></nav>
+      <div class="scrim" data-kscrim></div>
+      <div class="sheet" role="dialog" aria-modal="true" aria-label="Chi tiết kanji" id="ksheet"></div>
+    </div>
+    <div class="note"><b>Interactive:</b> search by kanji, Hán Việt or meaning. Click a card to open the detail bottom sheet with stroke count, on'yomi, kun'yomi, Vietnamese meaning and example words. Try "xyz" to see the empty state.</div>
+  </div>
+
+  <!-- 9 Profile -->
+  <div class="frame">
+    <div class="cap">09 · Hồ sơ<small>Profile and settings</small></div>
+    <div class="phone">
+      <header class="tb" data-tb="brand" data-title="Hồ sơ"></header>
+      <div class="scr">
+        <div class="row" style="gap:16px"><div class="avatar">MA</div><div><div class="t-h2">Nguyễn Minh Anh</div><div class="muted" style="font-size:13px">minhanh.study@example.com</div><div class="row" style="gap:6px;margin-top:6px"><span class="chip lvl">Đang học N5</span></div></div></div>
+        <div class="stat3"><div><b class="row" style="justify-content:center;gap:2px"><svg class="i s flame"><use href="#i-flame"/></svg>12</b><span>Ngày liên tiếp</span></div><div><b>33</b><span>Từ đã thuộc</span></div><div><b>3</b><span>Lượt thi thử</span></div></div>
+        <div class="card" style="overflow:hidden">
+          <div class="between pad" style="padding-bottom:4px"><div class="t-h2">Lịch sử thi thử</div></div>
+          <div class="li"><div class="grow"><b>N5 Đề 01</b><div class="muted" style="font-size:12px">05/11/2026 · 71 phút</div></div><div style="text-align:right"><b>129/180</b><div><span class="chip ok">Có khả năng đạt</span></div></div></div>
+          <div class="li"><div class="grow"><b>N5 Đề 01</b><div class="muted" style="font-size:12px">28/10/2026 · 88 phút</div></div><div style="text-align:right"><b>96/180</b><div><span class="chip ok">Có khả năng đạt</span></div></div></div>
+          <div class="li"><div class="grow"><b>N5 Đề 01</b><div class="muted" style="font-size:12px">20/10/2026 · 90 phút</div></div><div style="text-align:right"><b>74/180</b><div><span class="chip warn">Chưa đạt</span></div></div></div>
+        </div>
+        <div class="card" style="overflow:hidden">
+          <div class="pad" style="padding-bottom:4px"><div class="t-h2">Cài đặt</div></div>
+          <div class="li"><div class="grow"><b>Furigana mặc định</b><div class="muted" style="font-size:12px">Hiện cách đọc trên kanji</div></div><label class="sw"><input type="checkbox" checked id="furiDefault" aria-label="Furigana mặc định"><i></i></label></div>
+          <div class="li"><div class="grow"><b>Ngôn ngữ</b></div><div class="seg" data-langseg><button aria-pressed="true" data-lang="vi">VI</button><button aria-pressed="false" data-lang="en">EN</button></div></div>
+          <div class="li" style="flex-wrap:wrap"><div class="grow"><b>Mục tiêu mỗi ngày</b></div><div class="seg" data-goal><button aria-pressed="false">5</button><button aria-pressed="false">10</button><button aria-pressed="true">15</button><button aria-pressed="false">20 phút</button></div></div>
+          <div class="li"><button class="btn text" style="color:var(--err);padding:0;margin-left:-2px"><svg class="i s"><use href="#i-logout"/></svg>Đăng xuất</button></div>
+        </div>
+      </div>
+      <nav class="bn" data-bn="profile"></nav>
+    </div>
+    <div class="note"><b>Notes:</b> the furigana default switch is wired to the same global toggle. The exam history shows a pass or fail chip next to each estimated score. "Đăng xuất" uses the error color and sits last, apart from the other settings.</div>
+  </div>
+
+  </div>
+</section>
+
+<!-- ======================= STATES ======================= -->
+<section class="sec">
+  <h2>Trạng thái · Loading, empty, error, locked</h2>
+  <p>The same 375px frame and the same components.</p>
+  <div class="gallery">
+    <div class="frame">
+      <div class="cap">S1 · Đang tải — Trang chủ<small>Loading skeleton</small></div>
+      <div class="phone short" aria-busy="true">
+        <header class="tb" data-tb="brand"></header>
+        <div class="scr">
+          <span class="skel" style="height:28px;width:70%"></span><span class="skel" style="height:16px;width:50%"></span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><span class="skel" style="height:132px;border-radius:16px"></span><span class="skel" style="height:132px;border-radius:16px"></span></div>
+          <div class="row" style="gap:8px"><span class="skel" style="height:48px;width:60px;border-radius:12px"></span><span class="skel" style="height:48px;width:60px;border-radius:12px"></span><span class="skel" style="height:48px;width:60px;border-radius:12px"></span><span class="skel" style="height:48px;width:60px;border-radius:12px"></span></div>
+          <span class="skel" style="height:150px;border-radius:16px"></span>
+        </div>
+        <nav class="bn" data-bn="home"></nav>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="cap">S2 · Trống — Lịch sử thi<small>Empty</small></div>
+      <div class="phone short">
+        <header class="tb" data-tb="brand" data-title="Hồ sơ"></header>
+        <div class="scr"><div class="card"><div class="state"><div class="ic"><svg class="i"><use href="#i-history"/></svg></div><b style="font-size:17px">Bạn chưa làm đề thi thử nào</b><span class="muted">Làm một đề N5 để xem điểm ước tính và các câu sai.</span><button class="btn filled">Làm đề N5 đầu tiên</button></div></div></div>
+        <nav class="bn" data-bn="profile"></nav>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="cap">S3 · Lỗi — Danh sách đề<small>Error</small></div>
+      <div class="phone short">
+        <header class="tb" data-tb="brand" data-title="Thi thử"></header>
+        <div class="scr"><div class="card"><div class="state err" role="alert"><div class="ic"><svg class="i"><use href="#i-cloudoff"/></svg></div><b style="font-size:17px">Không tải được danh sách đề</b><span class="muted">Kiểm tra kết nối mạng rồi thử lại. Bài đang làm dở vẫn được lưu.</span><button class="btn filled"><svg class="i s"><use href="#i-refresh"/></svg>Thử lại</button></div></div></div>
+        <nav class="bn" data-bn="test"></nav>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="cap">S4 · Đã khóa — Cấp N4<small>Locked level (N4–N1)</small></div>
+      <div class="phone short">
+        <header class="tb" data-tb="brand" data-title="Lộ trình N4"></header>
+        <div class="scr"><div class="card"><div class="state lock"><div class="ic"><svg class="i"><use href="#i-lock"/></svg></div><span class="chip neu">Sắp ra mắt</span><b style="font-size:17px">Nội dung N4 đang được biên soạn</b><span class="muted">Trong lúc chờ, hãy hoàn thành lộ trình N5. Tiến độ của bạn sẽ được giữ nguyên.</span><button class="btn filled">Về lộ trình N5</button></div></div></div>
+        <nav class="bn" data-bn="learn"></nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DESKTOP ======================= -->
+<section class="sec">
+  <h2 data-en="Desktop · 1280px">Desktop · 1280px</h2>
+  <p>At ≥1024px the bottom tab bar becomes a left sidebar with the same 5 destinations in the same order. The top bar keeps the furigana and VI / EN controls. The frames are scaled down to fit this page.</p>
+
+  <div class="desk-frame">
+    <div class="cap">02D · Trang chủ<small>Home dashboard — desktop</small></div>
+    <div class="desk-wrap"><div class="desk">
+      <aside class="side" data-side="home"></aside>
+      <div class="dmain">
+        <div class="dtb" data-dtb="brand"></div>
+        <div class="dbody">
+          <div class="between" style="margin-bottom:20px"><div><div class="t-h1" style="font-size:28px;line-height:36px">Chào buổi sáng, Minh Anh</div><p class="muted">Còn 5 phút nữa là đạt mục tiêu hôm nay.</p></div><div class="lvls" data-lvls></div></div>
+          <div class="dgrid">
+            <div class="dcol">
+              <div class="card pad" style="padding:24px;display:flex;flex-direction:column;gap:14px;border-left:4px solid var(--primary)">
+                <div class="t-label">Tiếp tục học</div>
+                <div class="between"><div><div class="t-h2" style="font-size:22px;line-height:28px">Bài 3 · Gia đình</div><div class="jp muted" style="font-size:16px;line-height:30px"><ruby>家族<rt>かぞく</rt></ruby> · Từ vựng · N5</div></div><button class="btn filled">Tiếp tục học<svg class="i s"><use href="#i-next"/></svg></button></div>
+                <div class="prog"><i style="width:50%"></i></div><span class="muted" style="font-size:13px">6/12 từ · khoảng 5 phút</span>
+              </div>
+              <div class="card pad" style="padding:24px"><div class="between"><div class="t-h2">Hoạt động tuần này</div><span class="muted"><b style="color:var(--on-surface)">64</b> phút</span></div><div class="bars" style="height:180px" data-bars="12,18,9,15,10,-,-" data-today="4"></div></div>
+            </div>
+            <div class="dcol">
+              <div class="card pad row" style="padding:24px;gap:20px"><div class="ring" data-ring="67" style="width:104px;height:104px"><div class="v"><div><b>10</b><span>/ 15 phút</span></div></div></div><div><div class="t-h2">Mục tiêu hôm nay</div><p class="muted" style="margin-top:4px">Học thêm 5 phút để giữ chuỗi.</p></div></div>
+              <div class="card pad" style="padding:24px"><div class="row" style="gap:8px"><svg class="i flame"><use href="#i-flame"/></svg><b style="font-size:28px;line-height:34px">12</b><span style="font-weight:600">ngày liên tiếp</span></div><div class="week"><span class="on">T2</span><span class="on">T3</span><span class="on">T4</span><span class="on">T5</span><span class="today">T6</span><span>T7</span><span>CN</span></div></div>
+              <div class="card pad" style="padding:24px;display:flex;flex-direction:column;gap:12px"><div class="t-h2">Thi thử gần nhất</div><div class="between"><span>N5 Đề 01 · 05/11</span><b>129/180</b></div><span class="chip ok" style="align-self:flex-start">Có khả năng đạt · ước tính</span><button class="btn outline">Xem kết quả</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="desk-frame">
+    <div class="cap">05D · Thi thử<small>Mock test lobby — desktop</small></div>
+    <div class="desk-wrap"><div class="desk">
+      <aside class="side" data-side="test"></aside>
+      <div class="dmain">
+        <div class="dtb" data-dtb="brand"></div>
+        <div class="dbody" style="display:flex;flex-direction:column;gap:20px">
+          <div class="between"><div><div class="t-h1" style="font-size:28px;line-height:36px">Thi thử</div><p class="muted">Làm trọn đề có tính giờ, sau đó xem lại các câu sai.</p></div><div class="lvls" data-lvls></div></div>
+          <div class="row note" style="gap:10px;padding:12px 16px"><svg class="i s" style="color:var(--primary)"><use href="#i-info"/></svg><span>Điểm thi thử chỉ là ước tính, không phải cách chấm điểm chính thức của JLPT.</span></div>
+          <div class="egrid">
+            <div class="card exam-card"><div class="between"><div class="t-h2" style="font-size:20px">N5 Đề 01</div><span class="chip ok">Đã làm</span></div><div class="muted" style="font-size:13px">Từ vựng · Ngữ pháp · Đọc hiểu · Nghe hiểu</div><div class="meta"><span><svg class="i"><use href="#i-clock"/></svg>90 phút</span><span><svg class="i"><use href="#i-test"/></svg>60 câu</span></div><div class="between" style="background:var(--surface-2);border-radius:12px;padding:12px"><span class="muted">Điểm cao nhất</span><b style="font-size:18px">129/180</b></div><button class="btn outline block">Làm lại</button></div>
+            <div class="card exam-card"><div class="between"><div class="t-h2" style="font-size:20px">N5 Đề 02</div><span class="chip neu">Chưa làm</span></div><div class="muted" style="font-size:13px">Từ vựng · Ngữ pháp · Đọc hiểu · Nghe hiểu</div><div class="meta"><span><svg class="i"><use href="#i-clock"/></svg>90 phút</span><span><svg class="i"><use href="#i-test"/></svg>60 câu</span></div><div class="between" style="background:var(--surface-2);border-radius:12px;padding:12px"><span class="muted">Điểm cao nhất</span><b style="font-size:18px">—</b></div><button class="btn filled block">Bắt đầu</button></div>
+            <div class="card exam-card locked"><div class="between"><div class="row" style="gap:10px;color:var(--locked)"><svg class="i"><use href="#i-lock"/></svg><div class="t-h2" style="font-size:20px">N4 – N1</div></div><span class="chip neu">Sắp ra mắt</span></div><div style="color:var(--locked);font-size:13px">Đề thi thử cho N4, N3, N2 và N1 đang được biên soạn. Bạn chưa thể chọn các đề này.</div></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="desk-frame">
+    <div class="cap">06D · Làm bài thi<small>Exam taking — desktop focus mode (sidebar hidden, navigator pinned right)</small></div>
+    <div class="desk-wrap"><div class="desk focus" id="examDesk">
+      <div class="dmain">
+        <div class="dtb">
+          <button class="icon-btn" aria-label="Thoát"><svg class="i"><use href="#i-close"/></svg></button>
+          <div><div style="font-weight:700;font-size:16px">N5 Đề 01 · Từ vựng</div><div class="muted" style="font-size:12px">Câu <span class="qcur">12</span>/60</div></div>
+          <div class="prog" style="flex:1;max-width:420px;margin:0 24px;height:6px"><i style="width:20%"></i></div>
+          <span class="timer" style="height:40px;font-size:16px"><svg class="i s"><use href="#i-clock"/></svg>42:18</span>
+          <div class="seg-wrap" data-furiseg></div>
+          <button class="btn accent" data-submit>Nộp bài</button>
+        </div>
+        <div class="dexam">
+          <div class="qpane">
+            <div class="t-label">もんだい 1 · Câu <span class="qcur">12</span></div>
+            <div class="qtext" style="font-size:22px">＿＿の ことばは ひらがなで どう かきますか。</div>
+            <div class="qtext" style="font-size:24px;background:var(--surface-1);border:1px solid var(--outline-variant);border-radius:16px;padding:20px 24px">まいにち <u>学校</u>へ いきます。</div>
+            <div class="choices" style="display:grid;grid-template-columns:1fr 1fr;gap:12px" role="radiogroup" data-choices>
+              <button class="choice" role="radio" aria-checked="false"><span class="n">1</span>がこう</button>
+              <button class="choice" role="radio" aria-checked="true"><span class="n">2</span>がっこう</button>
+              <button class="choice" role="radio" aria-checked="false"><span class="n">3</span>かっこう</button>
+              <button class="choice" role="radio" aria-checked="false"><span class="n">4</span>がっこ</button>
+            </div>
+            <div class="row" style="margin-top:auto;padding-top:24px"><button class="btn outline"><svg class="i s"><use href="#i-prev"/></svg>Câu trước</button><button class="btn outline flag-btn" aria-pressed="false" data-flag><svg class="i s"><use href="#i-flag"/></svg>Đánh dấu</button><span class="spacer"></span><button class="btn filled">Câu tiếp<svg class="i s"><use href="#i-next"/></svg></button></div>
+          </div>
+          <aside class="npane">
+            <div class="between"><div class="t-h2">Danh sách câu hỏi</div><span class="muted" style="font-size:12px">10/60 đã làm</span></div>
+            <div class="t-label">Từ vựng · 1–20</div><div class="qnav" data-qnav="20"></div>
+            <div class="t-label">Ngữ pháp &amp; Đọc hiểu · 21–38</div><div class="qnav" data-qnav="18" data-start="21" data-blank></div>
+            <div class="t-label">Nghe hiểu · 39–60</div><div class="qnav" data-qnav="22" data-start="39" data-blank></div>
+            <div class="qleg"><span><i class="a"></i>Đã trả lời</span><span><i class="f"></i>Đánh dấu</span><span><i></i>Chưa trả lời</span></div>
+          </aside>
+        </div>
+      </div>
+      <div class="scrim" data-scrim></div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-label="Nộp bài thi?" data-dialog style="left:50%;right:auto;width:440px;transform:translate(-50%,-50%)">
+        <span class="chip acc">Còn 42:18</span><h3>Nộp bài thi?</h3><p class="muted">Sau khi nộp, bạn không thể sửa đáp án.</p>
+        <div class="dl-stats"><div><b>54</b><span>Đã trả lời</span></div><div><b style="color:var(--accent)">6</b><span>Chưa trả lời</span></div><div><b>2</b><span>Đánh dấu</span></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn outline" data-close>Tiếp tục làm bài</button><button class="btn accent">Nộp bài</button></div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<footer class="review">
+  Design review artifact · mock data only · Phase gate: awaiting owner approval. This prototype doesn't replace any approved screen until it is signed off. Scores shown are estimates, not official JLPT scoring.
+</footer>
+
+<script>
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const ic=(id,cls='i')=>`<svg class="${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+  const NAV=[['home','home','Trang chủ','Home'],['learn','book','Học','Learn'],['test','test','Thi thử','Mock test'],['kanji',null,'Kanji','Kanji'],['profile','person','Hồ sơ','Profile']];
+  const navIcon=n=>n[1]?ic(n[1]):'<span class="navk" aria-hidden="true">字</span>';
+  const furiSeg=()=>`<div class="seg-wrap"><span class="k" aria-hidden="true">ふ</span><div class="seg" role="group" aria-label="Furigana"><button aria-pressed="true" data-furi="on" data-en="On">Bật</button><button aria-pressed="false" data-furi="off" data-en="Off">Tắt</button></div></div>`;
+  const langSeg=()=>`<div class="seg" role="group" aria-label="Ngôn ngữ" data-langseg><button aria-pressed="true" data-lang="vi">VI</button><button aria-pressed="false" data-lang="en">EN</button></div>`;
+  const brand=`<div class="brand"><span class="logo" aria-hidden="true">日</span>JLPT Master</div>`;
+
+  // Top bars
+  $$('[data-tb]').forEach(h=>{
+    const t=h.dataset.tb, title=h.dataset.title;
+    const left = title?`<span class="logo" aria-hidden="true">日</span><span class="ttl">${title}</span>`:brand;
+    if(t==='welcome') h.innerHTML=brand+'<span class="spacer"></span>'+langSeg();
+    else if(t==='lesson') h.innerHTML=`<button class="icon-btn" aria-label="Đóng bài học">${ic('close')}</button><span class="ttl">Bài 3 · Gia đình</span><span class="spacer"></span>${furiSeg()}`;
+    else h.innerHTML=left+'<span class="spacer"></span>'+(t==='furi'?furiSeg():'')+langSeg();
+  });
+  $$('[data-dtb]').forEach(h=>{h.innerHTML='<span class="spacer"></span>'+furiSeg()+langSeg()+'<span class="avatar" style="width:40px;height:40px;font-size:14px">MA</span>';});
+  $$('[data-furiseg]').forEach(h=>{h.outerHTML=furiSeg();});
+
+  // Bottom nav + desktop sidebar
+  $$('[data-bn]').forEach(n=>{n.setAttribute('aria-label','Điều hướng chính');n.innerHTML=NAV.map(x=>`<a ${x[0]===n.dataset.bn?'aria-current="page"':''}><span class="pill">${navIcon(x)}</span><span data-en="${x[3]}">${x[2]}</span></a>`).join('');});
+  $$('[data-side]').forEach(n=>{n.setAttribute('aria-label','Điều hướng chính');n.innerHTML=`<div class="brand"><span class="logo" aria-hidden="true">日</span>JLPT Master</div>`+NAV.map(x=>`<a ${x[0]===n.dataset.side?'aria-current="page"':''}>${navIcon(x)}<span data-en="${x[3]}">${x[2]}</span></a>`).join('')+`<div class="foot"><span class="avatar" style="width:36px;height:36px;font-size:13px">MA</span><div style="line-height:16px"><b style="font-size:13px">Minh Anh</b><div class="muted" style="font-size:12px">N5 · ${'12'} ngày</div></div></div>`;});
+
+  // Level selectors
+  $$('[data-lvls]').forEach(w=>{
+    w.setAttribute('role','group');w.setAttribute('aria-label','Cấp độ JLPT');
+    w.innerHTML='<button class="lv" aria-pressed="true">N5<small>Đang học</small></button>'+['N4','N3','N2','N1'].map(l=>`<button class="lv locked" aria-disabled="true" aria-pressed="false" title="${l} sắp ra mắt"><span class="lk">${ic('lock')}${l}</span><small>Sắp ra mắt</small></button>`).join('');
+  });
+
+  // Rings
+  $$('[data-ring]').forEach(r=>{
+    const p=+r.dataset.ring, C=2*Math.PI*42, col=r.dataset.color==='ok'?'var(--ok)':'var(--primary)';
+    r.insertAdjacentHTML('afterbegin',`<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--surface-3)" stroke-width="10"/><circle cx="50" cy="50" r="42" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C*p/100} ${C}"/></svg>`);
+    r.setAttribute('role','img');r.setAttribute('aria-label',p+'%');
+  });
+
+  // Weekly bars
+  const DAYS=['T2','T3','T4','T5','T6','T7','CN'];
+  $$('[data-bars]').forEach(b=>{
+    const v=b.dataset.bars.split(','), t=+b.dataset.today, max=20;
+    b.setAttribute('role','img');b.setAttribute('aria-label','Số phút học mỗi ngày: '+v.map((x,i)=>DAYS[i]+' '+(x==='-'?'chưa tới':x+' phút')).join(', '));
+    b.innerHTML=v.map((x,i)=>`<div class="${i===t?'today':''} ${x==='-'?'fut':''}"><b>${x==='-'?'':x}</b><i style="height:${x==='-'?6:Math.max(6,x/max*100)}%"></i><em>${DAYS[i]}</em></div>`).join('');
+  });
+
+  // Question navigator
+  const ANS=new Set([1,2,3,4,5,6,8,9,10,11]), FLAG=new Set([5,9]);
+  $$('[data-qnav]').forEach(g=>{
+    const n=+g.dataset.qnav, s=+(g.dataset.start||1), blank='blank' in g.dataset;
+    let h='';for(let i=s;i<s+n;i++){const c=[!blank&&ANS.has(i)?'a':'',!blank&&FLAG.has(i)?'f':'',i===12?'cur':''].join(' ');h+=`<button class="${c}" aria-label="Câu ${i}${ANS.has(i)&&!blank?', đã trả lời':''}${FLAG.has(i)&&!blank?', đánh dấu':''}">${i}</button>`;}
+    g.innerHTML=h;
+  });
+  document.addEventListener('click',e=>{
+    const q=e.target.closest('.qnav button');
+    if(q){const root=q.closest('.phone,.desk');$$('.qnav button',root).forEach(b=>b.classList.remove('cur'));q.classList.add('cur');$$('.qcur',root).forEach(s=>s.textContent=q.textContent);}
+    const c=e.target.closest('[data-choices] .choice');
+    if(c){$$('.choice',c.parentElement).forEach(x=>x.setAttribute('aria-checked',x===c));}
+    const f=e.target.closest('[data-flag]');
+    if(f){const on=f.getAttribute('aria-pressed')!=='true';f.setAttribute('aria-pressed',on);const cur=$('.qnav button.cur',f.closest('.phone,.desk'));if(cur)cur.classList.toggle('f',on);}
+    const sb=e.target.closest('[data-submit]');
+    if(sb){const r=sb.closest('.phone,.desk');$('[data-scrim]',r).classList.add('open');$('[data-dialog]',r).classList.add('open');$('[data-dialog] [data-close]',r).focus();}
+    if(e.target.closest('[data-close]')||e.target.matches('[data-scrim]')){const r=e.target.closest('.phone,.desk');$('[data-scrim]',r).classList.remove('open');$('[data-dialog]',r).classList.remove('open');}
+  });
+
+  // Global furigana + language
+  function setFuri(on){document.body.classList.toggle('nofuri',!on);$$('[data-furi]').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.furi==='on')===on));const d=$('#furiDefault');if(d)d.checked=on;}
+  function setLang(l){$$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));document.documentElement.lang=l;
+    $$('[data-en]').forEach(el=>{if(!el.dataset.vi)el.dataset.vi=el.textContent;el.textContent=l==='en'?el.dataset.en:el.dataset.vi;});}
+  document.addEventListener('click',e=>{const f=e.target.closest('[data-furi]');if(f)setFuri(f.dataset.furi==='on');const l=e.target.closest('[data-lang]');if(l)setLang(l.dataset.lang);
+    const g=e.target.closest('[data-goal] button');if(g)$$('button',g.parentElement).forEach(b=>b.setAttribute('aria-pressed',b===g));});
+  $('#furiDefault').addEventListener('change',e=>setFuri(e.target.checked));
+
+  // Welcome auth toggle
+  $$('[data-auth]').forEach(b=>b.addEventListener('click',()=>{$$('[data-auth]').forEach(x=>x.setAttribute('aria-selected',x===b));const up=b.dataset.auth==='up';$('#authBtn').textContent=up?'Tạo tài khoản':'Đăng nhập';$('#forgot').hidden=up;$('#pw').autocomplete=up?'new-password':'current-password';}));
+
+  // Lesson cards (mock data)
+  const W=[
+    {w:'<ruby>家族<rt>かぞく</rt></ruby>',r:'かぞく · kazoku',hv:'GIA TỘC',m:'Gia đình',ex:'<ruby>私<rt>わたし</rt></ruby>の<ruby>家族<rt>かぞく</rt></ruby>は<ruby>四人<rt>よにん</rt></ruby>です。',ev:'Gia đình tôi có bốn người.'},
+    {w:'<ruby>父<rt>ちち</rt></ruby>',r:'ちち · chichi',hv:'PHỤ',m:'Bố (của mình)',ex:'<ruby>父<rt>ちち</rt></ruby>は<ruby>会社員<rt>かいしゃいん</rt></ruby>です。',ev:'Bố tôi là nhân viên công ty.'},
+    {w:'<ruby>母<rt>はは</rt></ruby>',r:'はは · haha',hv:'MẪU',m:'Mẹ (của mình)',ex:'<ruby>母<rt>はは</rt></ruby>は<ruby>料理<rt>りょうり</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>です。',ev:'Mẹ tôi nấu ăn giỏi.'},
+    {w:'<ruby>兄<rt>あに</rt></ruby>',r:'あに · ani',hv:'HUYNH',m:'Anh trai (của mình)',ex:'<ruby>兄<rt>あに</rt></ruby>は<ruby>大学生<rt>だいがくせい</rt></ruby>です。',ev:'Anh trai tôi là sinh viên đại học.'}];
+  let li=0,n=7,k=5,rv=1;const results=['d','d','d','d','d','r'];
+  function drawSteps(){$('#lsSteps').innerHTML=Array.from({length:12},(_,i)=>`<i class="${i<results.length?(results[i]==='d'?'d':''):i===n-1?'c':''}" ${i<results.length&&results[i]==='r'?'style="background:var(--accent)"':''}></i>`).join('');$('#lsN').textContent=n;$('#lsK').textContent=k;$('#lsR').textContent=rv;}
+  function next(known){if(n>12)return;results.push(known?'d':'r');known?k++:rv++;if(n<12){n++;li=(li+1)%W.length;const x=W[li];$('#lsWord').innerHTML=x.w;$('#lsRead').textContent=x.r;$('#lsHV').textContent='Hán Việt: '+x.hv;$('#lsMean').textContent=x.m;$('#lsEx').innerHTML=x.ex;$('#lsExVi').textContent=x.ev;}else{n=13;$('#lsN').textContent='12';}drawSteps();}
+  drawSteps();$('#lsKnow').onclick=()=>next(true);$('#lsAgain').onclick=()=>next(false);
+
+  // Kanji handbook (mock data; stroke counts and readings checked against standard references)
+  const K=[
+    ['日',4,'NHẬT','ngày, mặt trời','ニチ・ジツ','ひ・-び・-か',[['日本','にほん','Nhật Bản'],['毎日','まいにち','mỗi ngày'],['日曜日','にちようび','Chủ nhật']]],
+    ['月',4,'NGUYỆT','tháng, mặt trăng','ゲツ・ガツ','つき',[['月曜日','げつようび','thứ Hai'],['一月','いちがつ','tháng Một'],['毎月','まいつき','mỗi tháng']]],
+    ['火',4,'HỎA','lửa','カ','ひ',[['火曜日','かようび','thứ Ba'],['火','ひ','lửa']]],
+    ['水',4,'THỦY','nước','スイ','みず',[['水曜日','すいようび','thứ Tư'],['水','みず','nước']]],
+    ['木',4,'MỘC','cây, gỗ','ボク・モク','き',[['木曜日','もくようび','thứ Năm'],['木','き','cái cây']]],
+    ['金',8,'KIM','vàng, tiền','キン・コン','かね',[['金曜日','きんようび','thứ Sáu'],['お金','おかね','tiền']]],
+    ['土',3,'THỔ','đất','ド・ト','つち',[['土曜日','どようび','thứ Bảy'],['土','つち','đất']]],
+    ['山',3,'SƠN','núi','サン','やま',[['山','やま','núi'],['富士山','ふじさん','núi Phú Sĩ']]],
+    ['川',3,'XUYÊN','sông','セン','かわ',[['川','かわ','sông']]],
+    ['人',2,'NHÂN','người','ジン・ニン','ひと',[['日本人','にほんじん','người Nhật'],['三人','さんにん','ba người']]],
+    ['本',5,'BẢN','sách, gốc','ホン','もと',[['本','ほん','sách'],['日本','にほん','Nhật Bản']]],
+    ['学',8,'HỌC','học','ガク','まな(ぶ)',[['学生','がくせい','học sinh, sinh viên'],['大学','だいがく','đại học']]]];
+  const kgrid=$('#kgrid');
+  const rb=(w,r)=>`<ruby>${w}<rt>${r}</rt></ruby>`;
+  function drawK(q=''){q=q.trim().toLowerCase();const f=K.filter(x=>!q||x[0].includes(q)||x[2].toLowerCase().includes(q)||x[3].toLowerCase().includes(q));
+    kgrid.innerHTML=f.map(x=>`<button class="kcell" data-k="${x[0]}" aria-label="${x[0]}, ${x[2]}, ${x[3]}"><span class="k">${x[0]}</span><b>${x[2]}</b><span>${x[3]}</span></button>`).join('');
+    $('#kcount').textContent=f.length+' chữ';$('#kempty').hidden=f.length>0;}
+  drawK();$('#kq').addEventListener('input',e=>drawK(e.target.value));
+  const sheet=$('#ksheet'),ks=$('[data-kscrim]');
+  kgrid.addEventListener('click',e=>{const b=e.target.closest('.kcell');if(!b)return;const x=K.find(y=>y[0]===b.dataset.k);
+    sheet.innerHTML=`<div class="grab"></div><div class="between" style="margin-bottom:8px"><span class="chip lvl">N5 · Kanji</span><button class="icon-btn" data-kclose aria-label="Đóng">${ic('close')}</button></div>
+    <div class="khero"><div class="k">${x[0]}</div><div><div class="t-label">Hán Việt</div><div style="font-size:22px;font-weight:700;line-height:28px">${x[2]}</div><div style="font-size:16px;margin-top:4px">${x[3]}</div><span class="chip neu" style="margin-top:8px">${x[1]} nét</span></div></div>
+    <div class="kdl" style="margin-top:16px"><div>Âm On</div><div class="jp">${x[4]}</div><div>Âm Kun</div><div class="jp">${x[5]}</div><div>Số nét</div><div>${x[1]}</div></div>
+    <div class="t-h2" style="margin:16px 0 4px">Từ ví dụ</div>${x[6].map(w=>`<div class="exw"><span class="jp">${rb(w[0],w[1])}</span><span class="muted">${w[2]}</span></div>`).join('')}`;
+    sheet.classList.add('open');ks.classList.add('open');$('[data-kclose]',sheet).focus();});
+  const closeK=()=>{sheet.classList.remove('open');ks.classList.remove('open');};
+  ks.addEventListener('click',closeK);sheet.addEventListener('click',e=>{if(e.target.closest('[data-kclose]'))closeK();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeK();$$('[data-dialog].open').forEach(d=>{d.classList.remove('open');$('[data-scrim]',d.parentElement).classList.remove('open');});}});
+
+  // Scale desktop frames to the available width
+  function fit(){$$('.desk-wrap').forEach(w=>{const d=$('.desk',w),s=Math.min(1,w.clientWidth/1280);d.style.transform=`scale(${s})`;w.style.height=(800*s)+'px';});}
+  addEventListener('resize',fit);fit();
+})();
+</script>
+</body>
+</html>
