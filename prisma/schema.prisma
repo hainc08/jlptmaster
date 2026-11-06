@@ -125,6 +125,8 @@ model UserProfile {
   dailyGoalMinutes      Int       @default(30) @map("daily_goal_minutes")
   timezone              String    @default("Asia/Ho_Chi_Minh") @db.VarChar(50)
   onboardingCompletedAt DateTime? @map("onboarding_completed_at")
+  furiganaDefault       Boolean   @default(true) @map("furigana_default")
+  uiLanguage            String    @default("vi") @map("ui_language") @db.Char(2)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
