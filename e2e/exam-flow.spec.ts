@@ -40,9 +40,11 @@ test.describe("Student mock exam journey (real API + MariaDB)", () => {
 
     // Results are computed by the server from the real answers
     await expect(page).toHaveURL(/\/results\/[0-9a-f-]{36}$/);
-    await expect(page.getByText("Kết quả theo từng kỹ năng")).toBeVisible();
-    await expect(page.getByText(/Chẩn đoán kỹ năng cần cải thiện/)).toBeVisible();
-    await expect(page.getByText("/ 180 điểm")).toBeVisible();
+    await expect(page.getByText("Điểm theo kỹ năng")).toBeVisible();
+    await expect(page.getByText("Kỹ năng cần cải thiện")).toBeVisible();
+    await expect(page.getByText("Điểm ước tính", { exact: true })).toBeVisible();
+    await expect(page.getByText("Điểm ước tính, không phải cách chấm điểm chính thức của JLPT.")).toBeVisible();
+    await expect(page.getByText("Mốc tham khảo: 80/180")).toBeVisible();
 
     // The weak skills feed the personal roadmap on the dashboard
     await page.goto("/dashboard");
