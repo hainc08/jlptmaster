@@ -592,6 +592,17 @@ export function Navbar({ initialRole }: NavbarProps = {}) {
                           Bảng điều khiển Admin CMS
                         </Link>
                       )}
+                      {role === "admin" && (
+                        <Link
+                          href="/admin/dashboard"
+                          role="menuitem"
+                          onClick={closeAllMenus}
+                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-[#3730A3] bg-[#E3E1FF]/60 hover:bg-[#E3E1FF] flex items-center gap-2.5"
+                        >
+                          <Shield size={15} />
+                          Quản trị thành viên &amp; cấp độ
+                        </Link>
+                      )}
                     </div>
 
                     <div className="pt-1 border-t border-gray-100">

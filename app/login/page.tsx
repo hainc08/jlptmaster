@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Lock, Mail, AlertCircle, Loader2 } from "lucide-react";
+import { postLoginTarget } from "../components/nav-config";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,7 +31,8 @@ export default function LoginPage() {
       }
 
       const user = body.data.user;
-      const isAdmin = user.role === "ADMIN";
+      // ADMIN/OWNER get the admin quick-links; SUPPORT/EDITOR use the new console and are sent straight there.
+      const isAdmin = user.role === "ADMIN" || user.role === "OWNER";
 
       if (typeof window !== "undefined") {
         localStorage.setItem("jlpt_auth_role", isAdmin ? "admin" : "student");
@@ -38,9 +40,7 @@ export default function LoginPage() {
         localStorage.setItem("jlpt_auth_user_id", user.id);
       }
 
-      const redirect = new URLSearchParams(window.location.search).get("redirect");
-      const safeRedirect = redirect && /^\/(?!\/)/.test(redirect) ? redirect : null;
-      router.push(safeRedirect && (isAdmin || !safeRedirect.startsWith("/admin")) ? safeRedirect : isAdmin ? "/admin" : "/dashboard");
+      router.push(postLoginTarget(user.role, new URLSearchParams(window.location.search).get("redirect")));
     } catch (err: any) {
       setErrorMsg(err.message || "Đã xảy ra lỗi đăng nhập");
     } finally {
