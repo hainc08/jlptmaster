@@ -92,37 +92,38 @@ enum ProgressStatus {
 // ----------------------------------------------------------------------
 
 model User {
-  id           String     @id @default(uuid()) @db.Char(36)
-  email        String     @unique @db.VarChar(191)
-  passwordHash String?    @map("password_hash") @db.VarChar(255)
-  role         Role       @default(STUDENT)
-  status       UserStatus @default(ACTIVE)
-  displayName  String?    @map("display_name") @db.VarChar(120)
-  plan         Plan       @default(FREE)
+  id            String     @id @default(uuid()) @db.Char(36)
+  email         String     @unique @db.VarChar(191)
+  passwordHash  String?    @map("password_hash") @db.VarChar(255)
+  role          Role       @default(STUDENT)
+  status        UserStatus @default(ACTIVE)
+  displayName   String?    @map("display_name") @db.VarChar(120)
+  plan          Plan       @default(FREE)
   planExpiresAt DateTime?  @map("plan_expires_at")
-  lastActiveAt DateTime?  @map("last_active_at")
-  deletedAt    DateTime?  @map("deleted_at")
-  createdAt    DateTime   @default(now()) @map("created_at")
-  updatedAt    DateTime   @updatedAt @map("updated_at")
+  lastActiveAt  DateTime?  @map("last_active_at")
+  deletedAt     DateTime?  @map("deleted_at")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
 
-  profile        UserProfile?
-  sessions       AuthSession[]
-  lessonProgress LessonProgress[]
-  reviewCards    ReviewCard[]
-  examAttempts   ExamAttempt[]
-  auditLogs      AuditLog[]
-  mediaAssets    MediaAsset[]
-  reviewedItems  ContentItem[]    @relation("ContentReviewer")
+  profile         UserProfile?
+  sessions        AuthSession[]
+  lessonProgress  LessonProgress[]
+  studyActivities StudyActivity[]
+  reviewCards     ReviewCard[]
+  examAttempts    ExamAttempt[]
+  auditLogs       AuditLog[]
+  mediaAssets     MediaAsset[]
+  reviewedItems   ContentItem[]    @relation("ContentReviewer")
 
   @@map("users")
 }
 
 model UserProfile {
-  id                   String    @id @default(uuid()) @db.Char(36)
-  userId               String    @unique @map("user_id") @db.Char(36)
-  targetLevel          String    @default("N5") @map("target_level") @db.Char(2)
-  dailyGoalMinutes     Int       @default(30) @map("daily_goal_minutes")
-  timezone             String    @default("Asia/Ho_Chi_Minh") @db.VarChar(50)
+  id                    String    @id @default(uuid()) @db.Char(36)
+  userId                String    @unique @map("user_id") @db.Char(36)
+  targetLevel           String    @default("N5") @map("target_level") @db.Char(2)
+  dailyGoalMinutes      Int       @default(30) @map("daily_goal_minutes")
+  timezone              String    @default("Asia/Ho_Chi_Minh") @db.VarChar(50)
   onboardingCompletedAt DateTime? @map("onboarding_completed_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -147,10 +148,10 @@ model AuthSession {
 // ----------------------------------------------------------------------
 
 model JlptLevel {
-  id        String  @id @db.Char(2)
-  nameVi    String  @map("name_vi") @db.VarChar(50)
-  rankOrder Int     @map("rank_order")
-  isActive  Boolean @default(false) @map("is_active")
+  id           String      @id @db.Char(2)
+  nameVi       String      @map("name_vi") @db.VarChar(50)
+  rankOrder    Int         @map("rank_order")
+  isActive     Boolean     @default(false) @map("is_active")
   status       LevelStatus @default(DRAFT)
   description  String      @default("") @db.VarChar(500)
   passScore    Int         @default(60) @map("pass_score")
@@ -211,17 +212,17 @@ model ContentItem {
   publishedAt DateTime?     @map("published_at")
   version     String        @default("v1.0") @db.VarChar(20)
 
-  lesson   Lesson?    @relation(fields: [lessonId], references: [id], onDelete: SetNull)
-  level    JlptLevel  @relation(fields: [levelId], references: [id])
-  reviewer User?      @relation("ContentReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  lesson   Lesson?   @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  level    JlptLevel @relation(fields: [levelId], references: [id])
+  reviewer User?     @relation("ContentReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
 
-  vocabulary      Vocabulary?
-  kanji           Kanji?
-  grammar         Grammar?
-  readingPassage  ReadingPassage?
-  listeningTrack  ListeningTrack?
-  reviewCards     ReviewCard[]
-  questions       Question[]
+  vocabulary     Vocabulary?
+  kanji          Kanji?
+  grammar        Grammar?
+  readingPassage ReadingPassage?
+  listeningTrack ListeningTrack?
+  reviewCards    ReviewCard[]
+  questions      Question[]
 
   @@index([levelId, kind, status])
   @@map("content_items")
@@ -489,6 +490,19 @@ model ReviewLog {
 // PROGRESS & AUDIT
 // ----------------------------------------------------------------------
 
+/// Minutes studied per local calendar day (profile time zone). One row per user and day.
+model StudyActivity {
+  id      String   @id @default(uuid()) @db.Char(36)
+  userId  String   @map("user_id") @db.Char(36)
+  day     DateTime @db.Date
+  minutes Int      @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, day])
+  @@map("study_activities")
+}
+
 model LessonProgress {
   id          String         @id @default(uuid()) @db.Char(36)
   userId      String         @map("user_id") @db.Char(36)
@@ -521,16 +535,16 @@ model MediaAsset {
 }
 
 model AuditLog {
-  id                    String   @id @default(uuid()) @db.Char(36)
-  actorId               String   @map("actor_id") @db.Char(36)
-  action                String   @db.VarChar(100)
-  entityType            String   @map("entity_type") @db.VarChar(50)
-  entityId              String   @map("entity_id") @db.Char(36)
-  metadataJsonRedacted  Json     @map("metadata_json_redacted")
-  ip                    String?  @db.VarChar(45)
-  beforeJson            Json?    @map("before_json")
-  afterJson             Json?    @map("after_json")
-  createdAt             DateTime @default(now()) @map("created_at")
+  id                   String   @id @default(uuid()) @db.Char(36)
+  actorId              String   @map("actor_id") @db.Char(36)
+  action               String   @db.VarChar(100)
+  entityType           String   @map("entity_type") @db.VarChar(50)
+  entityId             String   @map("entity_id") @db.Char(36)
+  metadataJsonRedacted Json     @map("metadata_json_redacted")
+  ip                   String?  @db.VarChar(45)
+  beforeJson           Json?    @map("before_json")
+  afterJson            Json?    @map("after_json")
+  createdAt            DateTime @default(now()) @map("created_at")
 
   actor User @relation(fields: [actorId], references: [id])
 
