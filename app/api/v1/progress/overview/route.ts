@@ -46,8 +46,9 @@ export async function GET(req: NextRequest) {
       prisma.vocabulary.count(),
       prisma.kanji.count(),
       prisma.grammar.count(),
+      // "Continue learning" = the first published lesson this user has not completed yet.
       prisma.lesson.findFirst({
-        where: { status: "PUBLISHED" },
+        where: { status: "PUBLISHED", lessonProgress: { none: { userId, status: "COMPLETED" } } },
         orderBy: { position: "asc" },
         select: { id: true, slug: true, titleVi: true },
       }),

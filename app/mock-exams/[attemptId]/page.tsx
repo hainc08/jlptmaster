@@ -92,6 +92,7 @@ function ExamRoom({ attempt, attemptId }: { attempt: Attempt; attemptId: string 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [saveText, setSaveText] = useState("");
+  const [finishError, setFinishError] = useState(false);
   const finished = useRef(false);
   const dirty = useRef(false);
 
@@ -100,14 +101,24 @@ function ExamRoom({ attempt, attemptId }: { attempt: Attempt; attemptId: string 
     finished.current = true;
     setSubmitting(true);
     setDialogOpen(false);
+    setFinishError(false);
+    let ok = false;
     try {
-      await fetch(`/api/v1/attempts/${encodeURIComponent(attemptId)}/finish`, {
+      const res = await fetch(`/api/v1/attempts/${encodeURIComponent(attemptId)}/finish`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers }),
       });
+      ok = res.ok;
     } catch {
-      // the server also closes expired attempts; the result page shows what was saved
+      ok = false;
+    }
+    if (!ok) {
+      // Keep the room open so the learner can retry; answers stay in memory.
+      finished.current = false;
+      setSubmitting(false);
+      setFinishError(true);
+      return;
     }
     try {
       window.sessionStorage.removeItem(flagKey(attemptId));
@@ -134,8 +145,10 @@ function ExamRoom({ attempt, attemptId }: { attempt: Attempt; attemptId: string 
 
   // Debounced autosave of answers.
   useEffect(() => {
-    if (!dirty.current) return;
+    if (!dirty.current || finished.current) return;
     const id = window.setTimeout(async () => {
+      // finish already carries every answer; a late autosave could hit the expired attempt
+      if (finished.current) return;
       try {
         const res = await fetch(`/api/v1/attempts/${encodeURIComponent(attemptId)}/answers`, {
           method: "PUT",
@@ -306,6 +319,14 @@ function ExamRoom({ attempt, attemptId }: { attempt: Attempt; attemptId: string 
         </aside>
       </div>
 
+      {finishError && (
+        <div role="alert" className="fixed inset-x-4 bottom-4 mx-auto max-w-md rounded-2xl bg-danger-bg text-danger-text p-4 flex items-center gap-3 shadow-lg">
+          <span className="flex-1 text-sm">Chưa nộp được bài. Kiểm tra kết nối rồi nộp lại.</span>
+          <button type="button" onClick={() => void finishOnce()} className="min-h-12 px-4 rounded-xl bg-primary text-white font-semibold text-sm flex-none">
+            Nộp lại
+          </button>
+        </div>
+      )}
       {dialogOpen && (
         <SubmitDialog
           answered={answered}

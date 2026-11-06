@@ -164,3 +164,46 @@ describe("mock lobby (frame 05)", () => {
     expect(f).not.toHaveBeenCalled();
   });
 });
+
+describe("exam finish robustness (review fixes)", () => {
+  it("keeps the room open with a retry when finish fails", async () => {
+    let n = 0;
+    global.fetch = vi.fn((url: string, opts?: RequestInit) => {
+      if (url.endsWith("/finish")) {
+        n++;
+        return Promise.resolve({ ok: n > 1, status: n > 1 ? 200 : 500, json: async () => ({}) } as Response);
+      }
+      if (opts?.method === "PUT") return Promise.resolve({ ok: true, json: async () => ({}) } as Response);
+      return Promise.resolve({ ok: true, status: 200, json: async () => ({ data: { id: "att-1", status: "IN_PROGRESS", remainingSeconds: 600, questions, answers: {} } }) } as Response);
+    }) as unknown as typeof fetch;
+    push.mockClear();
+    render(<ExamPage />);
+    await flush();
+    fireEvent.click(screen.getByRole("button", { name: "Nộp bài" }));
+    fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: /Nộp bài/ }));
+    await flush();
+    expect(push).not.toHaveBeenCalled();
+    expect(screen.getByRole("alert")).toHaveTextContent(/Chưa nộp được bài/);
+    fireEvent.click(screen.getByRole("button", { name: "Nộp lại" }));
+    await flush();
+    await flush();
+    expect(n).toBe(2);
+    expect(push).toHaveBeenCalledWith("/results/att-1");
+  });
+
+  it("sends no autosave after the attempt has been finished", async () => {
+    const puts: number[] = [];
+    global.fetch = vi.fn((url: string, opts?: RequestInit) => {
+      if (opts?.method === "PUT") { puts.push(Date.now()); return Promise.resolve({ ok: true, json: async () => ({}) } as Response); }
+      if (url.endsWith("/finish")) return new Promise(() => {});
+      return Promise.resolve({ ok: true, status: 200, json: async () => ({ data: { id: "att-1", status: "IN_PROGRESS", remainingSeconds: 1, questions, answers: {} } }) } as Response);
+    }) as unknown as typeof fetch;
+    render(<ExamPage />);
+    await flush();
+    await act(async () => { vi.advanceTimersByTime(500); });
+    fireEvent.click(screen.getAllByRole("radio")[0]); // autosave due at 1.1 s, timer ends at 1 s
+    await act(async () => { vi.advanceTimersByTime(1500); });
+    await flush();
+    expect(puts).toHaveLength(0);
+  });
+});

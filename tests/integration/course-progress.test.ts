@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/src/server/db";
 import { signSessionToken } from "@/src/server/services/auth-service";
 import { GET as getCourses } from "@/app/api/v1/courses/route";
+import { GET as getOverview } from "@/app/api/v1/progress/overview/route";
 
 const EMAIL = "course-progress-test@jlptmaster.vn";
 
@@ -39,5 +40,12 @@ describe("GET /courses per-lesson progressStatus", () => {
     const all = await flat(await getCourses(new NextRequest("http://x/api/v1/courses?level=N5")));
     expect(all.length).toBeGreaterThan(0);
     expect(all.every((l) => l.progressStatus === "NOT_STARTED")).toBe(true);
+  });
+
+  it("overview.nextLesson is the first lesson the user has not completed", async () => {
+    const cookie = `jlpt_session=${signSessionToken({ userId: user.id, email: user.email, role: "STUDENT" })}`;
+    const { data } = await (await getOverview(new NextRequest("http://x/api/v1/progress/overview", { headers: { Cookie: cookie } }))).json();
+    // lessons[0] is COMPLETED, lessons[1] IN_PROGRESS
+    expect(data.nextLesson.id).toBe(lessons[1].id);
   });
 });

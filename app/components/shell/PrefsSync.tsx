@@ -7,14 +7,18 @@ import { writeStoredValue } from "../stored-value";
  * Applies the furigana and language choices saved on the account to a device that has no local
  * choice yet (e.g. a new phone). A local choice always wins; signed-out visitors are skipped.
  */
+let synced = false;
+
 export function PrefsSync() {
   useEffect(() => {
-    let alive = true;
+    // Once per page session: a later remount must not overwrite a choice made since then.
+    if (synced) return;
+    synced = true;
     fetch("/api/v1/profile")
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
         const d = json?.data;
-        if (!alive || !d) return;
+        if (!d) return;
         let furi: string | null = null;
         let lang: string | null = null;
         try {
@@ -25,9 +29,6 @@ export function PrefsSync() {
         if (lang === null && (d.uiLanguage === "vi" || d.uiLanguage === "en")) writeStoredValue("jlpt.locale", d.uiLanguage);
       })
       .catch(() => {});
-    return () => {
-      alive = false;
-    };
   }, []);
   return null;
 }
