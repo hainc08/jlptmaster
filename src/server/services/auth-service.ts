@@ -22,15 +22,17 @@ export function assertUserOwnership(currentUserId: string, resourceOwnerId: stri
 }
 
 export function assertAdminRole(role: string): void {
-  if (role !== "ADMIN") {
+  if (role !== "ADMIN" && role !== "OWNER") {
     throw new UnauthorizedRoleError();
   }
 }
 
+export type SessionRole = "STUDENT" | "EDITOR" | "ADMIN" | "OWNER" | "SUPPORT";
+
 export interface SessionPayload {
   userId: string;
   email: string;
-  role: "STUDENT" | "EDITOR" | "ADMIN";
+  role: SessionRole;
   exp: number; // Unix timestamp in seconds
 }
 
@@ -62,7 +64,7 @@ function getSecret(): string {
  * Tạo token phiên đăng nhập có chữ ký bảo mật HMAC-SHA256
  */
 export function signSessionToken(
-  payload: { userId: string; email: string; role: "STUDENT" | "EDITOR" | "ADMIN" },
+  payload: { userId: string; email: string; role: SessionRole },
   expiresInSeconds: number = 86400 * 7
 ): string {
   const fullPayload: SessionPayload = {

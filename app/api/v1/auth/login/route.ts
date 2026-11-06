@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     clearLimit(emailKey);
 
-    const role = (user.role as "STUDENT" | "EDITOR" | "ADMIN") || "STUDENT";
+    const role = user.role || "STUDENT";
     const token = signSessionToken({ userId: user.id, email: user.email, role });
 
     const response = NextResponse.json({
