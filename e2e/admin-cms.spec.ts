@@ -1,10 +1,11 @@
 import { test, expect, type Page } from "@playwright/test";
-import { login, createStaffUser, deleteTestUser, ADMIN_EMAIL, STAFF_PASSWORD } from "./helpers";
+import { login, createStaffUser, deleteTestUser, resetUserStatus, ADMIN_EMAIL, STAFF_PASSWORD } from "./helpers";
 
 const SUPPORT_EMAIL = `e2e-support-${Date.now()}@test.invalid`;
 const EDITOR_EMAIL = `e2e-editor-${Date.now()}@test.invalid`;
 
 test.beforeAll(async () => {
+  await resetUserStatus("thu.ha@example.com");
   await createStaffUser(SUPPORT_EMAIL, "SUPPORT");
   await createStaffUser(EDITOR_EMAIL, "EDITOR");
 });
@@ -13,6 +14,8 @@ test.afterAll(async () => {
   await deleteTestUser(EDITOR_EMAIL);
 });
 
+// The console defaults to Vietnamese, so button labels may be localized.
+const SAVE = /Save changes|Lưu thay đổi/;
 const nav = (page: Page) => page.getByRole("navigation", { name: "Main" });
 
 test.describe("Admin CMS console", () => {
@@ -47,8 +50,9 @@ test.describe("Admin CMS console", () => {
       // leave the seeded learner as we found it
       await page.goto("/admin/members?q=thu.ha");
       await page.getByRole("link", { name: "Lê Thu Hà" }).first().click();
+      await expect(page.getByRole("heading", { level: 1, name: "Lê Thu Hà" })).toBeVisible();
       const reactivate = page.getByRole("button", { name: "Reactivate", exact: true });
-      if (await reactivate.isVisible().catch(() => false)) {
+      if (await reactivate.isVisible()) {
         await reactivate.click();
         await page.getByRole("button", { name: "Reactivate account" }).click();
         await expect(page.getByText("Account reactivated")).toBeVisible();
@@ -113,7 +117,7 @@ test.describe("Admin CMS console", () => {
     const original = await retake.inputValue();
     await retake.fill("4");
     await expect(page.getByText("Unsaved changes")).toBeVisible();
-    await page.getByRole("button", { name: "Save changes" }).click();
+    await page.getByRole("button", { name: SAVE }).click();
     await expect(page.getByText("Settings saved")).toBeVisible();
     try {
       await page.reload();
@@ -121,13 +125,17 @@ test.describe("Admin CMS console", () => {
       await expect(page.getByLabel(/retake limit/i)).toHaveValue("4");
     } finally {
       await page.getByLabel(/retake limit/i).fill(original);
-      await page.getByRole("button", { name: "Save changes" }).click();
+      await page.getByRole("button", { name: SAVE }).click();
       await expect(page.getByText("All changes saved")).toBeVisible();
     }
   });
 
   test("every console page has one h1, a labelled main nav, and labelled form controls", async ({ page }) => {
     await login(page, ADMIN_EMAIL, "/admin/dashboard");
+    // Listen only after sign-in: the guest login page legitimately gets 401s from its own session probe.
+    const problems: string[] = [];
+    page.on("pageerror", (e) => problems.push(`pageerror: ${e.message}`));
+    page.on("console", (m) => m.type() === "error" && problems.push(`console: ${m.text().slice(0, 300)}`));
     for (const path of ["dashboard", "members", "levels", "settings", "audit"]) {
       await page.goto(`/admin/${path}`);
       await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
@@ -140,5 +148,6 @@ test.describe("Admin CMS console", () => {
       );
       expect(unlabeled, `${path}: unlabeled controls`).toEqual([]);
     }
+    expect(problems, "browser errors while visiting the console pages").toEqual([]);
   });
 });

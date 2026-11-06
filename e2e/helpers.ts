@@ -1,5 +1,6 @@
 import { expect, type Page } from "@playwright/test";
 import { DEMO_PASSWORDS } from "../prisma/demo-credentials";
+import { hashPassword } from "../src/server/services/password-service";
 
 // Seeded demo accounts. Their passwords are set by `SEED_DEMO_PASSWORDS=1 npm run db:seed` (local/CI only).
 export const STUDENT_EMAIL = "minh@jlptmaster.vn";
@@ -54,12 +55,22 @@ export const STAFF_PASSWORD = "Staff-E2E-2026!";
 export async function createStaffUser(email: string, role: "SUPPORT" | "EDITOR" | "OWNER" | "ADMIN") {
   await deleteTestUser(email);
   const { PrismaClient } = await import("@prisma/client");
-  const { hashPassword } = await import("../src/server/services/password-service");
   const prisma = new PrismaClient();
   try {
     await prisma.user.create({
       data: { email, role, status: "ACTIVE", displayName: `E2E ${role}`, passwordHash: await hashPassword(STAFF_PASSWORD), profile: { create: { targetLevel: "N5" } } },
     });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+/** Puts a seeded learner back to ACTIVE (a previous failed run may have left it suspended). */
+export async function resetUserStatus(email: string) {
+  const { PrismaClient } = await import("@prisma/client");
+  const prisma = new PrismaClient();
+  try {
+    await prisma.user.updateMany({ where: { email }, data: { status: "ACTIVE" } });
   } finally {
     await prisma.$disconnect();
   }

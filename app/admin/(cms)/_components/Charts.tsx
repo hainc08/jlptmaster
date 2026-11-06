@@ -17,7 +17,8 @@ export function LineChart({ data, lang }: { data: { date: string; activeMembers:
   const x = (i: number) => p.l + (i * (W - p.l - p.r)) / Math.max(data.length - 1, 1);
   const y = (v: number) => p.t + (1 - v / max) * (H - p.t - p.b);
   const pts = data.map((d, i) => `${x(i)},${y(d.activeMembers)}`).join(" ");
-  const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => Math.round(max * f));
+  // De-duplicated: with tiny counts (max 1–3) several fractions round to the same value.
+  const ticks = [...new Set([0, 0.25, 0.5, 0.75, 1].map((f) => Math.round(max * f)))];
   const labelAt = [0, 7, 14, 21, data.length - 1].filter((i, k, a) => i >= 0 && a.indexOf(i) === k);
   const last = data[data.length - 1];
   const label = `Daily active members over the last ${data.length} days${last ? `, ${formatNumber(last.activeMembers, lang)} on ${dm(last.date)}` : ""}`;

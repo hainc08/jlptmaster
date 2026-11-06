@@ -60,6 +60,18 @@ describe("Admin dashboard screen (AC-CMS-08, AC-CMS-10)", () => {
     expect(await screen.findByRole("img", { name: /daily active members.*30 days/i })).toBeInTheDocument();
   });
 
+  it("never repeats an axis tick or a React key when the counts are tiny (0–1 active members a day)", async () => {
+    const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+    const tiny = { ...DATA, activity30d: DATA.activity30d.map((d, i) => ({ ...d, activeMembers: i % 2 })) };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(ok(tiny)));
+    mount();
+    const chart = await screen.findByRole("img", { name: /daily active members/i });
+    const ticks = Array.from(chart.querySelectorAll("text")).map((t) => t.textContent).filter((x) => /^d+$/.test(x ?? ""));
+    expect(new Set(ticks).size).toBe(ticks.length);
+    expect(errors.mock.calls.flat().join(" ")).not.toMatch(/same key/);
+    errors.mockRestore();
+  });
+
   it("lists recent activity and links to the audit log", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(ok(DATA)));
     mount();
