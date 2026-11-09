@@ -278,7 +278,7 @@ function HeaderNavPrototypeInner() {
   const currentSheetData = NAV_SECTIONS.find((s) => s.id === mobileSheetSection);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F7F4] text-[#1F2937] pb-20 md:pb-12">
+    <div className="min-h-screen flex flex-col bg-background text-foreground pb-20 md:pb-12">
       {/* Isolate prototype from production Navbar and BottomNav without modifying production files */}
       <style>{`
         body > header:first-of-type,
@@ -292,7 +292,7 @@ function HeaderNavPrototypeInner() {
       ===================================================================== */}
       <header
         ref={navContainerRef}
-        className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E5E7EB]"
+        className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-border"
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 h-14 md:h-16 flex items-center justify-between gap-2 lg:gap-3">
           {/* LEFT ZONE: Brand Identity + JLPT Level Selector */}
@@ -304,25 +304,25 @@ function HeaderNavPrototypeInner() {
                 setActiveSection("trang-chu");
                 closeAllMenus();
               }}
-              className="flex items-center gap-2 min-h-[40px] md:min-h-[44px] pr-0.5 rounded-lg shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+              className="flex items-center gap-2 min-h-[40px] md:min-h-[44px] pr-0.5 rounded-lg shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <span
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#B9343F] text-white font-bold flex items-center justify-center text-sm sm:text-base shadow-sm shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-primary text-white font-bold flex items-center justify-center text-sm sm:text-base shadow-sm shrink-0"
                 style={{ fontFamily: "var(--font-japanese), sans-serif" }}
               >
                 日
               </span>
               <div className="leading-tight shrink-0">
-                <span className="font-bold text-[#1F2937] tracking-tight text-sm sm:text-base xl:text-lg block whitespace-nowrap">
+                <span className="font-bold text-foreground tracking-tight text-sm sm:text-base xl:text-lg block whitespace-nowrap">
                   JLPT <span className="md:hidden lg:inline">MASTER</span>
                 </span>
-                <span className="hidden 2xl:block text-[11px] text-[#6B7280] font-medium whitespace-nowrap">
+                <span className="hidden 2xl:block text-[11px] text-muted font-medium whitespace-nowrap">
                   Học & Luyện thi chuẩn Nhật
                 </span>
               </div>
             </a>
 
-            <span className="h-5 w-px bg-[#E5E7EB] hidden lg:block shrink-0" aria-hidden="true" />
+            <span className="h-5 w-px bg-border hidden lg:block shrink-0" aria-hidden="true" />
 
             {/* JLPT Level Selector (N5–N1) */}
             <div className="relative shrink-0">
@@ -337,16 +337,16 @@ function HeaderNavPrototypeInner() {
                 aria-haspopup="true"
                 aria-controls="jlpt-level-menu"
                 aria-label="Chọn cấp độ JLPT"
-                className="h-9 md:h-10 px-2.5 lg:px-3 py-1.5 rounded-lg border border-[#E5E7EB] bg-[#F7F7F4] hover:bg-gray-100 text-xs font-semibold text-[#1F2937] flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                className="h-9 md:h-10 px-2.5 lg:px-3 py-1.5 rounded-lg border border-border bg-background hover:bg-gray-100 text-xs font-semibold text-foreground flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
-                <span className="w-2 h-2 rounded-full bg-[#B9343F] shrink-0" />
-                <span className="hidden xl:inline text-[#6B7280] font-medium whitespace-nowrap">
+                <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
+                <span className="hidden xl:inline text-muted font-medium whitespace-nowrap">
                   Cấp độ:
                 </span>
-                <span className="font-bold text-[#B9343F] whitespace-nowrap">{selectedLevel}</span>
+                <span className="font-bold text-primary whitespace-nowrap">{selectedLevel}</span>
                 <ChevronDown
                   size={14}
-                  className={`text-[#6B7280] shrink-0 transition-transform ${levelMenuOpen ? "rotate-180" : ""}`}
+                  className={`text-muted shrink-0 transition-transform ${levelMenuOpen ? "rotate-180" : ""}`}
                 />
               </button>
 
@@ -355,9 +355,9 @@ function HeaderNavPrototypeInner() {
                   id="jlpt-level-menu"
                   role="menu"
                   aria-label="Danh sách cấp độ JLPT"
-                  className="absolute left-0 mt-2 w-64 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-2 z-50"
+                  className="absolute left-0 mt-2 w-64 rounded-xl bg-white border border-border shadow-lg p-2 z-50"
                 >
-                  <div className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#6B7280]">
+                  <div className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted">
                     Mục tiêu JLPT của bạn
                   </div>
                   <div className="space-y-1 mt-1">
@@ -375,8 +375,8 @@ function HeaderNavPrototypeInner() {
                         }}
                         className={`w-full min-h-[44px] px-3 py-2 rounded-lg text-left flex items-center justify-between transition-colors ${
                           lvl.active
-                            ? "bg-[#FBEBEB]/70 text-[#1F2937] hover:bg-[#FBEBEB] cursor-pointer"
-                            : "opacity-60 cursor-not-allowed text-[#6B7280] bg-gray-50/60"
+                            ? "bg-primary-subtle/70 text-foreground hover:bg-primary-subtle cursor-pointer"
+                            : "opacity-60 cursor-not-allowed text-muted bg-gray-50/60"
                         }`}
                       >
                         <div>
@@ -384,7 +384,7 @@ function HeaderNavPrototypeInner() {
                             <span
                               className={`text-xs font-bold px-1.5 py-0.5 rounded ${
                                 lvl.active
-                                  ? "bg-[#B9343F] text-white"
+                                  ? "bg-primary text-white"
                                   : "bg-gray-200 text-gray-600"
                               }`}
                             >
@@ -394,7 +394,7 @@ function HeaderNavPrototypeInner() {
                           </div>
                         </div>
                         {lvl.active ? (
-                          <span className="text-[11px] font-semibold text-[#B9343F] flex items-center gap-1">
+                          <span className="text-[11px] font-semibold text-primary flex items-center gap-1">
                             <Check size={13} />
                             {lvl.statusText}
                           </span>
@@ -447,16 +447,16 @@ function HeaderNavPrototypeInner() {
                     aria-expanded={hasSub ? isDropdownOpen : undefined}
                     aria-haspopup={hasSub ? "true" : undefined}
                     aria-current={isActive ? "page" : undefined}
-                    className={`relative h-10 px-1.5 lg:px-2.5 xl:px-3.5 py-1.5 rounded-lg text-xs lg:text-sm flex items-center flex-nowrap whitespace-nowrap shrink-0 gap-1 xl:gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2 ${
+                    className={`relative h-10 px-1.5 lg:px-2.5 xl:px-3.5 py-1.5 rounded-lg text-xs lg:text-sm flex items-center flex-nowrap whitespace-nowrap shrink-0 gap-1 xl:gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                       isActive
-                        ? "text-[#B9343F] bg-[#FBEBEB]/60 font-semibold"
-                        : "text-[#1F2937] hover:bg-gray-100 font-medium"
+                        ? "text-primary bg-primary-subtle/60 font-semibold"
+                        : "text-foreground hover:bg-gray-100 font-medium"
                     }`}
                   >
                     <Icon
                       size={15}
                       className={`hidden xl:inline-block shrink-0 ${
-                        isActive ? "text-[#B9343F] stroke-[2.2]" : "text-[#6B7280]"
+                        isActive ? "text-primary stroke-[2.2]" : "text-muted"
                       }`}
                     />
                     <span className="whitespace-nowrap">{sec.label}</span>
@@ -464,13 +464,13 @@ function HeaderNavPrototypeInner() {
                       <ChevronDown
                         size={13}
                         className={`shrink-0 transition-transform duration-150 ${
-                          isDropdownOpen ? "rotate-180 text-[#B9343F]" : "text-[#6B7280]"
+                          isDropdownOpen ? "rotate-180 text-primary" : "text-muted"
                         }`}
                       />
                     )}
                     {isActive && (
                       <span
-                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#B9343F] rounded-full"
+                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary rounded-full"
                         aria-hidden="true"
                       />
                     )}
@@ -481,13 +481,13 @@ function HeaderNavPrototypeInner() {
                     <div
                       role="menu"
                       aria-label={`Menu ${sec.label}`}
-                      className="absolute left-0 mt-2 w-80 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-2 z-50"
+                      className="absolute left-0 mt-2 w-80 rounded-xl bg-white border border-border shadow-lg p-2 z-50"
                     >
                       <div className="px-3 py-1.5 border-b border-gray-100 flex items-center justify-between">
-                        <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6B7280]">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">
                           {sec.label} — JLPT {selectedLevel}
                         </span>
-                        <span className="text-[11px] text-[#B9343F] font-medium">
+                        <span className="text-[11px] text-primary font-medium">
                           {sec.subItems?.length} mục
                         </span>
                       </div>
@@ -506,17 +506,17 @@ function HeaderNavPrototypeInner() {
                                 setActiveSubItem(sub.id);
                                 setOpenDropdown(null);
                               }}
-                              className={`min-h-[48px] px-3 py-2.5 rounded-lg flex items-start gap-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] ${
+                              className={`min-h-[48px] px-3 py-2.5 rounded-lg flex items-start gap-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                                 isSubActive
-                                  ? "bg-[#FBEBEB]/70 text-[#B9343F]"
-                                  : "hover:bg-[#F3F4F6] text-[#1F2937]"
+                                  ? "bg-primary-subtle/70 text-primary"
+                                  : "hover:bg-surface-hover text-foreground"
                               }`}
                             >
                               <span
                                 className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
                                   isSubActive
-                                    ? "bg-[#B9343F] text-white"
-                                    : "bg-[#F7F7F4] text-[#1F2937] border border-[#E5E7EB]"
+                                    ? "bg-primary text-white"
+                                    : "bg-background text-foreground border border-border"
                                 }`}
                               >
                                 <SubIcon size={16} />
@@ -527,12 +527,12 @@ function HeaderNavPrototypeInner() {
                                     {sub.label}
                                   </span>
                                   {sub.badge && (
-                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#FBEBEB] text-[#B9343F]">
+                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary-subtle text-primary">
                                       {sub.badge}
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-xs text-[#6B7280] leading-normal mt-0.5">
+                                <p className="text-xs text-muted leading-normal mt-0.5">
                                   {sub.description}
                                 </p>
                               </div>
@@ -554,7 +554,7 @@ function HeaderNavPrototypeInner() {
               <a
                 href="/admin"
                 onClick={(e) => e.preventDefault()}
-                className="hidden lg:inline-flex h-10 px-2.5 xl:px-3 py-1.5 rounded-lg bg-[#E7ECF8] hover:bg-indigo-100 text-[#1D4ED8] text-xs font-semibold items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4ED8] focus-visible:ring-offset-2"
+                className="hidden lg:inline-flex h-10 px-2.5 xl:px-3 py-1.5 rounded-lg bg-info-bg hover:bg-indigo-100 text-info-text text-xs font-semibold items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-info-text focus-visible:ring-offset-2"
               >
                 <Shield size={14} className="shrink-0" />
                 <span className="hidden xl:inline whitespace-nowrap">Quản trị CMS</span>
@@ -568,14 +568,14 @@ function HeaderNavPrototypeInner() {
                 <a
                   href="/login"
                   onClick={(e) => e.preventDefault()}
-                  className="h-9 md:h-10 px-2.5 lg:px-3.5 py-1.5 rounded-lg border border-[#E5E7EB] bg-white hover:bg-gray-50 text-xs lg:text-sm font-semibold text-[#1F2937] flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                  className="h-9 md:h-10 px-2.5 lg:px-3.5 py-1.5 rounded-lg border border-border bg-white hover:bg-gray-50 text-xs lg:text-sm font-semibold text-foreground flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   Đăng nhập
                 </a>
                 <a
                   href="/register"
                   onClick={(e) => e.preventDefault()}
-                  className="h-9 md:h-10 px-2.5 lg:px-4 py-1.5 rounded-lg bg-[#B9343F] hover:bg-[#A02731] text-xs lg:text-sm font-semibold text-white flex items-center justify-center shadow-sm whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                  className="h-9 md:h-10 px-2.5 lg:px-4 py-1.5 rounded-lg bg-primary hover:bg-primary-hover text-xs lg:text-sm font-semibold text-white flex items-center justify-center shadow-sm whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   Đăng ký
                 </a>
@@ -595,11 +595,11 @@ function HeaderNavPrototypeInner() {
                     aria-expanded={notifMenuOpen}
                     aria-haspopup="true"
                     aria-label="Thông báo học tập (2 thông báo mới)"
-                    className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg border border-transparent hover:bg-gray-100 text-[#1F2937] flex items-center justify-center shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                    className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg border border-transparent hover:bg-gray-100 text-foreground flex items-center justify-center shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
                     <Bell size={18} className="shrink-0" />
                     <span
-                      className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-[#B9343F] ring-2 ring-white"
+                      className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-primary ring-2 ring-white"
                       aria-hidden="true"
                     />
                   </button>
@@ -608,28 +608,28 @@ function HeaderNavPrototypeInner() {
                     <div
                       role="menu"
                       aria-label="Danh sách thông báo"
-                      className="absolute right-0 mt-2 w-80 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-3 z-50 space-y-2"
+                      className="absolute right-0 mt-2 w-80 rounded-xl bg-white border border-border shadow-lg p-3 z-50 space-y-2"
                     >
                       <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-                        <span className="text-xs font-bold text-[#1F2937]">Thông báo học tập</span>
-                        <span className="text-[11px] font-semibold text-[#B9343F] bg-[#FBEBEB] px-2 py-0.5 rounded-full">
+                        <span className="text-xs font-bold text-foreground">Thông báo học tập</span>
+                        <span className="text-[11px] font-semibold text-primary bg-primary-subtle px-2 py-0.5 rounded-full">
                           2 mới
                         </span>
                       </div>
                       <div className="space-y-1.5 text-xs">
-                        <div className="p-2.5 rounded-lg bg-[#FBEBEB]/40 border border-[#FBEBEB] space-y-0.5">
-                          <p className="font-semibold text-[#1F2937]">
+                        <div className="p-2.5 rounded-lg bg-primary-subtle/40 border border-primary-subtle space-y-0.5">
+                          <p className="font-semibold text-foreground">
                             8 thẻ nhớ SRS N5 đã đến hạn ôn tập
                           </p>
-                          <p className="text-[#6B7280]">
+                          <p className="text-muted">
                             Duy trì chuỗi 7 ngày học liên tiếp ngay hôm nay.
                           </p>
                         </div>
                         <div className="p-2.5 rounded-lg bg-gray-50 space-y-0.5">
-                          <p className="font-semibold text-[#1F2937]">
+                          <p className="font-semibold text-foreground">
                             Đã lưu kết quả Đề thi thử N5 Số 01
                           </p>
-                          <p className="text-[#6B7280]">
+                          <p className="text-muted">
                             Điểm ước tính nội bộ: 142 / 180 điểm.
                           </p>
                         </div>
@@ -650,33 +650,33 @@ function HeaderNavPrototypeInner() {
                     aria-expanded={profileMenuOpen}
                     aria-haspopup="true"
                     aria-label="Menu tài khoản cá nhân"
-                    className="h-9 md:h-10 pl-1.5 pr-2 lg:pr-2.5 py-1 rounded-lg border border-[#E5E7EB] hover:bg-gray-50 flex items-center gap-1.5 lg:gap-2 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] focus-visible:ring-offset-2"
+                    className="h-9 md:h-10 pl-1.5 pr-2 lg:pr-2.5 py-1 rounded-lg border border-border hover:bg-gray-50 flex items-center gap-1.5 lg:gap-2 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
-                    <span className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-[#1F2937] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                    <span className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-foreground text-white text-xs font-bold flex items-center justify-center shrink-0">
                       {role === "admin" ? "AD" : "MN"}
                     </span>
                     <div className="hidden xl:block text-left leading-tight shrink-0">
-                      <span className="text-xs font-semibold text-[#1F2937] block whitespace-nowrap">
+                      <span className="text-xs font-semibold text-foreground block whitespace-nowrap">
                         {role === "admin" ? "Quản trị viên" : "Minh Nguyễn"}
                       </span>
-                      <span className="hidden 2xl:block text-[10px] text-[#6B7280] whitespace-nowrap">
+                      <span className="hidden 2xl:block text-[10px] text-muted whitespace-nowrap">
                         {role === "admin" ? "ADMIN • N5–N1" : "Học viên • Mục tiêu N5"}
                       </span>
                     </div>
-                    <ChevronDown size={14} className="text-[#6B7280] shrink-0" />
+                    <ChevronDown size={14} className="text-muted shrink-0" />
                   </button>
 
                   {profileMenuOpen && (
                     <div
                       role="menu"
                       aria-label="Tùy chọn tài khoản"
-                      className="absolute right-0 mt-2 w-64 rounded-xl bg-white border border-[#E5E7EB] shadow-lg p-2 z-50"
+                      className="absolute right-0 mt-2 w-64 rounded-xl bg-white border border-border shadow-lg p-2 z-50"
                     >
                       <div className="px-3 py-2 border-b border-gray-100">
-                        <p className="text-xs font-bold text-[#1F2937]">
+                        <p className="text-xs font-bold text-foreground">
                           {role === "admin" ? "admin@jlptmaster.vn" : "minh@jlptmaster.vn"}
                         </p>
-                        <p className="text-[11px] text-[#6B7280] mt-0.5">
+                        <p className="text-[11px] text-muted mt-0.5">
                           Mục tiêu: JLPT N5 (30 phút/ngày)
                         </p>
                       </div>
@@ -686,18 +686,18 @@ function HeaderNavPrototypeInner() {
                           href="/progress"
                           role="menuitem"
                           onClick={(e) => e.preventDefault()}
-                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-[#1F2937] hover:bg-gray-100 flex items-center gap-2.5"
+                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-foreground hover:bg-gray-100 flex items-center gap-2.5"
                         >
-                          <User size={15} className="text-[#6B7280]" />
+                          <User size={15} className="text-muted" />
                           Hồ sơ & Lộ trình cá nhân
                         </a>
                         <a
                           href="/settings"
                           role="menuitem"
                           onClick={(e) => e.preventDefault()}
-                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-[#1F2937] hover:bg-gray-100 flex items-center gap-2.5"
+                          className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-medium text-foreground hover:bg-gray-100 flex items-center gap-2.5"
                         >
-                          <Settings size={15} className="text-[#6B7280]" />
+                          <Settings size={15} className="text-muted" />
                           Cài đặt tài khoản
                         </a>
 
@@ -706,7 +706,7 @@ function HeaderNavPrototypeInner() {
                             href="/admin"
                             role="menuitem"
                             onClick={(e) => e.preventDefault()}
-                            className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-[#1D4ED8] bg-[#E7ECF8]/60 hover:bg-[#E7ECF8] flex items-center gap-2.5"
+                            className="min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-info-text bg-info-bg/60 hover:bg-info-bg flex items-center gap-2.5"
                           >
                             <Shield size={15} />
                             Bảng điều khiển Admin CMS
@@ -722,7 +722,7 @@ function HeaderNavPrototypeInner() {
                             setRole("guest");
                             setProfileMenuOpen(false);
                           }}
-                          className="w-full min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-[#B9343F] hover:bg-[#FBEBEB]/60 flex items-center gap-2.5"
+                          className="w-full min-h-[44px] px-3 py-2 rounded-lg text-xs font-semibold text-primary hover:bg-primary-subtle/60 flex items-center gap-2.5"
                         >
                           <LogOut size={15} />
                           Đăng xuất
@@ -740,10 +740,10 @@ function HeaderNavPrototypeInner() {
       {/* =====================================================================
           PROTOTYPE INTERACTIVE STATE SWITCHER (For UX Review & Verification)
       ===================================================================== */}
-      <div className="bg-[#1F2937] text-white border-b border-gray-800">
+      <div className="bg-foreground text-white border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-[#B9343F] text-white font-bold uppercase tracking-wider text-[10px]">
+            <span className="px-2 py-0.5 rounded bg-primary text-white font-bold uppercase tracking-wider text-[10px]">
               UI/UX Prototype
             </span>
             <span className="text-gray-300 font-medium">
@@ -763,7 +763,7 @@ function HeaderNavPrototypeInner() {
                 }}
                 className={`px-2.5 py-1 rounded font-semibold transition-colors ${
                   role === r
-                    ? "bg-white text-[#1F2937]"
+                    ? "bg-white text-foreground"
                     : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
@@ -783,10 +783,10 @@ function HeaderNavPrototypeInner() {
       <div className="max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* Contextual Sub-Navigation Bar for Current Section */}
         {NAV_SECTIONS.find((s) => s.id === activeSection)?.subItems && (
-          <div className="bg-white px-4 py-2.5 rounded-xl border border-[#E5E7EB] shadow-sm flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-xs font-semibold text-[#6B7280]">
+          <div className="bg-white px-4 py-2.5 rounded-xl border border-border shadow-sm flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-semibold text-muted">
               <span>Phân mục:</span>
-              <span className="text-[#1F2937] font-bold">
+              <span className="text-foreground font-bold">
                 {NAV_SECTIONS.find((s) => s.id === activeSection)?.label}
               </span>
               <ChevronRight size={14} />
@@ -801,8 +801,8 @@ function HeaderNavPrototypeInner() {
                     onClick={() => setActiveSubItem(sub.id)}
                     className={`min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                       isSubSelected
-                        ? "bg-[#B9343F] text-white shadow-sm"
-                        : "bg-[#F7F7F4] text-[#1F2937] hover:bg-gray-200"
+                        ? "bg-primary text-white shadow-sm"
+                        : "bg-background text-foreground hover:bg-gray-200"
                     }`}
                   >
                     {sub.label}
@@ -816,21 +816,21 @@ function HeaderNavPrototypeInner() {
         {/* Contextual Learning Toolbar Demo (Relocated Furigana Control!) */}
         <section
           aria-label="Thanh công cụ hiển thị ngữ cảnh học tập"
-          className="bg-white p-4 sm:p-5 rounded-xl border border-[#E5E7EB] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+          className="bg-white p-4 sm:p-5 rounded-xl border border-border shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#E8F3EC] text-[#1E6B37]">
+              <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-success-bg text-success-text">
                 Cải tiến UX #5
               </span>
-              <h2 className="text-sm font-bold text-[#1F2937]">
+              <h2 className="text-sm font-bold text-foreground">
                 Thanh công cụ Ngữ cảnh Học tập (Contextual Furigana Control)
               </h2>
             </div>
-            <p className="text-xs text-[#6B7280]">
+            <p className="text-xs text-muted">
               Nút bật/tắt Furigana đã được tách khỏi Header chung và đặt trực tiếp cạnh nội dung tiếng Nhật:
             </p>
-            <div className="pt-1 text-base font-medium text-[#1F2937]" style={{ fontFamily: "var(--font-japanese), sans-serif" }}>
+            <div className="pt-1 text-base font-medium text-foreground" style={{ fontFamily: "var(--font-japanese), sans-serif" }}>
               Ví dụ câu hỏi: 「<RubyText kanji="日本語" reading="にほんご" />の<RubyText kanji="試験" reading="しけん" />を<RubyText kanji="受" reading="う" />けます。」
             </div>
           </div>
@@ -839,10 +839,10 @@ function HeaderNavPrototypeInner() {
             type="button"
             onClick={toggleFurigana}
             aria-pressed={showFurigana}
-            className={`min-h-[44px] px-4 py-2 rounded-lg border text-xs font-semibold flex items-center gap-2 shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] ${
+            className={`min-h-[44px] px-4 py-2 rounded-lg border text-xs font-semibold flex items-center gap-2 shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
               showFurigana
-                ? "bg-[#FBEBEB] text-[#B9343F] border-[#B9343F]/30"
-                : "bg-[#F7F7F4] text-[#6B7280] border-[#E5E7EB]"
+                ? "bg-primary-subtle text-primary border-primary/30"
+                : "bg-background text-muted border-border"
             }`}
           >
             <span className="font-bold text-sm" style={{ fontFamily: "var(--font-japanese), sans-serif" }}>
@@ -853,22 +853,22 @@ function HeaderNavPrototypeInner() {
         </section>
 
         {/* Mock Exams Page Content (/mock-exams context) */}
-        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#E5E7EB] shadow-sm space-y-4">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-border shadow-sm space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="w-11 h-11 rounded-xl bg-[#FBEBEB] text-[#B9343F] font-extrabold flex items-center justify-center text-lg">
+              <span className="w-11 h-11 rounded-xl bg-primary-subtle text-primary font-extrabold flex items-center justify-center text-lg">
                 <Award size={22} />
               </span>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-[#1F2937] tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
                   Phòng Thi Thử JLPT {selectedLevel} Bấm Giờ
                 </h1>
-                <p className="text-xs text-[#6B7280]">
+                <p className="text-xs text-muted">
                   Mô phỏng chân thực quy chế thi, thời lượng 3 phần và tự động lưu bài làm mỗi 15 giây.
                 </p>
               </div>
             </div>
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#F7F7F4] border border-[#E5E7EB] text-[#1F2937]">
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-background border border-border text-foreground">
               4. Thi thử → Danh sách đề
             </span>
           </div>
@@ -897,25 +897,25 @@ function HeaderNavPrototypeInner() {
             ].map((exam) => (
               <div
                 key={exam.id}
-                className="p-5 rounded-xl border border-[#E5E7EB] bg-[#F7F7F4]/50 flex flex-col justify-between gap-4"
+                className="p-5 rounded-xl border border-border bg-background/50 flex flex-col justify-between gap-4"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold bg-[#B9343F] text-white px-2 py-0.5 rounded">
+                    <span className="text-xs font-bold bg-primary text-white px-2 py-0.5 rounded">
                       JLPT N5
                     </span>
                     {exam.score ? (
-                      <span className="text-xs font-semibold text-[#1E6B37] bg-[#E8F3EC] px-2.5 py-0.5 rounded-full">
+                      <span className="text-xs font-semibold text-success-text bg-success-bg px-2.5 py-0.5 rounded-full">
                         Đã chấm: {exam.score}
                       </span>
                     ) : (
-                      <span className="text-xs font-semibold text-[#1D4ED8] bg-[#E7ECF8] px-2.5 py-0.5 rounded-full">
+                      <span className="text-xs font-semibold text-info-text bg-info-bg px-2.5 py-0.5 rounded-full">
                         Chưa làm bài
                       </span>
                     )}
                   </div>
-                  <h3 className="text-base font-bold text-[#1F2937]">{exam.title}</h3>
-                  <div className="flex items-center gap-4 text-xs text-[#6B7280]">
+                  <h3 className="text-base font-bold text-foreground">{exam.title}</h3>
+                  <div className="flex items-center gap-4 text-xs text-muted">
                     <span className="flex items-center gap-1">
                       <Clock size={13} /> 90 phút (20p / 40p / 30p)
                     </span>
@@ -929,7 +929,7 @@ function HeaderNavPrototypeInner() {
                   <a
                     href={`/mock-exams/${exam.id}`}
                     onClick={(e) => e.preventDefault()}
-                    className="flex-1 min-h-[44px] px-4 py-2.5 rounded-lg bg-[#B9343F] hover:bg-[#A02731] text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 min-h-[44px] px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <span>{exam.score ? "Thi lại đề này" : "Bắt đầu làm bài"}</span>
                     <ChevronRight size={15} />
@@ -938,7 +938,7 @@ function HeaderNavPrototypeInner() {
                     <a
                       href={`/results/${exam.id}`}
                       onClick={(e) => e.preventDefault()}
-                      className="min-h-[44px] px-3.5 py-2.5 rounded-lg border border-[#E5E7EB] bg-white hover:bg-gray-50 text-[#1F2937] font-semibold text-xs flex items-center justify-center transition-colors"
+                      className="min-h-[44px] px-3.5 py-2.5 rounded-lg border border-border bg-white hover:bg-gray-50 text-foreground font-semibold text-xs flex items-center justify-center transition-colors"
                     >
                       Xem kết quả
                     </a>
@@ -963,20 +963,20 @@ function HeaderNavPrototypeInner() {
             aria-modal="true"
             aria-label={`Menu ${currentSheetData.label}`}
             onClick={(e) => e.stopPropagation()}
-            className="w-full bg-white rounded-t-2xl border-t border-[#E5E7EB] p-4 pb-24 space-y-3 shadow-xl"
+            className="w-full bg-white rounded-t-2xl border-t border-border p-4 pb-24 space-y-3 shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <div>
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#B9343F]">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-primary">
                   JLPT {selectedLevel}
                 </span>
-                <h3 className="text-base font-bold text-[#1F2937]">{currentSheetData.label}</h3>
+                <h3 className="text-base font-bold text-foreground">{currentSheetData.label}</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setMobileSheetSection(null)}
                 aria-label="Đóng menu"
-                className="w-11 h-11 rounded-lg bg-[#F7F7F4] text-[#1F2937] flex items-center justify-center"
+                className="w-11 h-11 rounded-lg bg-background text-foreground flex items-center justify-center"
               >
                 <X size={18} />
               </button>
@@ -999,25 +999,25 @@ function HeaderNavPrototypeInner() {
                     }}
                     className={`min-h-[52px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 ${
                       isSubActive
-                        ? "bg-[#FBEBEB] text-[#B9343F]"
-                        : "bg-[#F7F7F4] text-[#1F2937]"
+                        ? "bg-primary-subtle text-primary"
+                        : "bg-background text-foreground"
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <span
                         className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
-                          isSubActive ? "bg-[#B9343F] text-white" : "bg-white text-[#1F2937]"
+                          isSubActive ? "bg-primary text-white" : "bg-white text-foreground"
                         }`}
                       >
                         <SubIcon size={17} />
                       </span>
                       <div>
                         <p className="text-sm font-semibold">{sub.label}</p>
-                        <p className="text-[11px] text-[#6B7280]">{sub.description}</p>
+                        <p className="text-[11px] text-muted">{sub.description}</p>
                       </div>
                     </div>
                     {sub.badge && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#B9343F] border border-[#B9343F]/20 shrink-0">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-primary border border-primary/20 shrink-0">
                         {sub.badge}
                       </span>
                     )}
@@ -1034,7 +1034,7 @@ function HeaderNavPrototypeInner() {
       ===================================================================== */}
       <nav
         aria-label="Điều hướng di động"
-        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#E5E7EB] px-1.5 pt-1 pb-[max(0.375rem,env(safe-area-inset-bottom))] shadow-lg"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border px-1.5 pt-1 pb-[max(0.375rem,env(safe-area-inset-bottom))] shadow-lg"
       >
         <div className="grid grid-cols-5 gap-1 items-center">
           {NAV_SECTIONS.map((sec) => {
@@ -1057,13 +1057,13 @@ function HeaderNavPrototypeInner() {
                 }}
                 aria-current={isActive ? "page" : undefined}
                 aria-expanded={sec.subItems ? isSheetOpen : undefined}
-                className={`relative min-h-[48px] py-1 px-1 rounded-lg flex flex-col items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B9343F] ${
-                  isActive ? "text-[#B9343F] font-semibold" : "text-[#6B7280] font-medium"
+                className={`relative min-h-[48px] py-1 px-1 rounded-lg flex flex-col items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                  isActive ? "text-primary font-semibold" : "text-muted font-medium"
                 }`}
               >
                 {isActive && (
                   <span
-                    className="absolute top-0 left-3 right-3 h-0.5 bg-[#B9343F] rounded-full"
+                    className="absolute top-0 left-3 right-3 h-0.5 bg-primary rounded-full"
                     aria-hidden="true"
                   />
                 )}
@@ -1080,7 +1080,7 @@ function HeaderNavPrototypeInner() {
 
 export default function HeaderNavPrototypePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F7F7F4]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
       <HeaderNavPrototypeInner />
     </Suspense>
   );

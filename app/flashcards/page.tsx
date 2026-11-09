@@ -110,7 +110,7 @@ export default function FlashcardsReviewPage() {
   if (status === "loading") {
     return (
       <div className="max-w-xl mx-auto px-4 py-16 text-center text-sm text-gray-500 flex items-center justify-center gap-2">
-        <Loader2 size={18} className="animate-spin text-[#B9343F]" />
+        <Loader2 size={18} className="animate-spin text-primary" />
         <span>Đang tải thẻ nhớ đến hạn...</span>
       </div>
     );
@@ -122,7 +122,7 @@ export default function FlashcardsReviewPage() {
         <p role="alert" className="text-sm text-red-800 bg-red-50 border border-red-200 rounded-2xl p-4">
           Không tải được thẻ nhớ. Vui lòng thử lại sau.
         </p>
-        <Link href="/dashboard" className="text-sm font-bold text-[#B9343F] hover:underline">
+        <Link href="/dashboard" className="text-sm font-bold text-primary hover:underline">
           Quay lại Bảng điều khiển
         </Link>
       </div>
@@ -140,7 +140,7 @@ export default function FlashcardsReviewPage() {
           Bạn đã ôn xong hoặc chưa có thẻ nào được lên lịch. Hãy học thêm từ vựng để tạo thẻ nhớ mới.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-          <Link href="/vocabulary" className="px-6 py-3 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs">
+          <Link href="/vocabulary" className="px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-xs">
             Mở Sổ tay Từ vựng
           </Link>
           <Link href="/dashboard" className="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-xs">
@@ -174,7 +174,7 @@ export default function FlashcardsReviewPage() {
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/dashboard"
-            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-xs shadow-md transition-all"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-md transition-all"
           >
             Quay lại Bảng điều khiển
           </Link>
@@ -204,12 +204,12 @@ export default function FlashcardsReviewPage() {
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-[#B9343F] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-primary transition-colors"
         >
           <ChevronLeft size={16} />
           Bảng điều khiển
         </Link>
-        <span className="text-xs font-semibold text-[#B9343F] bg-[#FBEBEB] px-3 py-1 rounded-full">
+        <span className="text-xs font-semibold text-primary bg-primary-subtle px-3 py-1 rounded-full">
           Thuật toán SRS 4 mức độ
         </span>
         <span className="text-xs font-bold text-gray-500">
@@ -220,7 +220,7 @@ export default function FlashcardsReviewPage() {
       {/* Progress Bar */}
       <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
         <div
-          className="h-full bg-[#B9343F] transition-all duration-300"
+          className="h-full bg-primary transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
         />
       </div>

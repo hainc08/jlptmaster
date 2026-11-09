@@ -33,13 +33,13 @@ test.describe("Admin: exam lock/unlock and CMS", () => {
       }
 
       await studentPage.goto("/mock-exams");
-      await expect(studentPage.getByText(/chưa có bộ đề nào đang mở cho cấp độ N5/)).toBeVisible();
+      await expect(studentPage.getByText("Hiện chưa có đề N5 nào đang mở")).toBeVisible();
 
       await page.getByRole("button", { name: "Mở khóa đề", exact: true }).first().click();
       await expect(page.getByText("Đang mở").first()).toBeVisible();
       await unlockEveryExam(page);
       await studentPage.goto("/mock-exams");
-      await expect(studentPage.getByRole("button", { name: /Bắt đầu thi/ }).first()).toBeVisible();
+      await expect(studentPage.getByRole("button", { name: /^(Bắt đầu|Làm lại)/ }).first()).toBeVisible();
     } finally {
       await unlockEveryExam(page);
       await student.close();

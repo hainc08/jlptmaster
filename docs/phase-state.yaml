@@ -15,3 +15,14 @@ approved_commit: "632f1c4"
 
 
 
+learner_redesign:
+  plan: "docs/superpowers/plans/2026-11-06-learner-app-redesign.md"
+  packet_commit: "b555ad2"
+  approvals:
+    ui: true
+    api_db_contract: true
+  open_questions: "Q1-Q6 approved with the planned defaults (docs/ui-approval.md §5.3)"
+  approved_by: "Owner, in chat"
+  approved_at: "2026-11-06"
+  owner_words: "theo phương án 1 nhé (option 1 = approve UI and API/DB with default answers to Q1-Q6)"
+  production_release: false

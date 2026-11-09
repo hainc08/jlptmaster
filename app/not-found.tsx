@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <div className="max-w-xl mx-auto px-4 py-20 text-center space-y-5">
-      <p className="text-6xl font-extrabold text-[#B9343F]" aria-hidden="true">
+      <p className="text-6xl font-extrabold text-primary" aria-hidden="true">
         404
       </p>
       <h1 className="text-2xl font-extrabold text-gray-900">Không tìm thấy trang bạn cần</h1>
@@ -13,7 +13,7 @@ export default function NotFound() {
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
         <Link
           href="/"
-          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#B9343F] hover:bg-[#A02731] text-white font-bold text-sm"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-sm"
         >
           Về trang chủ
         </Link>

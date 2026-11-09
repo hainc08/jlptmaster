@@ -1,8 +1,8 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { FuriganaProvider } from "@/app/components/RubyText";
-import { NAV_SECTIONS } from "@/app/components/nav-config";
+import { LEARNER_TABS } from "@/app/components/nav-config";
 import LandingPage from "@/app/page";
 import GrammarPage from "@/app/grammar/page";
 import KanjiPage from "@/app/kanji/page";
@@ -63,9 +63,7 @@ describe("Production Pages Live MariaDB Wiring & Prototype Badge Removal (TDD RE
   });
 
   it("KanjiPage fetches live N5 Kanji from /api/v1/kanji and nav-config points Kanji to /kanji", async () => {
-    const hocTapSection = NAV_SECTIONS.find((s) => s.id === "hoc-tap");
-    const kanjiSubItem = hocTapSection?.subItems?.find((sub) => sub.id === "kanji");
-    expect(kanjiSubItem?.href).toBe("/kanji");
+    expect(LEARNER_TABS.find((t) => t.id === "kanji")?.href).toBe("/kanji");
 
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
@@ -90,14 +88,11 @@ describe("Production Pages Live MariaDB Wiring & Prototype Badge Removal (TDD RE
       </FuriganaProvider>
     );
 
-    await waitFor(() => {
-      expect(screen.getByText(/NHẬT — Mặt trời, ngày/i)).toBeInTheDocument();
-    });
-
+    fireEvent.click(await screen.findByRole("button", { name: /日/ }));
+    expect(screen.getByText(/NHẬT — Mặt trời, ngày/i)).toBeInTheDocument();
     expect(screen.getByText("ニチ, ジツ")).toBeInTheDocument();
     expect(screen.getByText("ひ, -び, -か")).toBeInTheDocument();
     expect(screen.getByText(/4 nét/i)).toBeInTheDocument();
-    expect(screen.getByText(/KẾT NỐI MARIADB TRỰC TIẾP/i)).toBeInTheDocument();
   });
 });
 

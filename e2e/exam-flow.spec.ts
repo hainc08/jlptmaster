@@ -6,34 +6,45 @@ test.describe("Student mock exam journey (real API + MariaDB)", () => {
     await login(page, STUDENT_EMAIL, "/mock-exams");
     await expect(page).toHaveURL(/\/mock-exams$/);
 
-    // Level tabs exist and N5 has an open exam
-    await expect(page.getByRole("tab", { name: "N5" })).toHaveAttribute("aria-selected", "true");
-    await page.getByRole("button", { name: /Bắt đầu thi/ }).first().click();
+    // N5 is selected, N4 is locked, and N5 has an open exam
+    await expect(page.getByRole("button", { name: "N5" })).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByRole("button", { name: /N4/ })).toHaveAttribute("aria-disabled", "true");
+    await page.getByRole("button", { name: /^(Bắt đầu|Làm lại)/ }).first().click();
 
     // Real attempt id (UUID) and real questions from the server
     await expect(page).toHaveURL(/\/mock-exams\/[0-9a-f-]{36}$/);
-    await expect(page.getByText(/Câu hỏi 1 \/ \d+/)).toBeVisible();
-    await expect(page.getByText("Thời gian còn lại")).toBeVisible();
+    await expect(page.getByText(/^Câu 1\/\d+$/)).toBeVisible();
+    await expect(page.getByRole("timer", { name: "Thời gian còn lại" })).toBeVisible();
 
     // Answer the first question and wait for the server autosave
-    await page.locator("button.w-full.p-4").first().click();
+    await page.getByRole("radio").first().click();
     await expect(page.getByText(/Đã lưu tự động lúc/)).toBeVisible();
 
     // Reload: the saved answer survives because state comes from the server
     await page.reload();
     await expect(page.getByText(/Đã trả lời \(1\)/)).toBeVisible();
 
+    // Flag question 2, then check the dialog counts
+    await page.getByRole("button", { name: "Câu 2", exact: true }).click();
+    await page.getByRole("button", { name: "Đánh dấu" }).click();
+    await expect(page.getByRole("button", { name: /^Câu 2, đã đánh dấu$/ })).toBeVisible();
+
     // Submit through the confirmation dialog that warns about unanswered questions
-    await page.getByRole("button", { name: "Nộp bài thi" }).click();
-    await expect(page.getByText("Xác nhận nộp bài thi?")).toBeVisible();
-    await expect(page.getByText(/chưa chọn đáp án/)).toBeVisible();
-    await page.getByRole("button", { name: "Nộp bài ngay" }).click();
+    await page.getByRole("button", { name: "Nộp bài", exact: true }).click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog.getByText("Nộp bài thi?")).toBeVisible();
+    await expect(dialog.getByTestId("count-answered")).toHaveText("1");
+    await expect(dialog.getByTestId("count-flagged")).toHaveText("1");
+    await expect(dialog.getByText(/chưa chọn đáp án/)).toBeVisible();
+    await dialog.getByRole("button", { name: "Nộp bài", exact: true }).click();
 
     // Results are computed by the server from the real answers
     await expect(page).toHaveURL(/\/results\/[0-9a-f-]{36}$/);
-    await expect(page.getByText("Kết quả theo từng kỹ năng")).toBeVisible();
-    await expect(page.getByText(/Chẩn đoán kỹ năng cần cải thiện/)).toBeVisible();
-    await expect(page.getByText("/ 180 điểm")).toBeVisible();
+    await expect(page.getByText("Điểm theo kỹ năng")).toBeVisible();
+    await expect(page.getByText("Kỹ năng cần cải thiện")).toBeVisible();
+    await expect(page.getByText("Điểm ước tính", { exact: true })).toBeVisible();
+    await expect(page.getByText("Điểm ước tính, không phải cách chấm điểm chính thức của JLPT.")).toBeVisible();
+    await expect(page.getByText("Mốc tham khảo: 80/180")).toBeVisible();
 
     // The weak skills feed the personal roadmap on the dashboard
     await page.goto("/dashboard");
@@ -43,7 +54,7 @@ test.describe("Student mock exam journey (real API + MariaDB)", () => {
 
   test("an anonymous visitor cannot open or read an attempt", async ({ page, browser }) => {
     await login(page, STUDENT_EMAIL, "/mock-exams");
-    await page.getByRole("button", { name: /Bắt đầu thi/ }).first().click();
+    await page.getByRole("button", { name: /^(Bắt đầu|Làm lại)/ }).first().click();
     await expect(page).toHaveURL(/\/mock-exams\/[0-9a-f-]{36}$/);
     const attemptUrl = page.url();
     const attemptId = attemptUrl.split("/").pop()!;

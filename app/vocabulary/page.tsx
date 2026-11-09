@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { RubyText } from "../components/RubyText";
 import { AudioButton } from "../components/AudioButton";
-import { LearningToolbar } from "../components/LearningToolbar";
 import { Search, AlertCircle, RefreshCw } from "lucide-react";
 
 export interface VocabEntity {
@@ -67,12 +66,11 @@ export default function VocabularyPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      <LearningToolbar title="Tùy chọn hiển thị Sổ tay Từ vựng" />
       {/* Page Header */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="space-y-1">
-            <span className="text-xs font-bold text-[#B9343F] uppercase tracking-wider">
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">
               Kho từ vựng N5
             </span>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
@@ -99,7 +97,7 @@ export default function VocabularyPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Tìm kiếm từ vựng (ví dụ: sensei, 先生, giáo viên, gakusei)..."
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-[#F7F7F4] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#B9343F] text-sm text-gray-900 transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-background focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-gray-900 transition-all"
             />
           </div>
 
@@ -111,7 +109,7 @@ export default function VocabularyPage() {
                 onClick={() => setSelectedPos(pos)}
                 className={`px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   selectedPos === pos
-                    ? "bg-[#B9343F] text-white shadow-sm"
+                    ? "bg-primary text-white shadow-sm"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
               >

@@ -31,18 +31,17 @@ test.describe("Authentication & route guards", () => {
     await expect(page).toHaveURL(/\/login/);
   });
 
-  test("unknown URLs show the Vietnamese 404 page with a 404 status and the footer", async ({ page }) => {
+  test("unknown URLs show the Vietnamese 404 page with a 404 status", async ({ page }) => {
     const res = await page.goto("/trang-khong-ton-tai");
     expect(res?.status()).toBe(404);
     await expect(page.getByRole("heading", { name: "Không tìm thấy trang bạn cần" })).toBeVisible();
-    await expect(page.getByRole("contentinfo")).toBeVisible();
   });
 
   test("a wrong password is rejected with a generic message and no session", async ({ page }) => {
     await page.goto("/login");
     await page.locator('input[type="email"]').fill(ADMIN_EMAIL);
     await page.locator('input[type="password"]').fill("definitely-wrong-1");
-    await page.getByRole("button", { name: /Đăng nhập vào hệ thống/ }).click();
+    await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
     await expect(page.getByText("Email hoặc mật khẩu không chính xác")).toBeVisible();
     await expect(page).toHaveURL(/\/login/);
     await page.goto("/admin");
@@ -57,11 +56,11 @@ test.describe("Authentication & route guards", () => {
 
       await page.locator('input[type="email"]').fill(email);
       await page.locator('input[type="password"]').fill("lettersonly");
-      await page.getByRole("button", { name: /Đăng ký và bắt đầu học/ }).click();
+      await page.getByRole("button", { name: "Tạo tài khoản", exact: true }).click();
       await expect(page.getByRole("alert").filter({ hasText: "chữ và số" })).toBeVisible();
 
       await page.locator('input[type="password"]').fill(password);
-      await page.getByRole("button", { name: /Đăng ký và bắt đầu học/ }).click();
+      await page.getByRole("button", { name: "Tạo tài khoản", exact: true }).click();
       await expect(page).toHaveURL(/\/onboarding/);
 
       // Log out (drop the cookie) and sign in again with the new credentials
@@ -70,7 +69,7 @@ test.describe("Authentication & route guards", () => {
       await expect(page).toHaveURL(/\/login/);
       await page.locator('input[type="email"]').fill(email);
       await page.locator('input[type="password"]').fill(password);
-      await page.getByRole("button", { name: /Đăng nhập vào hệ thống/ }).click();
+      await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
       await expect(page).toHaveURL(/\/dashboard/);
     } finally {
       await deleteTestUser(email);

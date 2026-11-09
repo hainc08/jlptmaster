@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
 import { requireSession, authErrorResponse } from "@/src/server/services/auth-service";
+import { DEFAULT_TZ, getActivitySummary } from "@/src/server/services/study-activity-service";
 
 export async function GET(req: NextRequest) {
   try {
@@ -16,6 +17,7 @@ export async function GET(req: NextRequest) {
       kanjiCount,
       grammarCount,
       nextLesson,
+      profile,
     ] = await Promise.all([
       prisma.lesson.count({ where: { status: "PUBLISHED" } }),
       userId
@@ -44,12 +46,20 @@ export async function GET(req: NextRequest) {
       prisma.vocabulary.count(),
       prisma.kanji.count(),
       prisma.grammar.count(),
+      // "Continue learning" = the first published lesson this user has not completed yet.
       prisma.lesson.findFirst({
-        where: { status: "PUBLISHED" },
+        where: { status: "PUBLISHED", lessonProgress: { none: { userId, status: "COMPLETED" } } },
         orderBy: { position: "asc" },
         select: { id: true, slug: true, titleVi: true },
       }),
+      prisma.userProfile.findUnique({ where: { userId }, select: { timezone: true, dailyGoalMinutes: true } }),
     ]);
+    const activity = await getActivitySummary(
+      userId,
+      new Date(),
+      profile?.timezone || DEFAULT_TZ,
+      profile?.dailyGoalMinutes ?? 30
+    );
 
     return NextResponse.json({
       data: {
@@ -60,7 +70,7 @@ export async function GET(req: NextRequest) {
         vocabCount,
         kanjiCount,
         grammarCount,
-        currentStreak: completedLessonsCount > 0 ? 1 : 0,
+        activity,
         nextLesson,
         latestScore: recentAttempts[0]?.internalScore ?? null,
         recentAttempts: recentAttempts.map((a) => ({

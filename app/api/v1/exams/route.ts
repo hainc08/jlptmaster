@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/src/server/db";
+import { resolveSession } from "@/src/server/services/auth-service";
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,6 +25,19 @@ export async function GET(req: NextRequest) {
       orderBy: { publishedAt: "desc" },
     });
 
+    // Best submitted score and attempt count for the signed-in caller only (one grouped query).
+    const userId = resolveSession(req)?.userId;
+    const mine =
+      userId && exams.length
+        ? await prisma.examAttempt.groupBy({
+            by: ["examId"],
+            where: { userId, status: "SUBMITTED", examId: { in: exams.map((e) => e.id) } },
+            _max: { internalScore: true },
+            _count: { _all: true },
+          })
+        : [];
+    const stats = new Map(mine.map((m) => [m.examId, { best: m._max.internalScore, count: m._count._all }]));
+
     const formatted = exams.map((ex) => {
       const totalDurationSeconds = ex.sections.reduce((acc, s) => acc + s.durationSeconds, 0);
       const totalQuestions = ex.sections.reduce((acc, s) => acc + s._count.examQuestions, 0);
@@ -36,6 +50,8 @@ export async function GET(req: NextRequest) {
         scoringPolicy: ex.scoringPolicy,
         totalMinutes: Math.round(totalDurationSeconds / 60),
         totalQuestions,
+        bestInternalScore: stats.get(ex.id)?.best ?? null,
+        attemptCount: stats.get(ex.id)?.count ?? 0,
         sections: ex.sections.map((s) => ({
           id: s.id,
           sectionType: s.sectionType,

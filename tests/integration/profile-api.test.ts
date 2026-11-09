@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { NextRequest } from "next/server";
 import { prisma } from "@/src/server/db";
 import { signSessionToken } from "@/src/server/services/auth-service";
-import { GET as getProfile, POST as saveProfile } from "@/app/api/v1/profile/route";
+import { GET as getProfile, POST as saveProfile, PATCH as patchProfile } from "@/app/api/v1/profile/route";
 
 const EMAIL = "onboarding-test@jlptmaster.vn";
 
@@ -67,5 +67,50 @@ describe("Profile / onboarding API", () => {
     expect(after?.targetLevel).toBe(before?.targetLevel);
     expect(after?.dailyGoalMinutes).toBe(before?.dailyGoalMinutes);
     expect((await prisma.userProfile.findUniqueOrThrow({ where: { userId: user.id } })).targetLevel).toBe("N3");
+  });
+
+  describe("PATCH preferences", () => {
+    const patch = (body: unknown, headers: Record<string, string> = cookie()) =>
+      patchProfile(
+        new NextRequest("http://x/api/v1/profile", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json", ...headers },
+          body: JSON.stringify(body),
+        })
+      );
+
+    it("GET returns the furigana and language defaults", async () => {
+      const { data } = await (await getProfile(new NextRequest("http://x/p", { headers: cookie() }))).json();
+      expect(data).toMatchObject({ furiganaDefault: true, uiLanguage: "vi" });
+    });
+
+    it("changes only the given field and keeps onboarding and level", async () => {
+      const before = await prisma.userProfile.findUniqueOrThrow({ where: { userId: user.id } });
+      const res = await patch({ furiganaDefault: false });
+      expect(res.status).toBe(200);
+      const { data } = await res.json();
+      expect(data).toMatchObject({ furiganaDefault: false, uiLanguage: "vi", targetLevel: before.targetLevel, dailyGoalMinutes: before.dailyGoalMinutes });
+      const after = await prisma.userProfile.findUniqueOrThrow({ where: { userId: user.id } });
+      expect(after.onboardingCompletedAt?.getTime()).toBe(before.onboardingCompletedAt?.getTime());
+      expect((await patch({ uiLanguage: "en", dailyGoalMinutes: 20 })).status).toBe(200);
+      const again = await prisma.userProfile.findUniqueOrThrow({ where: { userId: user.id } });
+      expect(again).toMatchObject({ furiganaDefault: false, uiLanguage: "en", dailyGoalMinutes: 20 });
+    });
+
+    it("rejects bad values, unknown keys and an empty body", async () => {
+      expect((await patch({ uiLanguage: "jp" })).status).toBe(400);
+      expect((await patch({})).status).toBe(400);
+      expect((await patch({ dailyGoalMinutes: 4 })).status).toBe(400);
+      expect((await patch({ furiganaDefault: "no" })).status).toBe(400);
+      expect((await patch({ targetLevel: "N1" })).status).toBe(400);
+    });
+
+    it("ignores a userId in the body and needs a session", async () => {
+      const other0 = await prisma.userProfile.findUnique({ where: { userId: other.id } });
+      expect((await patch({ userId: other.id, furiganaDefault: true })).status).toBe(200);
+      const other1 = await prisma.userProfile.findUnique({ where: { userId: other.id } });
+      expect(other1?.furiganaDefault).toBe(other0?.furiganaDefault);
+      expect((await patch({ furiganaDefault: true }, {})).status).toBe(401);
+    });
   });
 });
